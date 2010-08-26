@@ -1,0 +1,50 @@
+Mail.ru Aganet protocol plugin for Pidgin (libpurple)
+
+Copyright 2010 Antonov Nikolay <ostinru@gmail.com>
+Copyright 2010 Reslayer <Reslayer@mail.ru>
+
+This protocol plugin is based on 
+Nullprpl is Copyright 2004 Ryan Barrett, and is distributed under the GPL.
+
+Thanks to
+Atamurad Hezretkuliyev <atamyrat@gmail.com>
+Podtykan Maxim <lemax1@mail.ru>
+
+
+--------
+Описание
+--------
+prpl-ostin-mrim - это реализация протокола MMP (MailRu) для Pidgin и 
+libpurple.
+Распространяется под лицензией GPL v2 или выше
+
+-----------------------
+Сборка и установка
+-----------------------
+Для некоторых дистрибутивов уже есть готовые пакеты:
+1) АльтЛинукс  http://www.sisyphus.ru/en/srpm/Sisyphus/pidgin-plugin-mrim/
+2) Для gentoo: https://fireforge.net/frs/?group_id=262
+3) Ожидаются и для debian\ubuntu: искать https://fireforge.net/frs/?group_id=262
+
+Если пакета под Ваш любимый дистрибутив нет, то можно собрать плагин из
+исходников. Для этого:
+0) Делаем бэкап(резервную копию) папки с настройками пиджина ( ~/.purple 
+   или ~/.config/purple/)
+1) Для сборки и установки из исходников понадобятся заголовочные файлы 
+   libpurple. (Как их установить - зависит от Вашего дистрибутива.
+   Например, для debian и ubuntu: 
+       sudo apt-get build-dep pidgin && apt-get install libpurple-dev
+    а для Fedora:
+        yum install pidgin-devel
+    В gentoo достаточно установить сам пиджин)
+2) make && sudo make install
+3) Перезапускаем пиджин
+4) В "Учётные записи" - "Manage Accounts" создаём новое подключение к 
+   УЖЕ ИМЕЮЩЕМУСЯ аккаунту на mail.ru(list.ru, bk.ru...) (тоесть регистрировать новый аккаунт 
+   из пиджина нельзя)
+
+
+-----------------------
+Удаление
+-----------------------
+1) make uninstall

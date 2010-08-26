@@ -1,0 +1,10 @@
+version 0.1-r22 (25/08/2010):
+	Roster
+		Group deletion fix (segfault)
+		Add + Modify phones
+		fix mrim_add_buddy bug(wrong pq->seq)
+	Account
+		? Fix a crash on disconnect
+	Messages
+		Now, maximum mesage size is 65Kb. (1kb before)
+		Free SMS
