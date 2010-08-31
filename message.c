@@ -141,7 +141,6 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 	guint32 msg_id = read_UL(pack);		// seq
 	guint32 flag = read_UL(pack);		// flag - смотри MRIM_CS_MESSAGE
 	gchar *from = read_LPS(pack);
-
 	
 	mrim_pq *pq = (mrim_pq *) g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq)); // или msg_id?
 	if (pq == NULL)
@@ -149,12 +148,15 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 		purple_debug_info("mrim","Can't find pack in pq\n");
 	}
 	else
-		; // TODO удалить из хэш-таблицы
+		g_hash_table_remove(mrim->pq,  GUINT_TO_POINTER(pack->header->seq));
 
 	if (!(flag & MESSAGE_FLAG_NORECV)) 
 	{// подтверждение доставки
 		package *pack = new_package(mrim->seq, MRIM_CS_MESSAGE_RECV);
-		add_LPS(from,pack);
+		if (flag & MESSAGE_FLAG_SMS)
+			add_LPS("mrim_sms@mail.ru",pack);
+		else
+			add_LPS(from,pack);
 		add_ul(msg_id, pack);
 		send_package(pack, mrim);
 	}
@@ -163,58 +165,56 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 	{	// запрос авторизации
 		purple_debug_info("mrim"," auth\n");
 		guint32 i;// mast be equal ==2; Two LSP
-		gchar* authorize_alias = NULL;//nick name (alias)
-		gchar* authorize_message = NULL;//message
+		gchar* authorize_alias = NULL;
+		gchar* authorize_message = NULL;
 		read_base64(pack, TRUE, "uss", &i, authorize_alias, authorize_message);
-		//gchar* authorize_alias_utf8 = g_convert(authorize_alias,-1,"UTF-8","UTF-16LE",NULL,NULL,NULL);
-		//gchar*  authorize_message_utf8 = g_convert(authorize_message,-1,"UTF-8","UTF-16LE",NULL,NULL,NULL);
 
 		auth_data *a_data = g_new0(auth_data, 1);
 		a_data->from = g_strdup(from);
 		a_data->seq = mrim->seq;
 		a_data->mrim = mrim;
 		gboolean is_in_blist = (purple_find_buddy(mrim->account,from) != NULL);
-		purple_account_request_authorization(mrim->account, from, NULL,
-		                                     authorize_alias, authorize_message,
-		                                     is_in_blist, mrim_authorization_yes, mrim_authorization_no, a_data);
-		//purple_account_request_authorization(mrim->account, from, 0, NULL, mes,	FALSE, mrim_authorization_yes, mrim_authorization_no, a_data);
+		purple_account_request_authorization(mrim->account, from, NULL, authorize_alias, authorize_message, is_in_blist, mrim_authorization_yes, mrim_authorization_no, a_data);
 		FREE(authorize_message);
-		//g_free(authorize_message_utf8);
 		FREE(authorize_alias);
-		//g_free(authorize_alias_utf8);
+		FREE(from);
+		return;
 	}
-	else
+
+	gchar *mes = read_LPS(pack);	// message
+	if ((flag & MESSAGE_FLAG_NOTIFY) || (strcmp(mes," ")==0)) // по описанию протокола должен проверить только на MESSAGE_FLAG_NOTIFY
+	{	// собеседник набирает сообщение
+		purple_debug_info("mrim"," notify\n");
+		serv_got_typing(mrim->gc, from, 10, PURPLE_TYPING);
+		FREE(from);
+		FREE(mes);
+		return;
+	}
+
+	if ( flag & MESSAGE_FLAG_RTF )
 	{
-		gchar *mes = read_LPS(pack);	// message
-		if ( flag & MESSAGE_FLAG_RTF )
+		if (flag & MESSAGE_FLAG_ALARM)
 		{
-			if (flag & MESSAGE_FLAG_ALARM)
-			{
-				gchar *rtf = g_strdup(mes); // TODO read_base64
-				serv_got_attention(gc, from, 0/*code*/);
-				purple_debug_info("mrim", "Bzzz! <%ul>\n", flag);
-				//serv_got_im(gc, from, rtf, PURPLE_MESSAGE_RECV , time(NULL));
-				FREE(rtf);
-			}
-			else
-			{
-				purple_debug_info("mrim"," rtf\n");
-				gchar *rtf = strdup(mes); // TODO read_base64
-				serv_got_im(mrim->gc, from, rtf, PURPLE_MESSAGE_RECV , time(NULL));
-				FREE(rtf);
-				}
-		}
-		else if ((flag & MESSAGE_FLAG_NOTIFY) || (strcmp(mes," ")==0)) // по описанию протокола должен проверить только на MESSAGE...NOTIFY
-		{	// собеседник набирает сообщение
-			purple_debug_info("mrim"," notify\n");
-			serv_got_typing(mrim->gc, from, 10, PURPLE_TYPING);
+			gchar *rtf = g_strdup(mes); // TODO read_base64
+			serv_got_attention(gc, from, 0/*code*/);
+			purple_debug_info("mrim", "Bzzz! <%ul>\n", flag);
+			//serv_got_im(gc, from, rtf, PURPLE_MESSAGE_RECV , time(NULL));
+			FREE(rtf);
 		}
 		else
-		{	// собеседник прислал сообщение
-			serv_got_im(mrim->gc, from, mes, PURPLE_MESSAGE_RECV , time(NULL));
+		{
+			purple_debug_info("mrim"," rtf\n");
+			gchar *rtf = strdup(mes); // TODO read_base64
+			serv_got_im(mrim->gc, from, rtf, PURPLE_MESSAGE_RECV , time(NULL));
+			FREE(rtf);
 		}
-		FREE(mes);
 	}
+
+	else
+	{	// собеседник прислал сообщение
+		serv_got_im(mrim->gc, from, mes, PURPLE_MESSAGE_RECV , time(NULL));
+	}
+	FREE(mes);
 	FREE(from);
 }
 
@@ -241,6 +241,14 @@ int mrim_send_im(PurpleConnection *gc, const char *to, const char *message, Purp
     add_ul(0, pack);
     add_LPS(mpq->message.to, pack);
     add_LPS(mpq->message.message, pack);
+    add_LPS(" ", pack);
+    //add_base64(pack, TRUE, "usuu", 2, rtf, 4, 0x00FFFFFF); // TDOD NEXT RELEASE
+    /*
+     * packStream << quint32(2);
+     * packStream << rtf;
+     * packStream << quint32(4);
+     * packStream << quint32(0x00FFFFFF);
+     */
     gboolean res = send_package(pack, mrim);
 
 	if (res) 
@@ -270,10 +278,10 @@ unsigned int mrim_send_typing(PurpleConnection *gc, const char *name,PurpleTypin
 
 	mrim_data *mrim = gc->proto_data;
 	package *pack = new_package(mrim->seq, MRIM_CS_MESSAGE);
-	add_ul(MESSAGE_FLAG_NOTIFY, pack); 
+	add_ul(MESSAGE_FLAG_NOTIFY | MESSAGE_FLAG_NORECV, pack);
 	add_LPS((gchar*)name, pack); // кому // TODO g_strdup??
 	add_LPS(" ", pack);
-	// без RTF части
+	add_LPS(" ", pack);// без RTF части
 	send_package(pack, mrim);
 	return 9;// надо отсылать каждые 10 секунд
 }
@@ -306,4 +314,90 @@ gboolean mrim_send_attention(PurpleConnection  *gc, const char *username, guint 
 	send_package(pack, mrim);
 	return 9;// надо отсылать каждые 10 секунд
 	 */
+}
+/******************************************
+ *
+ ******************************************/
+void mrim_message_status(mrim_data *mrim, package *pack)
+{
+	// TODO PQ
+	gchar *mes;
+	guint32 status = read_UL(pack);
+	switch (status)
+	{
+		case MESSAGE_DELIVERED:
+			mes = "Сообщение успешно доставлено";
+			break;
+		case MESSAGE_REJECTED_INTERR:
+			mes = "Произошла внутренняя ошибка";
+			break;
+		case MESSAGE_REJECTED_NOUSER:
+			mes = "Получатель не существует";
+			break;
+		case MESSAGE_REJECTED_LIMIT_EXCEEDED:
+			mes = "Пользователь оффлайн. И сообщение не помещается в его почтовый ящик";
+			break;
+		case MESSAGE_REJECTED_TOO_LARGE:
+			mes = "Размер сообщения превышает максимально допустимый.";
+			break;
+		case MESSAGE_REJECTED_DENY_OFFMSG:
+			mes = "Пользовател не поддерживает оффлайн сообщения";
+			break;
+		case MESSAGE_REJECTED_DENY_OFFFLSH:
+			mes = "User does not accept offline flash animation";
+			break;
+		default:
+			mes = "Unknown status";
+			break;
+	}
+	purple_debug_info("mrim","[%s] status_id=<%u> status=<%s>\n",__func__, status, mes);
+}
+
+
+
+/******************************************
+ *                SMS
+ ******************************************/
+gboolean mrim_send_sms(gchar *phone, gchar *message, mrim_data *mrim)
+{
+	g_return_val_if_fail(mrim, FALSE);
+	g_return_val_if_fail(phone, FALSE);
+	g_return_val_if_fail(message, FALSE);
+	gchar *correct_phone = clear_phone(phone);
+	if (correct_phone)
+		correct_phone = g_strdup_printf("+%s",correct_phone);
+	else
+		correct_phone = phone;
+
+	purple_debug_info("mrim", "[%s] to=<%s> message=<%s>\n", __func__, phone, message);
+	mrim_pq *mpq = g_new0(mrim_pq, 1);
+	mpq->type = SMS;
+	mpq->seq = mrim->seq;
+	mpq->sms.phone = correct_phone;
+	mpq->sms.message = g_strdup(message);
+	g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq), mpq);
+
+	package *pack = new_package(mrim->seq, MRIM_CS_SMS);
+	add_ul(0, pack);
+	add_LPS(correct_phone, pack);
+	add_LPS(message, pack);
+	gboolean ret = send_package(pack, mrim);
+	return ret;
+}
+
+void mrim_sms_ack(mrim_data *mrim ,package *pack)
+{
+	purple_debug_info("mrim","[%s]\n",__func__);
+
+	guint32 status = read_UL(pack);
+	mrim_pq *mpq = g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
+
+	switch (status)
+	{
+		case MRIM_SMS_SERVICE_UNAVAILABLE: purple_notify_error(mrim->gc, "SMS", "Сервис отправки СМС-ок недоступен", "Сервис отправки СМС-ок недоступен"); break;
+		case MRIM_SMS_OK:purple_notify_info(mrim->gc, "SMS", "СМС-ка была отправлена", "СМС-ка была отправлена"); break;
+		case MRIM_SMS_INVALID_PARAMS:purple_notify_error(mrim->gc, "SMS", "Неверные параметры отправки СМС.", "Неверные параметры отправки СМС.");break;
+		default:purple_notify_error(mrim->gc, "SMS", "Ахтунг!", "Кто здесь?? !"); break;
+	}
+	g_hash_table_remove(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 }

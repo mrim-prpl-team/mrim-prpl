@@ -8,4 +8,6 @@ unsigned int mrim_send_typing(PurpleConnection *gc, const char *name,PurpleTypin
 
 void mrim_message_offline(PurpleConnection *gc, char* message);
 void mrim_read_im(mrim_data *mrim, package *pack);
+
+void mrim_message_status(mrim_data *mrim, package *pack);
 #endif

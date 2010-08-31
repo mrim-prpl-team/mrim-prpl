@@ -98,7 +98,7 @@ static struct status
 					// или 443
 #define USER_AGENT_DESC "client=\"Pidgin\" version=\"0.1\" build=\"20\""
 #define USER_AGENT "Mail.Ru Pidgin plugin by Ostin"
-#define FREE(s) if ((s) != NULL) g_free(s);
+#define FREE(s) if ((s) != NULL) g_free(s); s = NULL;
 
 #define FEATURES (FEATURE_FLAG_WAKEUP | FEATURE_FLAG_BASE_SMILES)
 
@@ -148,22 +148,24 @@ typedef struct {
 	// PQ
 	GHashTable *pq;            // очередь сообщений (pending queue)
 	GHashTable *mg;            // хеш-таблица групп
+
 }mrim_data;
 
 typedef struct
 {
-	char *from; // тупо ссылка
+	char *from;
 	mrim_data *mrim;
 	guint32 seq;
 }auth_data;
 
 
-
+/******************************************
+ *               PQ
+ ******************************************/
 typedef enum
 {
 	ADD_BUDDY,
 	ADD_GROUP,
-	RENAME_BUDDY,
 	RENAME_GROUP,
 	REMOVE_BUDDY,
 	REMOVE_GROUP,
@@ -171,7 +173,10 @@ typedef enum
 	MESSAGE,
     ANKETA_INFO,
     SMS,
-    MODIFY_BUDDY
+    MODIFY_BUDDY,
+    NEW_EMAIL,
+    NEW_EMAILS,
+    OPEN_URL
 }PQ_TYPE;
 
 typedef struct
@@ -212,11 +217,6 @@ typedef struct
 		}remove_buddy;
 		struct
 		{
-			mrim_buddy *mb;
-			char *alias;
-		}alias_buddy;
-		struct
-		{
 			guint32 flags;
 			gchar *to;
 			gchar *message;
@@ -230,10 +230,47 @@ typedef struct
 		struct
 		{
 			PurpleBuddy *buddy;
+			mrim_buddy *mb;
 		}modify_buddy;
+		struct
+		{
+			gchar *from;
+			gchar *subject;
+		}new_email;
+		struct
+		{
+			guint32 count;
+		}new_emails;
+		struct
+		{
+			gchar *url;
+		}open_url;
 	};
 }mrim_pq;
 
+
+/******************************************
+ *               Actions
+ ******************************************/
+typedef enum
+{
+	MY_PROFILE=0,
+	MY_AVATAR,
+	MY_WORLD,
+	MY_PHOTO,
+	MY_VIDEO,
+	MY_BLOG,
+	MY_EMAIL,
+	MY_MAIL_LISTS,
+	MY_QUESTIONS,
+    MRIM_WEB_CHAT,
+    MY_TRAVEL,
+    MY_HOROSCOPE,
+    MY_GARAGE,
+    MY_GOODS,
+    MY_KIDS,
+    MY_HEALTH
+}MRIM_LINKS;
 
 PurplePlugin *_mrim_plugin;
 
@@ -247,6 +284,8 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 static void mrim_connect_cb(gpointer data, gint source, const gchar *error_message);
 static void mrim_balancer_cb(PurpleUtilFetchUrlData *url_data, gpointer user_data, const gchar *url_text, gsize len, const gchar *error_message);
 static void mrim_keep_alive(PurpleConnection *gc);
+
+void notify_emails(void *gc, gchar* webkey, guint32 count);
 
 void clean_string(gchar *email);
 gchar *clear_phone(gchar *phone);

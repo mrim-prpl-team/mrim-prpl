@@ -40,7 +40,7 @@ void mrim_authorization_no(void *va_data);
 void mrim_sms_ack(mrim_data *mrim ,package *pack);
 void mrim_add_contact_ack(mrim_data *mrim ,package *pack);
 void mrim_modify_contact_ack(mrim_data *mrim ,package *pack);
-void mrim_message_status(mrim_data *mrim, package *pack);
+void mrim_mpop_session(mrim_data *mrim ,package *pack);
 void pq_free_element(gpointer data);
 void mg_free_element(gpointer data);
 
@@ -54,6 +54,7 @@ gchar *mrim_phones_to_string(gchar **phones);
 
 gboolean mrim_send_sms(gchar *phone, gchar *message, mrim_data *mrim);
 
-void mrim_pkt_modify_buddy(mrim_data *mrim, PurpleBuddy *buddy);
+void mrim_pkt_modify_buddy(mrim_data *mrim, PurpleBuddy *buddy, guint32 seq);
+void mrim_pkt_modify_group(mrim_data *mrim, guint32 group_id, gchar *group_name, guint32 flags);
 void mrim_pkt_add_group(mrim_data *mrim, gchar *group_name, guint32 seq);
 #endif

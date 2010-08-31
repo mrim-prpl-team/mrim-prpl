@@ -8,7 +8,7 @@
 
 #include <glib.h>
 #define PROTO_VERSION_MAJOR     1
-#define PROTO_VERSION_MINOR     13 //15 //20
+#define PROTO_VERSION_MINOR     9//13 //15 //20
 #define PROTO_VERSION ((((guint32)(PROTO_VERSION_MAJOR))<<16)|(guint32)(PROTO_VERSION_MINOR))
 
 #define PROTO_MAJOR(p) (((p)&0xFFFF0000)>>16)

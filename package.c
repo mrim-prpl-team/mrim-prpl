@@ -198,12 +198,15 @@ void add_base64(package *pack, gboolean gziped, gchar *fmt, ...)
 	/* TODO Если надо, то сжимаем */
 	if (gziped)
 	{
+
 	}
 	/* кодируем */
 	gchar *encoded = purple_base64_encode((guchar*)buf, len); // TODO аккуратнее со знаковостью
+	guint32 encoded_len = strlen(encoded);
 	/* добавляем в пакет */
-	add_ul(len, pack);
-	add_raw(encoded, len, pack);
+	add_ul(encoded_len, pack);
+	add_raw(encoded, encoded_len, pack);
+	FREE(encoded)
 }
 
 void add_RTF(gchar *string, package *pack)
@@ -236,7 +239,7 @@ gboolean send_package(package *pack, mrim_data *mrim)
 	ssize_t ret2 = write (mrim->fd, pack->buf, pack->len);
 	if ( (ret1 < sizeof(mrim_packet_header_t)) || (ret2 < (pack->len)) )
 	{
-		purple_debug_info("mrim", "Bad package\n");
+		purple_debug_info("mrim", "[%s] error\n", __func__);
 		free_package(pack);
 		
 		purple_timeout_remove(mrim->keep_alive_handle);// Больше не посылаем KA .тип gboolean.
@@ -245,7 +248,7 @@ gboolean send_package(package *pack, mrim_data *mrim)
 		PurpleConnection *gc = mrim->gc;
 		purple_input_remove(gc->inpa); // больше не принимаем пакеты
 		gc->inpa = 0;
-		purple_connection_error_reason (gc,	PURPLE_CONNECTION_ERROR_NETWORK_ERROR, "Bad Package");
+		purple_connection_error_reason (gc,	PURPLE_CONNECTION_ERROR_NETWORK_ERROR, "[send_package] error");
 		purple_connection_set_state(gc, PURPLE_DISCONNECTED);
 		return FALSE;
 	}

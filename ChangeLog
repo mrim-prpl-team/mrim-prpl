@@ -1,3 +1,12 @@
+version 0.1.1 (31/08/2010)
+	Core
+		downgrade to protocol v 1.9
+	Roster
+		fix remove buddy issue
+		fix authorize buddy issue
+	Other
+		Links "Set user info" and "Set avatar"
+
 version 0.1-r22 (25/08/2010):
 	Roster
 		Group deletion fix (segfault)
