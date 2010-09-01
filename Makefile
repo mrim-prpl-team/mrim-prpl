@@ -4,10 +4,10 @@ ifndef CC
 CC = gcc
 endif
 
-ifndef CFLAGS
+#ifndef CFLAGS
 #CFLAGS = -O0 -pipe -shared -fPIC -DPIC -g -ggdb -std=gnu99 -pedantic
 CFLAGS = -Os -pipe -shared -fPIC -DPIC  -std=gnu99
-endif
+#endif
 
 PURPLE_CFLAGS = $(CFLAGS)
 PURPLE_CFLAGS += $(shell pkg-config --cflags purple)
