@@ -3,6 +3,6 @@
 
 //#define WIN32
 //#define ZLIB
-#define DEBUG
+//#define DEBUG
 
 #endif

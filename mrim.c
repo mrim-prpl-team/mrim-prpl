@@ -1241,7 +1241,8 @@ static void mrim_prpl_init(PurplePlugin *plugin)
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option_port);
 	PurpleAccountOption *option_avatar = purple_account_option_bool_new("Fetch avatar", "fetch_avatar", FALSE);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option_avatar);
-
+	PurpleAccountOption *option_removed = purple_account_option_bool_new("Show removed contacts", "show_removed", FALSE);
+	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option_removed);
     _mrim_plugin = plugin;
 }
 

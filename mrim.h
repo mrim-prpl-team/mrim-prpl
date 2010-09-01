@@ -100,6 +100,9 @@ static struct status
 #define USER_AGENT "Mail.Ru Pidgin plugin by Ostin"
 #define FREE(s) if ((s) != NULL) g_free(s); s = NULL;
 
+//#define MRIM_WEB_OPEN_EMAIL
+
+
 #define FEATURES (FEATURE_FLAG_WAKEUP | FEATURE_FLAG_BASE_SMILES)
 
 typedef struct

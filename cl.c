@@ -35,8 +35,10 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 	{
 		guint32 flags = read_UL(pack);//  & 0x00FFFFFF;
 		gchar *name = read_LPS(pack); // группа (UTF16)
-		if (!(flags & CONTACT_FLAG_REMOVED))
+		//if (!(flags & CONTACT_FLAG_REMOVED))
 			mg_add(flags, name, i, mrim);
+		if (flags & CONTACT_FLAG_REMOVED)
+			purple_debug_info("mrim","[%s] <%s> has flag REMOVED", name);
 
 		cl_skeep(g_mask + 2, pack);
 	}
@@ -52,44 +54,52 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 			break; // на всякий случай ;-)
 		mb->id = num++;
 		purple_debug_info("mrim", "КОНТАКТ: Группа <%i>  E-MAIL <%s> NICK <%s> id <%i> status <%i>\n", mb->group_id, mb->addr, mb->alias, mb->id, (int)mb->status );
-		if (!(mb->flags & CONTACT_FLAG_REMOVED))
+		if (mb->flags & CONTACT_FLAG_REMOVED)
+			purple_debug_info("mrim","[%s] <%s> has flag REMOVED\n", mb->addr);
+
+		if (!(mb->flags & CONTACT_FLAG_REMOVED)
+				|| (purple_account_get_bool(account, "show_removed", FALSE)))
 		{
-			// TODO: утечки памяти?
-			PurpleBuddy *buddy = purple_buddy_new(gc->account, mb->addr, mb->alias);
-			purple_buddy_set_protocol_data(buddy, (gpointer) mb);
 			PurpleGroup *group = get_mrim_group_by_id(mrim, mb->group_id);
+			PurpleBuddy *buddy = NULL;
 			if (group)
 			{	/*************/
 				/* ADD BUDDY */
 				/*************/
-				/* Если такой контакт уже был - удалим */
-				PurpleBuddy *old_buddy = purple_find_buddy(account, buddy->name);
-				if (old_buddy != NULL  && old_buddy != buddy)
-				{
-					purple_debug_info("mrim","Buddy <%s> already exsist!\n", old_buddy->name);
-					purple_blist_remove_buddy(old_buddy);
-				}
-
-				if (! (mb->phones))
-					mb->phones = g_new0(char *, 4);
-
 				// 1) Переименовываем телефонные контакты
-				if (mb->flags & CONTACT_FLAG_PHONE)
+				if (strcmp(mb->addr,"phone") == 0)
 				{
 					purple_debug_info("mrim","[%s] rename phone buddy\n",__func__);
 					g_free(buddy->name);
-					buddy->name = mb->phones[0];
+					buddy->name = g_strdup(mb->phones[0]);
 					mb->status = STATUS_ONLINE;
 				}
+				// 2) Если такой контакт уже был - прикурчиваем к нему
+				//    иначе добавляем нового
+				PurpleBuddy *old_buddy = purple_find_buddy(account, mb->addr);
+				if (old_buddy != NULL)
+				{
+					purple_debug_info("mrim","Buddy <%s> already exsist!\n", old_buddy->name);
+					// TODO переместить в нужную группу
+					buddy = old_buddy;
+				}
+				else
+				{
+					purple_debug_info("mrim","Такого контакта ещё не было!\n");
+					buddy = purple_buddy_new(gc->account, mb->addr, mb->alias);
+					purple_blist_add_buddy(buddy, NULL/*contact*/, group, NULL/*node*/);
+				}
 
-				purple_debug_info("mrim","Такого контакта ещё не было!\n");
-				purple_blist_add_buddy(buddy, NULL/*contact*/, group, NULL/*node*/);
+				purple_buddy_set_protocol_data(buddy, mb);
+				mb->buddy = buddy;
+				if (! (mb->phones))
+					mb->phones = g_new0(char *, 4);
 
 				// псевдоним
 				purple_blist_alias_buddy(buddy, mb->alias);
 				//статус
 				set_user_status_by_mb(mrim, mb);
-
+				//аватарки
 				if (purple_account_get_bool(account, "fetch_avatar", FALSE))
 					mrim_fetch_avatar(buddy);// TODO где скачивать аватарки? // TODO PQ
 			}
@@ -103,8 +113,11 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 	while (buddies)
 	{
 		PurpleBuddy *buddy = (PurpleBuddy*) (buddies->data);
-		if (! buddy->proto_data)
+		if (! (buddy->proto_data))
+		{
+			purple_debug_info("mrim","[%s] удаляю <%s>\n", buddy->name);
 			purple_blist_remove_buddy(buddy);
+		}
 		buddies = g_slist_next(buddies);
 	}
 	g_slist_free(first);
