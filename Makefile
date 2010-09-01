@@ -1,14 +1,13 @@
 ## Настройки компилятора
-#CC=i686-mingw32-gcc
 
 ifndef CC
 CC = gcc
 endif
 
-#ifndef CFLAGS
+ifndef CFLAGS
 #CFLAGS = -O0 -pipe -shared -fPIC -DPIC -g -ggdb -std=gnu99 -pedantic
 CFLAGS = -Os -pipe -shared -fPIC -DPIC  -std=gnu99
-#endif
+endif
 
 PURPLE_CFLAGS = $(CFLAGS)
 PURPLE_CFLAGS += $(shell pkg-config --cflags purple)
@@ -24,7 +23,7 @@ PURPLE_CFLAGS += $(shell pkg-config --cflags purple)
 all:
 	rm -f *.so
 	${CC} ${PURPLE_CFLAGS} message.c cl.c package.c mrim.c -o mrim.so
-	strip -s mrim.so
+#	strip -s mrim.so
 install:
 	install -Dm0644 mrim.so ${DESTDIR}/usr/lib/purple-2/mrim.so
 	install -Dm0644 pixmaps/mrim16.png  ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/16/mrim.png
@@ -40,4 +39,4 @@ uninstall:
 	rm -f ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/22/mrim.png
 	rm -f ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/48/mrim.png
 clean:
-	rm -rf *.o *.c~ *.h~ *.so *.la *.libs *.dll
+	rm -rf *.o *.c~ *.h~ *.so *.la *.libs *.dll -v

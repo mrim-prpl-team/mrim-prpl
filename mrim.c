@@ -1193,13 +1193,24 @@ static PurplePluginProtocolInfo prpl_info =
   NULL,                                /* unregister_user */
   mrim_send_attention,                 /* send_attention */
   NULL,                                /* get_attention_types */
+#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >=5
   sizeof(PurplePluginProtocolInfo),    /* struct_size */
-  NULL,
+#else
+  (gpointer) sizeof(PurplePluginProtocolInfo)
+#endif
+#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >= 5
+  NULL,								   /* get_account_text_table */
+#endif
+#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >= 6
   NULL,                                 /* initiate_media */
-  NULL,                                 /* can_do_media */
+  NULL,                                 /* get_media_caps */
+#endif
+#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >= 7
   NULL,  								/* get_moods */
   NULL,  								/* set_public_alias */
-  NULL   								/* get_public_alias */
+  NULL									/* get_public_alias */
+#endif
+
 };
 
 static PurplePluginInfo info =
@@ -1247,3 +1258,32 @@ static void mrim_prpl_init(PurplePlugin *plugin)
 }
 
 PURPLE_INIT_PLUGIN(mrim, mrim_prpl_init, info)
+
+
+/******************************************
+ *         libpurple new API
+ ******************************************/
+#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION < 6
+void *purple_connection_get_protocol_data(const PurpleConnection *connection)
+{
+	g_return_val_if_fail(connection != NULL, NULL);
+	return connection->proto_data;
+}
+void purple_connection_set_protocol_data(PurpleConnection *connection, void *proto_data)
+{
+	g_return_if_fail(connection != NULL);
+	connection->proto_data = proto_data;
+}
+
+gpointer purple_buddy_get_protocol_data(const PurpleBuddy *buddy)
+{
+	g_return_val_if_fail(buddy != NULL, NULL);
+	return buddy->proto_data;
+}
+
+void purple_buddy_set_protocol_data(PurpleBuddy *buddy, gpointer data)
+{
+	g_return_if_fail(buddy != NULL);
+	buddy->proto_data = data;
+}
+#endif

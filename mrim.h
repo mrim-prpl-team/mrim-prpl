@@ -100,9 +100,6 @@ static struct status
 #define USER_AGENT "Mail.Ru Pidgin plugin by Ostin"
 #define FREE(s) if ((s) != NULL) g_free(s); s = NULL;
 
-//#define MRIM_WEB_OPEN_EMAIL
-
-
 #define FEATURES (FEATURE_FLAG_WAKEUP | FEATURE_FLAG_BASE_SMILES)
 
 typedef struct
@@ -294,4 +291,12 @@ void clean_string(gchar *email);
 gchar *clear_phone(gchar *phone);
 gboolean is_valid_email(gchar *email);
 gboolean is_valid_phone();
+
+#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION <= 5
+	void purple_connection_set_protocol_data(PurpleConnection *connection, void *proto_data);
+	void *purple_connection_get_protocol_data(const PurpleConnection *connection);
+	gpointer purple_buddy_get_protocol_data(const PurpleBuddy *buddy);
+	void purple_buddy_set_protocol_data(PurpleBuddy *buddy, gpointer data);
+#endif
+
 #endif

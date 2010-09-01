@@ -38,7 +38,7 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 		//if (!(flags & CONTACT_FLAG_REMOVED))
 			mg_add(flags, name, i, mrim);
 		if (flags & CONTACT_FLAG_REMOVED)
-			purple_debug_info("mrim","[%s] <%s> has flag REMOVED", name);
+			purple_debug_info("mrim","[%s] <%s> has flag REMOVED", __func__, name);
 
 		cl_skeep(g_mask + 2, pack);
 	}
@@ -55,7 +55,7 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 		mb->id = num++;
 		purple_debug_info("mrim", "КОНТАКТ: Группа <%i>  E-MAIL <%s> NICK <%s> id <%i> status <%i>\n", mb->group_id, mb->addr, mb->alias, mb->id, (int)mb->status );
 		if (mb->flags & CONTACT_FLAG_REMOVED)
-			purple_debug_info("mrim","[%s] <%s> has flag REMOVED\n", mb->addr);
+			purple_debug_info("mrim","[%s] <%s> has flag REMOVED\n", __func__, mb->addr);
 
 		if (!(mb->flags & CONTACT_FLAG_REMOVED)
 				|| (purple_account_get_bool(account, "show_removed", FALSE)))
@@ -115,7 +115,7 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 		PurpleBuddy *buddy = (PurpleBuddy*) (buddies->data);
 		if (! (buddy->proto_data))
 		{
-			purple_debug_info("mrim","[%s] удаляю <%s>\n", buddy->name);
+			purple_debug_info("mrim","[%s] удаляю <%s>\n", __func__, buddy->name);
 			purple_blist_remove_buddy(buddy);
 		}
 		buddies = g_slist_next(buddies);
@@ -341,7 +341,8 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 	if (old_buddy != NULL  && old_buddy != buddy)
 	{
 		purple_debug_info("mrim","Buddy <%s> already exsist!\n", old_buddy->name);
-		purple_buddy_destroy(buddy);
+		//purple_buddy_destroy(buddy);
+		purple_blist_remove_buddy(buddy);
 		buddy = old_buddy;
 		mb = (mrim_buddy*)(buddy->proto_data);
 
