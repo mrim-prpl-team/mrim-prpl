@@ -4,18 +4,15 @@ ifndef CC
 CC = gcc
 endif
 
-#ifndef CFLAGS
 #CFLAGS = -O0 -pipe -shared -fPIC -DPIC -g -ggdb -std=gnu99 -pedantic
 CFLAGS = -Os -pipe -shared -fPIC -DPIC  -std=gnu99
-#endif
 
 PURPLE_CFLAGS = $(CFLAGS)
 PURPLE_CFLAGS += $(shell pkg-config --cflags purple)
-#PURPLE_CFLAGS += $(shell pkg-config --libs glib-2.0)
 
+#PURPLE_CFLAGS += $(shell pkg-config --libs glib-2.0)
 #INCLUDE_PATHS := -I$(PIDGIN_TREE_TOP)/../win32-dev/w32api/include
 #LIB_PATHS := -L$(PIDGIN_TREE_TOP)/../win32-dev/w32api/lib
-
 #PURPLE_CFLAGS += $(INCLUDE_PATHS) 
 #PURPLE_CFLAGS += $(LIB_PATHS) 
 

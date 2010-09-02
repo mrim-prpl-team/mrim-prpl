@@ -66,7 +66,7 @@
 #include <sys/types.h>
 
 
-PurplePlugin *_mrim_plugin = NULL;
+static PurplePlugin *_mrim_plugin = NULL;
 
 /* statuses (reference: libpurple/status.h) */
 static struct status
@@ -272,7 +272,6 @@ typedef enum
     MY_HEALTH
 }MRIM_LINKS;
 
-PurplePlugin *_mrim_plugin;
 
 //char *mrim_status_to_prpl_status(guint32 status);
 const char* mrim_status_to_prpl_status( guint32 status );
