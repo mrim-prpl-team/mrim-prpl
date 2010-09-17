@@ -15,40 +15,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
- *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *
- *	Это программа является свободным программным обеспечением. Вы можете
- *	распространять и/или модифицировать её согласно условиям Стандартной
- *	Общественной Лицензии GNU, опубликованной Фондом Свободного Программного
- *	Обеспечения, версии 2 или, по Вашему желанию, любой более поздней версии.
- *
- *	Эта программа распространяется в надежде, что она будет полезной, но БЕЗ
- *	ВСЯКИХ ГАРАНТИЙ, в том числе подразумеваемых гарантий ТОВАРНОГО СОСТОЯНИЯ ПРИ
- *	ПРОДАЖЕ и ГОДНОСТИ ДЛЯ ОПРЕДЕЛЁННОГО ПРИМЕНЕНИЯ. Смотрите Стандартную
- *	Общественную Лицензию GNU для получения дополнительной информации.
- *
- *	Вы должны были получить копию Стандартной Общественной Лицензии GNU вместе
  */
 
-// TODO i18n
 #define PURPLE_PLUGINS
 
 #include "mrim.h"
 #include "package.h"
 #include "cl.h"
 #include "message.h"
-
-const gchar *links[]=
-{
-		"http://win.mail.ru/cgi-bin/auth?Login=%s&agent=%%s&page=http://win.mail.ru/cgi-bin/userinfo?mra=1&lang=ru&ver=3686&agentlang=ru",
-		"http://win.mail.ru/cgi-bin/auth?Login=%s&agent=%%s&page=http://foto.mail.ru/cgi-bin/avatars/lang=ru&ver=3686&agentlang=ru",
-		"http://my.mail.ru/%s/%s", /* Мой мир */
-		"http://foto.mail.ru/%s/%s", /* Фото */
-		"http://video.mail.ru/%s/%s", /* Видео */
-		"http://blogs.mail.ru/%s/%s" /* Блоги */
-};
-
 
 static PurpleConnection *get_mrim_gc(const char *username)
 {
@@ -158,34 +132,44 @@ gchar *clear_phone(gchar *original_phone)
  ******************************************/
 static void mrim_get_info(PurpleConnection *gc, const char *username)
 {
-	// TODO
 	purple_debug_info("mrim","[%s]\n",__func__);
 	const char *body;
-	PurpleNotifyUserInfo *info = purple_notify_user_info_new();
+
 	PurpleAccount *acct;
 
 	purple_debug_info("mrim", "Fetching %s's user info for %s\n", username, gc->account->username);
 
-	if (PURPLE_CONNECTED != gc->state)
+	if (gc->state != PURPLE_CONNECTED)
 	{
-		char *msg = g_strdup_printf("%s is not logged in.", username);
+		char *msg = g_strdup_printf("%s is not logged in.", gc->account->username);
 		purple_notify_error(gc, "User Info", "User info not available. ", msg);
 		g_free(msg);
 	}
-
-	acct = purple_accounts_find(username, MRIM_PRPL_ID);
-	if (acct)
-		body = purple_account_get_user_info(acct);
 	else
-		body = "No user info.";
-	purple_notify_user_info_add_pair(info, "Info", body);
+	{
+	    gchar** split = g_strsplit(username,"@",2);// разделить на максимум две части
+		gchar *user = split[0];
+		gchar *domain = split[1];
 
-	// show a buddy's user info in a nice dialog box
-	purple_notify_userinfo(gc,        // connection the buddy info came through
-                         username,  // buddy's username
-                         info,      // body
-                         NULL,      // callback called when dialog closed
-                         NULL);     // userdata for callback
+		mrim_data *mrim = gc->proto_data;
+
+		mrim_pq *mpq = g_new0(mrim_pq ,1);
+		mpq->seq = mrim->seq;
+		mpq->type = ANKETA_INFO;
+		mpq->anketa_info.username = g_strdup(username);
+		g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq), mpq);
+
+		package *pack = new_package(mrim->seq, MRIM_CS_WP_REQUEST);
+		add_ul(MRIM_CS_WP_REQUEST_PARAM_USER, pack);
+		add_LPS(user, pack);
+		add_ul(MRIM_CS_WP_REQUEST_PARAM_DOMAIN, pack);
+		add_LPS(domain, pack);
+		send_package(pack, mrim);
+
+		g_strfreev(split);
+	}
+
+
 }
 
 /******************************************
@@ -207,6 +191,55 @@ static void mrim_account_action(PurplePluginAction *action)
 
 	package *pack = new_package(mpq->seq, MRIM_CS_GET_MPOP_SESSION);
 	send_package(pack, mrim);
+}
+
+static void mrim_search_action(PurplePluginAction *action)
+{
+	PurpleConnection *gc = (PurpleConnection *)action->context;
+	mrim_data *mrim = gc->proto_data;
+	g_return_if_fail(mrim);
+	purple_debug_info("mrim","[%s]\n",__func__);
+
+	// REQUEST
+	PurpleRequestFields *fields;
+	PurpleRequestFieldGroup *group;
+	PurpleRequestField *field;
+	fields = purple_request_fields_new();
+	group = purple_request_field_group_new(NULL);
+	purple_request_fields_add_group(fields, group);
+
+	field = purple_request_field_string_new("text_box_nickname","Nickname","",FALSE);
+	purple_request_field_group_add_field(group, field);
+	field = purple_request_field_string_new("text_box_first_name","First Name","",FALSE);
+	purple_request_field_group_add_field(group, field);
+	field = purple_request_field_string_new("text_box_surname","Surname","",FALSE);
+	purple_request_field_group_add_field(group, field);
+	field = purple_request_field_choice_new("radio_button_gender", "Gender", 0);
+	purple_request_field_choice_add(field, "any"); // TODO может быть purple_request_field_list* ?
+	purple_request_field_choice_add(field, "male");
+	purple_request_field_choice_add(field, "female");
+	purple_request_field_group_add_field(group, field);
+	/* country */
+	/* region */
+	/* city */
+	/* birthday */
+	/* zodiak */
+	field = purple_request_field_string_new("text_box_age_from","Age from","",FALSE);
+	purple_request_field_group_add_field(group, field);
+	field = purple_request_field_string_new("text_box_age_to","Age to","",FALSE);
+	purple_request_field_group_add_field(group, field);
+	/* webkam */
+	/* gotov poboltat' */
+	field = purple_request_field_bool_new("check_box_online","Online",FALSE);
+	purple_request_field_group_add_field(group, field);
+
+
+
+	purple_request_fields(mrim->gc, "Поиск контактов", NULL, NULL,  fields,
+			"Искать!", G_CALLBACK(blist_search),
+			"Я передумал!", NULL,
+			mrim->account, mrim->username, NULL, mrim->gc );
+
 }
 
 static void mrim_easy_action(PurplePluginAction *action)
@@ -246,6 +279,10 @@ static GList *mrim_prpl_actions(PurplePlugin *plugin, gpointer context)
 	action = purple_plugin_action_new("[web]Set User avatar", mrim_account_action);
 	action->user_data = GUINT_TO_POINTER(MY_AVATAR);
 	actions = g_list_append(actions, action);
+	action = purple_plugin_action_new("Искать собеседника", mrim_search_action);
+	action->user_data = NULL;
+	actions = g_list_append(actions, action);
+
 	/*
 	action = purple_plugin_action_new("[web]MY_WORLD", mrim_easy_action);
 	action->user_data = GUINT_TO_POINTER(MY_WORLD);
@@ -309,6 +346,85 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 /******************************************
  *             USER ACTION
  ******************************************/
+static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields)
+{
+	g_return_if_fail(gc);
+	mrim_data *mrim = gc->proto_data;
+	g_return_if_fail(mrim);
+	mrim_pq *mpq = g_new0(mrim_pq, 1);
+	mpq->type = SEARCH;
+	mpq->seq = mrim->seq;
+	//mpq->rename_group.new_group = group;
+	g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq ), mpq);
+	package *pack = new_package(mpq->seq, MRIM_CS_WP_REQUEST);
+
+	const char *const_string = NULL;
+	gchar *tmp = NULL;
+	PurpleRequestField *TextBoxField = NULL;
+	PurpleRequestField *RadioBoxField = NULL;
+	PurpleRequestField *CheckBoxField = NULL;
+	//TextBoxField = purple_request_field_g
+	const_string = purple_request_fields_get_string(fields, "text_box_nickname");
+	tmp = g_strstrip(g_strdup(const_string));
+	if (tmp)
+	{
+		add_ul(MRIM_CS_WP_REQUEST_PARAM_NICKNAME, pack);
+		add_LPS(tmp, pack);
+	}
+
+	const_string = purple_request_fields_get_string(fields, "text_box_first_name");
+	tmp = g_strstrip(g_strdup(const_string));
+	if (tmp)
+	{
+		add_ul(MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME, pack);
+		add_LPS(tmp, pack);
+	}
+
+	const_string = purple_request_fields_get_string(fields, "text_box_surname");
+	tmp = g_strstrip(g_strdup(const_string));
+	if (tmp)
+	{
+		add_ul(MRIM_CS_WP_REQUEST_PARAM_LASTNAME, pack);
+		add_LPS(tmp, pack);
+	}
+
+	RadioBoxField = purple_request_fields_get_field(fields, "radio_button_gender");
+	int index  = RadioBoxField->u.choice.value;
+	if (index)
+	{
+		add_ul(MRIM_CS_WP_REQUEST_PARAM_SEX, pack);
+		add_LPS(  (index == 1)?"1":"2",  pack);
+	}
+	/* country 	MRIM_CS_WP_REQUEST_PARAM_COUNTRY_ID */
+	/* region */
+	/* city MRIM_CS_WP_REQUEST_PARAM_CITY_ID */
+	/* birthday */
+	/* zodiak MRIM_CS_WP_REQUEST_PARAM_ZODIAC */
+	const_string = purple_request_fields_get_string(fields, "text_box_age_from");
+	tmp = g_strstrip(g_strdup(const_string));
+	if (tmp)
+	{
+		add_ul(MRIM_CS_WP_REQUEST_PARAM_DATE1, pack);
+		add_LPS(tmp, pack);
+	}
+	const_string = purple_request_fields_get_string(fields, "text_box_age_to");
+	tmp = g_strstrip(g_strdup(const_string));
+	if (tmp)
+	{
+		add_ul(MRIM_CS_WP_REQUEST_PARAM_DATE2, pack);
+		add_LPS(tmp, pack);
+	}
+	/* webkam */
+	/* gotov poboltat' */
+	CheckBoxField = purple_request_fields_get_field(fields, "check_box_online");
+	if (CheckBoxField->u.boolean.value)
+	{
+		add_ul(MRIM_CS_WP_REQUEST_PARAM_ONLINE, pack);
+		add_LPS("1", pack);
+	}
+	send_package(pack, mrim);
+}
+
 void blist_send_sms(PurpleConnection *gc, PurpleRequestFields *fields)
 {
 	g_return_if_fail(gc);
@@ -763,7 +879,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 			purple_connection_error_reason (gc,	PURPLE_CONNECTION_ERROR_NETWORK_ERROR, "Input Error");
 
 		mrim->error_count+=1; // TODO может по fd определять дисконнект?
-		if (mrim->error_count >5)
+		if (mrim->error_count > MRIM_MAX_ERROR_COUNT)
 		{
 			purple_debug_info("mrim", "Bad package\n");
 			purple_connection_error_reason (gc,	PURPLE_CONNECTION_ERROR_NETWORK_ERROR, "Bad Package");
@@ -777,8 +893,8 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 	switch (header->msg)
 	{
 		case MRIM_CS_HELLO_ACK: { 
-									gc->keepalive = read_UL(pack);
-									purple_debug_info("mrim","KAP =<%i> \n",gc->keepalive);
+									gc->keepalive = (guint)read_UL(pack);
+									purple_debug_info("mrim","KAP =<%u> \n",gc->keepalive);
 									if (gc->keepalive > 0)
 										{
 											// LOGIN
@@ -849,7 +965,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									purple_debug_info("mrim","MRIM_CS_LOGOUT! \n");
 									guint32 reason = read_UL(pack);
 									purple_timeout_remove(mrim->keep_alive_handle);// Больше не посылаем KA .тип gboolean.
-									mrim->keep_alive_handle = 0;// TODO
+									mrim->keep_alive_handle = 0;// TODO logout
 									purple_input_remove(gc->inpa);
 									gc->inpa = 0;
 									
@@ -993,6 +1109,11 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									purple_debug_info("mrim","MRIM_CS_PROXY_ACK\n");
 									break;
 									}
+		case MRIM_CS_ANKETA_INFO:{
+									purple_debug_info("mrim", "MRIM_CS_ANKETA_INFO\n");
+									mrim_anketa_info(mrim, pack);
+									break;
+									}
 		default :	{
 						purple_debug_info("mrim","Пришёл неизвестный пакет! Type=<%i> len=<%i>\n",(int) header->msg, (int)header->dlen);
 						break;
@@ -1011,9 +1132,9 @@ static void mrim_keep_alive(PurpleConnection *gc)
 	g_return_if_fail(gc->state != PURPLE_DISCONNECTED);
 
 	mrim_data *mrim = gc->proto_data;
-	package *pack = new_package(mrim->seq,  MRIM_CS_PING);
-	send_package(pack, mrim);
 	purple_debug_info("mrim", "sending keep alive <%u>\n", mrim->seq);
+	package *pack = new_package(mrim->seq, MRIM_CS_PING);
+	send_package(pack, mrim);
 }
 
 static void mrim_prpl_close(PurpleConnection *gc)
@@ -1042,10 +1163,9 @@ static void mrim_prpl_close(PurpleConnection *gc)
 
 	if (mrim->keep_alive_handle)
 	{
-		purple_timeout_remove(mrim->keep_alive_handle);// Больше не посылаем KA
+		purple_timeout_remove(mrim->keep_alive_handle);
 		mrim->keep_alive_handle = 0;
 	}
-
 	if (mrim->fd >= 0)
 		close(mrim->fd);
 	mrim->fd = -1;
@@ -1060,7 +1180,7 @@ static void mrim_prpl_close(PurpleConnection *gc)
 	FREE(mrim)
 	purple_connection_set_protocol_data(gc, NULL);
 
-	// TODO stop SMS & phone_edit & ...
+	// TODO stop SMS & phone_edit & ... pq
 	purple_prefs_disconnect_by_handle(gc);
     purple_connection_set_state(gc, PURPLE_DISCONNECTED);
 //	purple_dnsquery_destroy
@@ -1069,34 +1189,26 @@ static void mrim_prpl_close(PurpleConnection *gc)
 
 static const char *mrim_list_icon(PurpleAccount *account, PurpleBuddy *buddy)
 {
-	//purple_debug_info("mrim","[%s]\n",__func__);
 	return "mrim";
 }
-
-
-
 /* mrim doesn't support file transfer...yet... */
 static gboolean mrim_can_receive_file(PurpleConnection *gc,const char *who) 
 {
-	purple_debug_info("mrim","[%s]\n",__func__);
-	return FALSE;
+	return FALSE; // TODO
 }
 /* mrim support offline messages */
 static gboolean mrim_offline_message(const PurpleBuddy *buddy) 
 {
-	purple_debug_info("mrim","[%s]\n",__func__);
 	return TRUE;
 }
 const char *mrim_list_emblem(PurpleBuddy *b)
 {
-//	purple_debug_info("mrim","[%s]\n",__func__);
-	if (b)
-	{
-		mrim_buddy *mb = purple_buddy_get_protocol_data(b);
-		if (mb)
-			if (!mb->authorized)
-				return "not-authorized";
-	}
+	g_return_val_if_fail(b, NULL);
+
+	mrim_buddy *mb = purple_buddy_get_protocol_data(b);
+	if (mb)
+		if (!mb->authorized)
+			return "not-authorized";
 	return NULL;
 }
 static void mrim_prpl_destroy(PurplePlugin *plugin) 
@@ -1210,7 +1322,6 @@ static PurplePluginProtocolInfo prpl_info =
   NULL,  								/* set_public_alias */
   NULL									/* get_public_alias */
 #endif
-
 };
 
 static PurplePluginInfo info =
@@ -1263,7 +1374,7 @@ PURPLE_INIT_PLUGIN(mrim, mrim_prpl_init, info)
 /******************************************
  *         libpurple new API
  ******************************************/
-#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION < 6
+#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION <= 5
 void *purple_connection_get_protocol_data(const PurpleConnection *connection)
 {
 	g_return_val_if_fail(connection != NULL, NULL);

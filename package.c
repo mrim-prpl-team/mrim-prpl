@@ -77,8 +77,7 @@ void add_LPS(gchar *string, package *pack)
 		return;
 	}
 	// изменяем кодировку
-	gchar *str = g_convert(string, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
-	
+	gchar *str = g_convert(purple_unescape_html(string), -1, "CP1251" , "UTF8", NULL, NULL, NULL);
 	guint32 len = strlen(str);
 	
 	// копируем текущее содержимое буфера
@@ -195,7 +194,7 @@ void add_base64(package *pack, gboolean gziped, gchar *fmt, ...)
 	}
 	buf -= len; // вернули указатель в начало
 	va_end(ap);
-	/* TODO Если надо, то сжимаем */
+	// TODO gzip
 	if (gziped)
 	{
 
@@ -241,7 +240,7 @@ gboolean send_package(package *pack, mrim_data *mrim)
 	{
 		purple_debug_info("mrim", "[%s] error\n", __func__);
 		free_package(pack);
-		
+		// TODO logout
 		purple_timeout_remove(mrim->keep_alive_handle);// Больше не посылаем KA .тип gboolean.
 		mrim->keep_alive_handle = 0;
 		

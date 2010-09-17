@@ -20,7 +20,7 @@ static void cl_skeep(gchar *mask, package *pack)
 void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 {	
 	PurpleAccount *account = purple_connection_get_account(gc);
-	u_long g_number = read_UL(pack);// количество групп
+	guint32 g_number = read_UL(pack);// количество групп
 	gchar *g_mask = read_LPS(pack); // маска групп
 	gchar *c_mask = read_LPS(pack); // маска контактов
 
@@ -47,13 +47,13 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 	int num = MRIM_MAX_GROUPS;
 	while ( TRUE ) 
 	{
-		if (pack->cur == pack->buf + pack->len)
+		if (pack->cur >= pack->buf + pack->len)
 			break; // просто убирает лишний мусор из дебага
 		mrim_buddy *mb = new_mrim_buddy(pack);
 		if (mb == NULL)
-			break; // на всякий случай ;-)
+			break;
 		mb->id = num++;
-		purple_debug_info("mrim", "КОНТАКТ: Группа <%i>  E-MAIL <%s> NICK <%s> id <%i> status <%i>\n", mb->group_id, mb->addr, mb->alias, mb->id, (int)mb->status );
+		purple_debug_info("mrim", "КОНТАКТ: Группа <%i>  E-MAIL <%s> NICK <%s> id <%i> status <%i> flags <%X>\n", mb->group_id, mb->addr, mb->alias, mb->id, (int)mb->status, mb->flags );
 		if (mb->flags & CONTACT_FLAG_REMOVED)
 			purple_debug_info("mrim","[%s] <%s> has flag REMOVED\n", __func__, mb->addr);
 
@@ -67,12 +67,13 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 				/* ADD BUDDY */
 				/*************/
 				// 1) Переименовываем телефонные контакты
-				if (strcmp(mb->addr,"phone") == 0)
+				if (strcmp(mb->addr, "phone") == 0) // TODO подумать
 				{
-					purple_debug_info("mrim","[%s] rename phone buddy\n",__func__);
-					g_free(buddy->name);
-					buddy->name = g_strdup(mb->phones[0]);
+					purple_debug_info("mrim","[%s] rename phone buddy to %s\n",__func__, mb->phones[0]);
+					g_free(mb->addr);
+					mb->addr = g_strdup(mb->phones[0]);
 					mb->status = STATUS_ONLINE;
+					mb->flags |= CONTACT_FLAG_PHONE;
 				}
 				// 2) Если такой контакт уже был - прикурчиваем к нему
 				//    иначе добавляем нового
@@ -132,6 +133,7 @@ static mrim_buddy *new_mrim_buddy(package *pack)
 {
 	mrim_buddy *mb = g_new(mrim_buddy, 1);
 	mb->flags = read_UL(pack); // флаг
+	mb->flags &= !CONTACT_FLAG_REMOVED;
 	int gr_id = mb->group_id = read_UL(pack); // ID группы
 	if (gr_id > MRIM_MAX_GROUPS)
 		mb->group_id = MRIM_DEFAULT_GROUP_ID;
@@ -784,6 +786,55 @@ void mrim_mpop_session(mrim_data *mrim ,package *pack)
 			gchar *url = g_strdup_printf(mpq->open_url.url, webkey);
 			purple_notify_uri(_mrim_plugin, url);
 			break;
+		default:
+			purple_debug_info("mrim","[%s] UNKNOWN mpq->type <%i>\n", __func__, mpq->type);
+			break;
+	}
+	g_hash_table_remove(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
+}
+
+void mrim_anketa_info(mrim_data *mrim, package *pack)
+{
+	purple_debug_info("mrim","[%s] seq=<%u>\n",__func__, pack->header->seq);
+	guint32 status = read_UL(pack);
+
+	mrim_pq *mpq = g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
+	if (mpq == NULL)
+		purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "Такая операция не осуществлялась? (mpq == NUL)");
+	g_return_if_fail(mpq);
+	switch (mpq->type)
+	{
+		case ANKETA_INFO:
+		{
+			gchar *param, *value;
+			PurpleNotifyUserInfo *info = purple_notify_user_info_new();
+			guint32 fields_num = read_UL(pack);
+			read_UL(pack); // max_rows
+			read_UL(pack); // DATE(unix)
+			gchar *mas[fields_num][2];
+			for(int i=0 ; i < fields_num ; i++)
+				mas[i][0] = read_LPS(pack);
+			for(int i=0 ; i < fields_num ; i++)
+				mas[i][1] = read_LPS(pack);
+
+			for(int i=0 ; i < fields_num ; i++)
+			{
+				purple_notify_user_info_add_pair(info, mas[i][0], mas[i][1]);
+				FREE(mas[i][0])
+				FREE(mas[i][1])
+			}
+
+			purple_notify_userinfo(mrim->gc,        // connection the buddy info came through
+			                       mpq->anketa_info.username,  // buddy's username
+			                       info,      // body
+			                       NULL,      // callback called when dialog closed
+			                       NULL);     // userdata for callback
+			break;
+		}
+		case SEARCH:
+		{
+
+		}
 		default:
 			purple_debug_info("mrim","[%s] UNKNOWN mpq->type <%i>\n", __func__, mpq->type);
 			break;

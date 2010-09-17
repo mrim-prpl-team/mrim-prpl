@@ -5,7 +5,6 @@
 #include <glib.h>
 #include <time.h>
 
-
 #ifdef WIN32
 	#include <winsock2.h>
 	#include <windows.h>
@@ -88,15 +87,15 @@ static struct status
 #define MRIM_STATUS_ID_MOBILE "mobile"
 #define STATUSES_COUNT 4
 
-
+#define MRIM_MAX_ERROR_COUNT 30
 
 #define MRIM_PRPL_ID "prpl-ostin-mrim" // какой purple-id теперь?
 #define MRIM "mrim"
-#define DISPLAY_VERSION "0.1"
+#define DISPLAY_VERSION "0.1.25"
 #define MRIM_MAIL_RU "mrim.mail.ru"
 #define MRIM_MAIL_RU_PORT 2042
 					// или 443
-#define USER_AGENT_DESC "client=\"Pidgin\" version=\"0.1\" build=\"20\""
+#define USER_AGENT_DESC "client=\"Pidgin\" version=\"0.1.25\""
 #define USER_AGENT "Mail.Ru Pidgin plugin by Ostin"
 #define FREE(s) if ((s) != NULL) g_free(s); s = NULL;
 
@@ -176,7 +175,8 @@ typedef enum
     MODIFY_BUDDY,
     NEW_EMAIL,
     NEW_EMAILS,
-    OPEN_URL
+    OPEN_URL,
+    SEARCH
 }PQ_TYPE;
 
 typedef struct
@@ -245,6 +245,14 @@ typedef struct
 		{
 			gchar *url;
 		}open_url;
+		struct
+		{
+			gchar *username;
+		}anketa_info;
+		struct
+		{
+
+		}search;
 	};
 }mrim_pq;
 
@@ -269,9 +277,20 @@ typedef enum
     MY_GARAGE,
     MY_GOODS,
     MY_KIDS,
-    MY_HEALTH
+    MY_HEALTH,
+    USER_SEARCH
 }MRIM_LINKS;
 
+
+static const gchar *links[]=
+{
+		"http://win.mail.ru/cgi-bin/auth?Login=%s&agent=%%s&page=http://win.mail.ru/cgi-bin/userinfo?mra=1&lang=ru&ver=3686&agentlang=ru",
+		"http://win.mail.ru/cgi-bin/auth?Login=%s&agent=%%s&page=http://foto.mail.ru/cgi-bin/avatars/lang=ru&ver=3686&agentlang=ru",
+		"http://my.mail.ru/%s/%s", /* Мой мир */
+		"http://foto.mail.ru/%s/%s", /* Фото */
+		"http://video.mail.ru/%s/%s", /* Видео */
+		"http://blogs.mail.ru/%s/%s" /* Блоги */
+};
 
 //char *mrim_status_to_prpl_status(guint32 status);
 const char* mrim_status_to_prpl_status( guint32 status );
@@ -285,6 +304,8 @@ static void mrim_balancer_cb(PurpleUtilFetchUrlData *url_data, gpointer user_dat
 static void mrim_keep_alive(PurpleConnection *gc);
 
 void notify_emails(void *gc, gchar* webkey, guint32 count);
+
+static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields);
 
 void clean_string(gchar *email);
 gchar *clear_phone(gchar *phone);

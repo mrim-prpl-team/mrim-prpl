@@ -41,6 +41,7 @@ void mrim_sms_ack(mrim_data *mrim ,package *pack);
 void mrim_add_contact_ack(mrim_data *mrim ,package *pack);
 void mrim_modify_contact_ack(mrim_data *mrim ,package *pack);
 void mrim_mpop_session(mrim_data *mrim ,package *pack);
+void mrim_anketa_info(mrim_data *mrim, package *pack);
 void pq_free_element(gpointer data);
 void mg_free_element(gpointer data);
 

@@ -140,6 +140,8 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 
 	guint32 msg_id = read_UL(pack);		// seq
 	guint32 flag = read_UL(pack);		// flag - смотри MRIM_CS_MESSAGE
+	//if (flag & MESSAGE_FLAG_SPAMF_SPAM)
+	//	return;
 	gchar *from = read_LPS(pack);
 	
 	mrim_pq *pq = (mrim_pq *) g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq)); // или msg_id?
