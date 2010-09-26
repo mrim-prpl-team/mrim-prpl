@@ -540,8 +540,9 @@ void mrim_move_buddy(PurpleConnection *gc, const char *who, const char *old_grou
  ******************************************/
 static void mrim_fetch_avatar(PurpleBuddy *buddy)
 {
-	purple_debug_info("mrim","[%s] <%s>\n",__func__, buddy->name);
 	g_return_if_fail(buddy != NULL);
+	g_return_if_fail(buddy->name != NULL);
+	purple_debug_info("mrim","[%s] <%s>\n",__func__, buddy->name);
 	if (! is_valid_email(buddy->name))
 		return;
 	if ((!buddy->icon) && buddy->name)

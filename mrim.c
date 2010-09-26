@@ -591,7 +591,7 @@ static GList *mrim_user_actions(PurpleBlistNode *node)
 			PurpleMenuAction *action = purple_menu_action_new("Отправить СМС...", PURPLE_CALLBACK(blist_sms_menu_item), mrim, NULL);
 			list = g_list_append(list, action);
 		}
-		PurpleMenuAction *action = purple_menu_action_new("Редактировть телефоны...", PURPLE_CALLBACK(blist_edit_phones_menu_item), mrim, NULL);
+		PurpleMenuAction *action = purple_menu_action_new("Редактировать телефоны...", PURPLE_CALLBACK(blist_edit_phones_menu_item), mrim, NULL);
 		list = g_list_append(list, action);
 	}
 	else
