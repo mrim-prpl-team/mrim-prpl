@@ -547,29 +547,14 @@ static gchar *fb_gunzip(const guchar *gzip_data, ssize_t *len_ptr)
 
 
 
-ostinru:
-Чуток *рекламы* в прайм-тайм: На досуге пишу плагин к пиджину(libpurple) реализующий протокол Маил.ру(да, я знаю что этот Агент
-полное <сюда можно вставить слово>).
-http://code.google.com/p/mrim-prpl/
-PS: думаю, что надо начинать пропихивать его в какой-нибудь более-менее крупный российский оверлей ;-) . И, да, если не сложно,
-поглядите на ебилд - писал сам, на коленке(первый мой ебилд).
-
 maksbotan: пропихни в санрайс
 maksbotan: или пинай слепногу чтоб в рион взял
 winterheart: кейворды не должны быть стабильными, только ~arch - требование любого оверлея
 winterheart: src_compile можно вообще убрать
 winterheart: пропиши переменную S="${WORKDIR}"/mrim-prpl под RDEPEND
 winterheart: и src_install при таком раскладе тоже можно будет убрать
-ostinru: winterheart: тоесть KEYWORDS="~amd64 ~x86" или вообще без него?
-winterheart: первый вариант
-ostinru: ок
-winterheart: ostinru: вместо ${PF} нужно использовать ${P}
-ostinru: а чем  ${PF} не угодил? я его с devmanual взял
 winterheart: ostinru: ну и repoman пройдись
-winterheart: PF не используют в общем случае
-ostinru: тоесть лучше: ${PN}-${PVR}
-winterheart: нет
-winterheart: ${P}
+winterheart: PF не используют в общем случае. лучше  ${P}
 winterheart: у тебя же не используется ревизия в названии тарбола
 ostinru: ок. (у меня раньше использовалось - означало ревизию в svn, но потом я забил на это)
 winterheart: тэкс
@@ -579,29 +564,9 @@ winterheart: install -Dm0644 mrim.so ${DESTDIR}/usr/lib/purple-2/mrim.so
 winterheart: 25 строка
 winterheart: для 64битных систем не пойдет так
 winterheart: у них lib64 должен быть
-ostinru: не знал
-maksbotan: поэтому нужно использовать автотулсы/цмык
 winterheart: сделай переменные для DATADIR и LIBDIR и пропихивай правильные значения в src_install
 winterheart: да, еще в Makefile 21 строка лишняя
-winterheart: и 30 тоже
-ostinru: итого: DATADIR и LIBDIR -- как они вообще должны выглдеть? их надо получать с помощью "автотулсы/цмык"?
-winterheart: да нет
-ostinru: а /usr/lib это не линк на /usr/lib64 ?
-winterheart: просто сверху мейкфайла определи эти переменные
-winterheart: неа
-winterheart: это считается ошибкой
-winterheart: в мультилиб 64-битном окружении этот путь может считаться как 32-битных приложений
-ostinru: ужас
-winterheart: при определенной LIBDIR можно его переопределить
-winterheart: есть екласс multilib, у него - функция getlib
-maksbotan: get-libdir вроде
-winterheart: и в src_install запихиваешь нечто LIBDIR=$(getlib) emake install
-winterheart: возможно
-winterheart: по памяти пишу
-ostinru: ок. щас попробую
-winterheart: также неплохо с помощью dodoc поставить README
-ostinru: в 27строчках + Makefile столько ошибок и подводных камней...  жуть
-winterheart: бывает
+
 
 
 

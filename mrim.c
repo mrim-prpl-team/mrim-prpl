@@ -133,6 +133,7 @@ gchar *clear_phone(gchar *original_phone)
 static void mrim_get_info(PurpleConnection *gc, const char *username)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
+	g_return_if_fail(username);
 	const char *body;
 
 	PurpleAccount *acct;
@@ -354,8 +355,7 @@ static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields)
 	mrim_pq *mpq = g_new0(mrim_pq, 1);
 	mpq->type = SEARCH;
 	mpq->seq = mrim->seq;
-	//mpq->rename_group.new_group = group;
-	g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq ), mpq);
+	// добавлям mpq в PQ, только если отсылаем пакет
 	package *pack = new_package(mpq->seq, MRIM_CS_WP_REQUEST);
 
 	const char *const_string = NULL;
@@ -366,7 +366,7 @@ static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields)
 	//TextBoxField = purple_request_field_g
 	const_string = purple_request_fields_get_string(fields, "text_box_nickname");
 	tmp = g_strstrip(g_strdup(const_string));
-	if (tmp)
+	if (strcmp(tmp,""))
 	{
 		add_ul(MRIM_CS_WP_REQUEST_PARAM_NICKNAME, pack);
 		add_LPS(tmp, pack);
@@ -374,7 +374,7 @@ static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields)
 
 	const_string = purple_request_fields_get_string(fields, "text_box_first_name");
 	tmp = g_strstrip(g_strdup(const_string));
-	if (tmp)
+	if (strcmp(tmp,""))
 	{
 		add_ul(MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME, pack);
 		add_LPS(tmp, pack);
@@ -382,7 +382,7 @@ static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields)
 
 	const_string = purple_request_fields_get_string(fields, "text_box_surname");
 	tmp = g_strstrip(g_strdup(const_string));
-	if (tmp)
+	if (strcmp(tmp,""))
 	{
 		add_ul(MRIM_CS_WP_REQUEST_PARAM_LASTNAME, pack);
 		add_LPS(tmp, pack);
@@ -402,14 +402,14 @@ static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields)
 	/* zodiak MRIM_CS_WP_REQUEST_PARAM_ZODIAC */
 	const_string = purple_request_fields_get_string(fields, "text_box_age_from");
 	tmp = g_strstrip(g_strdup(const_string));
-	if (tmp)
+	if (strcmp(tmp,""))
 	{
 		add_ul(MRIM_CS_WP_REQUEST_PARAM_DATE1, pack);
 		add_LPS(tmp, pack);
 	}
 	const_string = purple_request_fields_get_string(fields, "text_box_age_to");
 	tmp = g_strstrip(g_strdup(const_string));
-	if (tmp)
+	if (strcmp(tmp,""))
 	{
 		add_ul(MRIM_CS_WP_REQUEST_PARAM_DATE2, pack);
 		add_LPS(tmp, pack);
@@ -422,7 +422,18 @@ static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields)
 		add_ul(MRIM_CS_WP_REQUEST_PARAM_ONLINE, pack);
 		add_LPS("1", pack);
 	}
-	send_package(pack, mrim);
+
+	purple_debug_info("mrim", "[%s]pack->len==%u\n", __func__, pack->len);
+	if (pack->len > 0)
+	{
+		send_package(pack, mrim);
+		g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq ), mpq);
+	}
+	//else
+	{
+	//	free_package(pack);
+		// g_free(mpq);
+	}
 }
 
 void blist_send_sms(PurpleConnection *gc, PurpleRequestFields *fields)
@@ -1075,6 +1086,8 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									mpq->seq = mrim->seq;
 									mpq->new_emails.count = mrim->mails;
 									g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq), mpq);
+									package *pack = new_package(mpq->seq, MRIM_CS_GET_MPOP_SESSION);
+									send_package(pack, mrim);
 									break;
 								}
 		case MRIM_CS_NEW_MAIL: {
@@ -1086,6 +1099,8 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									mpq->new_email.from = read_LPS(pack);
 									mpq->new_email.subject = read_LPS(pack);
 									g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq), mpq);
+									package *pack = new_package(mpq->seq, MRIM_CS_GET_MPOP_SESSION);
+									send_package(pack, mrim);
 									break;
 								}
 		case MRIM_CS_MPOP_SESSION:{

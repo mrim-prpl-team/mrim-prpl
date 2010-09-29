@@ -803,11 +803,33 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 	if (mpq == NULL)
 		purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "Такая операция не осуществлялась? (mpq == NUL)");
 	g_return_if_fail(mpq);
+	if (status != MRIM_ANKETA_INFO_STATUS_OK)
+	{
+		switch (status) {
+			case MRIM_ANKETA_INFO_STATUS_NOUSER:
+				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "MRIM_ANKETA_INFO_STATUS_NOUSER");
+				break;
+			case MRIM_ANKETA_INFO_STATUS_DBERR:
+				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "MRIM_ANKETA_INFO_STATUS_DBERR");
+				break;
+			case MRIM_ANKETA_INFO_STATUS_RATELIMERR:
+				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "MRIM_ANKETA_INFO_STATUS_RATELIMERR");
+				break;
+			default:
+				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "unknown error");
+				break;
+		}
+		g_hash_table_remove(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
+		return;
+	}
+
+
 	switch (mpq->type)
 	{
 		case ANKETA_INFO:
 		{
-			gchar *param, *value;
+			purple_debug_info("mrim","[%s] ANKETA_INFO\n", __func__);
+			gchar *param=NULL, *value=NULL;
 			PurpleNotifyUserInfo *info = purple_notify_user_info_new();
 			guint32 fields_num = read_UL(pack);
 			read_UL(pack); // max_rows
@@ -820,7 +842,47 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 
 			for(int i=0 ; i < fields_num ; i++)
 			{
+				if (! mas[i][0])
+					continue;
+				if (! mas[i][1])
+					continue;
+
+				if (strcmp(mas[i][0], "Sex")==0)
+				{
+					FREE(mas[i][0]);
+					mas[i][0] = g_strdup("Пол");
+					FREE(mas[i][1]);
+					mas[i][1] = (mas[i][1]-"1")  ?  g_strdup("Мужской") : g_strdup("Женский");
+				}
+				if (strcmp(mas[i][0], "Zodiac")==0)
+				{
+					FREE(mas[i][0]);
+					mas[i][0] = g_strdup("Зодиак");
+
+					value = g_strdup(zodiak[ atoi(mas[i][1])-1 ]);
+					FREE(mas[i][1]);
+					mas[i][1] = value;
+				}
+				if (strcmp(mas[i][0], "City_id")==0)
+					continue;
+				if (strcmp(mas[i][0], "Country_id")==0)
+					continue;
+				if (strcmp(mas[i][0], "mrim_status")==0)
+					continue;
+				if (strcmp(mas[i][0], "BMonth")==0)
+					continue;
+				if (strcmp(mas[i][0], "BDay")==0)
+					continue;
+				if (strcmp(mas[i][0], "Username")==0)
+					continue;
+				if (strcmp(mas[i][0], "Domain")==0)
+					continue;
+
 				purple_notify_user_info_add_pair(info, mas[i][0], mas[i][1]);
+			}
+
+			for(int i=0 ; i < fields_num ; i++)
+			{
 				FREE(mas[i][0])
 				FREE(mas[i][1])
 			}
@@ -831,10 +893,11 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 			                       NULL,      // callback called when dialog closed
 			                       NULL);     // userdata for callback
 			break;
+
 		}
 		case SEARCH:
 		{
-
+			break;
 		}
 		default:
 			purple_debug_info("mrim","[%s] UNKNOWN mpq->type <%i>\n", __func__, mpq->type);

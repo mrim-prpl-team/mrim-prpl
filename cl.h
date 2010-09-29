@@ -6,6 +6,22 @@
  
  #define MRIM_NO_GROUP 12345
 
+
+static const gchar *zodiak[]={
+	"Овен",
+	"Телец",
+	"Близнецы",
+	"Рак",
+	"Лев",
+	"Дева",
+	"Весы",
+	"Скорпион",
+	"Стрелец",
+	"Козерог", // 10 in mrim, 9 in massive
+	"Водолей",
+	"Рыбы"
+};
+
 // Контакт-Лист
 void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack);
 static mrim_buddy *new_mrim_buddy(package *pack);
