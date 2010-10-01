@@ -852,7 +852,7 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 					FREE(mas[i][0]);
 					mas[i][0] = g_strdup("Пол");
 					FREE(mas[i][1]);
-					mas[i][1] = (mas[i][1]-"1")  ?  g_strdup("Мужской") : g_strdup("Женский");
+					mas[i][1] = (mas[i][1] == "1")  ?  g_strdup("Мужской") : g_strdup("Женский");
 				}
 				if (strcmp(mas[i][0], "Zodiac")==0)
 				{
