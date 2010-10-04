@@ -237,8 +237,8 @@ static void mrim_search_action(PurplePluginAction *action)
 
 
 	purple_request_fields(mrim->gc, "Поиск контактов", NULL, NULL,  fields,
-			"Искать!", G_CALLBACK(blist_search),
-			"Я передумал!", NULL,
+			"_Искать!", G_CALLBACK(blist_search),
+			"Я _передумал!", NULL,
 			mrim->account, mrim->username, NULL, mrim->gc );
 
 }
@@ -474,9 +474,9 @@ static void  blist_sms_menu_item(PurpleBlistNode *node, gpointer userdata)
 	field = purple_request_field_string_new("message_box","Текст СМС-сообщения","",TRUE);
 	purple_request_field_group_add_field(group, field);
 
-	purple_request_fields(mrim->gc, "Отправка СМС", NULL, "Текст сообщения не должен превышать \n135 символов в английской расскладке \nили 35 символов в русской.",  fields,
-			"Отправить", G_CALLBACK(blist_send_sms),
-			"Я передумал!", NULL,
+	purple_request_fields(mrim->gc, "Отправка СМС", NULL, "Текст сообщения не должен превышать \n135 символов в английской раскладке \nили 35 символов в русской.",  fields,
+			"_Отправить", G_CALLBACK(blist_send_sms),
+			"Я _передумал!", NULL,
 			mrim->account, buddy->name, NULL, mrim->gc );
 }
 
@@ -536,16 +536,16 @@ static void  blist_edit_phones_menu_item(PurpleBlistNode *node, gpointer userdat
 	fields = purple_request_fields_new();
 	group = purple_request_field_group_new(mb->addr);
 	purple_request_fields_add_group(fields, group);
-	field = purple_request_field_string_new("phone1","Основной телефон", mb->phones[0], FALSE);
+	field = purple_request_field_string_new("phone1","Ос_новной телефон", mb->phones[0], FALSE);
 	purple_request_field_group_add_field(group, field);
-	field = purple_request_field_string_new("phone2","Запасной телефон", mb->phones[1], FALSE);
+	field = purple_request_field_string_new("phone2","За_пасной телефон", mb->phones[1], FALSE);
 	purple_request_field_group_add_field(group, field);
-	field = purple_request_field_string_new("phone3","Ещё один телефон", mb->phones[2], FALSE);
+	field = purple_request_field_string_new("phone3","_Ещё один телефон", mb->phones[2], FALSE);
 	purple_request_field_group_add_field(group, field);
 
 	purple_request_fields(mrim->gc, "Редактор телефонов", "Редактор телефонов", "Телефоны указываются в виде +7123456789",  fields,
-			"Ок", G_CALLBACK(blist_edit_phones),
-			"Отмена", NULL,
+			"_Ок", G_CALLBACK(blist_edit_phones),
+			"О_тмена", NULL,
 			mrim->account, buddy->name, NULL, buddy);
 }
 
@@ -568,7 +568,7 @@ static void blist_authorize_menu_item(PurpleBlistNode *node, gpointer userdata)
 	mrim_data *mrim = (mrim_data *) userdata;
 	g_return_if_fail(mrim != NULL);
 
-	purple_debug_info("mrim", "[%s] Я(%s) прошу авторизацюи у <%s>\n", __func__, mrim->username, mb->addr);
+	purple_debug_info("mrim", "[%s] Я(%s) прошу авторизацию у <%s>\n", __func__, mrim->username, mb->addr);
 	// запрос авторизации
 	send_package_authorize(mrim, (gchar *)(mb->addr), (gchar *)(mrim->username));
 }
@@ -878,7 +878,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 	mrim_data *mrim = gc->proto_data;
 	if (mrim == NULL)
 	{
-		purple_connection_error_reason (gc,	PURPLE_CONNECTION_ERROR_INVALID_SETTINGS, "Соединение было разорванно пользователем?");
+		purple_connection_error_reason (gc,	PURPLE_CONNECTION_ERROR_INVALID_SETTINGS, "Соединение было разорвано пользователем?");
 		purple_connection_set_state(gc, PURPLE_DISCONNECTED);
 		//purple_account_disconnect(gc->account);
 	}
