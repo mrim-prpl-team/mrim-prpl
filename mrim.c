@@ -366,7 +366,7 @@ static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields)
 	//TextBoxField = purple_request_field_g
 	const_string = purple_request_fields_get_string(fields, "text_box_nickname");
 	tmp = g_strstrip(g_strdup(const_string));
-	if (strcmp(tmp,""))
+	if ( (tmp != NULL) && strcmp(tmp,"") )
 	{
 		add_ul(MRIM_CS_WP_REQUEST_PARAM_NICKNAME, pack);
 		add_LPS(tmp, pack);
@@ -374,7 +374,7 @@ static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields)
 
 	const_string = purple_request_fields_get_string(fields, "text_box_first_name");
 	tmp = g_strstrip(g_strdup(const_string));
-	if (strcmp(tmp,""))
+	if ( (tmp != NULL) && strcmp(tmp,"") )
 	{
 		add_ul(MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME, pack);
 		add_LPS(tmp, pack);
@@ -382,7 +382,7 @@ static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields)
 
 	const_string = purple_request_fields_get_string(fields, "text_box_surname");
 	tmp = g_strstrip(g_strdup(const_string));
-	if (strcmp(tmp,""))
+	if ( (tmp != NULL) && strcmp(tmp,"") )
 	{
 		add_ul(MRIM_CS_WP_REQUEST_PARAM_LASTNAME, pack);
 		add_LPS(tmp, pack);
@@ -402,14 +402,14 @@ static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields)
 	/* zodiak MRIM_CS_WP_REQUEST_PARAM_ZODIAC */
 	const_string = purple_request_fields_get_string(fields, "text_box_age_from");
 	tmp = g_strstrip(g_strdup(const_string));
-	if (strcmp(tmp,""))
+	if ( (tmp != NULL) && strcmp(tmp,"") )
 	{
 		add_ul(MRIM_CS_WP_REQUEST_PARAM_DATE1, pack);
 		add_LPS(tmp, pack);
 	}
 	const_string = purple_request_fields_get_string(fields, "text_box_age_to");
 	tmp = g_strstrip(g_strdup(const_string));
-	if (strcmp(tmp,""))
+	if ( (tmp != NULL) && strcmp(tmp,"") )
 	{
 		add_ul(MRIM_CS_WP_REQUEST_PARAM_DATE2, pack);
 		add_LPS(tmp, pack);
