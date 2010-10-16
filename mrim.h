@@ -97,7 +97,7 @@ static struct status
 					// или 443
 #define USER_AGENT_DESC "client=\"Pidgin\" version=\"0.1.25\""
 #define USER_AGENT "Mail.Ru Pidgin plugin by Ostin"
-#define FREE(s) if ((s) != NULL) g_free(s); s = NULL;
+#define FREE(s) if (s){ g_free(s); s = NULL;}
 
 #define FEATURES (FEATURE_FLAG_WAKEUP | FEATURE_FLAG_BASE_SMILES)
 
@@ -109,6 +109,14 @@ typedef struct
 	guint32 flag;
 }mrim_group;
 
+
+typedef enum
+{
+	BUDDY,
+	GROUP,
+	PHONE, // phone only
+	CHAT
+}BUDDY_TYPE;
 typedef struct
 {
 	PurpleBuddy *buddy;
@@ -121,6 +129,7 @@ typedef struct
 	guint32 flags;
 	guint32 s_flags;
 	guint32 status;
+	BUDDY_TYPE type;
 }mrim_buddy;
 
 typedef struct {

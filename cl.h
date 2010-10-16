@@ -65,7 +65,7 @@ static void print_cl_status(guint32 status);
 
 void send_package_authorize(mrim_data *mrim, gchar *to, gchar *who);
 
-
+void mrim_searchresults_add_buddy(PurpleConnection *gc, GList *row, void *user_data);
 
 gchar *mrim_phones_to_string(gchar **phones);
 

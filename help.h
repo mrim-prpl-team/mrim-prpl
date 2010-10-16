@@ -566,10 +566,3 @@ winterheart: для 64битных систем не пойдет так
 winterheart: у них lib64 должен быть
 winterheart: сделай переменные для DATADIR и LIBDIR и пропихивай правильные значения в src_install
 winterheart: да, еще в Makefile 21 строка лишняя
-
-
-
-
-
-
-

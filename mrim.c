@@ -169,8 +169,6 @@ static void mrim_get_info(PurpleConnection *gc, const char *username)
 
 		g_strfreev(split);
 	}
-
-
 }
 
 /******************************************
@@ -542,6 +540,8 @@ static void  blist_edit_phones_menu_item(PurpleBlistNode *node, gpointer userdat
 	purple_request_field_group_add_field(group, field);
 	field = purple_request_field_string_new("phone3","_Ещё один телефон", mb->phones[2], FALSE);
 	purple_request_field_group_add_field(group, field);
+
+
 
 	purple_request_fields(mrim->gc, "Редактор телефонов", "Редактор телефонов", "Телефоны указываются в виде +7123456789",  fields,
 			"_Ок", G_CALLBACK(blist_edit_phones),

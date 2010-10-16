@@ -807,7 +807,7 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 	{
 		switch (status) {
 			case MRIM_ANKETA_INFO_STATUS_NOUSER:
-				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "MRIM_ANKETA_INFO_STATUS_NOUSER");
+				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "Пользователь не найден");
 				break;
 			case MRIM_ANKETA_INFO_STATUS_DBERR:
 				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "MRIM_ANKETA_INFO_STATUS_DBERR");
@@ -823,89 +823,169 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 		return;
 	}
 
+	/* Обработка анкетных данных */
+	purple_debug_info("mrim","[%s] PARSE DATA\n", __func__);
+	gchar *param=NULL, *value=NULL;
+	guint32 fields_num = read_UL(pack);
+	guint32 max_rows = read_UL(pack);
+	guint32 real_rows = 0;
+	guint32 date = read_UL(pack); // DATE(unix)
+	gchar *mas[fields_num][max_rows+1];
+	gboolean skip[fields_num]; // поля, которые мы будем пропускать (CountryID, BDay...)
+	for(int i=0 ; i < fields_num ; i++)
+		mas[i][0] = read_LPS(pack);
+
+	for (int j=0; j<max_rows; j++)
+	{
+		gboolean flag = FALSE; // Используем для определения количества строк (т.к. количество строк может быть меньше max_rows0
+		for(int i=0 ; i < fields_num ; i++)
+		{
+			mas[i][j+1] = read_LPS(pack);
+			flag |= (mas[i][j+1] != NULL);
+		}
+		if (flag)
+			real_rows=j+1;
+	}
+
+	for(int i=0 ; i < fields_num ; i++)
+	{
+		skip[i]=FALSE;
+		if (! mas[i][0])
+		{
+			skip[i]=TRUE;
+			continue;
+		}
+
+		if (strcmp(mas[i][0], "Sex")==0)
+		{
+			FREE(mas[i][0]);
+			mas[i][0] = g_strdup("Пол");
+			for (int j=0; j<real_rows; j++)
+				if (! mas[i][j+1])
+					continue;
+				else
+				{
+					value = g_strdup(mas[i][1]);
+					FREE(mas[i][j+1]);
+					mas[i][j+1] = (strcmp(value, "1") == 0)  ?  g_strdup("Мужской") : g_strdup("Женский");
+					FREE(value);
+				}
+		}
+		if (strcmp(mas[i][0], "Zodiac")==0)
+		{
+			FREE(mas[i][0]);
+			mas[i][0] = g_strdup("Зодиак");
+			for (int j=0; j<real_rows; j++)
+				if (! mas[i][j+1])
+					continue;
+				else
+				{
+					value = g_strdup(zodiak[ atoi(mas[i][j+1])-1 ]);
+					FREE(mas[i][j+1]);
+					mas[i][j+1] = value;
+				}
+		}
+		if (strcmp(mas[i][0], "City_id")==0)
+		{
+			skip[i]=TRUE;
+			continue;
+		}
+		if (strcmp(mas[i][0], "Country_id")==0)
+		{
+			skip[i]=TRUE;
+			continue;
+		}
+		if (strcmp(mas[i][0], "mrim_status")==0)
+		{
+			skip[i]=TRUE;
+			continue;
+		}
+		if (strcmp(mas[i][0], "BMonth")==0)
+		{
+			skip[i]=TRUE;
+			continue;
+		}
+		if (strcmp(mas[i][0], "BDay")==0)
+		{
+			skip[i]=TRUE;
+			continue;
+		}
+		if (strcmp(mas[i][0], "Username")==0)
+			continue;
+		if (strcmp(mas[i][0], "Domain")==0)
+			continue;
+	}
 
 	switch (mpq->type)
 	{
 		case ANKETA_INFO:
 		{
 			purple_debug_info("mrim","[%s] ANKETA_INFO\n", __func__);
-			gchar *param=NULL, *value=NULL;
 			PurpleNotifyUserInfo *info = purple_notify_user_info_new();
-			guint32 fields_num = read_UL(pack);
-			read_UL(pack); // max_rows
-			read_UL(pack); // DATE(unix)
-			gchar *mas[fields_num][2];
 			for(int i=0 ; i < fields_num ; i++)
-				mas[i][0] = read_LPS(pack);
-			for(int i=0 ; i < fields_num ; i++)
-				mas[i][1] = read_LPS(pack);
-
-			for(int i=0 ; i < fields_num ; i++)
-			{
-				if (! mas[i][0])
-					continue;
-				if (! mas[i][1])
-					continue;
-
-				if (strcmp(mas[i][0], "Sex")==0)
-				{
-					FREE(mas[i][0]);
-					mas[i][0] = g_strdup("Пол");
-					value = g_strdup(mas[i][1]);
-					FREE(mas[i][1]);
-					mas[i][1] = (strcmp(value, "1") == 0)  ?  g_strdup("Мужской") : g_strdup("Женский");
-					FREE(value);
-				}
-				if (strcmp(mas[i][0], "Zodiac")==0)
-				{
-					FREE(mas[i][0]);
-					mas[i][0] = g_strdup("Зодиак");
-
-					value = g_strdup(zodiak[ atoi(mas[i][1])-1 ]);
-					FREE(mas[i][1]);
-					mas[i][1] = value;
-				}
-				if (strcmp(mas[i][0], "City_id")==0)
-					continue;
-				if (strcmp(mas[i][0], "Country_id")==0)
-					continue;
-				if (strcmp(mas[i][0], "mrim_status")==0)
-					continue;
-				if (strcmp(mas[i][0], "BMonth")==0)
-					continue;
-				if (strcmp(mas[i][0], "BDay")==0)
-					continue;
-				if (strcmp(mas[i][0], "Username")==0)
-					continue;
-				if (strcmp(mas[i][0], "Domain")==0)
-					continue;
-
-				purple_notify_user_info_add_pair(info, mas[i][0], mas[i][1]);
-			}
-
-			for(int i=0 ; i < fields_num ; i++)
-			{
-				FREE(mas[i][0])
-				FREE(mas[i][1])
-			}
-
+				if (!skip[i])
+					purple_notify_user_info_add_pair(info, mas[i][0], mas[i][1]);
 			purple_notify_userinfo(mrim->gc,        // connection the buddy info came through
-			                       mpq->anketa_info.username,  // buddy's username
-			                       info,      // body
-			                       NULL,      // callback called when dialog closed
-			                       NULL);     // userdata for callback
+				mpq->anketa_info.username,  // buddy's username
+				info,      // body
+				NULL,      // callback called when dialog closed
+				NULL);     // userdata for callback
 			break;
 
 		}
 		case SEARCH:
 		{
+			PurpleNotifySearchResults *results;
+			PurpleNotifySearchColumn *column;
+			GList *row;
+
+			results = purple_notify_searchresults_new();
+			if (results == NULL)
+				break;
+			for(int i=0 ; i < fields_num ; i++)
+				if (!skip[i])
+				{
+					column = purple_notify_searchresults_column_new(mas[i][0]);
+					purple_notify_searchresults_column_add(results, column);
+				}
+
+	        //buttons: Add Contact, Close
+	        purple_notify_searchresults_button_add(results, PURPLE_NOTIFY_BUTTON_ADD, mrim_searchresults_add_buddy);
+
+	        for(int j=0 ; j < real_rows ; j++)
+	        {
+	        	row = NULL;
+
+	        	for(int i=0 ; i < fields_num ; i++)
+	        		if (!skip[i])
+	        			row = g_list_append(row, g_strdup(mas[i][j+1])); // TODO mem leaks?
+
+	        	purple_notify_searchresults_row_add(results, row);
+	        }
+
+	        purple_notify_searchresults(mrim->gc,
+	                        NULL,
+	                        "Search results", NULL, results,
+	                        NULL, //PurpleNotifyCloseCallback // TODO надо освободить память???
+	                        purple_connection_get_account(mrim->gc));
+
 			break;
 		}
 		default:
 			purple_debug_info("mrim","[%s] UNKNOWN mpq->type <%i>\n", __func__, mpq->type);
 			break;
 	}
+
+	for(int i=0 ; i < fields_num ; i++)
+		for(int j=0 ; j < real_rows ; j++)
+			FREE(mas[i][j])
+
 	g_hash_table_remove(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
+}
+
+void mrim_searchresults_add_buddy(PurpleConnection *gc, GList *row, void *user_data)
+{
+	mrim_data *mrim = user_data;
 }
 
 void pq_free_element(gpointer data)
@@ -968,7 +1048,7 @@ static void print_cl_status(guint32 status)
 	}
 }
 
-void send_package_authorize(mrim_data *mrim, gchar *to, gchar *who) // TODO text // TODO who не нужне, т.к. есть mrim->username
+void send_package_authorize(mrim_data *mrim, gchar *to, gchar *who) // TODO text // TODO who не нужен, т.к. есть mrim->username
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
 	(mrim->seq)++;
