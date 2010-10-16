@@ -865,7 +865,7 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 					continue;
 				else
 				{
-					value = g_strdup(mas[i][1]);
+					value = g_strdup(mas[i][j+1]);
 					FREE(mas[i][j+1]);
 					mas[i][j+1] = (strcmp(value, "1") == 0)  ?  g_strdup("Мужской") : g_strdup("Женский");
 					FREE(value);
