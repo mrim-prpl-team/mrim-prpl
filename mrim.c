@@ -780,8 +780,8 @@ static void mrim_prpl_login(PurpleAccount *account)
 	mrim->ProxyConnectHandle = NULL;
 
 	  
-	mrim->server = g_strdup(purple_account_get_string(account, "balanser_host", MRIM_MAIL_RU));
-	mrim->port = purple_account_get_int(account, "balanser_port", MRIM_MAIL_RU_PORT);
+	mrim->server = g_strdup(purple_account_get_string(account, "balancer_host", MRIM_MAIL_RU));
+	mrim->port = purple_account_get_int(account, "balancer_port", MRIM_MAIL_RU_PORT);
 	mrim->pq = g_hash_table_new_full(NULL,NULL, NULL, pq_free_element);
 	mrim->mg = g_hash_table_new_full(NULL,NULL, NULL, mg_free_element);
 	gc->proto_data = mrim;
@@ -947,7 +947,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									mrim_read_im(mrim, pack);
 									break;
 								}
-		case MRIM_CS_OFFLINE_MESSAGE_ACK:{// Сообщение было доставленно, поак пользователь не был в сети
+		case MRIM_CS_OFFLINE_MESSAGE_ACK:{// Сообщение было доставлено, пока пользователь не был в сети
 									purple_debug_info("mrim","MRIM_CS_OFFLINE_MESSAGE_ACK!\n");
 									guint32 first  = read_UL(pack);
 									guint32 second = read_UL(pack);
@@ -1372,7 +1372,7 @@ static PurplePluginInfo info =
 static void mrim_prpl_init(PurplePlugin *plugin)
 {
 	purple_debug_info("mrim", "starting up\n");
-	PurpleAccountOption *option_server = purple_account_option_string_new("Server","balanser_host",MRIM_MAIL_RU);
+	PurpleAccountOption *option_server = purple_account_option_string_new("Server","balancer_host",MRIM_MAIL_RU);
 	prpl_info.protocol_options = g_list_append(NULL, option_server);
 	PurpleAccountOption *option_port = purple_account_option_int_new("Port", "balancer_port", MRIM_MAIL_RU_PORT);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option_port);

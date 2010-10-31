@@ -244,7 +244,7 @@ int mrim_send_im(PurpleConnection *gc, const char *to, const char *message, Purp
     add_LPS(mpq->message.to, pack);
     add_LPS(mpq->message.message, pack);
     add_LPS(" ", pack);
-    //add_base64(pack, TRUE, "usuu", 2, rtf, 4, 0x00FFFFFF); // TDOD NEXT RELEASE
+    //add_base64(pack, TRUE, "usuu", 2, rtf, 4, 0x00FFFFFF); // TODO NEXT RELEASE
     /*
      * packStream << quint32(2);
      * packStream << rtf;
@@ -343,7 +343,7 @@ void mrim_message_status(mrim_data *mrim, package *pack)
 			mes = "Размер сообщения превышает максимально допустимый.";
 			break;
 		case MESSAGE_REJECTED_DENY_OFFMSG:
-			mes = "Пользовател не поддерживает оффлайн сообщения";
+			mes = "Пользователь не поддерживает оффлайн сообщения";
 			break;
 		case MESSAGE_REJECTED_DENY_OFFFLSH:
 			mes = "User does not accept offline flash animation";
