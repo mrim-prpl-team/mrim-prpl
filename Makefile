@@ -26,8 +26,8 @@ PURPLE_CFLAGS += $(shell pkg-config --cflags purple)
 ## Сборка
 all:
 	make compile
-# gentoo против strip-а пакетов по-умолчанию.	
-#	strip -s mrim.so
+# Для gentoo: make compile
+	strip -s mrim.so
 compile:
 	rm -fv *.so
 	${CC} ${PURPLE_CFLAGS} message.c cl.c package.c mrim.c -o mrim.so
