@@ -342,7 +342,7 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 	/* 2) если такой контакт уже был - обновим. не был - добавим  */
 	if (old_buddy != NULL  && old_buddy != buddy)
 	{
-		purple_debug_info("mrim","Buddy <%s> already exsist!\n", old_buddy->name);
+		purple_debug_info("mrim","Buddy <%s> already exsists!\n", old_buddy->name);
 		//purple_buddy_destroy(buddy);
 		purple_blist_remove_buddy(buddy);
 		buddy = old_buddy;
@@ -350,7 +350,7 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 
 		if (mb)
 		{
-			purple_debug_info("mrim","[%s] mb exsist\n",__func__);
+			purple_debug_info("mrim","[%s] mb exsists\n",__func__);
 			mb->buddy = buddy;
 			purple_blist_alias_buddy(buddy, mb->alias);
 			set_user_status_by_mb(mrim, mb);
@@ -392,7 +392,7 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 				mb->group_id = group_id;
 				mb->flags = 0;
 
-				gchar *text = "Здравствуйте. Пожалуйста, добавьте меня в список ваших контактов.";
+				gchar *text = "Здравствуйте. Пожалуйста, добавьте меня в список Ваших контактов.";
 				gchar *ctext = g_convert(text, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
 				gchar *who = (buddy->alias)?(buddy->alias):(buddy->name);
 				gchar *cwho = g_convert(who, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
@@ -418,7 +418,7 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 				mb->addr = g_strdup("phone");
 				mb->status = STATUS_ONLINE;
 
-				gchar *text = "Здравствуйте. Пожалуйста, добавьте меня в список ваших контактов.";
+				gchar *text = "Здравствуйте. Пожалуйста, добавьте меня в список Ваших контактов.";
 				gchar *ctext = g_convert(text, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
 				gchar *who = (buddy->alias)?(buddy->alias):(buddy->name);
 				gchar *cwho = g_convert(who, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
@@ -728,13 +728,13 @@ void mrim_modify_contact_ack(mrim_data *mrim ,package *pack)
 			switch (status)
 			{
 				case MRIM_SMS_OK:
-					purple_notify_info(_mrim_plugin, "SMS", "Смс-ка Успешно доставлена", "");
+					purple_notify_info(_mrim_plugin, "SMS", "Смс-ка успешно доставлена.", "");
 					break;
 				case MRIM_SMS_SERVICE_UNAVAILABLE:
-					purple_notify_warning(_mrim_plugin, "SMS", "Услуга доставки СМС недоступна", "");
+					purple_notify_warning(_mrim_plugin, "SMS", "Услуга доставки СМС недоступна.", "");
 					break;
 				case MRIM_SMS_INVALID_PARAMS:
-					purple_notify_info(_mrim_plugin, "SMS", "Неверные параметры", "");
+					purple_notify_info(_mrim_plugin, "SMS", "Неверные параметры.", "");
 					break;
 				default:
 					purple_notify_error(_mrim_plugin, "SMS", "Что-то произошло не так!", "");
@@ -1036,9 +1036,9 @@ static void print_cl_status(guint32 status)
 	{
 		case CONTACT_OPER_ERROR: mes = "Предоставленные данные были некорректны"; break;
 		case CONTACT_OPER_INTERR: mes = "При обработке запроса произошла внутренняя ошибка"; break;
-		case CONTACT_OPER_NO_SUCH_USER: mes = "Добовляемого пользователя не существует в системе"; break;
+		case CONTACT_OPER_NO_SUCH_USER: mes = "Добавляемого пользователя не существует в системе"; break;
 		case CONTACT_OPER_INVALID_INFO: mes = "Некорректное имя пользователя"; break;
-		case CONTACT_OPER_USER_EXISTS: mes = "Контакт/группа не может быть добавленна"; break;
+		case CONTACT_OPER_USER_EXISTS: mes = "Контакт/группа не может быть добавлена"; break;
 		case CONTACT_OPER_GROUP_LIMIT: mes = "Превышено максимальное количество групп"; break;
 	}
 	if (status != CONTACT_OPER_SUCCESS)
@@ -1053,7 +1053,7 @@ void send_package_authorize(mrim_data *mrim, gchar *to, gchar *who) // TODO text
 	purple_debug_info("mrim","[%s]\n",__func__);
 	(mrim->seq)++;
 	// запрос авторизации
-	gchar *text = "Здравствуйте. Пожалуйста, добавьте меня в список ваших контактов.";
+	gchar *text = "Здравствуйте. Пожалуйста, добавьте меня в список Ваших контактов.";
 	gchar *ctext = g_convert(text, -1, "CP1251", "UTF8", NULL, NULL, NULL);
 	//gchar *ctext = g_convert(text, -1, "UTF-16LE" , "UTF8", NULL, NULL, NULL);
 	gchar *cwho =  g_convert(who, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
