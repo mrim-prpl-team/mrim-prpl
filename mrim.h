@@ -97,7 +97,7 @@ static struct status
 					// или 443
 #define USER_AGENT_DESC "client=\"Pidgin\" version=\"0.1.25\""
 #define USER_AGENT "Mail.Ru Pidgin plugin by Ostin"
-#define FREE(s) if (s){ g_free(s); s = NULL;}
+#define FREE(s) { if (s) g_free(s); s = NULL;}
 
 #define FEATURES (FEATURE_FLAG_WAKEUP | FEATURE_FLAG_BASE_SMILES)
 

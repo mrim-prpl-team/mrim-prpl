@@ -1,11 +1,12 @@
-trunk (28/09/2010)
+trunk (2/10/2010)
 	Core
 		? Fix bad package
 		Fix segfault
 		Fix Email notify
+		Russian translation fix
 	Roster
 		"beautiful" User info 
-		Search Contacts Form <don't work!>
+		Search&Add Contacts
 	
 version 0.1.24 (1/09/2010)
 	Core

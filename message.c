@@ -337,7 +337,7 @@ void mrim_message_status(mrim_data *mrim, package *pack)
 			mes = "Получатель не существует";
 			break;
 		case MESSAGE_REJECTED_LIMIT_EXCEEDED:
-			mes = "Пользователь оффлайн. И сообщение не помещается в его почтовый ящик";
+			mes = "Собеседник не в сети. Сообщение не будет помещено в его почтовый ящик";
 			break;
 		case MESSAGE_REJECTED_TOO_LARGE:
 			mes = "Размер сообщения превышает максимально допустимый.";
