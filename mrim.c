@@ -134,8 +134,10 @@ static void mrim_get_info(PurpleConnection *gc, const char *username)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
 	g_return_if_fail(username);
-	const char *body;
+	g_return_if_fail(gc);
 
+	mrim_data *mrim = gc->proto_data;
+	const char *body;
 	PurpleAccount *acct;
 
 	purple_debug_info("mrim", "Fetching %s's user info for %s\n", username, gc->account->username);
@@ -146,13 +148,17 @@ static void mrim_get_info(PurpleConnection *gc, const char *username)
 		purple_notify_error(gc, "User Info", "User info not available. ", msg);
 		g_free(msg);
 	}
+	else if (!is_valid_email((gchar*)username))
+	{
+		PurpleNotifyUserInfo *info = purple_notify_user_info_new();
+		purple_notify_user_info_add_pair(info, "UserInfo для телефонов и чатов получить нельзя", "");
+		purple_notify_userinfo(gc, username, info, NULL, NULL);
+	}
 	else
 	{
 	    gchar** split = g_strsplit(username,"@",2);// разделить на максимум две части
 		gchar *user = split[0];
 		gchar *domain = split[1];
-
-		mrim_data *mrim = gc->proto_data;
 
 		mrim_pq *mpq = g_new0(mrim_pq ,1);
 		mpq->seq = mrim->seq;
@@ -905,6 +911,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 	{
 		case MRIM_CS_HELLO_ACK: { 
 									gc->keepalive = (guint)read_UL(pack);
+									mrim->kap_count = 0;
 									purple_debug_info("mrim","KAP =<%u> \n",gc->keepalive);
 									if (gc->keepalive > 0)
 										{
@@ -1145,11 +1152,41 @@ static void mrim_keep_alive(PurpleConnection *gc)
 {
 	g_return_if_fail(gc != NULL);
 	g_return_if_fail(gc->state != PURPLE_DISCONNECTED);
-
 	mrim_data *mrim = gc->proto_data;
 	purple_debug_info("mrim", "sending keep alive <%u>\n", mrim->seq);
+
 	package *pack = new_package(mrim->seq, MRIM_CS_PING);
 	send_package(pack, mrim);
+
+	// Теперь просматриваем PQ на предмет "пропавших" пакетов
+	GList *list;
+	GList *first;
+	list = first = g_hash_table_get_values(mrim->pq);
+	while (list)
+	{
+		mrim_pq *mpq = list->data;
+		g_return_if_fail(mpq != NULL);
+		switch (mpq->type)
+		{
+			case MESSAGE: // обычно случается, когда контакт внезапно уходит в оффлайн
+			{
+				if (mpq->kap_count +4 < mrim->kap_count) // 2 минуты на доставку
+				{
+					//resend message
+					mrim_send_im(gc, mpq->message.to, mpq->message.message, mpq->message.flags);
+					g_hash_table_remove(mrim->pq, GUINT_TO_POINTER(mpq->seq)); // В PQ будет заново добавленно это задание
+				}
+				break;
+			}
+			case AVATAR: // для разгрузки канала
+			{
+				// TODO а оно надо ?
+				break;
+			}
+		}
+		list = list->next;
+	}
+	g_list_free(first);
 }
 
 static void mrim_prpl_close(PurpleConnection *gc)

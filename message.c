@@ -228,30 +228,38 @@ int mrim_send_im(PurpleConnection *gc, const char *to, const char *message, Purp
 	
 	purple_debug_info("mrim", "sending message from %s to %s: %s\n", mrim->username, to, message);
 
-	// TODO если телефонный контакт - отправляем СМС
-    // pq
-	mrim_pq *mpq = g_new0(mrim_pq, 1);
-	mpq->seq =  mrim->seq;
-	mpq->type = MESSAGE;
-	mpq->time = time(NULL);
-	mpq->message.flags = 0;
-	mpq->message.to = g_strdup(to);
-	mpq->message.message = g_strdup(message);
-	g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq), mpq);
 	
-    package *pack = new_package(mrim->seq, MRIM_CS_MESSAGE);
-    add_ul(0, pack);
-    add_LPS(mpq->message.to, pack);
-    add_LPS(mpq->message.message, pack);
-    add_LPS(" ", pack);
-    //add_base64(pack, TRUE, "usuu", 2, rtf, 4, 0x00FFFFFF); // TODO NEXT RELEASE
-    /*
-     * packStream << quint32(2);
-     * packStream << rtf;
-     * packStream << quint32(4);
-     * packStream << quint32(0x00FFFFFF);
-     */
-    gboolean res = send_package(pack, mrim);
+	gboolean res = FALSE;
+	if (clear_phone((gchar*)to))
+	{
+		res = mrim_send_sms((gchar *)to, (gchar*)message, mrim);
+	}
+	else
+	{
+		// pq
+		mrim_pq *mpq = g_new0(mrim_pq, 1);
+		mpq->seq =  mrim->seq;
+		mpq->type = MESSAGE;
+		mpq->kap_count = mrim->kap_count;
+		mpq->message.flags = flags;
+		mpq->message.to = g_strdup(to);
+		mpq->message.message = g_strdup(message);
+		g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq), mpq);
+
+		package *pack = new_package(mrim->seq, MRIM_CS_MESSAGE);
+		add_ul(0, pack);
+		add_LPS(mpq->message.to, pack);
+		add_LPS(mpq->message.message, pack);
+		add_LPS(" ", pack);
+		//add_base64(pack, TRUE, "usuu", 2, rtf, 4, 0x00FFFFFF); // TODO NEXT RELEASE
+		/*
+		 * packStream << quint32(2);
+		 * packStream << rtf;
+		 * packStream << quint32(4);
+		 * packStream << quint32(0x00FFFFFF);
+		 */
+		res = send_package(pack, mrim);
+	}
 
 	if (res) 
 		return 1;	// > 0 если удачно

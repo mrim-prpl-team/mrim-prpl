@@ -146,6 +146,7 @@ typedef struct {
 	int error_count;      // количество подряд идущих ошибок чтения пакетов
 
 	guint keep_alive_handle;
+	guint32 kap_count;
 	PurpleUtilFetchUrlData *FetchUrlHandle;
 	PurpleProxyConnectData *ProxyConnectHandle;
 
@@ -185,13 +186,14 @@ typedef enum
     NEW_EMAIL,
     NEW_EMAILS,
     OPEN_URL,
-    SEARCH
+    SEARCH,
+    AVATAR
 }PQ_TYPE;
 
 typedef struct
 {
 	guint32 seq;
-	time_t time;
+	guint32 kap_count;
 	PQ_TYPE type; // тип действия. Какие данные хранятся в объединении
 	union
 	{
@@ -226,9 +228,9 @@ typedef struct
 		}remove_buddy;
 		struct
 		{
-			guint32 flags;
 			gchar *to;
 			gchar *message;
+			PurpleMessageFlags flags;
 			// TODO rtf
 		}message;
 		struct
@@ -299,6 +301,9 @@ static const gchar *links[]=
 		"http://foto.mail.ru/%s/%s", /* Фото */
 		"http://video.mail.ru/%s/%s", /* Видео */
 		"http://blogs.mail.ru/%s/%s" /* Блоги */
+		"http:///otvet.mail.ru/%s/%s/" /* Вопросы и Ответы */
+		"http://travel.mail.ru/account/details/" /* путешествия */
+
 };
 
 //char *mrim_status_to_prpl_status(guint32 status);

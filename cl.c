@@ -133,7 +133,7 @@ static mrim_buddy *new_mrim_buddy(package *pack)
 {
 	mrim_buddy *mb = g_new(mrim_buddy, 1);
 	mb->flags = read_UL(pack); // флаг
-	mb->flags &= !CONTACT_FLAG_REMOVED;
+	//mb->flags &= !CONTACT_FLAG_REMOVED;
 	int gr_id = mb->group_id = read_UL(pack); // ID группы
 	if (gr_id > MRIM_MAX_GROUPS)
 		mb->group_id = MRIM_DEFAULT_GROUP_ID;
@@ -1059,6 +1059,9 @@ static void print_cl_status(guint32 status)
 	}
 }
 
+/******************************************
+ *               Пакеты
+ ******************************************/
 void send_package_authorize(mrim_data *mrim, gchar *to, gchar *who) // TODO text // TODO who не нужен, т.к. есть mrim->username
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
