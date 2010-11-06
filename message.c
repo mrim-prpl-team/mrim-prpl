@@ -37,12 +37,13 @@ void mrim_message_offline(PurpleConnection *gc, char* message)
 		}
 	}
 
+    // TODO g_markup_escape_text?
 	if (correct_code)
-		serv_got_im(gc, from, correct_code, PURPLE_MESSAGE_RECV, date);
+		serv_got_im(gc, from, correct_code, PURPLE_MESSAGE_RAW | PURPLE_MESSAGE_RECV, date); // TODO HTML tags
 	else if(msg)
-		serv_got_im(gc, from, msg, PURPLE_MESSAGE_RECV, date);
+		serv_got_im(gc, from, msg, PURPLE_MESSAGE_RAW | PURPLE_MESSAGE_RECV, date);
 	else if(message)
-		serv_got_im(gc, from, message, PURPLE_MESSAGE_RECV, date);
+		serv_got_im(gc, from, message, PURPLE_MESSAGE_RAW | PURPLE_MESSAGE_RECV, date);
     
 	FREE(correct_code);
 	FREE(from);
@@ -156,7 +157,7 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 	{// подтверждение доставки
 		package *pack = new_package(mrim->seq, MRIM_CS_MESSAGE_RECV);
 		if (flag & MESSAGE_FLAG_SMS)
-			add_LPS("mrim_sms@mail.ru",pack);
+			add_LPS("mrim_sms@mail.ru",pack); //TODO что это?
 		else
 			add_LPS(from,pack);
 		add_ul(msg_id, pack);
@@ -184,6 +185,12 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 	}
 
 	gchar *mes = read_LPS(pack);	// message
+#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >5
+	gchar *correct_message = purple_markup_escape_text (mes, -1);
+#else
+	gchar *correct_message = g_markup_escape_text(mes, -1);
+#endif
+
 	if ((flag & MESSAGE_FLAG_NOTIFY) || (strcmp(mes," ")==0)) // по описанию протокола должен проверить только на MESSAGE_FLAG_NOTIFY
 	{	// собеседник набирает сообщение
 		purple_debug_info("mrim"," notify\n");
@@ -206,18 +213,20 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 		else
 		{
 			purple_debug_info("mrim"," rtf\n");
-			gchar *rtf = strdup(mes); // TODO read_base64
-			serv_got_im(mrim->gc, from, rtf, PURPLE_MESSAGE_RECV , time(NULL));
+			gchar *rtf = strdup(correct_message); // TODO read_base64
+			serv_got_im(mrim->gc, from, rtf, PURPLE_MESSAGE_RAW | PURPLE_MESSAGE_RECV , time(NULL));
 			FREE(rtf);
 		}
 	}
 
 	else
 	{	// собеседник прислал сообщение
-		serv_got_im(mrim->gc, from, mes, PURPLE_MESSAGE_RECV , time(NULL));
+		purple_debug_info("mrim","[%s] simple message <%s>\n", __func__, correct_message);
+		serv_got_im(mrim->gc, from, correct_message, PURPLE_MESSAGE_RAW | PURPLE_MESSAGE_RECV, time(NULL));
 	}
 	FREE(mes);
 	FREE(from);
+	FREE(correct_message);
 }
 
 int mrim_send_im(PurpleConnection *gc, const char *to, const char *message, PurpleMessageFlags flags)
@@ -246,7 +255,7 @@ int mrim_send_im(PurpleConnection *gc, const char *to, const char *message, Purp
 		mpq->message.message = g_strdup(message);
 		g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq), mpq);
 
-		package *pack = new_package(mrim->seq, MRIM_CS_MESSAGE);
+		package *pack = new_package(mpq->seq, MRIM_CS_MESSAGE);
 		add_ul(0, pack);
 		add_LPS(mpq->message.to, pack);
 		add_LPS(mpq->message.message, pack);

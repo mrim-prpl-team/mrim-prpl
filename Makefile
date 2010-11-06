@@ -9,8 +9,8 @@ LIBDIR="lib"
 endif
 
 #ifndef CFLAGS
-CFLAGS = -O1 -pipe -shared -fPIC -DPIC -g -ggdb -std=gnu99 -pedantic
-#CFLAGS = -Os -pipe -shared -fPIC -DPIC  -std=gnu99
+#CFLAGS = -O1 -pipe -shared -fPIC -DPIC -g -ggdb -std=gnu99 -pedantic
+CFLAGS = -Os -pipe -shared -fPIC -DPIC  -std=gnu99
 #endif
 
 PURPLE_CFLAGS = $(CFLAGS)

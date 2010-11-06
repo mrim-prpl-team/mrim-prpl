@@ -77,7 +77,13 @@ void add_LPS(gchar *string, package *pack)
 		return;
 	}
 	// изменяем кодировку
-	gchar *str = g_convert(purple_unescape_html(string), -1, "CP1251" , "UTF8", NULL, NULL, NULL);
+	gchar *str = g_convert_with_fallback(string, -1, "CP1251" , "UTF8", NULL, NULL, NULL, NULL);
+
+	if (! str)
+	{
+		purple_notify_warning(_mrim_plugin, "g_convert","Ошибка кодировки: не могу сконвертировать UTF8 в CP1251", "");
+		return;
+	}
 	guint32 len = strlen(str);
 	
 	// копируем текущее содержимое буфера

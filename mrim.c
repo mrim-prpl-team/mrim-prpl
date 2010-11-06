@@ -1172,9 +1172,10 @@ static void mrim_keep_alive(PurpleConnection *gc)
 			{
 				if (mpq->kap_count +4 < mrim->kap_count) // 2 минуты на доставку
 				{
+					// TODO сначала надо PQ перевести на message_id
 					//resend message
-					mrim_send_im(gc, mpq->message.to, mpq->message.message, mpq->message.flags);
-					g_hash_table_remove(mrim->pq, GUINT_TO_POINTER(mpq->seq)); // В PQ будет заново добавленно это задание
+					//mrim_send_im(gc, mpq->message.to, mpq->message.message, mpq->message.flags);
+					//g_hash_table_remove(mrim->pq, GUINT_TO_POINTER(mpq->seq)); // В PQ будет заново добавленно это задание
 				}
 				break;
 			}
