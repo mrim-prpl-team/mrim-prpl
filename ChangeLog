@@ -1,11 +1,11 @@
-trunk (6/10/2010)
+trunk (7/11/2010)
 	Core
 		? Fix bad package
 		Fix segfault
 		Fix Email notify
 		Russian translation fix
 	Roster
-		"beautiful" User info 
+		User info 
 		Search&Add Contacts
 	Messages
 		Fix segfault (at sending unicode-specific symbols)

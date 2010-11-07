@@ -190,7 +190,6 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 #else
 	gchar *correct_message = g_markup_escape_text(mes, -1);
 #endif
-
 	if ((flag & MESSAGE_FLAG_NOTIFY) || (strcmp(mes," ")==0)) // по описанию протокола должен проверить только на MESSAGE_FLAG_NOTIFY
 	{	// собеседник набирает сообщение
 		purple_debug_info("mrim"," notify\n");
@@ -214,7 +213,7 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 		{
 			purple_debug_info("mrim"," rtf\n");
 			gchar *rtf = strdup(correct_message); // TODO read_base64
-			serv_got_im(mrim->gc, from, rtf, PURPLE_MESSAGE_RAW | PURPLE_MESSAGE_RECV , time(NULL));
+			serv_got_im(mrim->gc, from, rtf, PURPLE_MESSAGE_RECV , time(NULL));
 			FREE(rtf);
 		}
 	}
@@ -222,7 +221,7 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 	else
 	{	// собеседник прислал сообщение
 		purple_debug_info("mrim","[%s] simple message <%s>\n", __func__, correct_message);
-		serv_got_im(mrim->gc, from, correct_message, PURPLE_MESSAGE_RAW | PURPLE_MESSAGE_RECV, time(NULL));
+		serv_got_im(mrim->gc, from, correct_message, PURPLE_MESSAGE_RECV, time(NULL));
 	}
 	FREE(mes);
 	FREE(from);

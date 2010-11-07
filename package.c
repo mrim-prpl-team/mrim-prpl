@@ -77,7 +77,7 @@ void add_LPS(gchar *string, package *pack)
 		return;
 	}
 	// изменяем кодировку
-	gchar *str = g_convert_with_fallback(string, -1, "CP1251" , "UTF8", NULL, NULL, NULL, NULL);
+	gchar *str = g_convert_with_fallback(purple_unescape_html(string), -1, "CP1251" , "UTF8", NULL, NULL, NULL, NULL);
 
 	if (! str)
 	{
