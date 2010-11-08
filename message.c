@@ -12,16 +12,17 @@ void mrim_message_offline(PurpleConnection *gc, char* message)
 	if (!message)
 		return;
 
-    gchar* from = mrim_message_offline_get_attr("From:",message);
-    gchar* date_str = mrim_message_offline_get_attr("Date:",message);
-    gchar* charset = mrim_message_offline_get_attr("Charset:",message);
-    gchar* msg = mrim_message_offline_get_attr("MSG",message);
+	gchar* from = mrim_message_offline_get_attr("From:",message);
+	gchar* date_str = mrim_message_offline_get_attr("Date:",message);
+	gchar* charset = mrim_message_offline_get_attr("Charset:",message);
+	gchar* msg = mrim_message_offline_get_attr("MSG",message);
 	gchar* encoding = mrim_message_offline_get_attr("Content-Transfer-Encoding:",message);
-    time_t date = mrim_str_to_time(date_str);
-    gchar* correct_code=NULL;
-    
-    if (encoding)
-    {		
+	time_t date = mrim_str_to_time(date_str);
+	gchar* correct_code=NULL;
+
+
+	if (encoding)
+	{
 		gchar* msg_decoded=NULL;
 		gsize len_decoded=0;
 		gsize len_correct=0;
@@ -36,20 +37,29 @@ void mrim_message_offline(PurpleConnection *gc, char* message)
 			FREE(msg_decoded);
 		}
 	}
-
-    // TODO g_markup_escape_text?
+	
+	gchar *draft_message = NULL;
 	if (correct_code)
-		serv_got_im(gc, from, correct_code, PURPLE_MESSAGE_RAW | PURPLE_MESSAGE_RECV, date); // TODO HTML tags
+		draft_message = strdup(correct_code); // TODO HTML tags
 	else if(msg)
-		serv_got_im(gc, from, msg, PURPLE_MESSAGE_RAW | PURPLE_MESSAGE_RECV, date);
+		draft_message = strdup(msg);
 	else if(message)
-		serv_got_im(gc, from, message, PURPLE_MESSAGE_RAW | PURPLE_MESSAGE_RECV, date);
-    
+		draft_message = strdup(message);
+	
+#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >5
+	gchar *correct_message = purple_markup_escape_text (draft_message, -1);
+#else
+	gchar *correct_message = g_markup_escape_text(draft_message, -1);
+#endif
+	serv_got_im(gc, from, correct_message, PURPLE_MESSAGE_RECV, date);
+	
 	FREE(correct_code);
 	FREE(from);
 	FREE(date_str);
 	FREE(charset);
 	FREE(msg);
+	FREE(draft_message);
+	FREE(correct_message);
 }
 
 static gchar* mrim_message_offline_get_attr(const gchar* attr,void* input)

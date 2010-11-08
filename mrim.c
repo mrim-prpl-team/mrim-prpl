@@ -1175,7 +1175,7 @@ static void mrim_keep_alive(PurpleConnection *gc)
 					// TODO сначала надо PQ перевести на message_id
 					//resend message
 					//mrim_send_im(gc, mpq->message.to, mpq->message.message, mpq->message.flags);
-					//g_hash_table_remove(mrim->pq, GUINT_TO_POINTER(mpq->seq)); // В PQ будет заново добавленно это задание
+					//g_hash_table_remove(mrim->pq, GUINT_TO_POINTER(mpq->seq)); // В PQ будет заново добавлено это задание
 				}
 				break;
 			}
