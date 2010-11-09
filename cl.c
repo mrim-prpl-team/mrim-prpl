@@ -35,10 +35,10 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 	{
 		guint32 flags = read_UL(pack);//  & 0x00FFFFFF;
 		gchar *name = read_LPS(pack); // группа (UTF16)
-		//if (!(flags & CONTACT_FLAG_REMOVED))
+		if (!(flags & CONTACT_FLAG_REMOVED)	|| (purple_account_get_bool(account, "show_removed", FALSE)))
 			mg_add(flags, name, i, mrim);
 		if (flags & CONTACT_FLAG_REMOVED)
-			purple_debug_info("mrim","[%s] <%s> has flag REMOVED", __func__, name);
+			purple_debug_info("mrim","[%s] <%s> has flag REMOVED\n", __func__, name);
 
 		cl_skeep(g_mask + 2, pack);
 	}
@@ -1134,12 +1134,12 @@ void mrim_pkt_modify_group(mrim_data *mrim, guint32 group_id, gchar *group_name,
 	// Send package
 	package *pack = new_package(mrim->seq, MRIM_CS_MODIFY_CONTACT);
 	add_ul(group_id, pack);
-	add_ul(flags | CONTACT_FLAG_REMOVED, pack);
+	add_ul(flags, pack);
 	add_ul(0, pack);
 	add_LPS(group_name, pack); // новое имя
 	add_ul(0,pack);
 	add_ul(0,pack);
-
+	send_package(pack, mrim);
 }
 void mrim_pkt_add_group(mrim_data *mrim, gchar *group_name, guint32 seq)
 {

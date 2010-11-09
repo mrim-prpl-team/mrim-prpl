@@ -1,4 +1,4 @@
-trunk (7/11/2010)
+trunk (9/11/2010)
 	Core
 		? Fix bad package
 		Fix segfault
@@ -7,6 +7,7 @@ trunk (7/11/2010)
 	Roster
 		User info 
 		Search&Add Contacts
+		Fix remove group issue
 	Messages
 		Fix segfault (at sending unicode-specific symbols)
 		Fix html-formated text recieving
