@@ -35,7 +35,7 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 	{
 		guint32 flags = read_UL(pack);//  & 0x00FFFFFF;
 		gchar *name = read_LPS(pack); // группа (UTF16)
-		if (!(flags & CONTACT_FLAG_REMOVED)	|| (purple_account_get_bool(account, "show_removed", FALSE)))
+		if (!(flags & CONTACT_FLAG_REMOVED))
 			mg_add(flags, name, i, mrim);
 		if (flags & CONTACT_FLAG_REMOVED)
 			purple_debug_info("mrim","[%s] <%s> has flag REMOVED\n", __func__, name);
@@ -57,8 +57,7 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 		if (mb->flags & CONTACT_FLAG_REMOVED)
 			purple_debug_info("mrim","[%s] <%s> has flag REMOVED\n", __func__, mb->addr);
 
-		if (!(mb->flags & CONTACT_FLAG_REMOVED)
-				|| (purple_account_get_bool(account, "show_removed", FALSE)))
+		if (!(mb->flags & CONTACT_FLAG_REMOVED))
 		{
 			PurpleGroup *group = get_mrim_group_by_id(mrim, mb->group_id);
 			PurpleBuddy *buddy = NULL;
@@ -812,7 +811,7 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "Пользователь не найден");
 				break;
 			case MRIM_ANKETA_INFO_STATUS_DBERR:
-				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "MRIM_ANKETA_INFO_STATUS_DBERR");
+				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "Ошибка DBERR. Попробуйте повторить поиск позже.");
 				break;
 			case MRIM_ANKETA_INFO_STATUS_RATELIMERR:
 				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "MRIM_ANKETA_INFO_STATUS_RATELIMERR");
@@ -970,7 +969,7 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 
 	        purple_notify_searchresults(mrim->gc,
 	                        NULL,
-	                        "Search results", NULL, results,
+	                        "Результаты поиска", NULL, results,
 	                        NULL, //PurpleNotifyCloseCallback // TODO надо освободить память???
 	                        mrim);
 

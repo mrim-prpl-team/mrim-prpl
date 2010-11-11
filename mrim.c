@@ -144,8 +144,8 @@ static void mrim_get_info(PurpleConnection *gc, const char *username)
 
 	if (gc->state != PURPLE_CONNECTED)
 	{
-		char *msg = g_strdup_printf("%s is not logged in.", gc->account->username);
-		purple_notify_error(gc, "User Info", "User info not available. ", msg);
+		char *msg = g_strdup_printf("%s не в сети.", gc->account->username);
+		purple_notify_error(gc, "UserInfo", "UserInfo не доступно", msg);
 		g_free(msg);
 	}
 	else if (!is_valid_email((gchar*)username))
@@ -213,25 +213,25 @@ static void mrim_search_action(PurplePluginAction *action)
 	group = purple_request_field_group_new(NULL);
 	purple_request_fields_add_group(fields, group);
 
-	field = purple_request_field_string_new("text_box_nickname","Nickname","",FALSE);
+	field = purple_request_field_string_new("text_box_nickname","Ник","",FALSE);
 	purple_request_field_group_add_field(group, field);
-	field = purple_request_field_string_new("text_box_first_name","First Name","",FALSE);
+	field = purple_request_field_string_new("text_box_first_name","Имя","",FALSE);
 	purple_request_field_group_add_field(group, field);
-	field = purple_request_field_string_new("text_box_surname","Surname","",FALSE);
+	field = purple_request_field_string_new("text_box_surname","Фамилия","",FALSE);
 	purple_request_field_group_add_field(group, field);
-	field = purple_request_field_choice_new("radio_button_gender", "Gender", 0);
-	purple_request_field_choice_add(field, "any"); // TODO может быть purple_request_field_list* ?
-	purple_request_field_choice_add(field, "male");
-	purple_request_field_choice_add(field, "female");
+	field = purple_request_field_choice_new("radio_button_gender", "Пол", 0);
+	purple_request_field_choice_add(field, "Любой"); // TODO может быть purple_request_field_list* ?
+	purple_request_field_choice_add(field, "Мужской");
+	purple_request_field_choice_add(field, "Женский");
 	purple_request_field_group_add_field(group, field);
 	/* country */
 	/* region */
 	/* city */
 	/* birthday */
 	/* zodiak */
-	field = purple_request_field_string_new("text_box_age_from","Age from","",FALSE);
+	field = purple_request_field_string_new("text_box_age_from","Возраст от","",FALSE);
 	purple_request_field_group_add_field(group, field);
-	field = purple_request_field_string_new("text_box_age_to","Age to","",FALSE);
+	field = purple_request_field_string_new("text_box_age_to","Возраст до","",FALSE);
 	purple_request_field_group_add_field(group, field);
 	/* webkam */
 	/* gotov poboltat' */
@@ -333,7 +333,7 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 		{
 			const char *user_info = purple_account_get_user_info(account);
 			if (user_info)
-				purple_notify_user_info_add_pair(info, "User info", user_info);
+				purple_notify_user_info_add_pair(info, "Информация", user_info);
 		}
 
 		mrim_buddy *mb = buddy->proto_data;
@@ -342,7 +342,7 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 				purple_notify_user_info_add_pair(info, "Телефоны", mrim_phones_to_string(mb->phones));
 	} 
 	else
-		purple_notify_user_info_add_pair(info, "User info", "not logged in");
+		purple_notify_user_info_add_pair(info, "Информация", "Не в сети");
 }
 
 
@@ -703,7 +703,6 @@ const char* mrim_status_to_prpl_status( guint32 status )
 
 static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
 {
-	purple_debug_info("mrim","[%s]\n",__func__);
 	g_return_if_fail(status != NULL);
 	g_return_if_fail(purple_account_is_connected(acct));
 
@@ -943,7 +942,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									
 									gchar *reason = read_LPS(pack);
 									purple_debug_info("mrim","LOGIN REJ! <%s> \n",reason);
-									gchar *tmp = g_strdup_printf("Disconnected. Reason: %s",reason); 
+									gchar *tmp = g_strdup_printf("Disconnected. Причина: %s",reason); 
 									purple_connection_error_reason (gc,	PURPLE_CONNECTION_ERROR_AUTHENTICATION_FAILED, tmp);
 									FREE(tmp)
 									FREE(reason);
@@ -1414,10 +1413,8 @@ static void mrim_prpl_init(PurplePlugin *plugin)
 	prpl_info.protocol_options = g_list_append(NULL, option_server);
 	PurpleAccountOption *option_port = purple_account_option_int_new("Port", "balancer_port", MRIM_MAIL_RU_PORT);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option_port);
-	PurpleAccountOption *option_avatar = purple_account_option_bool_new("Fetch avatar", "fetch_avatar", FALSE);
+	PurpleAccountOption *option_avatar = purple_account_option_bool_new("Скачивать аватарки", "fetch_avatar", FALSE);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option_avatar);
-	PurpleAccountOption *option_removed = purple_account_option_bool_new("Show removed contacts", "show_removed", FALSE);
-	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option_removed);
     _mrim_plugin = plugin;
 }
 
