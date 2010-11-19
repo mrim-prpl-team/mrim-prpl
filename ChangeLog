@@ -1,4 +1,9 @@
-trunk (11/11/2010)
+trunk (19/11/2010)
+	Core
+		? Fix bad package
+
+
+version 0.1.26 (11/11/2010). svn r38
 	Core
 		? Fix bad package
 		Fix segfault

@@ -923,7 +923,12 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 											add_LPS( USER_AGENT, pack_ack);
 											send_package(pack_ack, mrim);
 											// Keep Alive
-											mrim->keep_alive_handle = purple_timeout_add_seconds(gc->keepalive,(GSourceFunc)mrim_keep_alive,gc);
+											mrim->keep_alive_handle = purple_timeout_add_seconds(gc->keepalive,mrim_keep_alive,gc);
+											if (!mrim->keep_alive_handle)
+											{
+												purple_debug_info("mrim", "Ping Eror\n");
+												purple_connection_error_reason (gc,	PURPLE_CONNECTION_ERROR_NETWORK_ERROR, "Ping Error");
+											}
 										}
 									break;
 								}
@@ -998,7 +1003,12 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 		case MRIM_CS_CONNECTION_PARAMS:{ // изменение параметров соединения (изменение KAP)
 									gc->keepalive = read_UL(pack);
 									purple_timeout_remove(gc->keepalive);
-									mrim->keep_alive_handle = purple_timeout_add_seconds(gc->keepalive,(GSourceFunc)mrim_keep_alive,gc);
+									mrim->keep_alive_handle = purple_timeout_add_seconds(gc->keepalive,mrim_keep_alive,gc);
+									if (!mrim->keep_alive_handle)
+									{
+										purple_debug_info("mrim", "Ping Eror in MRIM_CS_CONNECTION_PARAMS\n");
+										purple_connection_error_reason (gc,	PURPLE_CONNECTION_ERROR_NETWORK_ERROR, "Ping Error in MRIM_CS_CONNECTION_PARAMS");
+									}
 									purple_debug_info("mrim","MRIM_CS_CONNECTION_PARAMS!  KAP=<%i>\n",gc->keepalive);
 									break;
 								}
@@ -1147,10 +1157,11 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 
 
 
-static void mrim_keep_alive(PurpleConnection *gc) 
+gboolean mrim_keep_alive(gpointer data)
 {
-	g_return_if_fail(gc != NULL);
-	g_return_if_fail(gc->state != PURPLE_DISCONNECTED);
+	g_return_val_if_fail(data != NULL, FALSE);
+	PurpleConnection *gc = data;
+	g_return_val_if_fail(gc->state != PURPLE_DISCONNECTED, FALSE);
 	mrim_data *mrim = gc->proto_data;
 	purple_debug_info("mrim", "sending keep alive <%u>\n", mrim->seq);
 
@@ -1158,6 +1169,7 @@ static void mrim_keep_alive(PurpleConnection *gc)
 	send_package(pack, mrim);
 
 	// Теперь просматриваем PQ на предмет "пропавших" пакетов
+	/*
 	GList *list;
 	GList *first;
 	list = first = g_hash_table_get_values(mrim->pq);
@@ -1187,6 +1199,8 @@ static void mrim_keep_alive(PurpleConnection *gc)
 		list = list->next;
 	}
 	g_list_free(first);
+	*/
+	return TRUE; // посылать KAP и дальше
 }
 
 static void mrim_prpl_close(PurpleConnection *gc)
@@ -1329,7 +1343,7 @@ static PurplePluginProtocolInfo prpl_info =
   NULL,                				   /* chat_leave */
   NULL,               				   /* chat_whisper */
   NULL,                  			   /* chat_send */
-  mrim_keep_alive,                     /* keepalive */
+  NULL,			                       /* keepalive */
   NULL,                  			   /* register_user */
   NULL, 				               /* устарела - get_cb_info */
   NULL,                                /* устарела - get_cb_away */

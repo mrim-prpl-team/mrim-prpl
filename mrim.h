@@ -109,7 +109,7 @@ typedef struct
 	guint32 flag;
 }mrim_group;
 
-
+/*
 typedef enum
 {
 	BUDDY,
@@ -117,6 +117,7 @@ typedef enum
 	PHONE, // phone only
 	CHAT
 }BUDDY_TYPE;
+* */
 typedef struct
 {
 	PurpleBuddy *buddy;
@@ -129,7 +130,7 @@ typedef struct
 	guint32 flags;
 	guint32 s_flags;
 	guint32 status;
-	BUDDY_TYPE type;
+	/*BUDDY_TYPE type;*/
 }mrim_buddy;
 
 typedef struct {
@@ -315,7 +316,7 @@ static time_t mrim_str_to_time(const gchar* str);
 static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond);
 static void mrim_connect_cb(gpointer data, gint source, const gchar *error_message);
 static void mrim_balancer_cb(PurpleUtilFetchUrlData *url_data, gpointer user_data, const gchar *url_text, gsize len, const gchar *error_message);
-static void mrim_keep_alive(PurpleConnection *gc);
+gboolean mrim_keep_alive(gpointer data);
 
 void notify_emails(void *gc, gchar* webkey, guint32 count);
 
