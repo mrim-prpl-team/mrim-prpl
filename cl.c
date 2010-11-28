@@ -53,7 +53,7 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 		if (mb == NULL)
 			break;
 		mb->id = num++;
-		purple_debug_info("mrim", "КОНТАКТ: Группа <%i>  E-MAIL <%s> NICK <%s> id <%i> status <%i> flags <%X>\n", mb->group_id, mb->addr, mb->alias, mb->id, (int)mb->status, mb->flags );
+		purple_debug_info("mrim", "КОНТАКТ: Группа <%i>  E-MAIL <%s> NICK <%s> id <%i> status <0x%X> flags <0x%X>\n", mb->group_id, mb->addr, mb->alias, mb->id, (int)mb->status, mb->flags );
 		if (mb->flags & CONTACT_FLAG_REMOVED)
 			purple_debug_info("mrim","[%s] <%s> has flag REMOVED\n", __func__, mb->addr);
 

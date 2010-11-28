@@ -691,11 +691,11 @@ guint32 purple_status_to_mrim_status(PurpleStatus *status)
 
 const char* mrim_status_to_prpl_status( guint32 status )
 {
-	purple_debug_info("mrim","[%s] %u\n",__func__, status);
+	purple_debug_info("mrim","[%s] 0x%X\n",__func__, status);
 	unsigned int	i;
 
 	for ( i = 0; i < STATUSES_COUNT ; i++ )
-		if ( mrim_statuses[i].mrim_status == status )				/* status found! */
+		if ( mrim_statuses[i].mrim_status & status )				/* status found! */
 			return mrim_statuses[i].id;
 	return "";
 }
