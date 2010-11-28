@@ -694,9 +694,12 @@ const char* mrim_status_to_prpl_status( guint32 status )
 	purple_debug_info("mrim","[%s] 0x%X\n",__func__, status);
 	unsigned int	i;
 
+	// TODO X-Status
 	for ( i = 0; i < STATUSES_COUNT ; i++ )
-		if ( mrim_statuses[i].mrim_status & status )				/* status found! */
+		if ( ( mrim_statuses[i].mrim_status == status ) ||  // полное совпадение статуса
+			 ( mrim_statuses[i].mrim_status & status ))     // "частичное" совпадение.
 			return mrim_statuses[i].id;
+		
 	return "";
 }
 
@@ -721,7 +724,7 @@ static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
 
 void set_user_status(mrim_data *mrim, gchar *email, guint32 status)
 {
-	purple_debug_info("mrim", "[%s] %s change status to %x\n", __func__, email, status);
+	purple_debug_info("mrim", "[%s] %s change status to 0x%x\n", __func__, email, status);
 	g_return_if_fail(mrim != NULL);
 
 	PurpleBuddy *buddy = purple_find_buddy(mrim->account, email);
@@ -734,13 +737,8 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status)
 	        return;
 		}
 	}
-    if (status & STATUS_FLAG_INVISIBLE)
-    {
-        purple_prpl_got_user_status(mrim->account, email, "invisible", NULL);
-        return;
-    }
-
-	purple_prpl_got_user_status(mrim->account, email, mrim_status_to_prpl_status(status & 0x0FFFFFFF), NULL);
+    
+	purple_prpl_got_user_status(mrim->account, email, mrim_status_to_prpl_status(status), NULL);
 }
 
 void set_user_status_by_mb(mrim_data *mrim, mrim_buddy *mb)

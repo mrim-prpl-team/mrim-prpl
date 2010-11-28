@@ -81,9 +81,8 @@ static struct status
 	{	PURPLE_STATUS_INVISIBLE,	STATUS_FLAG_INVISIBLE,	"invisible",		"invisible",		TRUE,				FALSE},	/* 0 */
 	{	PURPLE_STATUS_OFFLINE,		STATUS_OFFLINE,			"offline",			"Offline",			TRUE,				FALSE},	/* 1 */
 	{	PURPLE_STATUS_AVAILABLE,	STATUS_ONLINE,			"online",			"Available",		TRUE,				FALSE},	/* 2 */
-	{	PURPLE_STATUS_AWAY,			STATUS_AWAY,			"away",				"Away", 			TRUE,				FALSE},	/* 3 */
-	{	PURPLE_STATUS_INVISIBLE,	STATUS_FLAG_INVISIBLE,	"invisible",		"invisible",		TRUE,				FALSE}	/* 4 */
-//	{	PURPLE_STATUS_UNSET,		STATUS_UNDETERMINATED,	"UNDETERMINATED",	"UNDETERMINATED",	TRUE,				FALSE}	/* 5 */
+	{	PURPLE_STATUS_AWAY,			STATUS_AWAY,			"away",				"Away", 			TRUE,				FALSE}	/* 3 */
+//	{	PURPLE_STATUS_UNSET,		STATUS_UNDETERMINATED,	"UNDETERMINATED",	"UNDETERMINATED",	TRUE,				FALSE}	/* 4 */
 };
 #define MRIM_STATUS_ID_MOBILE "mobile"
 #define STATUSES_COUNT 4
