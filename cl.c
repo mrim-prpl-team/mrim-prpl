@@ -132,6 +132,8 @@ static mrim_buddy *new_mrim_buddy(package *pack)
 {
 	mrim_buddy *mb = g_new(mrim_buddy, 1);
 	mb->flags = read_UL(pack); // флаг
+	if (mb->flags & CONTACT_FLAG_MULTICHAT)
+		return NULL; // TODO CHATS
 	//mb->flags &= !CONTACT_FLAG_REMOVED;
 	int gr_id = mb->group_id = read_UL(pack); // ID группы
 	if (gr_id > MRIM_MAX_GROUPS)

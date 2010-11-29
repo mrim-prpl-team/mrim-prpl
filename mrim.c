@@ -555,6 +555,63 @@ static void  blist_edit_phones_menu_item(PurpleBlistNode *node, gpointer userdat
 			mrim->account, buddy->name, NULL, buddy);
 }
 
+// VISIBLE / INVISIBLE
+static void  blist_edit_invisible(PurpleBlistNode *node, gpointer userdata)
+{
+	PurpleBuddy *buddy = (PurpleBuddy *) node;
+	mrim_data *mrim = userdata;
+	g_return_if_fail(buddy != NULL);
+	g_return_if_fail(mrim != NULL);
+	mrim_buddy *mb = buddy->proto_data;
+	g_return_if_fail(mb != NULL);
+
+	// TODO  придумать хак =)
+	guint32 state = mb->flags & CONTACT_FLAG_INVISIBLE;
+	if (state)
+		mb->flags &= !CONTACT_FLAG_INVISIBLE;
+	else
+		mb->flags |= CONTACT_FLAG_INVISIBLE;
+
+	//mb->flags |= CONTACT_FLAG_SHADOW;
+
+	mrim_pq *mpq = g_new0(mrim_pq, 1);
+	mpq->type = MODIFY_BUDDY;
+	mpq->seq = mrim->seq;
+	mpq->modify_buddy.mb = mb;
+	mpq->modify_buddy.buddy = buddy;
+	g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq), mpq);
+
+	mrim_pkt_modify_buddy(mrim, buddy, mpq->seq);
+}
+static void  blist_edit_visible(PurpleBlistNode *node, gpointer userdata)
+{
+	PurpleBuddy *buddy = (PurpleBuddy *) node;
+	mrim_data *mrim = userdata;
+	g_return_if_fail(buddy != NULL);
+	g_return_if_fail(mrim != NULL);
+	mrim_buddy *mb = buddy->proto_data;
+	g_return_if_fail(mb != NULL);
+
+	// TODO  придумать хак =)
+	guint32 state = mb->flags & CONTACT_FLAG_VISIBLE;
+	if (state)
+		mb->flags &= !CONTACT_FLAG_VISIBLE;
+	else
+		mb->flags |= CONTACT_FLAG_VISIBLE;
+
+	//mb->flags |= CONTACT_FLAG_SHADOW;
+
+	mrim_pq *mpq = g_new0(mrim_pq, 1);
+	mpq->type = MODIFY_BUDDY;
+	mpq->seq = mrim->seq;
+	mpq->modify_buddy.mb = mb;
+	mpq->modify_buddy.buddy = buddy;
+	g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq), mpq);
+
+	mrim_pkt_modify_buddy(mrim, buddy, mpq->seq);
+}
+
+
 // authorize
 static void blist_authorize_menu_item(PurpleBlistNode *node, gpointer userdata)
 {
@@ -589,6 +646,7 @@ static GList *mrim_user_actions(PurpleBlistNode *node)
 	GList *list = NULL;
 	list = g_list_append(list, NULL); // разделительная черта
 
+	PurpleMenuAction *action;
 	PurpleBuddy *buddy = (PurpleBuddy *) node;
 	PurpleAccount *account = purple_buddy_get_account(buddy);
 	PurpleConnection *gc = account->gc;
@@ -599,16 +657,29 @@ static GList *mrim_user_actions(PurpleBlistNode *node)
 	{
 		if (! mb->authorized)
 		{
-			PurpleMenuAction *action = purple_menu_action_new("(Повторно) Запросить авторизацию", PURPLE_CALLBACK(blist_authorize_menu_item), mrim, NULL);
+			action = purple_menu_action_new("(Повторно) Запросить авторизацию", PURPLE_CALLBACK(blist_authorize_menu_item), mrim, NULL);
 			list = g_list_append(list, action);
 		}
 
 		if (mb->phones && mb->phones[0])
 		{
-			PurpleMenuAction *action = purple_menu_action_new("Отправить СМС...", PURPLE_CALLBACK(blist_sms_menu_item), mrim, NULL);
+			action = purple_menu_action_new("Отправить СМС...", PURPLE_CALLBACK(blist_sms_menu_item), mrim, NULL);
 			list = g_list_append(list, action);
 		}
-		PurpleMenuAction *action = purple_menu_action_new("Редактировать телефоны...", PURPLE_CALLBACK(blist_edit_phones_menu_item), mrim, NULL);
+		action = purple_menu_action_new("Редактировать телефоны...", PURPLE_CALLBACK(blist_edit_phones_menu_item), mrim, NULL);
+		list = g_list_append(list, action);
+		
+		
+		GList *private_list = NULL;
+		action = purple_menu_action_new( (mb->flags & CONTACT_FLAG_INVISIBLE)? "Убрать из списка невидящих":"Добавить в список невидящих",
+					 PURPLE_CALLBACK(blist_edit_invisible), mrim, NULL);
+		private_list = g_list_append(private_list, action);
+
+		action = purple_menu_action_new((mb->flags & CONTACT_FLAG_VISIBLE)?"Убарть из списка видящих":"Добавить в список видящих",
+					PURPLE_CALLBACK(blist_edit_visible), mrim, NULL);
+		private_list = g_list_append(private_list, action);
+		
+		action = purple_menu_action_new("Настройки видимости", NULL, mrim, private_list);
 		list = g_list_append(list, action);
 	}
 	else
@@ -1124,6 +1195,18 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 								}
 		case MRIM_CS_FILE_TRANSFER:{
 									purple_debug_info("mrim","MRIM_CS_FILE_TRANSFER\n");
+									// TODO File Transfer
+									gchar *from = read_LPS(pack);
+
+									guint32 file_id = read_UL(pack);
+									
+									package *pack_ack = new_package(mrim->seq, MRIM_CS_FILE_TRANSFER_ACK);
+									add_ul(FILE_TRANSFER_STATUS_INCOMPATIBLE_VERS, pack_ack);
+									add_LPS(from,pack_ack);
+									add_ul(file_id,pack_ack);
+									add_LPS(NULL, pack_ack);
+									send_package(pack_ack,mrim);
+									FREE(from)
 									break;
 									}
 		case MRIM_CS_FILE_TRANSFER_ACK:{

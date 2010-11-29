@@ -205,9 +205,9 @@ typedef struct mrim_packet_header_t
 #define MRIM_CS_ADD_CONTACT			0x1019	// C -> S
 	#define CONTACT_FLAG_REMOVED		0x00000001 // CS_MODIFY
 	#define CONTACT_FLAG_GROUP			0x00000002 
-	#define CONTACT_FLAG_INVISIBLE		0x00000004
-	#define CONTACT_FLAG_VISIBLE		0x00000008
-	#define CONTACT_FLAG_IGNORE			0x00000010
+	#define CONTACT_FLAG_INVISIBLE		0x00000004 // "Я всегда невидим для"
+	#define CONTACT_FLAG_VISIBLE		0x00000008 // "Я всегда видим для"
+	#define CONTACT_FLAG_IGNORE			0x00000010 //  Контакт в списоке игнорируемых
 	#define CONTACT_FLAG_SHADOW			0x00000020
 	#define CONTACT_FLAG_AUTHORIZED		0x00000040 // ( >= 1.15)
 	#define CONTACT_FLAG_MULTICHAT      0x00000080 // ( >= 1.20)
@@ -561,5 +561,13 @@ sBlogStatusSender = lpsBlogStatusSender.ToStringW();
 
 #define MRIM_CS_MICROBLOG_POST 0x1064
 #define MRIM_CS_MICROBLOG_RECV 0x1063
+
+
+// WTF??
+#define GEO 1055
+// proto ver 1.16
+// LPS == geolist
+// LPS == <r view_area_region="-1"><visible><u email="EMAIL"/></visible></r>  ## тег u может отсутствовать ?
+
 #endif // MRIM_PROTO_H
 
