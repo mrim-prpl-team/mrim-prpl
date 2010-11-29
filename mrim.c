@@ -675,7 +675,7 @@ static GList *mrim_user_actions(PurpleBlistNode *node)
 					 PURPLE_CALLBACK(blist_edit_invisible), mrim, NULL);
 		private_list = g_list_append(private_list, action);
 
-		action = purple_menu_action_new((mb->flags & CONTACT_FLAG_VISIBLE)?"Убарть из списка видящих":"Добавить в список видящих",
+		action = purple_menu_action_new((mb->flags & CONTACT_FLAG_VISIBLE)?"Убрать из списка видящих":"Добавить в список видящих",
 					PURPLE_CALLBACK(blist_edit_visible), mrim, NULL);
 		private_list = g_list_append(private_list, action);
 		
