@@ -565,13 +565,7 @@ static void  blist_edit_invisible(PurpleBlistNode *node, gpointer userdata)
 	mrim_buddy *mb = buddy->proto_data;
 	g_return_if_fail(mb != NULL);
 
-	// TODO  придумать хак =)
-	guint32 state = mb->flags & CONTACT_FLAG_INVISIBLE;
-	if (state)
-		mb->flags &= !CONTACT_FLAG_INVISIBLE;
-	else
-		mb->flags |= CONTACT_FLAG_INVISIBLE;
-
+	mb->flags ^= CONTACT_FLAG_INVISIBLE;
 	//mb->flags |= CONTACT_FLAG_SHADOW;
 
 	mrim_pq *mpq = g_new0(mrim_pq, 1);
@@ -592,13 +586,7 @@ static void  blist_edit_visible(PurpleBlistNode *node, gpointer userdata)
 	mrim_buddy *mb = buddy->proto_data;
 	g_return_if_fail(mb != NULL);
 
-	// TODO  придумать хак =)
-	guint32 state = mb->flags & CONTACT_FLAG_VISIBLE;
-	if (state)
-		mb->flags &= !CONTACT_FLAG_VISIBLE;
-	else
-		mb->flags |= CONTACT_FLAG_VISIBLE;
-
+	mb->flags ^= CONTACT_FLAG_VISIBLE;
 	//mb->flags |= CONTACT_FLAG_SHADOW;
 
 	mrim_pq *mpq = g_new0(mrim_pq, 1);
@@ -852,7 +840,7 @@ static void mrim_prpl_login(PurpleAccount *account)
 	mrim->web_key = NULL;
 	mrim->error_count = 0;
 	mrim->ProxyConnectHandle = NULL;
-
+	mrim->status = purple_status_to_mrim_status(purple_presence_get_active_status(account->presence));
 	  
 	mrim->server = g_strdup(purple_account_get_string(account, "balancer_host", MRIM_MAIL_RU));
 	mrim->port = purple_account_get_int(account, "balancer_port", MRIM_MAIL_RU_PORT);
@@ -984,7 +972,6 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									if (gc->keepalive > 0)
 										{
 											// LOGIN
-											mrim->status = STATUS_ONLINE;
 											package *pack_ack = new_package(mrim->seq, MRIM_CS_LOGIN2);
 											add_LPS(mrim->username, pack_ack);
 											add_LPS(mrim->password, pack_ack);
