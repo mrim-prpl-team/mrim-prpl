@@ -271,7 +271,9 @@ static mrim_packet_header_t *read_header(mrim_data *mrim)
 	mrim_packet_header_t *header = g_new0(mrim_packet_header_t, 1);
 	// читаем заголовок
 	ssize_t ret=0;
-	ret = recv(mrim->fd, header, sizeof(mrim_packet_header_t), MSG_WAITALL);
+
+	ret = recv(mrim->fd, header, sizeof(mrim_packet_header_t), RECV_FLAGS);
+
 	
 	if (ret < sizeof(mrim_packet_header_t))
 		{
@@ -296,8 +298,7 @@ package *read_package(mrim_data *mrim)
 		// дочитываем пакет
 		package *pack = mrim->inp_package;
 		ssize_t size = pack->len - (pack->cur - pack->buf);
-
-		ret = read(mrim->fd, pack->cur, size);
+		ret = recv(mrim->fd, pack->cur, size, RECV_FLAGS);
 #ifdef DEBUG
 		purple_debug_info( "mrim", "[%s] ret=<%ui> \n", __func__, ret);
 #endif
@@ -333,7 +334,7 @@ package *read_package(mrim_data *mrim)
 		pack->buf = g_new0(char, pack->len);
 		pack->cur = pack->buf; 
 		// читаем буфер
-		ret = read(mrim->fd, pack->buf, pack->len);
+		ret = recv(mrim->fd, pack->buf, pack->len, RECV_FLAGS);
 #ifdef DEBUG
 		purple_debug_info( "mrim", "[%s] ret=<%u> \n", __func__, ret);
 #endif

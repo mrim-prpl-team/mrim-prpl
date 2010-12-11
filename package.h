@@ -7,6 +7,12 @@
 #define PACK_MAX_LEN 65536
 #define CHUNK 16384
 
+#ifdef WIN32
+	#define RECV_FLAGS 0
+#else
+	#define RECV_FLAGS MSG_WAITALL
+#endif
+
 typedef struct
 {
 	mrim_packet_header_t *header;
