@@ -229,6 +229,18 @@ typedef struct mrim_packet_header_t
 // LPS custom phones ANSI
 // Ul = 0
 // Ul = 0 ( >=1.15 )
+/** chat 1.16 **/
+// UL flags = CONTACT_FLAG_MULTICHAT
+// UL 0
+// UL 0
+// LPS topic (unicode)
+// UL 0
+// UL 0
+// UL 0
+// UL 34h 50h
+// UL 30h
+// UL count
+// count штук LPS email
 /** contact **/
 // UL flags
 // UL group_id 
@@ -568,6 +580,37 @@ sBlogStatusSender = lpsBlogStatusSender.ToStringW();
 // proto ver 1.16
 // LPS == geolist
 // LPS == <r view_area_region="-1"><visible><u email="EMAIL"/></visible></r>  ## тег u может отсутствовать ?
+
+
+// Исходящий аудио звонок
+//#define XXX 1059
+// C->S
+// LPS email (to)
+// UL ? какой-то идентификатор("мусор"). Может время?
+// UL 5
+// UL 3b
+// UL 4
+// LPS IP:PORT (свои)
+// UL 0
+// LPS ???
+// UL 4
+// UL 1
+
+
+//#define XXX2 1060
+// S->C
+// LPS email
+// UL 3
+// UL ? тот же самый идентификатор
+// UL 5
+// UL 0
+
+//#define XXX3 1049
+// LPS email
+// UL ? тот же самый идентификатор
+// LPS IP:PORT;IP:PORT;IP:PORT;
+
+
 
 #endif // MRIM_PROTO_H
 

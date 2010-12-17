@@ -2,12 +2,34 @@
 #include "message.h"
 #include "package.h"
 #include "cl.h"
+
+guint32 atox(gchar *str)
+{
+	g_return_val_if_fail(str,0);
+	purple_debug_info("mrim","[%s] <%s>\n",__func__,str);
+	guint32 res = 0;
+	while (*str)
+	{
+		res *= 16;
+		if (*str >= '0' && *str <='9')
+			res += *str-'0';
+		else if (*str >= 'A' && *str<='F')
+			res += *str-'A'+0xA;
+		else if (*str >= 'a' && *str<='f')
+			res += *str-'a'+0xa;
+		str++;
+	}
+	purple_debug_info("mrim","[%s] <%x>\n",__func__,res);
+	return res;
+}
+
 /******************************************
  *           Оффлайн сообещния
  ******************************************/
 // Чтение оффлайн сообщение
 void mrim_message_offline(PurpleConnection *gc, char* message)
 {
+	mrim_data *mrim = gc->proto_data;
 	purple_debug_info("mrim","parse offline message\n");
 	if (!message)
 		return;
@@ -18,48 +40,69 @@ void mrim_message_offline(PurpleConnection *gc, char* message)
 	gchar* msg = mrim_message_offline_get_attr("MSG",message);
 	gchar* encoding = mrim_message_offline_get_attr("Content-Transfer-Encoding:",message);
 	time_t date = mrim_str_to_time(date_str);
+	gchar* flags = mrim_message_offline_get_attr("X-MRIM-Flags:",message);
+	guint32 mrim_flags = atox(flags);
 	gchar* correct_code=NULL;
-
-
-	if (encoding)
-	{
-		gchar* msg_decoded=NULL;
-		gsize len_decoded=0;
-		gsize len_correct=0;
-		
-		encoding = g_ascii_tolower( *g_strstrip(encoding) ); // TODO test
-		if(encoding && g_strcmp0(encoding,"base64")==0)
-		{
-			msg_decoded = (gchar*) purple_base64_decode(msg, &len_decoded); // можно?
-			len_correct = len_decoded;
-			correct_code = g_memdup(msg_decoded,len_decoded+1);
-			correct_code[len_decoded] = '\0';
-			FREE(msg_decoded);
-		}
-	}
-	
 	gchar *draft_message = NULL;
-	if (correct_code)
-		draft_message = strdup(correct_code); // TODO HTML tags
-	else if(msg)
-		draft_message = strdup(msg);
-	else if(message)
-		draft_message = strdup(message);
-	
-#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >5
-	gchar *correct_message = purple_markup_escape_text (draft_message, -1);
-#else
-	gchar *correct_message = g_markup_escape_text(draft_message, -1);
-#endif
-	serv_got_im(gc, from, correct_message, PURPLE_MESSAGE_RECV, date);
-	
+
+
+
+	if (mrim_flags & MESSAGE_FLAG_AUTHORIZE)
+	{	// запрос авторизации
+		purple_debug_info("mrim"," offline auth\n");
+		/*guint32 decoded_len;
+		decoded = purple_base64_decode(msg,  &decoded_len); // TODO аккуратнее со знаков
+		purple_debug("mrim","[%s] %s\n",__func__,mes);
+*/
+		auth_data *a_data = g_new0(auth_data, 1);
+		a_data->from = g_strdup(from);
+		a_data->seq = mrim->seq; // TODO wtf?
+		a_data->mrim = mrim;
+		gboolean is_in_blist = (purple_find_buddy(mrim->account,from) != NULL);
+		purple_account_request_authorization(mrim->account, from, NULL, NULL, NULL, is_in_blist, mrim_authorization_yes, mrim_authorization_no, a_data);
+	}
+	else
+	{
+		if (encoding)
+		{
+			gchar* msg_decoded=NULL;
+			gsize len_decoded=0;
+			gsize len_correct=0;
+
+			encoding = g_ascii_tolower( *g_strstrip(encoding) ); // TODO test
+			if(encoding && g_strcmp0(encoding,"base64")==0)
+			{
+				msg_decoded = (gchar*) purple_base64_decode(msg, &len_decoded); // можно?
+				len_correct = len_decoded;
+				correct_code = g_memdup(msg_decoded,len_decoded+1);
+				correct_code[len_decoded] = '\0';
+				FREE(msg_decoded);
+			}
+		}
+
+
+		if (correct_code)
+			draft_message = strdup(correct_code); // TODO HTML tags
+		else if(msg)
+			draft_message = strdup(msg);
+		else if(message)
+			draft_message = strdup(message);
+
+	#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >5
+		gchar *correct_message = purple_markup_escape_text (draft_message, -1);
+	#else
+		gchar *correct_message = g_markup_escape_text(draft_message, -1);
+	#endif
+		serv_got_im(gc, from, correct_message, PURPLE_MESSAGE_RECV, date);
+		FREE(correct_message);
+	}
+
 	FREE(correct_code);
 	FREE(from);
 	FREE(date_str);
 	FREE(charset);
 	FREE(msg);
 	FREE(draft_message);
-	FREE(correct_message);
 }
 
 static gchar* mrim_message_offline_get_attr(const gchar* attr,void* input)
@@ -76,6 +119,7 @@ static gchar* mrim_message_offline_get_attr(const gchar* attr,void* input)
     else if(g_strcmp0(attr,"Boundary:")==0)  pattern=g_strdup("Boundary:\\s(\\b\\w+\\b)\\R"); 
     else if(g_strcmp0(attr,"Charset:")==0)   pattern=g_strdup("Charset:([\\w\\d-_]+)\\R");
     else if(g_strcmp0(attr,"Content-Transfer-Encoding:")==0)   pattern=g_strdup("Content-Transfer-Encoding:\\s(.+?)\\R");
+    else if(g_strcmp0(attr,"X-MRIM-Flags:")==0)  pattern=g_strdup("X-MRIM-Flags:\\s([a-fA-F0-9]+)\\R");
     else if(g_strcmp0(attr,"MSG")==0)
     {
         gchar* boundary = mrim_message_offline_get_attr("Boundary:",input);

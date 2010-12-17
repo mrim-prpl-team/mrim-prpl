@@ -1022,6 +1022,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 
 									mrim_message_offline(gc, mes);
 
+									// TODO а надо?
 									// send MRIM_CS_OFFLINE_MESSAGE_ACK
 									package *pack_ack = new_package(mrim->seq, MRIM_CS_DELETE_OFFLINE_MESSAGE);
 									add_ul(first, pack_ack);
