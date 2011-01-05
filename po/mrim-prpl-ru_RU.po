@@ -1,0 +1,492 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: mrim-prpl\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-01-05 19:35+0300\n"
+"PO-Revision-Date: 2011-01-05 19:36+0300\n"
+"Last-Translator: Antonov Nikolay <ostinru@gmail.com>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;N_\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: message.c:338
+msgid "is not typing"
+msgstr ""
+
+#: message.c:339
+msgid "is typing"
+msgstr ""
+
+#: message.c:340
+msgid "stopped typing momentarily"
+msgstr ""
+
+#: message.c:341
+msgid "unknown typing state"
+msgstr ""
+
+#: message.c:401
+msgid "Сообщение успешно доставлено"
+msgstr ""
+
+#: message.c:404
+msgid "Произошла внутренняя ошибка"
+msgstr ""
+
+#: message.c:407
+msgid "Получатель не существует"
+msgstr ""
+
+#: message.c:410
+msgid "Собеседник не в сети. Сообщение не будет помещено в его почтовый ящик"
+msgstr ""
+
+#: message.c:413
+msgid "Размер сообщения превышает максимально допустимый"
+msgstr ""
+
+#: message.c:416
+msgid "Пользователь не поддерживает оффлайн сообщения"
+msgstr ""
+
+#: message.c:419
+msgid "User does not accept offline flash animation"
+msgstr ""
+
+#: message.c:422
+msgid "Unknown status"
+msgstr ""
+
+#: message.c:469
+#: message.c:470
+#: message.c:471
+#: message.c:472
+#: cl.c:734
+#: cl.c:737
+#: cl.c:740
+#: cl.c:743
+msgid "SMS"
+msgstr ""
+
+#: message.c:469
+msgid "Сервис отправки СМС-ок недоступен"
+msgstr ""
+
+#: message.c:470
+msgid "СМС-ка была отправлена"
+msgstr ""
+
+#: message.c:471
+msgid "Неверные параметры отправки СМС."
+msgstr ""
+
+#: message.c:472
+msgid "Ахтунг!"
+msgstr ""
+
+#: message.c:472
+msgid "Кто здесь?? !"
+msgstr ""
+
+#: mrim.c:148
+#, c-format
+msgid "%s не в сети."
+msgstr ""
+
+#: mrim.c:149
+msgid "UserInfo"
+msgstr ""
+
+#: mrim.c:149
+msgid "UserInfo не доступно"
+msgstr ""
+
+#: mrim.c:155
+msgid "UserInfo для телефонов и чатов получить нельзя"
+msgstr ""
+
+#: mrim.c:217
+msgid "Ник"
+msgstr "Nick"
+
+#: mrim.c:219
+#: mrim.c:325
+msgid "Имя"
+msgstr ""
+
+#: mrim.c:221
+msgid "Фамилия"
+msgstr ""
+
+#: mrim.c:223
+msgid "Пол"
+msgstr ""
+
+#: mrim.c:224
+msgid "Любой"
+msgstr ""
+
+#: mrim.c:225
+msgid "Мужской"
+msgstr ""
+
+#: mrim.c:226
+msgid "Женский"
+msgstr ""
+
+#: mrim.c:233
+msgid "Возраст от"
+msgstr ""
+
+#: mrim.c:235
+msgid "Возраст до"
+msgstr ""
+
+#: mrim.c:239
+msgid "Online"
+msgstr "В сети"
+
+#: mrim.c:244
+msgid "Поиск контактов"
+msgstr ""
+
+#: mrim.c:245
+msgid "_Искать!"
+msgstr ""
+
+#: mrim.c:246
+#: mrim.c:484
+msgid "Я _передумал!"
+msgstr ""
+
+#: mrim.c:282
+msgid "[web]Set User Info"
+msgstr ""
+
+#: mrim.c:285
+msgid "[web]Set User avatar"
+msgstr ""
+
+#: mrim.c:288
+msgid "Искать собеседника"
+msgstr ""
+
+#: mrim.c:337
+#: mrim.c:346
+msgid "Информация"
+msgstr ""
+
+#: mrim.c:343
+msgid "Телефоны"
+msgstr ""
+
+#: mrim.c:346
+msgid "Не в сети"
+msgstr ""
+
+#: mrim.c:473
+msgid "Выберите номер телефона"
+msgstr ""
+
+#: mrim.c:479
+msgid "Текст СМС-сообщения"
+msgstr ""
+
+#: mrim.c:482
+msgid "Отправка СМС"
+msgstr ""
+
+#: mrim.c:482
+msgid ""
+"Текст сообщения не должен превышать \n"
+"135 символов в английской раскладке \n"
+"или 35 символов в русской."
+msgstr ""
+
+#: mrim.c:483
+msgid "_Отправить"
+msgstr ""
+
+#: mrim.c:544
+msgid "Ос_новной телефон"
+msgstr ""
+
+#: mrim.c:546
+msgid "За_пасной телефон"
+msgstr ""
+
+#: mrim.c:548
+msgid "_Ещё один телефон"
+msgstr ""
+
+#: mrim.c:553
+msgid "Редактор телефонов"
+msgstr ""
+
+#: mrim.c:553
+msgid "Телефоны указываются в виде +7123456789"
+msgstr ""
+
+#: mrim.c:554
+msgid "_Ок"
+msgstr ""
+
+#: mrim.c:555
+msgid "О_тмена"
+msgstr ""
+
+#: mrim.c:649
+msgid "(Повторно) Запросить авторизацию"
+msgstr ""
+
+#: mrim.c:655
+msgid "Отправить СМС..."
+msgstr ""
+
+#: mrim.c:658
+msgid "Редактировать телефоны..."
+msgstr ""
+
+#: mrim.c:663
+msgid "Убрать из списка невидящих"
+msgstr ""
+
+#: mrim.c:663
+msgid "Добавить в список невидящих"
+msgstr ""
+
+#: mrim.c:667
+msgid "Убрать из списка видящих"
+msgstr ""
+
+#: mrim.c:667
+msgid "Добавить в список видящих"
+msgstr ""
+
+#: mrim.c:671
+msgid "Настройки видимости"
+msgstr ""
+
+#: mrim.c:905
+#, c-format
+msgid "Unable to connect: %s"
+msgstr ""
+
+#: mrim.c:918
+msgid "Connecting"
+msgstr ""
+
+#: mrim.c:924
+msgid "Не могу записать в сокет"
+msgstr ""
+
+#: mrim.c:945
+msgid "Соединение было разорвано пользователем?"
+msgstr ""
+
+#: mrim.c:954
+msgid "Input Error"
+msgstr ""
+
+#: mrim.c:960
+msgid "Bad Package"
+msgstr ""
+
+#: mrim.c:1008
+#, c-format
+msgid "Disconnected. Причина: %s"
+msgstr ""
+
+#: mrim.c:1054
+msgid "Аккаунт используется на другом компьютере"
+msgstr ""
+
+#: mrim.c:1056
+msgid "Сервер разорвал соединение"
+msgstr ""
+
+#: mrim.c:1069
+msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
+msgstr ""
+
+#: mrim.c:1509
+msgid "Server"
+msgstr ""
+
+#: mrim.c:1511
+msgid "Port"
+msgstr ""
+
+#: mrim.c:1513
+msgid "Скачивать аватарки"
+msgstr ""
+
+#: cl.c:213
+#: cl.c:641
+#: cl.c:689
+#: cl.c:768
+#: cl.c:1058
+msgid "Работа с контакт-листом завершилась ошибкой!"
+msgstr ""
+
+#: cl.c:213
+msgid "Группа не найдена"
+msgstr ""
+
+#: cl.c:397
+#: cl.c:424
+#: cl.c:1071
+msgid "Здравствуйте. Пожалуйста, добавьте меня в список Ваших контактов."
+msgstr ""
+
+#: cl.c:641
+#: cl.c:689
+#: cl.c:768
+#: cl.c:807
+msgid "Такая операция не осуществлялась? (mpq == NUL)"
+msgstr ""
+
+#: cl.c:734
+msgid "Смс-ка успешно доставлена."
+msgstr ""
+
+#: cl.c:737
+msgid "Услуга доставки СМС недоступна."
+msgstr ""
+
+#: cl.c:740
+msgid "Неверные параметры."
+msgstr ""
+
+#: cl.c:743
+msgid "Что-то произошло не так!"
+msgstr ""
+
+#: cl.c:807
+#: cl.c:813
+#: cl.c:816
+#: cl.c:819
+#: cl.c:822
+msgid "Работа с анкетой завершилась ошибкой!"
+msgstr ""
+
+#: cl.c:813
+msgid "Пользователь не найден"
+msgstr ""
+
+#: cl.c:816
+msgid "Ошибка DBERR. Попробуйте повторить поиск позже."
+msgstr ""
+
+#: cl.c:819
+msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
+msgstr ""
+
+#: cl.c:822
+msgid "unknown error"
+msgstr ""
+
+#: cl.c:974
+msgid "Результаты поиска"
+msgstr ""
+
+#: cl.c:1049
+msgid "Предоставленные данные были некорректны"
+msgstr ""
+
+#: cl.c:1050
+msgid "При обработке запроса произошла внутренняя ошибка"
+msgstr ""
+
+#: cl.c:1051
+msgid "Добавляемого пользователя не существует в системе"
+msgstr ""
+
+#: cl.c:1052
+msgid "Некорректное имя пользователя"
+msgstr ""
+
+#: cl.c:1053
+msgid "Контакт/группа не может быть добавлена"
+msgstr ""
+
+#: cl.c:1054
+msgid "Превышено максимальное количество групп"
+msgstr ""
+
+#: filetransfer.c:98
+msgid "The file you are trying to send is too large!"
+msgstr ""
+
+#: mrim.h:87
+msgid "invisible"
+msgstr ""
+
+#: mrim.h:88
+msgid "Offline"
+msgstr ""
+
+#: mrim.h:89
+msgid "Available"
+msgstr ""
+
+#: mrim.h:90
+msgid "Away"
+msgstr "Отошёл"
+
+#: cl.h:11
+msgid "Овен"
+msgstr ""
+
+#: cl.h:12
+msgid "Телец"
+msgstr ""
+
+#: cl.h:13
+msgid "Близнецы"
+msgstr ""
+
+#: cl.h:14
+msgid "Рак"
+msgstr ""
+
+#: cl.h:15
+msgid "Лев"
+msgstr ""
+
+#: cl.h:16
+msgid "Дева"
+msgstr ""
+
+#: cl.h:17
+msgid "Весы"
+msgstr ""
+
+#: cl.h:18
+msgid "Скорпион"
+msgstr ""
+
+#: cl.h:19
+msgid "Стрелец"
+msgstr ""
+
+#: cl.h:20
+msgid "Козерог"
+msgstr ""
+
+#: cl.h:21
+msgid "Водолей"
+msgstr ""
+
+#: cl.h:22
+msgid "Рыбы"
+msgstr ""
+

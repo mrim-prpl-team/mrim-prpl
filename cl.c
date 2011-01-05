@@ -210,7 +210,7 @@ void mrim_rename_group(PurpleConnection *gc, const char *old_name, PurpleGroup *
 	int group_id = get_mrim_group_id_by_name(mrim, (gchar *)old_name);
 	if (group_id == MRIM_NO_GROUP);
 	{
-		purple_notify_warning(_mrim_plugin, "Работа с контакт-листом завершилась ошибкой!", "Работа с контакт-листом завершилась ошибкой!", "Группа не найдена");
+		purple_notify_warning(_mrim_plugin, _("Работа с контакт-листом завершилась ошибкой!"), _("Работа с контакт-листом завершилась ошибкой!"), _("Группа не найдена"));
 		return;
 	}
 	mrim_group *mg = g_hash_table_lookup(mrim->mg, GUINT_TO_POINTER(group_id));
@@ -394,7 +394,7 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 				mb->flags = 0;
 
 				// TODO use send_package_authorize
-				gchar *text = "Здравствуйте. Пожалуйста, добавьте меня в список Ваших контактов.";
+				gchar *text = _("Здравствуйте. Пожалуйста, добавьте меня в список Ваших контактов.");
 				gchar *ctext = g_convert(text, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
 				gchar *who = (buddy->alias)?(buddy->alias):(buddy->name);
 				gchar *cwho = g_convert(who, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
@@ -421,7 +421,7 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 				mb->status = STATUS_ONLINE;
 
 				// TODO use send_package_authorize
-				gchar *text = "Здравствуйте. Пожалуйста, добавьте меня в список Ваших контактов.";
+				gchar *text = _("Здравствуйте. Пожалуйста, добавьте меня в список Ваших контактов.");
 				gchar *ctext = g_convert(text, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
 				gchar *who = (buddy->alias)?(buddy->alias):(buddy->name);
 				gchar *cwho = g_convert(who, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
@@ -638,7 +638,7 @@ void mrim_add_contact_ack(mrim_data *mrim ,package *pack)
 
 	mrim_pq *mpq = g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 	if (mpq == NULL)
-		purple_notify_warning(_mrim_plugin, "Работа с контакт-листом завершилась ошибкой!", "Работа с контакт-листом завершилась ошибкой!", "Такая операция не осуществлялась? (mpq == NUL)");
+		purple_notify_warning(_mrim_plugin, _("Работа с контакт-листом завершилась ошибкой!"), _("Работа с контакт-листом завершилась ошибкой!"), _("Такая операция не осуществлялась? (mpq == NUL)"));
 	g_return_if_fail(mpq);
 	switch (mpq->type)
 	{
@@ -686,7 +686,7 @@ void mrim_modify_contact_ack(mrim_data *mrim ,package *pack)
 
 	mrim_pq *mpq = g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 	if (mpq == NULL)
-			purple_notify_warning(_mrim_plugin, "Работа с контакт-листом завершилась ошибкой!", "Работа с контакт-листом завершилась ошибкой!", "Такая операция не осуществлялась? (mpq == NUL)");
+			purple_notify_warning(_mrim_plugin, _("Работа с контакт-листом завершилась ошибкой!"), _("Работа с контакт-листом завершилась ошибкой!"), _("Такая операция не осуществлялась? (mpq == NUL)"));
 	g_return_if_fail(mpq != NULL);
 
 	switch (mpq->type)
@@ -731,16 +731,16 @@ void mrim_modify_contact_ack(mrim_data *mrim ,package *pack)
 			switch (status)
 			{
 				case MRIM_SMS_OK:
-					purple_notify_info(_mrim_plugin, "SMS", "Смс-ка успешно доставлена.", "");
+					purple_notify_info(_mrim_plugin, _("SMS"), _("Смс-ка успешно доставлена."), "");
 					break;
 				case MRIM_SMS_SERVICE_UNAVAILABLE:
-					purple_notify_warning(_mrim_plugin, "SMS", "Услуга доставки СМС недоступна.", "");
+					purple_notify_warning(_mrim_plugin, _("SMS"), _("Услуга доставки СМС недоступна."), "");
 					break;
 				case MRIM_SMS_INVALID_PARAMS:
-					purple_notify_info(_mrim_plugin, "SMS", "Неверные параметры.", "");
+					purple_notify_info(_mrim_plugin, _("SMS"), _("Неверные параметры."), "");
 					break;
 				default:
-					purple_notify_error(_mrim_plugin, "SMS", "Что-то произошло не так!", "");
+					purple_notify_error(_mrim_plugin, _("SMS"), _("Что-то произошло не так!"), "");
 					break;
 			}
 			break;
@@ -765,7 +765,7 @@ void mrim_mpop_session(mrim_data *mrim ,package *pack)
 
 	mrim_pq *mpq = g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 	if (mpq == NULL)
-		purple_notify_warning(_mrim_plugin, "Работа с контакт-листом завершилась ошибкой!", "Работа с контакт-листом завершилась ошибкой!", "Такая операция не осуществлялась? (mpq == NUL)");
+		purple_notify_warning(_mrim_plugin, _("Работа с контакт-листом завершилась ошибкой!"), _("Работа с контакт-листом завершилась ошибкой!"), _("Такая операция не осуществлялась? (mpq == NUL)"));
 	g_return_if_fail(mpq);
 	switch (mpq->type)
 	{
@@ -804,22 +804,22 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 
 	mrim_pq *mpq = g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 	if (mpq == NULL)
-		purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "Такая операция не осуществлялась? (mpq == NUL)");
+		purple_notify_warning(_mrim_plugin, _("Работа с анкетой завершилась ошибкой!"), _("Работа с анкетой завершилась ошибкой!"), _("Такая операция не осуществлялась? (mpq == NUL)"));
 	g_return_if_fail(mpq);
 	if (status != MRIM_ANKETA_INFO_STATUS_OK)
 	{
 		switch (status) {
 			case MRIM_ANKETA_INFO_STATUS_NOUSER:
-				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "Пользователь не найден");
+				purple_notify_warning(_mrim_plugin, _("Работа с анкетой завершилась ошибкой!"), _("Работа с анкетой завершилась ошибкой!"), _("Пользователь не найден"));
 				break;
 			case MRIM_ANKETA_INFO_STATUS_DBERR:
-				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "Ошибка DBERR. Попробуйте повторить поиск позже.");
+				purple_notify_warning(_mrim_plugin, _("Работа с анкетой завершилась ошибкой!"), _("Работа с анкетой завершилась ошибкой!"), _("Ошибка DBERR. Попробуйте повторить поиск позже."));
 				break;
 			case MRIM_ANKETA_INFO_STATUS_RATELIMERR:
-				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "MRIM_ANKETA_INFO_STATUS_RATELIMERR");
+				purple_notify_warning(_mrim_plugin, _("Работа с анкетой завершилась ошибкой!"), _("Работа с анкетой завершилась ошибкой!"), _("MRIM_ANKETA_INFO_STATUS_RATELIMERR"));
 				break;
 			default:
-				purple_notify_warning(_mrim_plugin, "Работа с анкетой завершилась ошибкой!", "Работа с анкетой завершилась ошибкой!", "unknown error");
+				purple_notify_warning(_mrim_plugin, _("Работа с анкетой завершилась ошибкой!"), _("Работа с анкетой завершилась ошибкой!"), _("unknown error"));
 				break;
 		}
 		g_hash_table_remove(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
@@ -971,7 +971,7 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 
 	        purple_notify_searchresults(mrim->gc,
 	                        NULL,
-	                        "Результаты поиска", NULL, results,
+	                        _("Результаты поиска"), NULL, results,
 	                        NULL, //PurpleNotifyCloseCallback // TODO надо освободить память???
 	                        mrim);
 
@@ -1046,16 +1046,16 @@ static void print_cl_status(guint32 status)
 	gchar *mes = NULL;
 	switch (status)
 	{
-		case CONTACT_OPER_ERROR: mes = "Предоставленные данные были некорректны"; break;
-		case CONTACT_OPER_INTERR: mes = "При обработке запроса произошла внутренняя ошибка"; break;
-		case CONTACT_OPER_NO_SUCH_USER: mes = "Добавляемого пользователя не существует в системе"; break;
-		case CONTACT_OPER_INVALID_INFO: mes = "Некорректное имя пользователя"; break;
-		case CONTACT_OPER_USER_EXISTS: mes = "Контакт/группа не может быть добавлена"; break;
-		case CONTACT_OPER_GROUP_LIMIT: mes = "Превышено максимальное количество групп"; break;
+		case CONTACT_OPER_ERROR: mes = _("Предоставленные данные были некорректны"); break;
+		case CONTACT_OPER_INTERR: mes = _("При обработке запроса произошла внутренняя ошибка"); break;
+		case CONTACT_OPER_NO_SUCH_USER: mes = _("Добавляемого пользователя не существует в системе"); break;
+		case CONTACT_OPER_INVALID_INFO: mes = _("Некорректное имя пользователя"); break;
+		case CONTACT_OPER_USER_EXISTS: mes = _("Контакт/группа не может быть добавлена"); break;
+		case CONTACT_OPER_GROUP_LIMIT: mes = _("Превышено максимальное количество групп"); break;
 	}
 	if (status != CONTACT_OPER_SUCCESS)
 	{
-		purple_notify_warning(_mrim_plugin, "Работа с контакт-листом завершилась ошибкой!", "Работа с контакт-листом завершилась ошибкой!", mes);
+		purple_notify_warning(_mrim_plugin, _("Работа с контакт-листом завершилась ошибкой!"), _("Работа с контакт-листом завершилась ошибкой!"), mes);
 		return;
 	}
 }
@@ -1068,7 +1068,7 @@ void send_package_authorize(mrim_data *mrim, gchar *to, gchar *who) // TODO text
 	purple_debug_info("mrim","[%s]\n",__func__);
 	(mrim->seq)++;
 	// запрос авторизации
-	gchar *text = "Здравствуйте. Пожалуйста, добавьте меня в список Ваших контактов.";
+	gchar *text = _("Здравствуйте. Пожалуйста, добавьте меня в список Ваших контактов.");
 	gchar *ctext = g_convert(text, -1, "CP1251", "UTF8", NULL, NULL, NULL);
 	//gchar *ctext = g_convert(text, -1, "UTF-16LE" , "UTF8", NULL, NULL, NULL);
 	gchar *cwho =  g_convert(who, -1, "CP1251" , "UTF8", NULL, NULL, NULL);

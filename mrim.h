@@ -5,6 +5,12 @@
 #include <glib.h>
 #include <time.h>
 
+// i18n see
+#define GETTEXT_PACKAGE "mrim-prpl"
+#define LOCALEDIR "po"
+#include <glib/gi18n-lib.h>
+
+
 #ifdef WIN32
 	#include <winsock2.h>
 	#include <windows.h>
@@ -78,10 +84,10 @@ static struct status
 	gboolean independent;
 } mrim_statuses[] = {
 	/*	primative,					mrim_status,				id,				name(i18n)			user_settable 		independent  			 */
-	{	PURPLE_STATUS_INVISIBLE,	STATUS_FLAG_INVISIBLE,	"invisible",		"invisible",		TRUE,				FALSE},	/* 0 */
-	{	PURPLE_STATUS_OFFLINE,		STATUS_OFFLINE,			"offline",			"Offline",			TRUE,				FALSE},	/* 1 */
-	{	PURPLE_STATUS_AVAILABLE,	STATUS_ONLINE,			"online",			"Available",		TRUE,				FALSE},	/* 2 */
-	{	PURPLE_STATUS_AWAY,			STATUS_AWAY,			"away",				"Away", 			TRUE,				FALSE}	/* 3 */
+	{	PURPLE_STATUS_INVISIBLE,	STATUS_FLAG_INVISIBLE,	"invisible",		N_("invisible"),		TRUE,				FALSE},	/* 0 */
+	{	PURPLE_STATUS_OFFLINE,		STATUS_OFFLINE,			"offline",			N_("Offline"),			TRUE,				FALSE},	/* 1 */
+	{	PURPLE_STATUS_AVAILABLE,	STATUS_ONLINE,			"online",			N_("Available"),		TRUE,				FALSE},	/* 2 */
+	{	PURPLE_STATUS_AWAY,			STATUS_AWAY,			"away",				N_("Away"), 			TRUE,				FALSE}	/* 3 */
 //	{	PURPLE_STATUS_UNSET,		STATUS_UNDETERMINATED,	"UNDETERMINATED",	"UNDETERMINATED",	TRUE,				FALSE}	/* 4 */
 };
 #define MRIM_STATUS_ID_MOBILE "mobile"
@@ -91,11 +97,11 @@ static struct status
 
 #define MRIM_PRPL_ID "prpl-ostin-mrim" // какой purple-id теперь?
 #define MRIM "mrim"
-#define DISPLAY_VERSION "0.1.25"
+// DISPLAY_VERSION in config.h
 #define MRIM_MAIL_RU "mrim.mail.ru"
 #define MRIM_MAIL_RU_PORT 2042
 					// или 443
-#define USER_AGENT_DESC "client=\"Pidgin\" version=\"0.1.25\""
+#define USER_AGENT_DESC "client=\"Pidgin\" version=" DISPLAY_VERSION
 #define USER_AGENT "Mail.Ru Pidgin plugin by Ostin"
 #define FREE(s) { if (s) g_free(s); s = NULL;}
 
@@ -131,6 +137,7 @@ typedef struct
 	guint32 s_flags;
 	guint32 status;
 	/*BUDDY_TYPE type;*/
+	gchar *ips; // IP:PORT;IP:PORT;
 }mrim_buddy;
 
 typedef struct {
@@ -153,11 +160,12 @@ typedef struct {
 
 	// Почта
 	guint32 mails;         // количество писем
-	gchar *web_key;       // ключ веб-авторизации
-	gchar *url;       // url
+	gchar *web_key;        // ключ веб-авторизации
+	gchar *url;            // url
 	// PQ
-	GHashTable *pq;            // очередь сообщений (pending queue)
-	GHashTable *mg;            // хеш-таблица групп
+	GHashTable *pq;        // "очередь" сообщений (pending queue)
+	GHashTable *mg;        // хеш-таблица групп
+	GList *xfer_lists;     // список всех файлов для передачи
 
 }mrim_data;
 

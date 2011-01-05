@@ -17,23 +17,11 @@ PURPLE_CFLAGS = $(CFLAGS)
 PURPLE_CFLAGS += $(shell pkg-config --cflags purple)
 #PURPLE_CFLAGS += $(shell pkg-config --libs glib-2.0)
 
-
-# для Win_32:
-#INCLUDE_PATHS := -I$(PIDGIN_TREE_TOP)/../win32-dev/w32api/include
-#LIB_PATHS := -L$(PIDGIN_TREE_TOP)/../win32-dev/w32api/lib
-
-#LDFLAGS="-L/usr/mingw32/usr/lib -L/usr/mingw32/lib/"
-#LD = mingw32-ld
-#CC = mingw32-gcc
-#STRIP = mingw32-strip
-#LIBRARY_PATH = /usr/lib/gcc/mingw32/4.4.4/:/usr/mingw32/mingw/lib/:/usr/lib/:/usr/mingw/usr/lib
-#PURPLE_CFLAGS += $(INCLUDE_PATHS) 
-#PURPLE_CFLAGS += $(LIB_PATHS) 
 all:
 	make compile
 	strip -s mrim.so
 compile:
-	${CC} ${PURPLE_CFLAGS} message.c cl.c package.c mrim.c -o mrim.so
+	${CC} ${PURPLE_CFLAGS} message.c cl.c package.c mrim.c filetransfer.c -o mrim.so
 debug:
 	make compile
 install:

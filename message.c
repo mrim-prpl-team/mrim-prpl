@@ -335,10 +335,10 @@ static const char *typing_state_to_string(PurpleTypingState typing)
 {
   switch (typing) 
   {
-  case PURPLE_NOT_TYPING:  return "is not typing";
-  case PURPLE_TYPING:      return "is typing";
-  case PURPLE_TYPED:       return "stopped typing momentarily";
-  default:               return "unknown typing state";
+  case PURPLE_NOT_TYPING:  return _("is not typing");
+  case PURPLE_TYPING:      return _("is typing");
+  case PURPLE_TYPED:       return _("stopped typing momentarily");
+  default:                 return _("unknown typing state");
   }
 }
 
@@ -398,28 +398,28 @@ void mrim_message_status(mrim_data *mrim, package *pack)
 	switch (status)
 	{
 		case MESSAGE_DELIVERED:
-			mes = "Сообщение успешно доставлено";
+			mes = _("Сообщение успешно доставлено");
 			break;
 		case MESSAGE_REJECTED_INTERR:
-			mes = "Произошла внутренняя ошибка";
+			mes = _("Произошла внутренняя ошибка");
 			break;
 		case MESSAGE_REJECTED_NOUSER:
-			mes = "Получатель не существует";
+			mes = _("Получатель не существует");
 			break;
 		case MESSAGE_REJECTED_LIMIT_EXCEEDED:
-			mes = "Собеседник не в сети. Сообщение не будет помещено в его почтовый ящик";
+			mes = _("Собеседник не в сети. Сообщение не будет помещено в его почтовый ящик");
 			break;
 		case MESSAGE_REJECTED_TOO_LARGE:
-			mes = "Размер сообщения превышает максимально допустимый.";
+			mes = _("Размер сообщения превышает максимально допустимый");
 			break;
 		case MESSAGE_REJECTED_DENY_OFFMSG:
-			mes = "Пользователь не поддерживает оффлайн сообщения";
+			mes = _("Пользователь не поддерживает оффлайн сообщения");
 			break;
 		case MESSAGE_REJECTED_DENY_OFFFLSH:
-			mes = "User does not accept offline flash animation";
+			mes = _("User does not accept offline flash animation");
 			break;
 		default:
-			mes = "Unknown status";
+			mes = _("Unknown status");
 			break;
 	}
 	purple_debug_info("mrim","[%s] status_id=<%u> status=<%s>\n",__func__, status, mes);
@@ -466,10 +466,56 @@ void mrim_sms_ack(mrim_data *mrim ,package *pack)
 
 	switch (status)
 	{
-		case MRIM_SMS_SERVICE_UNAVAILABLE: purple_notify_error(mrim->gc, "SMS", "Сервис отправки СМС-ок недоступен", "Сервис отправки СМС-ок недоступен"); break;
-		case MRIM_SMS_OK:purple_notify_info(mrim->gc, "SMS", "СМС-ка была отправлена", "СМС-ка была отправлена"); break;
-		case MRIM_SMS_INVALID_PARAMS:purple_notify_error(mrim->gc, "SMS", "Неверные параметры отправки СМС.", "Неверные параметры отправки СМС.");break;
-		default:purple_notify_error(mrim->gc, "SMS", "Ахтунг!", "Кто здесь?? !"); break;
+		case MRIM_SMS_SERVICE_UNAVAILABLE: purple_notify_error(mrim->gc, _("SMS"), _("Сервис отправки СМС-ок недоступен"), _("Сервис отправки СМС-ок недоступен")); break;
+		case MRIM_SMS_OK:purple_notify_info(mrim->gc, _("SMS"), _("СМС-ка была отправлена"), _("СМС-ка была отправлена")); break;
+		case MRIM_SMS_INVALID_PARAMS:purple_notify_error(mrim->gc, _("SMS"), _("Неверные параметры отправки СМС."), _("Неверные параметры отправки СМС."));break;
+		default:purple_notify_error(mrim->gc, _("SMS"), _("Ахтунг!"), _("Кто здесь?? !")); break;
 	}
 	g_hash_table_remove(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 }
+
+
+
+/******************************************
+ *                Chats
+ ******************************************/
+/*
+static GList *mrim_chat_info(PurpleConnection *gc)
+{
+        struct proto_chat_entry *pce; // defined in prpl.h
+        GList *chat_info = NULL;
+
+        pce = g_new0(struct proto_chat_entry, 1);
+        pce->label = "Search";
+        pce->identifier = "search";
+        pce->required = FALSE;
+
+        chat_info = g_list_append(chat_info, pce);
+
+        pce = g_new0(struct proto_chat_entry, 1);
+        pce->label = "Update Interval";
+        pce->identifier = "interval";
+        pce->required = TRUE;
+        pce->is_int = TRUE;
+        pce->min = 1;
+        pce->max = 60;
+
+        chat_info = g_list_append(chat_info, pce);
+
+        return chat_info;
+}
+
+GHashTable *twitter_chat_info_defaults(PurpleConnection *gc, const char *chat_name)
+{
+        GHashTable *defaults;
+
+        defaults = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+
+        g_hash_table_insert(defaults, "search", g_strdup(chat_name));
+
+        //bug in pidgin prevents this from working
+        g_hash_table_insert(defaults, "interval",
+                        g_strdup_printf("%d", twitter_option_search_timeout(purple_connection_get_account(gc))));
+        return defaults;
+}
+*/

@@ -437,7 +437,7 @@ gchar *read_UTF16LE(package *pack)
 	gchar *string = g_convert(str, -1, "UTF8", "UTF-16LE", NULL, NULL, NULL);
 	g_free(str);
 #ifdef DEBUG
-	purple_debug_info( "mrim", "Считал строку! <%s>\n",string);
+	purple_debug_info( "mrim", "Считал UTF-16LE строку! <%s>\n",string);
 #endif
 	return string;
 }
