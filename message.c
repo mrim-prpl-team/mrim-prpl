@@ -441,6 +441,14 @@ gboolean mrim_send_sms(gchar *phone, gchar *message, mrim_data *mrim)
 	else
 		correct_phone = phone;
 
+	size_t len = strlen(message);
+	if (len<=1) // too short
+	{
+		purple_notify_info(_mrim_plugin, _("SMS"), _("Слишком короткое сообщение."), "");
+		return FALSE;
+	} 
+	//else отправляем: 
+	// TODO слишком длинные сообщения
 	purple_debug_info("mrim", "[%s] to=<%s> message=<%s>\n", __func__, phone, message);
 	mrim_pq *mpq = g_new0(mrim_pq, 1);
 	mpq->type = SMS;

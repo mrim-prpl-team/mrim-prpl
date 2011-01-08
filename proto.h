@@ -90,6 +90,9 @@ typedef struct mrim_packet_header_t
 // LPS rtf-formatted message (>=1.1) ???
 
 
+#define MAX_MULTICAST_RECIPIENTS 50
+
+
 
 
 #define MRIM_CS_MESSAGE_ACK		0x1009  // S -> C
@@ -272,7 +275,7 @@ typedef struct mrim_packet_header_t
 	#define CONTACT_OPER_NO_SUCH_USER	0x0003
 	#define CONTACT_OPER_INVALID_INFO	0x0004
 	#define CONTACT_OPER_USER_EXISTS	0x0005
-	#define CONTACT_OPER_GROUP_LIMIT	0x6
+	#define CONTACT_OPER_GROUP_LIMIT	0x6 // TODO !!!
 // UL contact_id or (guint32)-1 if status is not OK
 
 
@@ -572,7 +575,11 @@ sBlogStatusSender = lpsBlogStatusSender.ToStringW();
 
 
 #define MRIM_CS_MICROBLOG_POST 0x1064
+// ??
+// ul 0x09
+// lps message
 #define MRIM_CS_MICROBLOG_RECV 0x1063
+// ???
 
 
 // WTF??
@@ -610,6 +617,23 @@ sBlogStatusSender = lpsBlogStatusSender.ToStringW();
 // UL ? тот же самый идентификатор
 // LPS IP:PORT;IP:PORT;IP:PORT;
 
+
+
+
+#define MRIM_CS_LOGIN3                          0x1078
+// LPS login
+// LPS password
+// DWORD ??? = ffffffff
+// LPS version
+// locale
+// DWORD ??? = 10000000
+// DWORD ??? = 01000000
+// LPS ??? = geo-list
+// LPS version2
+// for ;;
+        // DWORD[2] id_argument
+        // DWORD ??? = 00000002 || 00000001
+        // DWORD data
 
 
 #endif // MRIM_PROTO_H

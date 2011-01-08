@@ -1174,7 +1174,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									mpq->new_email.subject = read_LPS(pack);
 									g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq), mpq);
 									package *pack_ack = new_package(mpq->seq, MRIM_CS_GET_MPOP_SESSION);
-									send_package(pack, mrim);
+									send_package(pack_ack, mrim);
 									break;
 								}
 		case MRIM_CS_MPOP_SESSION:{
