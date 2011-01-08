@@ -29,14 +29,12 @@ install:
 	install -Dm0644 pixmaps/mrim16.png  ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/16/mrim.png
 	install -Dm0644 pixmaps/mrim22.png  ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/22/mrim.png
 	install -Dm0644 pixmaps/mrim48.png  ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/48/mrim.png
-win32:
-	${CC} ${PURPLE_CFLAGS} -I/usr/mingw32/usr/include/ -combine message.c cl.c package.c mrim.c -o mrim.dll
-#	${CC} ${PURPLE_CFLAGS} -L/usr/mingw32/usr/lib -L/usr/mingw32/lib/ -I/usr/mingw32/usr/include/ -combine message.c cl.c package.c mrim.c -o mrim.dll
-#	${STRIP} -s mrim.dll
+	install -Dm0644 po/mrim-prpl-ru_RU.mo ${DESTDIR}/usr/share/locale/ru/LC_MESSAGES/mrim-prpl.mo
 uninstall:
 	rm -fv ${DESTDIR}/usr/${LIBDIR}/purple-2/mrim.so
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/16/mrim.png
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/22/mrim.png
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/48/mrim.png
+	rm -fv ${DESTDIR}/usr/share/locale/ru/LC_MESSAGES/mrim-prpl.mo
 clean:
 	rm -rfv *.o *.c~ *.h~ *.so *.la *.libs *.dll

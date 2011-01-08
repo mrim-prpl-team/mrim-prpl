@@ -2,6 +2,7 @@ trunk (08/01/2011)
 	Core
 		? Fix bad package
 		File Transfer draft
+		i18n
 	Roster
 		Fix offline auth		
 
