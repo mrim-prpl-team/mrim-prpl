@@ -194,7 +194,7 @@ msgstr "Добавить в список невидящих"
 
 #: mrim.c:665
 msgid "Remove from 'Visible to' list"
-msgstr "Удалить из списка невидящих."
+msgstr "Удалить из списка видящих."
 
 #: mrim.c:665
 msgid "Add to 'Visible to' list"
