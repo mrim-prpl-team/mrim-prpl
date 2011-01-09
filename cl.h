@@ -8,26 +8,26 @@
 
 
 static const gchar *zodiak[]={
-	N_("Овен"),
-	N_("Телец"),
-	N_("Близнецы"),
-	N_("Рак"),
-	N_("Лев"),
-	N_("Дева"),
-	N_("Весы"),
-	N_("Скорпион"),
-	N_("Стрелец"),
-	N_("Козерог"), // 10 in mrim, 9 in massive
-	N_("Водолей"),
-	N_("Рыбы")
+	N_("Aries"),
+	N_("Taurus"),
+	N_("Gemini"),
+	N_("Cancer"),
+	N_("Leo"),
+	N_("Virgo"),
+	N_("Libra"),
+	N_("Scorpius"),
+	N_("Sagittarius"),
+	N_("Capricornus"), // 10 in mrim, 9 in massive
+	N_("Aquaruis"),
+	N_("Pisces")
 };
 
-// Контакт-Лист
+//	Buddy list
 void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack);
 static mrim_buddy *new_mrim_buddy(package *pack);
 static void cl_skeep(gchar *mask, package *pack);
 
-//  Группы
+//	Groups
 static void mrim_add_group(mrim_data *mrim, char *name);
 void mrim_rename_group(PurpleConnection *gc, const char *old_name,PurpleGroup *group, GList *moved_buddies);
 void mrim_remove_group(PurpleConnection *gc, PurpleGroup *group);
@@ -35,7 +35,7 @@ static void mg_add(guint32 flags, gchar *name, guint id, mrim_data *mrim);
 PurpleGroup *get_mrim_group_by_id(mrim_data *mrim, guint32 id);
 guint32 get_mrim_group_id_by_name(mrim_data *mrim, gchar *name);
 
-// Контакты
+//	Buddies
 static mrim_buddy *new_mrim_buddy(package *pack);
 void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group);
 void mrim_remove_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group);
@@ -44,15 +44,16 @@ void mrim_move_buddy(PurpleConnection *gc, const char *who, const char *old_grou
 void free_buddy(PurpleBuddy *buddy);
 static void free_buddy_proto_data(PurpleBuddy *buddy);
 
-// Аватарки
+//	Userpics
 static void mrim_fetch_avatar(PurpleBuddy *buddy);
 static void mrim_avatar_cb(PurpleUtilFetchUrlData *url_data, gpointer user_data, const gchar *url_text, gsize len, const gchar *error_message);
 
-// Авторизация
+//	Authorization
 void mrim_authorization_yes(void *va_data);
 void mrim_authorization_no(void *va_data);
 
-// PQ
+//	PQ. The Pending Queue // Pawn-Queen =))
+//   Implemented to track pending actions.
 void mrim_sms_ack(mrim_data *mrim ,package *pack);
 void mrim_add_contact_ack(mrim_data *mrim ,package *pack);
 void mrim_modify_contact_ack(mrim_data *mrim ,package *pack);

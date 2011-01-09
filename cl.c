@@ -732,16 +732,16 @@ void mrim_modify_contact_ack(mrim_data *mrim ,package *pack)
 			switch (status)
 			{
 				case MRIM_SMS_OK:
-					purple_notify_info(_mrim_plugin, _("SMS"), _("Смс-ка успешно доставлена."), "");
+					purple_notify_info(_mrim_plugin, _("SMS"), _("SMS delivered successfully."), "");
 					break;
 				case MRIM_SMS_SERVICE_UNAVAILABLE:
-					purple_notify_warning(_mrim_plugin, _("SMS"), _("Услуга доставки СМС недоступна."), "");
+					purple_notify_warning(_mrim_plugin, _("SMS"), _("SMS service is not available."), "");
 					break;
 				case MRIM_SMS_INVALID_PARAMS:
-					purple_notify_info(_mrim_plugin, _("SMS"), _("Неверные параметры."), "");
+					purple_notify_info(_mrim_plugin, _("SMS"), _("Wrong SMS parameters."), "");
 					break;
 				default:
-					purple_notify_error(_mrim_plugin, _("SMS"), _("Что-то произошло не так!"), "");
+					purple_notify_error(_mrim_plugin, _("SMS"), _("Something went wrong!"), "");
 					break;
 			}
 			break;
@@ -802,7 +802,7 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 {
 	purple_debug_info("mrim","[%s] seq=<%u>\n",__func__, pack->header->seq);
 	guint32 status = read_UL(pack);
-
+	// TODO: Define string constants for the most used messages (unify speech).
 	mrim_pq *mpq = g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 	if (mpq == NULL)
 		purple_notify_warning(_mrim_plugin, _("Encountered an error while working on user details!"), _("Encountered an error while working on user details!"), _("Did you ever do this operation? (mpq == NUL)"));
@@ -1055,7 +1055,7 @@ static void print_cl_status(guint32 status)
 		case CONTACT_OPER_GROUP_LIMIT: mes = _("Max groups allowed count exceedeed."); break;
 	}
 	if (status != CONTACT_OPER_SUCCESS)
-	{
+	{	// TODO: String constants for the most used messages.
 		purple_notify_warning(_mrim_plugin, _("Encountered an error while working on contact list!"), _("Encountered an error while working on contact list!"), mes);
 		return;
 	}
@@ -1068,7 +1068,7 @@ void send_package_authorize(mrim_data *mrim, gchar *to, gchar *who) // TODO text
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
 	(mrim->seq)++;
-	// запрос авторизации
+	// Auth request.
 	gchar *text = _("Hello. Add me to your buddies please.");
 	gchar *ctext = g_convert(text, -1, "CP1251", "UTF8", NULL, NULL, NULL);
 	//gchar *ctext = g_convert(text, -1, "UTF-16LE" , "UTF8", NULL, NULL, NULL);
@@ -1138,7 +1138,7 @@ void mrim_pkt_modify_group(mrim_data *mrim, guint32 group_id, gchar *group_name,
 	add_ul(group_id, pack);
 	add_ul(flags, pack);
 	add_ul(0, pack);
-	add_LPS(group_name, pack); // новое имя
+	add_LPS(group_name, pack); // New name.
 	add_ul(0,pack);
 	add_ul(0,pack);
 	send_package(pack, mrim);
@@ -1149,7 +1149,7 @@ void mrim_pkt_add_group(mrim_data *mrim, gchar *group_name, guint32 seq)
 	package *pack = new_package(seq, MRIM_CS_ADD_CONTACT);
 	add_ul(CONTACT_FLAG_GROUP | (groups_count << 24), pack);
 	add_ul(0, pack);
-	add_LPS(group_name, pack); // кодировка?
+	add_LPS(group_name, pack); // Encoding???
 	add_ul(0, pack);
 	add_ul(0, pack);
 	add_ul(0, pack);

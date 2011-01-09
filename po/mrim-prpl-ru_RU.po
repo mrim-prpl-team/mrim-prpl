@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-09 03:38+0300\n"
+"POT-Creation-Date: 2011-01-10 00:32+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Janus.Kobain.Stamp <Janus.Kobain.Stamp@gmail.com>\n"
 "Language-Team: mrim-prpl\n"
@@ -294,20 +294,20 @@ msgid "SMS"
 msgstr "SMS"
 
 #: cl.c:735
-msgid "Смс-ка успешно доставлена."
-msgstr "Сообщение SMS успешно доставлено."
+msgid "SMS delivered successfully."
+msgstr "SMS-сообщение доставлено успешно."
 
 #: cl.c:738
-msgid "Услуга доставки СМС недоступна."
-msgstr "Услуга доставки SMS недоступна."
+msgid "SMS service is not available."
+msgstr "Служба доставки SMS недоступна."
 
 #: cl.c:741
-msgid "Неверные параметры."
-msgstr "Неверные параметры."
+msgid "Wrong SMS parameters."
+msgstr "Неверные параметры SMS."
 
 #: cl.c:744
-msgid "Что-то произошло не так!"
-msgstr "Что-то произошло не так!"
+msgid "Something went wrong!"
+msgstr "Что-то пошло не так!"
 
 #: cl.c:769
 #: cl.c:808
@@ -451,53 +451,85 @@ msgid "Away"
 msgstr "Отошёл"
 
 #: cl.h:11
-msgid "Овен"
+msgid "Aries"
 msgstr "Овен"
 
 #: cl.h:12
-msgid "Телец"
+msgid "Taurus"
 msgstr "Телец"
 
 #: cl.h:13
-msgid "Близнецы"
+msgid "Gemini"
 msgstr "Близнецы"
 
 #: cl.h:14
-msgid "Рак"
+msgid "Cancer"
 msgstr "Рак"
 
 #: cl.h:15
-msgid "Лев"
+msgid "Leo"
 msgstr "Лев"
 
 #: cl.h:16
-msgid "Дева"
+msgid "Virgo"
 msgstr "Дева"
 
 #: cl.h:17
-msgid "Весы"
+msgid "Libra"
 msgstr "Весы"
 
 #: cl.h:18
-msgid "Скорпион"
+msgid "Scorpius"
 msgstr "Скорпион"
 
 #: cl.h:19
-msgid "Стрелец"
+msgid "Sagittarius"
 msgstr "Стрелец"
 
 #: cl.h:20
-msgid "Козерог"
+msgid "Capricornus"
 msgstr "Козерог"
 
 #: cl.h:21
-msgid "Водолей"
+msgid "Aquaruis"
 msgstr "Водолей"
 
 #: cl.h:22
-msgid "Рыбы"
+msgid "Pisces"
 msgstr "Рыбы"
 
+#~ msgid "Смс-ка успешно доставлена."
+#~ msgstr "Сообщение SMS успешно доставлено."
+#~ msgid "Услуга доставки СМС недоступна."
+#~ msgstr "Услуга доставки SMS недоступна."
+#~ msgid "Неверные параметры."
+#~ msgstr "Неверные параметры."
+#~ msgid "Что-то произошло не так!"
+#~ msgstr "Что-то произошло не так!"
+#~ msgid "Овен"
+#~ msgstr "Овен"
+#~ msgid "Телец"
+#~ msgstr "Телец"
+#~ msgid "Близнецы"
+#~ msgstr "Близнецы"
+#~ msgid "Рак"
+#~ msgstr "Рак"
+#~ msgid "Лев"
+#~ msgstr "Лев"
+#~ msgid "Дева"
+#~ msgstr "Дева"
+#~ msgid "Весы"
+#~ msgstr "Весы"
+#~ msgid "Скорпион"
+#~ msgstr "Скорпион"
+#~ msgid "Стрелец"
+#~ msgstr "Стрелец"
+#~ msgid "Козерог"
+#~ msgstr "Козерог"
+#~ msgid "Водолей"
+#~ msgstr "Водолей"
+#~ msgid "Рыбы"
+#~ msgstr "Рыбы"
 #~ msgid "Такая операция не осуществлялась? (mpq == NUL)"
 #~ msgstr "Такая операция не осуществлялась? (mpq == NUL)"
 #~ msgid "Работа с контакт-листом завершилась ошибкой!"
