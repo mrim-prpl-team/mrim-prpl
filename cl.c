@@ -4,7 +4,7 @@
 */
 #include "cl.h"
 /******************************************
- *        Загрузка Контакт Листа
+ *        *Loading contacts list.*
  ******************************************/
 static void cl_skeep(gchar *mask, package *pack)
 {
@@ -20,21 +20,21 @@ static void cl_skeep(gchar *mask, package *pack)
 void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 {	
 	PurpleAccount *account = purple_connection_get_account(gc);
-	guint32 g_number = read_UL(pack);// количество групп
-	gchar *g_mask = read_LPS(pack); // маска групп
-	gchar *c_mask = read_LPS(pack); // маска контактов
+	guint32 g_number = read_UL(pack);// Groups count
+	gchar *g_mask = read_LPS(pack); // Group mask
+	gchar *c_mask = read_LPS(pack); // Contact mask
 
-	purple_debug_info("mrim", "Маска группы <%s>, Маска контактов <%s>\n", g_mask, c_mask);
+	purple_debug_info("mrim", "Group mask <%s>, Contack mask <%s>\n", g_mask, c_mask);
 
-	/* группа Phone */
+	/* Phone group */
 	mg_add(0, "phone", MRIM_PHONE_GROUP_ID, mrim);
 
-	/** читаем группы **/
+	/** reading groups **/
 	u_long i = 0;
 	for (i=0; i < g_number ; i++)
 	{
 		guint32 flags = read_UL(pack);//  & 0x00FFFFFF;
-		gchar *name = read_LPS(pack); // группа (UTF16)
+		gchar *name = read_LPS(pack); // groups (UTF16)
 		if (!(flags & CONTACT_FLAG_REMOVED))
 			mg_add(flags, name, i, mrim);
 		if (flags & CONTACT_FLAG_REMOVED)
@@ -43,17 +43,17 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 		cl_skeep(g_mask + 2, pack);
 	}
 
-	/** читаем пользователей **/
+	/** reading contacts **/
 	int num = MRIM_MAX_GROUPS;
 	while ( TRUE ) 
 	{
 		if (pack->cur >= pack->buf + pack->len)
-			break; // просто убирает лишний мусор из дебага
+			break; // To avoid trashing debug output.
 		mrim_buddy *mb = new_mrim_buddy(pack);
 		if (mb == NULL)
 			break;
 		mb->id = num++;
-		purple_debug_info("mrim", "КОНТАКТ: Группа <%i>  E-MAIL <%s> NICK <%s> id <%i> status <0x%X> flags <0x%X>\n", mb->group_id, mb->addr, mb->alias, mb->id, (int)mb->status, mb->flags );
+		purple_debug_info("mrim", "CONTACT: group <%i>  E-MAIL <%s> NICK <%s> id <%i> status <0x%X> flags <0x%X>\n", mb->group_id, mb->addr, mb->alias, mb->id, (int)mb->status, mb->flags );
 		if (mb->flags & CONTACT_FLAG_REMOVED)
 			purple_debug_info("mrim","[%s] <%s> has flag REMOVED\n", __func__, mb->addr);
 
@@ -65,8 +65,8 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 			{	/*************/
 				/* ADD BUDDY */
 				/*************/
-				// 1) Переименовываем телефонные контакты
-				if (strcmp(mb->addr, "phone") == 0) // TODO подумать
+				// 1) Rename phone contacts.
+				if (strcmp(mb->addr, "phone") == 0) // TODO Think of it.
 				{
 					purple_debug_info("mrim","[%s] rename phone buddy to %s\n",__func__, mb->phones[0]);
 					g_free(mb->addr);
@@ -74,18 +74,18 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 					mb->status = STATUS_ONLINE;
 					mb->flags |= CONTACT_FLAG_PHONE;
 				}
-				// 2) Если такой контакт уже был - прикурчиваем к нему
-				//    иначе добавляем нового
+				// 2) If met before -- attach,
+				//    otherwise create new one.
 				PurpleBuddy *old_buddy = purple_find_buddy(account, mb->addr);
 				if (old_buddy != NULL)
 				{
 					purple_debug_info("mrim","Buddy <%s> already exsist!\n", old_buddy->name);
-					// TODO переместить в нужную группу
+					// TODO Move to appropriate group.
 					buddy = old_buddy;
 				}
 				else
 				{
-					purple_debug_info("mrim","Такого контакта ещё не было!\n");
+					purple_debug_info("mrim","Never met this contact!\n");
 					buddy = purple_buddy_new(gc->account, mb->addr, mb->alias);
 					purple_blist_add_buddy(buddy, NULL/*contact*/, group, NULL/*node*/);
 				}
@@ -95,19 +95,19 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 				if (! (mb->phones))
 					mb->phones = g_new0(char *, 4);
 
-				// псевдоним
+				// Alias.
 				purple_blist_alias_buddy(buddy, mb->alias);
-				//статус
+				// Status.
 				set_user_status_by_mb(mrim, mb);
-				//аватарки
+				// Userpics.
 				if (purple_account_get_bool(account, "fetch_avatar", FALSE))
-					mrim_fetch_avatar(buddy);// TODO где скачивать аватарки? // TODO PQ
+					mrim_fetch_avatar(buddy);// TODO Where should we fetch userpics from? // TODO PQ
 			}
 		}
 		cl_skeep(c_mask+7, pack);
 	}
 
-	/* удаляем всех устаревших пользоватей */
+	/* Purge all obsolete buddies. */
 	GSList *buddies = purple_find_buddies(gc->account, NULL);
 	GSList *first = buddies;
 	while (buddies)
@@ -115,7 +115,7 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 		PurpleBuddy *buddy = (PurpleBuddy*) (buddies->data);
 		if (! (buddy->proto_data))
 		{
-			purple_debug_info("mrim","[%s] удаляю <%s>\n", __func__, buddy->name);
+			purple_debug_info("mrim","[%s] purge <%s>\n", __func__, buddy->name);
 			purple_blist_remove_buddy(buddy);
 		}
 		buddies = g_slist_next(buddies);
@@ -131,19 +131,19 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 static mrim_buddy *new_mrim_buddy(package *pack)
 {
 	mrim_buddy *mb = g_new(mrim_buddy, 1);
-	mb->flags = read_UL(pack); // флаг
+	mb->flags = read_UL(pack); // Flag.
 	if (mb->flags & CONTACT_FLAG_MULTICHAT)
 		return NULL; // TODO CHATS
 	//mb->flags &= !CONTACT_FLAG_REMOVED;
-	int gr_id = mb->group_id = read_UL(pack); // ID группы
+	int gr_id = mb->group_id = read_UL(pack); // Group ID
 	if (gr_id > MRIM_MAX_GROUPS)
 		mb->group_id = MRIM_DEFAULT_GROUP_ID;
-	mb->addr = read_LPS(pack); // аддрес контакта (UTF16LE)
-	mb->alias = read_LPS(pack); // ник (UTF16LE)
-	mb->s_flags= read_UL(pack); // серверный флаг (не авторизован)
-	mb->status = read_UL(pack); // статус
+	mb->addr = read_LPS(pack); // Buddy address (UTF16LE)
+	mb->alias = read_LPS(pack); // Nick (UTF16LE)
+	mb->s_flags= read_UL(pack); // Server flag (not authorized)
+	mb->status = read_UL(pack); // Status.
 
-	gchar *phones = read_LPS(pack); // телефон
+	gchar *phones = read_LPS(pack); // Phone number.
 	mb->phones = g_new0(char *, 4);
 	//parse phones
 	if (phones)
@@ -159,7 +159,7 @@ static mrim_buddy *new_mrim_buddy(package *pack)
 	}
 
 	mb->authorized = !(mb->s_flags & CONTACT_INTFLAG_NOT_AUTHORIZED);
-	// Переименовываем телефонные контакты
+	// Rename phone contacts.
 	if ( mb && (mb->flags & CONTACT_FLAG_PHONE) )
 	{
 		purple_debug_info("mrim","[%s] rename phone buddy\n",__func__);
@@ -178,9 +178,9 @@ static mrim_buddy *new_mrim_buddy(package *pack)
 }
 
 /******************************************
- *               Группы
+ *               *Groups.*
  ******************************************/
-// Запрос создания группы на сервере.
+// Group creation request to server.
 static void mrim_add_group(mrim_data *mrim, char *name)
 {
 	purple_debug_info("mrim","[%s] group_name=<%s>\n",__func__, name);
@@ -192,7 +192,7 @@ static void mrim_add_group(mrim_data *mrim, char *name)
 	g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mrim->seq), mpq);
 
 	mrim_pkt_add_group(mrim, name, mpq->seq);
-	// TODO надо ли самому создавать группу?? или libpurple сделает это самостоятельно?
+	// TODO Should we create purple group?? Or it is auto-handled with libpurple?
 }
 
 void mrim_rename_group(PurpleConnection *gc, const char *old_name, PurpleGroup *group, GList *moved_buddies)
@@ -210,7 +210,7 @@ void mrim_rename_group(PurpleConnection *gc, const char *old_name, PurpleGroup *
 	int group_id = get_mrim_group_id_by_name(mrim, (gchar *)old_name);
 	if (group_id == MRIM_NO_GROUP);
 	{
-		purple_notify_warning(_mrim_plugin, _("Работа с контакт-листом завершилась ошибкой!"), _("Работа с контакт-листом завершилась ошибкой!"), _("Группа не найдена"));
+		purple_notify_warning(_mrim_plugin, _("Encountered an error while working on contact list!"), _("Encountered an error while working on contact list!"), _("Group not found."));
 		return;
 	}
 	mrim_group *mg = g_hash_table_lookup(mrim->mg, GUINT_TO_POINTER(group_id));
@@ -218,13 +218,13 @@ void mrim_rename_group(PurpleConnection *gc, const char *old_name, PurpleGroup *
 	if (mg)
 	{
 		flags = mg->flag;
-		//меняем mrim->mg
+		// Change mrim->mg
 		mg->name = group->name;
 		mg->gr = group;
 	}
 
 	mrim_pkt_modify_group(mrim, group_id, group->name, flags);
-	// TODO надо переносить юзеров?
+	// TODO Should we regroup buddies?
 }
 
 void mrim_remove_group(PurpleConnection *gc, PurpleGroup *group) 
@@ -271,10 +271,10 @@ static void mg_add(guint32 flags, gchar *name, guint id, mrim_data *mrim)
 		purple_blist_add_group(gr, NULL);
 	}
 	mg->gr = gr;
-	purple_debug_info("mrim", "[%s] Группа id=<%u> flag=<%x> <%s>\n", __func__, mg->id, mg->flag, mg->name);
+	purple_debug_info("mrim", "[%s] Group id=<%u> flag=<%x> <%s>\n", __func__, mg->id, mg->flag, mg->name);
 	g_hash_table_insert(mrim->mg, GUINT_TO_POINTER(id), mg);
 }
-// поиск группы по её id
+// Look for group by its id:
 PurpleGroup *get_mrim_group_by_id(mrim_data *mrim, guint32 id)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
@@ -286,7 +286,7 @@ PurpleGroup *get_mrim_group_by_id(mrim_data *mrim, guint32 id)
 		purple_debug_info("mrim", "Not found group by ID <%u>\n", id);
 	return mg->gr;
 }
-// поиск группы по её названию
+// Look for group by its name:
 guint32 get_mrim_group_id_by_name(mrim_data *mrim, char *name)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
@@ -310,7 +310,7 @@ guint32 get_mrim_group_id_by_name(mrim_data *mrim, char *name)
 }
 
 /******************************************
- *             Контакты
+ *             *Contacts.*
  ******************************************/
 void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group)
 {
@@ -340,7 +340,7 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 	PurpleAccount *account = purple_connection_get_account(gc);
 	PurpleBuddy *old_buddy = purple_find_buddy(account, buddy->name);
 
-	/* 2) если такой контакт уже был - обновим. не был - добавим  */
+	/* 2) If met such contact -- update. Otherwise -- add.  */
 	if (old_buddy != NULL  && old_buddy != buddy)
 	{
 		purple_debug_info("mrim","Buddy <%s> already exsists!\n", old_buddy->name);
@@ -359,7 +359,7 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 	}
 	else
 	{
-		purple_debug_info("mrim","Такого контакта ещё не было!\n");
+		purple_debug_info("mrim","Never met such contact!\n");
 		// PQ
 		mrim_pq *mpq = g_new0(mrim_pq, 1);
 		mpq->type = ADD_BUDDY;
@@ -382,7 +382,7 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 			mb->phones = g_new0(gchar *, 4);
 			purple_buddy_set_protocol_data(buddy, mb);
 
-			purple_blist_add_buddy(buddy, NULL, group, NULL); // добавляем, только если группа существует
+			purple_blist_add_buddy(buddy, NULL, group, NULL); // Add only if the group exists.
 			clean_string(buddy->name);
 			if (is_valid_email(buddy->name))
 			{
@@ -394,23 +394,24 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 				mb->flags = 0;
 
 				// TODO use send_package_authorize
-				gchar *text = _("Здравствуйте. Пожалуйста, добавьте меня в список Ваших контактов.");
+				gchar *text = _("Hello. Add me to your buddies please.");
 				gchar *ctext = g_convert(text, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
 				gchar *who = (buddy->alias)?(buddy->alias):(buddy->name);
 				gchar *cwho = g_convert(who, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
 
 				package *pack = new_package(mpq->seq, MRIM_CS_ADD_CONTACT);
-				add_ul(0, pack); // просто добавляем
+				add_ul(0, pack); // Just add.
 				add_ul(group_id, pack);
 				add_LPS(buddy->name, pack);
-				add_LPS(who, pack); // псевдоним(ник/алиас)
-				add_ul(0, pack); // null lps - телефоны
-				add_base64(pack, FALSE, "uss", 2, mrim->username, ctext); //TODO сообщение авторизации
+				add_LPS(who, pack); // Pseudonim (nickname/alias)
+				add_ul(0, pack); // null lps - phones
+				add_base64(pack, FALSE, "uss", 2, mrim->username, ctext); //TODO Auth message.
 				add_ul(0, pack);
 				send_package(pack, mrim);
 			}
 			if (is_valid_phone(buddy->name))
-			{
+			{	//TODO WTF? Merge these two almost identical blocks into a single function.
+				// If we ever need auth for phone contacts...
 				purple_debug_info("mrim","[%s] it is phone\n",__func__);
 				mpq->add_buddy.authorized = TRUE;
 				mb->phones[0] = g_strdup(buddy->name);
@@ -421,18 +422,18 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 				mb->status = STATUS_ONLINE;
 
 				// TODO use send_package_authorize
-				gchar *text = _("Здравствуйте. Пожалуйста, добавьте меня в список Ваших контактов.");
+				gchar *text = _("Hello. Add me to your buddies please.");
 				gchar *ctext = g_convert(text, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
 				gchar *who = (buddy->alias)?(buddy->alias):(buddy->name);
 				gchar *cwho = g_convert(who, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
 
 				package *pack = new_package(mpq->seq, MRIM_CS_ADD_CONTACT);
-				add_ul(CONTACT_FLAG_PHONE, pack); // просто добавляем
+				add_ul(CONTACT_FLAG_PHONE, pack); // Just add.
 				add_ul(MRIM_PHONE_GROUP_ID, pack);
 				add_LPS(mb->addr, pack);
-				add_LPS((buddy->alias)?(buddy->alias):NULL, pack); // псевдоним(ник/алиас)
+				add_LPS((buddy->alias)?(buddy->alias):NULL, pack); // Pseudonim (nickname/alias)
 				add_LPS(mrim_phones_to_string(mb->phones), pack);
-				add_base64(pack, FALSE, "uss", 2, cwho, ctext); //TODO сообщение авторизации
+				add_base64(pack, FALSE, "uss", 2, cwho, ctext); //TODO Auth message.
 				add_ul(0, pack);
 				send_package(pack, mrim);
 			}
@@ -453,7 +454,7 @@ void mrim_remove_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *gr
 	purple_debug_info("mrim", "[%s]\n",__func__);
 	mrim_data *mrim = gc->proto_data;
 	mrim_buddy *mb = buddy->proto_data;
-	g_return_if_fail(mb != NULL); // TODO вернуть контакт обратно в контакт лист??
+	g_return_if_fail(mb != NULL); // TODO Put buddy back to buddy list??
 	
 	mrim_pq *mpq = g_new0(mrim_pq, 1);
 	mpq->type = REMOVE_BUDDY;
@@ -539,7 +540,7 @@ void mrim_move_buddy(PurpleConnection *gc, const char *who, const char *old_grou
 	}
 }
 /******************************************
- *               Аватарки
+ *               *Userpics.*
  ******************************************/
 static void mrim_fetch_avatar(PurpleBuddy *buddy)
 {
@@ -550,7 +551,7 @@ static void mrim_fetch_avatar(PurpleBuddy *buddy)
 		return;
 	if ((!buddy->icon) && buddy->name)
 	{
-		// TODO грузить аватарки только в случае их отсутствия
+		// TODO Load only missing userpics.
 		gchar** split_1 = g_strsplit(buddy->name,"@",2);
 		gchar* email_name=split_1[0];
 		gchar* domain;
@@ -591,7 +592,7 @@ static void mrim_avatar_cb(PurpleUtilFetchUrlData *url_data, gpointer user_data,
 }
 
 /******************************************
- *               Авторизация
+ *               *Authorization.*
  ******************************************/
 void mrim_authorization_yes(void *va_data)
 {
@@ -615,7 +616,7 @@ void mrim_authorization_yes(void *va_data)
 }
 
 void mrim_authorization_no(void *va_data)
-{	// ничего не отправляем, просто освобождаем память
+{	// Sending nothing, just do mem free.
 	purple_debug_info("mrim","[%s]\n", __func__);
 	auth_data *a_data = (auth_data *) va_data;
 	g_free(a_data->from);
@@ -625,7 +626,7 @@ void mrim_authorization_no(void *va_data)
 
 
 /******************************************
- *               Очереди
+ *               *Queues.*
  ******************************************/
 void mrim_add_contact_ack(mrim_data *mrim ,package *pack)
 {
@@ -638,7 +639,7 @@ void mrim_add_contact_ack(mrim_data *mrim ,package *pack)
 
 	mrim_pq *mpq = g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 	if (mpq == NULL)
-		purple_notify_warning(_mrim_plugin, _("Работа с контакт-листом завершилась ошибкой!"), _("Работа с контакт-листом завершилась ошибкой!"), _("Такая операция не осуществлялась? (mpq == NUL)"));
+		purple_notify_warning(_mrim_plugin, _("Encountered an error while working on contact list!"), _("Encountered an error while working on contact list!"), _("Did you ever do this operation? (mpq == NULL)"));
 	g_return_if_fail(mpq);
 	switch (mpq->type)
 	{
@@ -649,7 +650,7 @@ void mrim_add_contact_ack(mrim_data *mrim ,package *pack)
 		case ADD_BUDDY:
 			purple_debug_info("mrim","[%s]ADD_BUDDY\n", __func__);
 			if (mpq->add_buddy.group_exsist)
-			{	// добовляли buddy
+			{	// Added buddy
 				PurpleBuddy *buddy = mpq->add_buddy.buddy;
 				mrim_buddy *mb = buddy->proto_data;
 				mb->id = id;
@@ -657,16 +658,16 @@ void mrim_add_contact_ack(mrim_data *mrim ,package *pack)
 					send_package_authorize(mrim, buddy->name, (gchar *)(mrim->username));
 			}
 			else
-			{	// добавляли в не существующую группу
+			{	// Added to not existing group.
 				mg_add(0, mpq->add_buddy.group->name, id, mrim);
-				mrim_add_buddy(mrim->gc, mpq->add_buddy.buddy, mpq->add_buddy.group); // TODO проверить
+				mrim_add_buddy(mrim->gc, mpq->add_buddy.buddy, mpq->add_buddy.group); // TODO Recheck.
 			}
 			break;
 		case MOVE_BUDDY:
 			purple_debug_info("mrim","[%s] MOVE_BUDDY\n", __func__);
-			// добавили группу. теперь перемещаем контакт
+			// Added group, move contact.
 			mg_add(0, mpq->move_buddy.new_group, id, mrim);
-			mrim_move_buddy(mrim->gc, mpq->move_buddy.buddy_name, NULL, mpq->move_buddy.new_group); // TODO проверить
+			mrim_move_buddy(mrim->gc, mpq->move_buddy.buddy_name, NULL, mpq->move_buddy.new_group); // TODO Recheck.
 			break;
 		default:
 			purple_debug_info("mrim","[%s] UNKNOWN mpq->type <%i>\n", __func__, mpq->type);
@@ -686,7 +687,7 @@ void mrim_modify_contact_ack(mrim_data *mrim ,package *pack)
 
 	mrim_pq *mpq = g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 	if (mpq == NULL)
-			purple_notify_warning(_mrim_plugin, _("Работа с контакт-листом завершилась ошибкой!"), _("Работа с контакт-листом завершилась ошибкой!"), _("Такая операция не осуществлялась? (mpq == NUL)"));
+			purple_notify_warning(_mrim_plugin, _("Encountered an error while working on contact list!"), _("Encountered an error while working on contact list!"), _("Did you ever do this operation? (mpq == NULL)"));
 	g_return_if_fail(mpq != NULL);
 
 	switch (mpq->type)
@@ -765,7 +766,7 @@ void mrim_mpop_session(mrim_data *mrim ,package *pack)
 
 	mrim_pq *mpq = g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 	if (mpq == NULL)
-		purple_notify_warning(_mrim_plugin, _("Работа с контакт-листом завершилась ошибкой!"), _("Работа с контакт-листом завершилась ошибкой!"), _("Такая операция не осуществлялась? (mpq == NUL)"));
+		purple_notify_warning(_mrim_plugin, _("Encountered an error while working on contact list!"), _("Encountered an error while working on contact list!"), _("Did you ever do this operation? (mpq == NUL)"));
 	g_return_if_fail(mpq);
 	switch (mpq->type)
 	{
@@ -804,29 +805,29 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 
 	mrim_pq *mpq = g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 	if (mpq == NULL)
-		purple_notify_warning(_mrim_plugin, _("Работа с анкетой завершилась ошибкой!"), _("Работа с анкетой завершилась ошибкой!"), _("Такая операция не осуществлялась? (mpq == NUL)"));
+		purple_notify_warning(_mrim_plugin, _("Encountered an error while working on user details!"), _("Encountered an error while working on user details!"), _("Did you ever do this operation? (mpq == NUL)"));
 	g_return_if_fail(mpq);
 	if (status != MRIM_ANKETA_INFO_STATUS_OK)
 	{
 		switch (status) {
 			case MRIM_ANKETA_INFO_STATUS_NOUSER:
-				purple_notify_warning(_mrim_plugin, _("Работа с анкетой завершилась ошибкой!"), _("Работа с анкетой завершилась ошибкой!"), _("Пользователь не найден"));
+				purple_notify_warning(_mrim_plugin, _("Encountered an error while working on user details!"), _("Encountered an error while working on user details!"), _("User not found."));
 				break;
 			case MRIM_ANKETA_INFO_STATUS_DBERR:
-				purple_notify_warning(_mrim_plugin, _("Работа с анкетой завершилась ошибкой!"), _("Работа с анкетой завершилась ошибкой!"), _("Ошибка DBERR. Попробуйте повторить поиск позже."));
+				purple_notify_warning(_mrim_plugin, _("Encountered an error while working on user details!"), _("Encountered an error while working on user details!"), _("DBERR error. Please try later."));
 				break;
 			case MRIM_ANKETA_INFO_STATUS_RATELIMERR:
-				purple_notify_warning(_mrim_plugin, _("Работа с анкетой завершилась ошибкой!"), _("Работа с анкетой завершилась ошибкой!"), _("MRIM_ANKETA_INFO_STATUS_RATELIMERR"));
+				purple_notify_warning(_mrim_plugin, _("Encountered an error while working on user details!"), _("Encountered an error while working on user details!"), _("MRIM_ANKETA_INFO_STATUS_RATELIMERR"));
 				break;
 			default:
-				purple_notify_warning(_mrim_plugin, _("Работа с анкетой завершилась ошибкой!"), _("Работа с анкетой завершилась ошибкой!"), _("unknown error"));
+				purple_notify_warning(_mrim_plugin, _("Encountered an error while working on user details!"), _("Encountered an error while working on user details!"), _("unknown error"));
 				break;
 		}
 		g_hash_table_remove(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 		return;
 	}
 
-	/* Обработка анкетных данных */
+	/* Processing user details. */
 	purple_debug_info("mrim","[%s] PARSE DATA\n", __func__);
 	gchar *param=NULL, *value=NULL;
 
@@ -835,12 +836,12 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 	guint32 real_rows = 0;
 	gchar *header[fields_num+1];
 	gchar *mas[max_rows][fields_num+1];
-	gboolean skip[fields_num+1]; // поля, которые мы будем пропускать (CountryID, BDay...)
+	gboolean skip[fields_num+1]; // Fields to skip (CountryID, BDay...)
 	guint32 username_index=-1,domain_index=-1;
 
 	guint32 date = read_UL(pack); // DATE(unix)
 
-	// Читаем название столбцов. Индексы столбцов username и domain запоминаем
+	// Reading columns headers. Storing username и domain columns indexes.
 	header[0] = g_strdup("email");
 	skip[0] = FALSE;
 	for(int j=1 ; j <= fields_num ; j++)
@@ -868,7 +869,7 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 		if (domain_index != -1 && username_index != -1)
 			mas[i][0] = g_strdup_printf("%s@%s", mas[i][username_index],  mas[i][domain_index]);
 		else
-			mas[i][0] = (gchar *)g_new0(gchar ,1); // это пустая строка
+			mas[i][0] = (gchar *)g_new0(gchar ,1); // Void string.
 
 		if (pack->buf + pack->len <= pack->cur)
 					break;
@@ -891,7 +892,7 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 					continue;
 				else
 				{
-					value = (atoi(mas[i][j]) == 1)  ?  g_strdup("Мужской") : g_strdup("Женский");
+					value = (atoi(mas[i][j]) == 1)  ?  g_strdup("Male") : g_strdup("Female");
 					FREE(mas[i][j]);
 					mas[i][j] = value;
 				}
@@ -900,7 +901,7 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 		if (strcmp(header[j], "Zodiac")==0)
 		{
 			FREE(header[j]);
-			header[j] = g_strdup("Зодиак");
+			header[j] = g_strdup("Zodiac");
 
 			for (int i=0; i<real_rows; i++)
 				if (! mas[i][j])
@@ -926,7 +927,7 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 			purple_notify_userinfo(mrim->gc,        // connection the buddy info came through
 				mpq->anketa_info.username,  // buddy's username
 				info,      // body
-				NULL,      // callback called when dialog closed // TODO может надо освободить память?
+				NULL,      // callback called when dialog closed // TODO Maybe mem free needed?
 				NULL);     // userdata for callback
 			break;
 
@@ -971,8 +972,8 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 
 	        purple_notify_searchresults(mrim->gc,
 	                        NULL,
-	                        _("Результаты поиска"), NULL, results,
-	                        NULL, //PurpleNotifyCloseCallback // TODO надо освободить память???
+	                        _("Search results"), NULL, results,
+	                        NULL, //PurpleNotifyCloseCallback // TODO Should we do a mem free???
 	                        mrim);
 
 			break;
@@ -997,7 +998,7 @@ void mrim_searchresults_add_buddy(PurpleConnection *gc, GList *row, void *user_d
 	purple_debug_info("mrim","%s", mrim->account->username);
 
     if (!purple_find_buddy(mrim->account, g_list_nth_data(row, 0)))
-            purple_blist_request_add_buddy(mrim->account,  g_list_nth_data(row, 0), NULL, NULL); // TODO автоматически предлагать алиас
+            purple_blist_request_add_buddy(mrim->account,  g_list_nth_data(row, 0), NULL, NULL); // TODO Propose alias automatically.
 }
 
 void pq_free_element(gpointer data)
@@ -1046,29 +1047,29 @@ static void print_cl_status(guint32 status)
 	gchar *mes = NULL;
 	switch (status)
 	{
-		case CONTACT_OPER_ERROR: mes = _("Предоставленные данные были некорректны"); break;
-		case CONTACT_OPER_INTERR: mes = _("При обработке запроса произошла внутренняя ошибка"); break;
-		case CONTACT_OPER_NO_SUCH_USER: mes = _("Добавляемого пользователя не существует в системе"); break;
-		case CONTACT_OPER_INVALID_INFO: mes = _("Некорректное имя пользователя"); break;
-		case CONTACT_OPER_USER_EXISTS: mes = _("Контакт/группа не может быть добавлена"); break;
-		case CONTACT_OPER_GROUP_LIMIT: mes = _("Превышено максимальное количество групп"); break;
+		case CONTACT_OPER_ERROR: mes = _("Invalid data provided."); break;
+		case CONTACT_OPER_INTERR: mes = _("Internal error encountered while processing request."); break;
+		case CONTACT_OPER_NO_SUCH_USER: mes = _("No such user as you added."); break;
+		case CONTACT_OPER_INVALID_INFO: mes = _("Invalid user name."); break;
+		case CONTACT_OPER_USER_EXISTS: mes = _("Buddy/group cannot be added."); break;
+		case CONTACT_OPER_GROUP_LIMIT: mes = _("Max groups allowed count exceedeed."); break;
 	}
 	if (status != CONTACT_OPER_SUCCESS)
 	{
-		purple_notify_warning(_mrim_plugin, _("Работа с контакт-листом завершилась ошибкой!"), _("Работа с контакт-листом завершилась ошибкой!"), mes);
+		purple_notify_warning(_mrim_plugin, _("Encountered an error while working on contact list!"), _("Encountered an error while working on contact list!"), mes);
 		return;
 	}
 }
 
 /******************************************
- *               Пакеты
+ *               *Packages.*
  ******************************************/
-void send_package_authorize(mrim_data *mrim, gchar *to, gchar *who) // TODO text // TODO who не нужен, т.к. есть mrim->username
+void send_package_authorize(mrim_data *mrim, gchar *to, gchar *who) // TODO text // TODO who is not needed for we got mrim->username
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
 	(mrim->seq)++;
 	// запрос авторизации
-	gchar *text = _("Здравствуйте. Пожалуйста, добавьте меня в список Ваших контактов.");
+	gchar *text = _("Hello. Add me to your buddies please.");
 	gchar *ctext = g_convert(text, -1, "CP1251", "UTF8", NULL, NULL, NULL);
 	//gchar *ctext = g_convert(text, -1, "UTF-16LE" , "UTF8", NULL, NULL, NULL);
 	gchar *cwho =  g_convert(who, -1, "CP1251" , "UTF8", NULL, NULL, NULL);
