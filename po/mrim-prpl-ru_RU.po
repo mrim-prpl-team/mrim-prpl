@@ -136,7 +136,7 @@ msgid ""
 "more than 135 symbols in latin\n"
 "or 35 in cyrillic."
 msgstr ""
-"SMS-сообщение не доблжно быть\n"
+"SMS-сообщение не должно быть\n"
 "больше 135-ти символов в латинице\n"
 "или 35 -х символов в кириллице."
 
@@ -186,7 +186,7 @@ msgstr "Править номера телефонов"
 
 #: mrim.c:661
 msgid "Remove from 'Invisible to' list"
-msgstr "Удалить из списка невидящих."
+msgstr "Удалить из списка невидящих"
 
 #: mrim.c:661
 msgid "Add to 'Invisible to' list"
@@ -194,7 +194,7 @@ msgstr "Добавить в список невидящих"
 
 #: mrim.c:665
 msgid "Remove from 'Visible to' list"
-msgstr "Удалить из списка видящих."
+msgstr "Удалить из списка видящих"
 
 #: mrim.c:665
 msgid "Add to 'Visible to' list"
