@@ -8,6 +8,12 @@ ifndef LIBDIR
 LIBDIR="lib"
 endif
 
+ifndef PODIR
+PODIR=po
+endif
+
+# WTF DESTDIR is not used?
+
 #ifndef CFLAGS
 #CFLAGS = -O1 -pipe -shared -fPIC -DPIC -g -ggdb -std=gnu99 -pedantic
 CFLAGS = -Os -pipe -shared -fPIC -DPIC  -std=gnu99
@@ -20,10 +26,15 @@ PURPLE_CFLAGS += $(shell pkg-config --cflags purple)
 all:
 	make compile
 	strip -s mrim.so
+	make i18n
 compile:
 	${CC} ${PURPLE_CFLAGS} message.c cl.c package.c mrim.c filetransfer.c -o mrim.so
 debug:
+	make clean
 	make compile
+	make i18n
+i18n:
+	msgfmt ${PODIR}/mrim-prpl-ru_RU.po --output-file=${PODIR}/mrim-prpl-ru_RU.mo
 install:
 	install -Dm0644 mrim.so ${DESTDIR}/usr/${LIBDIR}/purple-2/mrim.so
 	install -Dm0644 pixmaps/mrim16.png  ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/16/mrim.png
@@ -37,4 +48,4 @@ uninstall:
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/48/mrim.png
 	rm -fv ${DESTDIR}/usr/share/locale/ru/LC_MESSAGES/mrim-prpl.mo
 clean:
-	rm -rfv *.o *.c~ *.h~ *.so *.la *.libs *.dll
+	rm -rfv *.o *.c~ *.h~ *.so *.la *.libs *.dll ${PODIR}/*.mo
