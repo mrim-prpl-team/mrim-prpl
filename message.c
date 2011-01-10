@@ -114,7 +114,7 @@ static gchar* mrim_message_offline_get_attr(const gchar* attr,void* input)
 
     gchar* pattern=NULL;
          if(g_strcmp0(attr,"From:")==0)      pattern=g_strdup("From:\\s([a-zA-Z0-9\\-\\_\\.]+@[a-zA-Z0-9\\-\\_]+\\.+[a-zA-Z]+)\\R");
-    else if(g_strcmp0(attr,"Date:")==0)      pattern=g_strdup("Date:\\s([a-zA-Z0-9, :]+)\\R");
+    else if(g_strcmp0(attr,"Date:")==0)      pattern=g_strdup("Date:\\s([a-zA-Z0-9,+ :]+)\\R");
     else if(g_strcmp0(attr,"Subject:")==0)   pattern=g_strdup("Subject:\\s(\\b[\\w\\s]+\\b)\\R");
     else if(g_strcmp0(attr,"Boundary:")==0)  pattern=g_strdup("Boundary:\\s(\\b\\w+\\b)\\R"); 
     else if(g_strcmp0(attr,"Charset:")==0)   pattern=g_strdup("Charset:([\\w\\d-_]+)\\R");
@@ -148,7 +148,8 @@ static gchar* mrim_message_offline_get_attr(const gchar* attr,void* input)
 
 
 static time_t mrim_str_to_time(const gchar* str)
-{
+{	// TODO: Determine whether we need to transit from GMT-shift to UTC-shift
+	// and implement such transition.
     guint year=0,month=0,day=0,hour=0,min=0,sec=0;
     gchar month_str[4];
     int ret;
