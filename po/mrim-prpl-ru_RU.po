@@ -90,7 +90,7 @@ msgstr "_Искать!"
 #: mrim.c:246
 #: mrim.c:484
 msgid "_Cancel!"
-msgstr "_Отменить!"
+msgstr "О_тменить!"
 
 #: mrim.c:282
 msgid "[web] Set User Info"
