@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-10 00:32+0300\n"
+"POT-Creation-Date: 2011-01-15 03:55+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Janus.Kobain.Stamp <Janus.Kobain.Stamp@gmail.com>\n"
 "Language-Team: mrim-prpl\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: gettext;gettext_noop;N_;_\n"
-"X-Poedit-Basepath: /home/ubuntu/dev/pidgin/mrim-prpl/svn/trunk/\n"
+"X-Poedit-Basepath: /home/ubuntu/dev/matsu/pidgin/mrim-prpl/svn/trunk/\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: filetransfer.c:98
@@ -60,10 +60,12 @@ msgid "No matter"
 msgstr "Без разницы"
 
 #: mrim.c:225
+#: cl.c:934
 msgid "Male"
 msgstr "Мужчина"
 
 #: mrim.c:226
+#: cl.c:934
 msgid "Female"
 msgstr "Женщина"
 
@@ -262,7 +264,7 @@ msgstr "Загружать фото собеседников"
 #: cl.c:642
 #: cl.c:690
 #: cl.c:769
-#: cl.c:1059
+#: cl.c:1113
 msgid "Encountered an error while working on contact list!"
 msgstr "Ошибка при работе со списком контактов!"
 
@@ -272,7 +274,7 @@ msgstr "Группа не найдена."
 
 #: cl.c:397
 #: cl.c:425
-#: cl.c:1072
+#: cl.c:1126
 msgid "Hello. Add me to your buddies please."
 msgstr "Здравствуйте. Пожалуйста, добавьте меня в список Ваших собеседников."
 
@@ -285,11 +287,11 @@ msgstr "Такая операция осуществлялась? (mpq == NULL)"
 #: cl.c:738
 #: cl.c:741
 #: cl.c:744
-#: message.c:447
-#: message.c:477
+#: message.c:448
 #: message.c:478
 #: message.c:479
 #: message.c:480
+#: message.c:481
 msgid "SMS"
 msgstr "SMS"
 
@@ -338,103 +340,196 @@ msgstr "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
 msgid "unknown error"
 msgstr "Неизвестная ошибка."
 
-#: cl.c:975
+#: cl.c:845
+#: cl.c:865
+msgid "email"
+msgstr "Адрес"
+
+#: cl.c:867
+msgid "Nickname"
+msgstr "Псевдоним"
+
+#: cl.c:869
+msgid "FirstName"
+msgstr "Имя"
+
+#: cl.c:871
+msgid "LastName"
+msgstr "Фамилия"
+
+#: cl.c:873
+msgid "Birthday"
+msgstr "Дата рождения"
+
+#: cl.c:875
+msgid "Phone"
+msgstr "Телефон"
+
+#: cl.c:927
+msgid "Sex"
+msgstr "Пол"
+
+#: cl.c:941
+msgid "Zodiac"
+msgstr "Знак зодиака"
+
+#: cl.c:951
+#: cl.h:11
+msgid "Aries"
+msgstr "Овен"
+
+#: cl.c:952
+#: cl.h:12
+msgid "Taurus"
+msgstr "Телец"
+
+#: cl.c:953
+#: cl.h:13
+msgid "Gemini"
+msgstr "Близнецы"
+
+#: cl.c:954
+#: cl.h:14
+msgid "Cancer"
+msgstr "Рак"
+
+#: cl.c:955
+#: cl.h:15
+msgid "Leo"
+msgstr "Лев"
+
+#: cl.c:956
+#: cl.h:16
+msgid "Virgo"
+msgstr "Дева"
+
+#: cl.c:957
+#: cl.h:17
+msgid "Libra"
+msgstr "Весы"
+
+#: cl.c:958
+#: cl.h:18
+msgid "Scorpius"
+msgstr "Скорпион"
+
+#: cl.c:959
+#: cl.h:19
+msgid "Sagittarius"
+msgstr "Стрелец"
+
+#: cl.c:960
+#: cl.h:20
+msgid "Capricornus"
+msgstr "Козерог"
+
+#: cl.c:961
+#: cl.h:21
+msgid "Aquaruis"
+msgstr "Водолей"
+
+#: cl.c:962
+#: cl.h:22
+msgid "Pisces"
+msgstr "Рыбы"
+
+#: cl.c:1029
 msgid "Search results"
 msgstr "Результаты поиска"
 
-#: cl.c:1050
+#: cl.c:1104
 msgid "Invalid data provided."
 msgstr "Предоставлены некорректные данные."
 
-#: cl.c:1051
+#: cl.c:1105
 msgid "Internal error encountered while processing request."
 msgstr "Внутренняя ошибка при обработке запроса."
 
-#: cl.c:1052
+#: cl.c:1106
 msgid "No such user as you added."
 msgstr "Добавляемого пользователя не существует."
 
-#: cl.c:1053
+#: cl.c:1107
 msgid "Invalid user name."
 msgstr "Неверное имя пользователя."
 
-#: cl.c:1054
+#: cl.c:1108
 msgid "Buddy/group cannot be added."
 msgstr "Контакт/группа не могут быть добавлены."
 
-#: cl.c:1055
+#: cl.c:1109
 msgid "Max groups allowed count exceedeed."
 msgstr "Превышено допустимое число групп."
 
-#: message.c:338
+#: message.c:339
 msgid "is not typing"
 msgstr "не набирает сообщение."
 
-#: message.c:339
+#: message.c:340
 msgid "is typing"
 msgstr "набирает сообщение..."
 
-#: message.c:340
+#: message.c:341
 msgid "stopped typing momentarily"
 msgstr "больше не набирает сообщение."
 
-#: message.c:341
+#: message.c:342
 msgid "unknown typing state"
 msgstr "неизвестно, пишет ли."
 
-#: message.c:401
+#: message.c:402
 msgid "Message successfully delivered."
 msgstr "Сообщение успешно доставлено."
 
-#: message.c:404
+#: message.c:405
 msgid "Internal error encountered."
 msgstr "Внутренняя ошибка."
 
-#: message.c:407
+#: message.c:408
 msgid "Recipient does not exist."
 msgstr "Получатель не существует."
 
-#: message.c:410
+#: message.c:411
 msgid "Recipient is offline. Message can not be stored in his mailbox."
 msgstr "Получатель не в сети. Сообщение не может быть сохранено в его почтовом ящике."
 
-#: message.c:413
+#: message.c:414
 msgid "Message size exceeds maximal length allowed."
 msgstr "Размер сообщения превышает допустимый."
 
-#: message.c:416
+#: message.c:417
 msgid "Recipient does not support offline messages."
 msgstr "Получательне поддерживает приём оффлайн-сообщений."
 
-#: message.c:419
+#: message.c:420
 msgid "User does not accept offline flash animation"
 msgstr "Пользователь не принимает в оффлайн flash-анимацию."
 
-#: message.c:422
+#: message.c:423
 msgid "Unknown status"
 msgstr "Неизвестный статус."
 
-#: message.c:447
+#: message.c:448
 msgid "Message is too short."
 msgstr "Слишком короткое сообщение."
 
-#: message.c:477
+#: message.c:478
 msgid "SMS service is not available"
 msgstr "Служба доставки SMS недоступна."
 
-#: message.c:478
+#: message.c:479
 msgid "SMS message sent."
 msgstr "SMS-сообщение отправлено."
 
-#: message.c:479
+#: message.c:480
 msgid "Wrong SMS settings."
 msgstr "Неверные настройки SMS."
 
-#: message.c:480
+#: message.c:481
 msgid "Achtung!"
 msgstr "Ахтунг!"
 
-#: message.c:480
+#: message.c:481
 msgid "Anyone here?? !"
 msgstr "Кто здесь?? !"
 
@@ -449,54 +544,6 @@ msgstr "Доступен"
 #: mrim.h:90
 msgid "Away"
 msgstr "Отошёл"
-
-#: cl.h:11
-msgid "Aries"
-msgstr "Овен"
-
-#: cl.h:12
-msgid "Taurus"
-msgstr "Телец"
-
-#: cl.h:13
-msgid "Gemini"
-msgstr "Близнецы"
-
-#: cl.h:14
-msgid "Cancer"
-msgstr "Рак"
-
-#: cl.h:15
-msgid "Leo"
-msgstr "Лев"
-
-#: cl.h:16
-msgid "Virgo"
-msgstr "Дева"
-
-#: cl.h:17
-msgid "Libra"
-msgstr "Весы"
-
-#: cl.h:18
-msgid "Scorpius"
-msgstr "Скорпион"
-
-#: cl.h:19
-msgid "Sagittarius"
-msgstr "Стрелец"
-
-#: cl.h:20
-msgid "Capricornus"
-msgstr "Козерог"
-
-#: cl.h:21
-msgid "Aquaruis"
-msgstr "Водолей"
-
-#: cl.h:22
-msgid "Pisces"
-msgstr "Рыбы"
 
 #~ msgid "Смс-ка успешно доставлена."
 #~ msgstr "Сообщение SMS успешно доставлено."

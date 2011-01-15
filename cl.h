@@ -7,21 +7,6 @@
  #define MRIM_NO_GROUP 12345
 
 
-static const gchar *zodiak[]={
-	N_("Aries"),
-	N_("Taurus"),
-	N_("Gemini"),
-	N_("Cancer"),
-	N_("Leo"),
-	N_("Virgo"),
-	N_("Libra"),
-	N_("Scorpius"),
-	N_("Sagittarius"),
-	N_("Capricornus"), // 10 in mrim, 9 in massive
-	N_("Aquaruis"),
-	N_("Pisces")
-};
-
 //	Buddy list
 void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack);
 static mrim_buddy *new_mrim_buddy(package *pack);

@@ -842,7 +842,7 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 	guint32 date = read_UL(pack); // DATE(unix)
 
 	// Reading columns headers. Storing username и domain columns indexes.
-	header[0] = g_strdup("email");
+	header[0] = g_strdup( _("email") );
 	skip[0] = FALSE;
 	for(int j=1 ; j <= fields_num ; j++)
 	{
@@ -856,13 +856,34 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 		if (strcmp(header[j], "BMonth")==0)		{	skip[j]=TRUE;	continue; }
 		if (strcmp(header[j], "BDay")==0)		{	skip[j]=TRUE;	continue; }
 		if (strcmp(header[j], "Location")==0)	{	skip[j]=TRUE;	continue; }
+		
+		// i18n for userinfo headers:
+		gchar *header_name = g_strdup ( header[j] );
+		FREE(header[j]);
+		if ( strcmp ( header_name, "email" ) == 0)
+			header[j] = g_strdup( _("email") );
+		else if ( strcmp ( header_name, "Nickname" ) == 0)
+			header[j] = g_strdup( _("Nickname") );
+		else if ( strcmp ( header_name, "FirstName" ) == 0)
+			header[j] = g_strdup( _("FirstName") );
+		else if ( strcmp ( header_name, "LastName" ) == 0)
+			header[j] = g_strdup( _("LastName") );
+		else if ( strcmp ( header_name, "Birthday" ) == 0)
+			header[j] = g_strdup( _("Birthday") );
+		else if ( strcmp ( header_name, "Phone" ) == 0)
+			header[j] = g_strdup( _("Phone") );
+		else
+			header[j] = g_strdup( header_name );
+		FREE(header_name);
 	}
 
 	for (int i=0; i<max_rows; i++)
 	{
 		for(int j=1 ; j <= fields_num ; j++)
+		{
+			 
 			mas[i][j] = read_LPS(pack);
-
+		}
 
 		real_rows = i+1; // TODO
 
@@ -879,39 +900,57 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 
 	for(int j=0 ; j <= fields_num ; j++)
 	{
-		if (skip[j])
-			continue;
+		if (skip[j]) { continue; }
+		else {
+			// Parse values for several choices.
+			if (strcmp(header[j], "Sex")==0)
+			{
+				FREE(header[j]);
+				header[j] = g_strdup( _("Sex") );
 
-		if (strcmp(header[j], "Sex")==0)
-		{
-			FREE(header[j]);
-			header[j] = g_strdup("Пол");
+				for (int i=0; i<real_rows; i++)
+					if (! mas[i][j])
+						continue;
+					else
+					{
+						value = (atoi(mas[i][j]) == 1)  ?  g_strdup( _("Male") ) : g_strdup( _("Female") );
+						FREE(mas[i][j]);
+						mas[i][j] = value;
+					}
+			} else if (strcmp(header[j], "Zodiac")==0)
+			{
+				FREE(header[j]);
+				header[j] = g_strdup( _("Zodiac") );
 
-			for (int i=0; i<real_rows; i++)
-				if (! mas[i][j])
-					continue;
-				else
-				{
-					value = (atoi(mas[i][j]) == 1)  ?  g_strdup("Male") : g_strdup("Female");
-					FREE(mas[i][j]);
-					mas[i][j] = value;
-				}
-		}
-
-		if (strcmp(header[j], "Zodiac")==0)
-		{
-			FREE(header[j]);
-			header[j] = g_strdup("Zodiac");
-
-			for (int i=0; i<real_rows; i++)
-				if (! mas[i][j])
-					continue;
-				else
-				{
-					value = g_strdup(zodiak[ atoi(mas[i][j])-1 ]);
-					FREE(mas[i][j]);
-					mas[i][j] = value;
-				}
+				for (int i=0; i<real_rows; i++)
+					if (! mas[i][j])
+						continue;
+					else
+					{
+						int zIndex = atoi(mas[i][j]);
+						switch ( zIndex )
+						{
+							case 1: value = g_strdup( _("Aries") ); break;
+							case 2: value = g_strdup( _("Taurus") ); break;
+							case 3: value = g_strdup( _("Gemini") ); break;
+							case 4: value = g_strdup( _("Cancer") ); break;
+							case 5: value = g_strdup( _("Leo") ); break;
+							case 6: value = g_strdup( _("Virgo") ); break;
+							case 7: value = g_strdup( _("Libra") ); break;
+							case 8: value = g_strdup( _("Scorpius") ); break;
+							case 9: value = g_strdup( _("Sagittarius") ); break;
+							case 10: value = g_strdup( _("Capricornus") ); break;
+							case 11: value = g_strdup( _("Aquaruis") ); break;
+							case 12: value = g_strdup( _("Pisces") ); break;
+						}
+						// This crap did was not being fetched when placed in cl.h
+						//not reffered directly to here and equipped
+						// with N_().
+						
+						FREE(mas[i][j]);
+						mas[i][j] = value;
+					}
+			}
 		}
 	}
 
