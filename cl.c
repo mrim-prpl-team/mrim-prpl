@@ -860,20 +860,15 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 		// i18n for userinfo headers:
 		gchar *header_name = g_strdup ( header[j] );
 		FREE(header[j]);
-		if ( strcmp ( header_name, "email" ) == 0)
-			header[j] = g_strdup( _("email") );
-		else if ( strcmp ( header_name, "Nickname" ) == 0)
-			header[j] = g_strdup( _("Nickname") );
-		else if ( strcmp ( header_name, "FirstName" ) == 0)
-			header[j] = g_strdup( _("FirstName") );
-		else if ( strcmp ( header_name, "LastName" ) == 0)
-			header[j] = g_strdup( _("LastName") );
-		else if ( strcmp ( header_name, "Birthday" ) == 0)
-			header[j] = g_strdup( _("Birthday") );
-		else if ( strcmp ( header_name, "Phone" ) == 0)
-			header[j] = g_strdup( _("Phone") );
-		else
-			header[j] = g_strdup( header_name );
+		for ( int headerIndex = 0; headerIndex < info_header_size; headerIndex ++ )
+		{
+			if ( strcmp ( header_name, info_header [headerIndex] ) == 0)
+			{
+				header_name = g_strdup( _(info_header_i18n[headerIndex]) );
+				break;
+			}
+		};
+		header[j] = g_strdup( header_name );
 		FREE(header_name);
 	}
 
@@ -912,7 +907,7 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 					if (! mas[i][j])
 						continue;
 					else
-					{
+					{	// Sex description:
 						value = (atoi(mas[i][j]) == 1)  ?  g_strdup( _("Male") ) : g_strdup( _("Female") );
 						FREE(mas[i][j]);
 						mas[i][j] = value;
@@ -926,29 +921,12 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 					if (! mas[i][j])
 						continue;
 					else
-					{
-						int zIndex = atoi(mas[i][j]);
-						switch ( zIndex )
-						{
-							case 1: value = g_strdup( _("Aries") ); break;
-							case 2: value = g_strdup( _("Taurus") ); break;
-							case 3: value = g_strdup( _("Gemini") ); break;
-							case 4: value = g_strdup( _("Cancer") ); break;
-							case 5: value = g_strdup( _("Leo") ); break;
-							case 6: value = g_strdup( _("Virgo") ); break;
-							case 7: value = g_strdup( _("Libra") ); break;
-							case 8: value = g_strdup( _("Scorpius") ); break;
-							case 9: value = g_strdup( _("Sagittarius") ); break;
-							case 10: value = g_strdup( _("Capricornus") ); break;
-							case 11: value = g_strdup( _("Aquaruis") ); break;
-							case 12: value = g_strdup( _("Pisces") ); break;
-						}
-						// This crap did was not being fetched when placed in cl.h
-						//not reffered directly to here and equipped
-						// with N_().
-						
+					{	// Zodiac description:
+						value = g_strdup ( mas[i][j] );
 						FREE(mas[i][j]);
-						mas[i][j] = value;
+						mas[i][j] = g_strdup( _(zodiac[atoi(value)-1]) );
+						//mas[i][j] = g_strdup ( gettext (zodiac[atoi(value)-1]) );
+						FREE(value);
 					}
 			}
 		}

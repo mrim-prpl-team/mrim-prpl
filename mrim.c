@@ -218,7 +218,7 @@ static void mrim_search_action(PurplePluginAction *action)
 	purple_request_field_group_add_field(group, field);
 	field = purple_request_field_string_new("text_box_first_name",_("Name"),"",FALSE);
 	purple_request_field_group_add_field(group, field);
-	field = purple_request_field_string_new("text_box_surname",_("Lastname"),"",FALSE);
+	field = purple_request_field_string_new("text_box_surname",_("LastName"),"",FALSE);
 	purple_request_field_group_add_field(group, field);
 	field = purple_request_field_choice_new("radio_button_gender", _("Gender"), 0);
 	purple_request_field_choice_add(field, _("No matter")); // TODO maybe, purple_request_field_list* ?
@@ -549,7 +549,7 @@ static void  blist_edit_phones_menu_item(PurpleBlistNode *node, gpointer userdat
 
 
 
-	purple_request_fields(mrim->gc, _("Phone numbers editor"), _("Phone numbers editor"), _("Specify numbers as shown: +7123456789"),  fields,
+	purple_request_fields(mrim->gc, _("Phone numbers editor"), _("Phone numbers editor"), _("Specify numbers as shown: +71234567890"),  fields,
 			_("_Ok"), G_CALLBACK(blist_edit_phones),
 			_("_Cancel"), NULL,
 			mrim->account, buddy->name, NULL, buddy);

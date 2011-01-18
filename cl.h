@@ -6,6 +6,38 @@
  
  #define MRIM_NO_GROUP 12345
 
+static const gchar *zodiac[]={
+		N_("Aries"),
+		N_("Taurus"),
+		N_("Gemini"),
+		N_("Cancer"),
+		N_("Leo"),
+		N_("Virgo"),
+		N_("Libra"),
+		N_("Scorpius"),
+		N_("Sagittarius"),
+		N_("Capricornus"), // 10 in mrim, 9 in massive
+		N_("Aquaruis"),
+		N_("Pisces")
+};
+
+static const int info_header_size = 5;
+
+static const gchar *info_header[]={
+		"Nickname",
+		"FirstName",
+		"LastName",
+		"Birthday",
+		"Phone"
+};
+
+static const gchar *info_header_i18n[]={
+		N_("Nickname"),
+		N_("FirstName"),
+		N_("LastName"),
+		N_("Birthday"),
+		N_("Phone")
+};
 
 //	Buddy list
 void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack);
