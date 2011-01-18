@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-18 04:22+0300\n"
+"POT-Creation-Date: 2011-01-18 04:28+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Janus.Kobain.Stamp <Janus.Kobain.Stamp@gmail.com>\n"
 "Language-Team: mrim-prpl\n"
@@ -61,12 +61,12 @@ msgid "No matter"
 msgstr "Без різниці"
 
 #: mrim.c:225
-#: cl.c:914
+#: cl.c:911
 msgid "Male"
 msgstr "Чоловiк"
 
 #: mrim.c:226
-#: cl.c:914
+#: cl.c:911
 msgid "Female"
 msgstr "Жiнка"
 
@@ -265,7 +265,7 @@ msgstr "Завантажити фото співрозмовников"
 #: cl.c:642
 #: cl.c:690
 #: cl.c:769
-#: cl.c:1078
+#: cl.c:1076
 msgid "Encountered an error while working on contact list!"
 msgstr "Помилка при роботі з переліком контактів!"
 
@@ -275,7 +275,7 @@ msgstr "Група не знайдена."
 
 #: cl.c:397
 #: cl.c:425
-#: cl.c:1091
+#: cl.c:1089
 msgid "Hello. Add me to your buddies please."
 msgstr "Доброго дня! Будь-ласка, додайте мене до переліку Ваших співрозмовників."
 
@@ -345,39 +345,39 @@ msgstr "Невідома помилка."
 msgid "email"
 msgstr "Адреса"
 
-#: cl.c:907
+#: cl.c:904
 msgid "Sex"
 msgstr "Стать"
 
-#: cl.c:921
+#: cl.c:918
 msgid "Zodiac"
 msgstr "Знак зодіаку"
 
-#: cl.c:994
+#: cl.c:992
 msgid "Search results"
 msgstr "Результат пошуку."
 
-#: cl.c:1069
+#: cl.c:1067
 msgid "Invalid data provided."
 msgstr "Ведені некоректні дані."
 
-#: cl.c:1070
+#: cl.c:1068
 msgid "Internal error encountered while processing request."
 msgstr "Внутрішня помилка при обробці запиту."
 
-#: cl.c:1071
+#: cl.c:1069
 msgid "No such user as you added."
 msgstr "Такого користувача не існує."
 
-#: cl.c:1072
+#: cl.c:1070
 msgid "Invalid user name."
 msgstr "Невірне ім'я користувача."
 
-#: cl.c:1073
+#: cl.c:1071
 msgid "Buddy/group cannot be added."
 msgstr "Контакт / група не може бути додана."
 
-#: cl.c:1074
+#: cl.c:1072
 msgid "Max groups allowed count exceedeed."
 msgstr "Перевищене допустиме число груп."
 
