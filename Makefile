@@ -12,23 +12,18 @@ ifndef PODIR
 PODIR=po
 endif
 
-# WTF DESTDIR is not used?
-
-#ifndef CFLAGS
+ifndef CFLAGS
 #CFLAGS = -O1 -pipe -shared -fPIC -DPIC -g -ggdb -std=gnu99 -pedantic
 CFLAGS = -Os -pipe -shared -fPIC -DPIC  -std=gnu99
-#endif
+endif
 
-PURPLE_CFLAGS = $(CFLAGS)
-PURPLE_CFLAGS += $(shell pkg-config --cflags purple)
+PURPLE_CFLAGS = $(shell pkg-config --cflags purple)
 #PURPLE_CFLAGS += $(shell pkg-config --libs glib-2.0)
 
-all:
-	make compile
+all:compile i18n
 	strip -s mrim.so
-	make i18n
 compile:
-	${CC} ${PURPLE_CFLAGS} message.c cl.c package.c mrim.c filetransfer.c -o mrim.so
+	${CC} ${CFLAGS} ${PURPLE_CFLAGS} message.c cl.c package.c mrim.c filetransfer.c -o mrim.so
 debug:
 	make clean
 	make compile
