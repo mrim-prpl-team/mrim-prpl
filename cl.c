@@ -39,7 +39,8 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 			mg_add(flags, name, i, mrim);
 		if (flags & CONTACT_FLAG_REMOVED)
 			purple_debug_info("mrim","[%s] <%s> has flag REMOVED\n", __func__, name);
-
+		
+		FREE(name)
 		cl_skeep(g_mask + 2, pack);
 	}
 
@@ -65,22 +66,13 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 			{	/*************/
 				/* ADD BUDDY */
 				/*************/
-				// 1) Rename phone contacts.
-				if (strcmp(mb->addr, "phone") == 0) // TODO Think of it.
-				{
-					purple_debug_info("mrim","[%s] rename phone buddy to %s\n",__func__, mb->phones[0]);
-					g_free(mb->addr);
-					mb->addr = g_strdup(mb->phones[0]);
-					mb->status = STATUS_ONLINE;
-					mb->flags |= CONTACT_FLAG_PHONE;
-				}
-				// 2) If met before -- attach,
+				// 1) If met before -- attach,
 				//    otherwise create new one.
 				PurpleBuddy *old_buddy = purple_find_buddy(account, mb->addr);
 				if (old_buddy != NULL)
 				{
 					purple_debug_info("mrim","Buddy <%s> already exsist!\n", old_buddy->name);
-					// TODO Move to appropriate group.
+					// TODO Move to appropriate group.			
 					buddy = old_buddy;
 				}
 				else
@@ -163,11 +155,20 @@ static mrim_buddy *new_mrim_buddy(package *pack)
 	if ( mb && (mb->flags & CONTACT_FLAG_PHONE) )
 	{
 		purple_debug_info("mrim","[%s] rename phone buddy\n",__func__);
+		FREE(mb->addr)
 		mb->addr = g_strdup(mb->phones[0]);
 		mb->authorized = TRUE;
 		mb->status = STATUS_ONLINE;
 	}
-
+/*	if (strcmp(mb->addr, "phone") == 0) // TODO Think of it.
+	{
+		purple_debug_info("mrim","[%s] rename phone buddy to %s\n",__func__, mb->phones[0]);
+		g_free(mb->addr);
+		mb->addr = g_strdup(mb->phones[0]);
+		mb->status = STATUS_ONLINE;
+		mb->flags |= CONTACT_FLAG_PHONE;
+	}
+*/
 	if (! mb->authorized)
 		mb->status = STATUS_OFFLINE;
 
@@ -334,6 +335,17 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 	}
 	else
 		FREE(phone)
+	
+	if (!is_valid_buddy_name(buddy->name))
+	{
+		gchar *buf;
+		buf = g_strdup_printf(_("Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and \'-\'."), buddy->name);
+		purple_notify_error(gc, NULL, _("Unable to Add"), buf);
+		g_free(buf);
+		/* Remove from local list */
+		purple_blist_remove_buddy(buddy);
+		return;
+	}
 
 	mrim_buddy *mb;
 	mrim_data *mrim = purple_connection_get_protocol_data(gc);

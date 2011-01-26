@@ -333,7 +333,8 @@ static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields);
 void clean_string(gchar *email);
 gchar *clear_phone(gchar *phone);
 gboolean is_valid_email(gchar *email);
-gboolean is_valid_phone();
+gboolean is_valid_phone(gchar *phone);
+#define is_valid_buddy_name(name) (is_valid_phone(name) || is_valid_email(name))
 
 #if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION <= 5
 	void purple_connection_set_protocol_data(PurpleConnection *connection, void *proto_data);
