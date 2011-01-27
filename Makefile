@@ -40,12 +40,14 @@ install:
 	install -Dm0644 pixmaps/mrim48.png  ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/48/mrim.png
 	install -Dm0644 po/mrim-prpl-ru_RU.mo ${DESTDIR}/usr/share/locale/ru/LC_MESSAGES/mrim-prpl.mo
 	install -Dm0644 po/mrim-prpl-uk.mo    ${DESTDIR}/usr/share/locale/uk/LC_MESSAGES/mrim-prpl.mo
-uninstall:
+uninstall:uninstall-old
 	rm -fv ${DESTDIR}/usr/${LIBDIR}/purple-2/libmrim.so
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/16/mrim.png
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/22/mrim.png
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/48/mrim.png
 	rm -fv ${DESTDIR}/usr/share/locale/ru/LC_MESSAGES/mrim-prpl.mo
 	rm -fv ${DESTDIR}/usr/share/locale/uk/LC_MESSAGES/mrim-prpl.mo
+uninstall-old:
+	rm -fv ${DESTDIR}/usr/${LIBDIR}/purple-2/mrim.so
 clean:
 	rm -rfv *.o *.c~ *.h~ *.so *.la *.libs *.dll ${PODIR}/*.mo
