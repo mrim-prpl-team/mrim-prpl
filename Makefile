@@ -46,5 +46,6 @@ uninstall:
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/22/mrim.png
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/48/mrim.png
 	rm -fv ${DESTDIR}/usr/share/locale/ru/LC_MESSAGES/mrim-prpl.mo
+	rm -fv ${DESTDIR}/usr/share/locale/uk/LC_MESSAGES/mrim-prpl.mo
 clean:
 	rm -rfv *.o *.c~ *.h~ *.so *.la *.libs *.dll ${PODIR}/*.mo

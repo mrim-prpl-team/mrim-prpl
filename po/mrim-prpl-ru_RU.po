@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-18 04:28+0300\n"
+"POT-Creation-Date: 2011-01-27 03:08+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Janus.Kobain.Stamp <Janus.Kobain.Stamp@gmail.com>\n"
 "Language-Team: mrim-prpl\n"
@@ -17,123 +17,127 @@ msgstr ""
 "X-Poedit-Basepath: /home/ubuntu/dev/matsu/pidgin/mrim-prpl/svn/trunk/\n"
 "X-Poedit-SearchPath-0: .\n"
 
+#: package.c:84
+msgid "Encoding error: can't convert UTF8 into CP1251"
+msgstr "Ошибка кодировки: не могу преобразовать из UTF8 в CP1251"
+
 #: filetransfer.c:98
 msgid "The file you are trying to send is too large!"
 msgstr "Отправляемый Вами файл слишком велик!"
 
-#: mrim.c:148
+#: mrim.c:149
 #, c-format
 msgid "%s is offline."
 msgstr "Собеседник %s не в сети."
 
-#: mrim.c:149
+#: mrim.c:150
 msgid "UserInfo"
 msgstr "Детали контакта"
 
-#: mrim.c:149
+#: mrim.c:150
 msgid "UserInfo is not available."
 msgstr "Информация о контакте недоступна."
 
-#: mrim.c:155
+#: mrim.c:156
 msgid "UserInfo is not available for conferences and phones."
 msgstr "Информация о чатах и телефонах недоступна."
 
-#: mrim.c:217
+#: mrim.c:218
 msgid "Nick"
 msgstr "Псевдоним"
 
-#: mrim.c:219
-#: mrim.c:325
+#: mrim.c:220
+#: mrim.c:326
 msgid "Name"
 msgstr "Имя"
 
-#: mrim.c:221
+#: mrim.c:222
 #: cl.h:37
 msgid "LastName"
 msgstr "Фамилия"
 
-#: mrim.c:223
+#: mrim.c:224
 msgid "Gender"
 msgstr "Пол"
 
-#: mrim.c:224
+#: mrim.c:225
 msgid "No matter"
 msgstr "Без разницы"
 
-#: mrim.c:225
-#: cl.c:911
+#: mrim.c:226
+#: cl.c:923
 msgid "Male"
 msgstr "Мужчина"
 
-#: mrim.c:226
-#: cl.c:911
+#: mrim.c:227
+#: cl.c:923
 msgid "Female"
 msgstr "Женщина"
 
-#: mrim.c:233
+#: mrim.c:234
 msgid "Age from"
 msgstr "Возраст от"
 
-#: mrim.c:235
+#: mrim.c:236
 msgid "Age up to"
 msgstr "Возраст до"
 
-#: mrim.c:239
+#: mrim.c:240
 msgid "Online"
 msgstr "Доступен"
 
-#: mrim.c:244
+#: mrim.c:245
 msgid "Buddies search"
 msgstr "Поиск контактов"
 
-#: mrim.c:245
+#: mrim.c:246
 msgid "_Search!"
 msgstr "_Искать!"
 
-#: mrim.c:246
-#: mrim.c:484
+#: mrim.c:247
+#: mrim.c:485
 msgid "_Cancel!"
 msgstr "О_тменить!"
 
-#: mrim.c:282
+#: mrim.c:283
 msgid "[web] Set User Info"
 msgstr "Установить пользовательскую информацию (web)..."
 
-#: mrim.c:285
+#: mrim.c:286
 msgid "[web] Set User avatar"
 msgstr "Установить пользовательскую картинку (web)..."
 
-#: mrim.c:288
+#: mrim.c:289
 msgid "Search for buddies"
 msgstr "Искать пользователей..."
 
-#: mrim.c:337
-#: mrim.c:346
+#: mrim.c:338
+#: mrim.c:347
 msgid "Contact details"
 msgstr "Подробности о собеседнике"
 
-#: mrim.c:343
+#: mrim.c:344
 msgid "Phone numbers"
 msgstr "Номера телефонов"
 
-#: mrim.c:346
+#: mrim.c:347
 #: mrim.h:88
 msgid "Offline"
 msgstr "Не в сети"
 
-#: mrim.c:473
+#: mrim.c:474
 msgid "Choose phone number"
 msgstr "Выберите номер"
 
-#: mrim.c:479
+#: mrim.c:480
 msgid "SMS message text"
 msgstr "Текст SMS-сообщения"
 
-#: mrim.c:482
+#: mrim.c:483
 msgid "Send SMS"
 msgstr "Отправить SMS"
 
-#: mrim.c:482
+#: mrim.c:483
 msgid ""
 "SMS message should contain not\n"
 "more than 135 symbols in latin\n"
@@ -143,151 +147,160 @@ msgstr ""
 "больше 135-ти символов в латинице\n"
 "или 35 -х символов в кириллице."
 
-#: mrim.c:483
+#: mrim.c:484
 msgid "_Send"
 msgstr "_Отправить"
 
-#: mrim.c:543
+#: mrim.c:544
 msgid "_Main number"
 msgstr "_Основной номер"
 
-#: mrim.c:545
+#: mrim.c:546
 msgid "S_econd number"
 msgstr "_Второй номер"
 
-#: mrim.c:547
+#: mrim.c:548
 msgid "_Third number"
 msgstr "Т_ретий номер"
 
-#: mrim.c:552
+#: mrim.c:553
 msgid "Phone numbers editor"
 msgstr "Редактор номеров телефонов"
 
-#: mrim.c:552
+#: mrim.c:553
 msgid "Specify numbers as shown: +71234567890"
 msgstr "Номер указывается в виде: +71234567890"
 
-#: mrim.c:553
+#: mrim.c:554
 msgid "_Ok"
 msgstr "_OK"
 
-#: mrim.c:554
+#: mrim.c:555
 msgid "_Cancel"
 msgstr "О_тменить"
 
-#: mrim.c:647
+#: mrim.c:648
 msgid "(Re-)request authorization"
 msgstr "(Повторно) Запросить авторизацию"
 
-#: mrim.c:653
+#: mrim.c:654
 msgid "Send an SMS..."
 msgstr "Отправка SMS"
 
-#: mrim.c:656
+#: mrim.c:657
 msgid "Edit phone numbers..."
 msgstr "Править номера телефонов"
 
-#: mrim.c:661
+#: mrim.c:662
 msgid "Remove from 'Invisible to' list"
 msgstr "Удалить из списка невидящих"
 
-#: mrim.c:661
+#: mrim.c:662
 msgid "Add to 'Invisible to' list"
 msgstr "Добавить в список невидящих"
 
-#: mrim.c:665
+#: mrim.c:666
 msgid "Remove from 'Visible to' list"
 msgstr "Удалить из списка видящих"
 
-#: mrim.c:665
+#: mrim.c:666
 msgid "Add to 'Visible to' list"
 msgstr "Добавить в список видящих"
 
-#: mrim.c:669
+#: mrim.c:670
 msgid "Visibility settings"
 msgstr "Настройки видимости"
 
-#: mrim.c:904
+#: mrim.c:905
 #, c-format
 msgid "Unable to connect: %s"
 msgstr "Не могу соединиться: %s"
 
-#: mrim.c:917
+#: mrim.c:918
 msgid "Connecting"
 msgstr "Соединяюсь"
 
-#: mrim.c:923
+#: mrim.c:924
 msgid "Unable to write to socket."
 msgstr "Не удаётся запись в сокет."
 
-#: mrim.c:944
+#: mrim.c:945
 msgid "Disconnected by user action?"
 msgstr "Соединение прервано пользователем?"
 
-#: mrim.c:953
+#: mrim.c:954
 msgid "Input Error"
 msgstr "Ошибка ввода"
 
-#: mrim.c:959
+#: mrim.c:960
 msgid "Bad Package"
 msgstr "Сбойный пакет (BP)."
 
-#: mrim.c:1007
+#: mrim.c:1008
 #, c-format
 msgid "Disconnected. Reason: %s"
 msgstr "Отключено. Причина: %s"
 
-#: mrim.c:1053
+#: mrim.c:1054
 msgid "Logged in from another location."
 msgstr "Выполнен вход в сеть из другого места."
 
-#: mrim.c:1055
+#: mrim.c:1056
 msgid "Server broke connection."
 msgstr "Сервер разорвал соединение."
 
-#: mrim.c:1068
+#: mrim.c:1069
 msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
 msgstr "Ошибка пинга в MRIM_CS_CONNECTION_PARAMS"
 
-#: mrim.c:1508
+#: mrim.c:1509
 msgid "Server"
 msgstr "Сервер"
 
-#: mrim.c:1510
+#: mrim.c:1511
 msgid "Port"
 msgstr "Порт"
 
-#: mrim.c:1512
+#: mrim.c:1513
 msgid "Load userpics"
 msgstr "Загружать фото собеседников"
 
-#: cl.c:213
-#: cl.c:642
-#: cl.c:690
-#: cl.c:769
-#: cl.c:1076
+#: cl.c:214
+#: cl.c:654
+#: cl.c:702
+#: cl.c:781
+#: cl.c:1088
 msgid "Encountered an error while working on contact list!"
 msgstr "Ошибка при работе со списком контактов!"
 
-#: cl.c:213
+#: cl.c:214
 msgid "Group not found."
 msgstr "Группа не найдена."
 
-#: cl.c:397
-#: cl.c:425
-#: cl.c:1089
+#: cl.c:342
+#, c-format
+msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and '-'."
+msgstr "Не могу добавить собеседника \"%s\" из-за неверного имени пользователя. Имя пользователя должно быть существующим почтовым адресом (в доменах @mail.ru, @bk.ru, @list.ru, @inbox.ru, @corp.mail.ru) или существующим телефонным номером, включающим знаки \"+\", \"-\", символы пробела и состоящим только из цифр."
+
+#: cl.c:343
+msgid "Unable to Add"
+msgstr "Не удаётся добавить"
+
+#: cl.c:409
+#: cl.c:437
+#: cl.c:1101
 msgid "Hello. Add me to your buddies please."
 msgstr "Здравствуйте. Пожалуйста, добавьте меня в список Ваших собеседников."
 
-#: cl.c:642
-#: cl.c:690
+#: cl.c:654
+#: cl.c:702
 msgid "Did you ever do this operation? (mpq == NULL)"
 msgstr "Такая операция осуществлялась? (mpq == NULL)"
 
-#: cl.c:735
-#: cl.c:738
-#: cl.c:741
-#: cl.c:744
+#: cl.c:747
+#: cl.c:750
+#: cl.c:753
+#: cl.c:756
 #: message.c:448
 #: message.c:478
 #: message.c:479
@@ -296,88 +309,88 @@ msgstr "Такая операция осуществлялась? (mpq == NULL)"
 msgid "SMS"
 msgstr "SMS"
 
-#: cl.c:735
+#: cl.c:747
 msgid "SMS delivered successfully."
 msgstr "SMS-сообщение доставлено успешно."
 
-#: cl.c:738
+#: cl.c:750
 msgid "SMS service is not available."
 msgstr "Служба доставки SMS недоступна."
 
-#: cl.c:741
+#: cl.c:753
 msgid "Wrong SMS parameters."
 msgstr "Неверные параметры SMS."
 
-#: cl.c:744
+#: cl.c:756
 msgid "Something went wrong!"
 msgstr "Что-то пошло не так!"
 
-#: cl.c:769
-#: cl.c:808
+#: cl.c:781
+#: cl.c:820
 msgid "Did you ever do this operation? (mpq == NUL)"
 msgstr "Такая операция осуществлялась? (mpq == NULL)"
 
-#: cl.c:808
-#: cl.c:814
-#: cl.c:817
 #: cl.c:820
-#: cl.c:823
+#: cl.c:826
+#: cl.c:829
+#: cl.c:832
+#: cl.c:835
 msgid "Encountered an error while working on user details!"
 msgstr "Ошибка при работе с анкетой!"
 
-#: cl.c:814
+#: cl.c:826
 msgid "User not found."
 msgstr "Пользователь не найден."
 
-#: cl.c:817
+#: cl.c:829
 msgid "DBERR error. Please try later."
 msgstr "Ошибка DBERR. Попробуйте повторить позже."
 
-#: cl.c:820
+#: cl.c:832
 msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
 msgstr "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
 
-#: cl.c:823
+#: cl.c:835
 msgid "unknown error"
 msgstr "Неизвестная ошибка."
 
-#: cl.c:845
+#: cl.c:857
 msgid "email"
 msgstr "Адрес"
 
-#: cl.c:904
+#: cl.c:916
 msgid "Sex"
 msgstr "Пол"
 
-#: cl.c:918
+#: cl.c:930
 msgid "Zodiac"
 msgstr "Знак зодиака"
 
-#: cl.c:992
+#: cl.c:1004
 msgid "Search results"
 msgstr "Результаты поиска"
 
-#: cl.c:1067
+#: cl.c:1079
 msgid "Invalid data provided."
 msgstr "Предоставлены некорректные данные."
 
-#: cl.c:1068
+#: cl.c:1080
 msgid "Internal error encountered while processing request."
 msgstr "Внутренняя ошибка при обработке запроса."
 
-#: cl.c:1069
+#: cl.c:1081
 msgid "No such user as you added."
 msgstr "Добавляемого пользователя не существует."
 
-#: cl.c:1070
+#: cl.c:1082
 msgid "Invalid user name."
 msgstr "Неверное имя пользователя."
 
-#: cl.c:1071
+#: cl.c:1083
 msgid "Buddy/group cannot be added."
 msgstr "Контакт/группа не могут быть добавлены."
 
-#: cl.c:1072
+#: cl.c:1084
 msgid "Max groups allowed count exceedeed."
 msgstr "Превышено допустимое число групп."
 

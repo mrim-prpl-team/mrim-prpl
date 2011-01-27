@@ -81,7 +81,7 @@ void add_LPS(gchar *string, package *pack)
 
 	if (! str)
 	{
-		purple_notify_warning(_mrim_plugin, "g_convert","Ошибка кодировки: не могу сконвертировать UTF8 в CP1251", "");
+		purple_notify_warning(_mrim_plugin, "g_convert", _("Encoding error: can't convert UTF8 into CP1251"), "");
 		return;
 	}
 	guint32 len = strlen(str);
