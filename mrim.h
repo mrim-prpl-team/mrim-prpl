@@ -304,6 +304,7 @@ typedef enum
 
 static const gchar *links[]=
 {
+		// TODO Think of agentlang= suffix change.
 		"http://win.mail.ru/cgi-bin/auth?Login=%s&agent=%%s&page=http://win.mail.ru/cgi-bin/userinfo?mra=1&lang=ru&ver=3686&agentlang=ru",
 		"http://win.mail.ru/cgi-bin/auth?Login=%s&agent=%%s&page=http://foto.mail.ru/cgi-bin/avatars/lang=ru&ver=3686&agentlang=ru",
 		"http://my.mail.ru/%s/%s", /* Мой мир */

@@ -351,12 +351,12 @@ package *read_package(mrim_data *mrim)
 	
 	if (ret < 0)
 	{
-		purple_connection_error(mrim->gc, "Read Error!");
+		purple_connection_error(mrim->gc, _("Read Error!") );
 		return NULL;
 	}
 	if (ret == 0)
 	{
-		purple_connection_error(mrim->gc, "Peer closed connection");
+		purple_connection_error(mrim->gc, _("Peer closed connection") );
 		return NULL;
 	}
 	return NULL;
@@ -446,7 +446,7 @@ gchar *read_Z(package *pack)
 {
 	if (pack == NULL)
 		return NULL;
-	// ПЕРЕПИСАТЬ!! ЭТО ВСЕГО ЛИШЬ ЗАГЛУШКА!
+	// ПЕРЕПИСАТЬ!! ЭТО ВСЕГО ЛИШЬ ЗАГЛУШКА! (TODO)
 	gchar *str = "заглушка";
 	purple_debug_info( "mrim", "read_Z: надо переписать функцию!\n");
 	return str;

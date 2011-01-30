@@ -778,7 +778,7 @@ void mrim_mpop_session(mrim_data *mrim ,package *pack)
 
 	mrim_pq *mpq = g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 	if (mpq == NULL)
-		purple_notify_warning(_mrim_plugin, _("Encountered an error while working on contact list!"), _("Encountered an error while working on contact list!"), _("Did you ever do this operation? (mpq == NUL)"));
+		purple_notify_warning(_mrim_plugin, _("Encountered an error while working on contact list!"), _("Encountered an error while working on contact list!"), _("Did you ever do this operation? (mpq == NULL)"));
 	g_return_if_fail(mpq);
 	switch (mpq->type)
 	{
@@ -817,7 +817,7 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 	// TODO: Define string constants for the most used messages (unify speech).
 	mrim_pq *mpq = g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 	if (mpq == NULL)
-		purple_notify_warning(_mrim_plugin, _("Encountered an error while working on user details!"), _("Encountered an error while working on user details!"), _("Did you ever do this operation? (mpq == NUL)"));
+		purple_notify_warning(_mrim_plugin, _("Encountered an error while working on user details!"), _("Encountered an error while working on user details!"), _("Did you ever do this operation? (mpq == NULL)"));
 	g_return_if_fail(mpq);
 	if (status != MRIM_ANKETA_INFO_STATUS_OK)
 	{

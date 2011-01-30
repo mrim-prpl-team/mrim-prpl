@@ -886,7 +886,7 @@ static void mrim_balancer_cb(PurpleUtilFetchUrlData *url_data, gpointer user_dat
 
 	mrim->ProxyConnectHandle = purple_proxy_connect(mrim->gc,mrim->account, mrim->server, mrim->port, mrim_connect_cb, mrim->gc);
 	if (! mrim->ProxyConnectHandle )
-		purple_connection_error_reason (mrim->gc,PURPLE_CONNECTION_ERROR_NETWORK_ERROR,"Unable to create TCP-connection");
+		purple_connection_error_reason (mrim->gc,PURPLE_CONNECTION_ERROR_NETWORK_ERROR, _("Unable to create TCP-connection") );
 }
 
 static void mrim_connect_cb(gpointer data, gint source, const gchar *error_message)
@@ -985,7 +985,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 											if (!mrim->keep_alive_handle)
 											{
 												purple_debug_info("mrim", "Ping Eror\n");
-												purple_connection_error_reason (gc,	PURPLE_CONNECTION_ERROR_NETWORK_ERROR, "Ping Error");
+												purple_connection_error_reason (gc,	PURPLE_CONNECTION_ERROR_NETWORK_ERROR, _("Ping Error") );
 											}
 										}
 									break;

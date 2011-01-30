@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-27 03:08+0300\n"
+"POT-Creation-Date: 2011-01-31 02:10+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Janus.Kobain.Stamp <Janus.Kobain.Stamp@gmail.com>\n"
 "Language-Team: mrim-prpl\n"
@@ -20,6 +20,14 @@ msgstr ""
 #: package.c:84
 msgid "Encoding error: can't convert UTF8 into CP1251"
 msgstr "Ошибка кодировки: не могу преобразовать из UTF8 в CP1251"
+
+#: package.c:354
+msgid "Read Error!"
+msgstr "Ошибка чтения!"
+
+#: package.c:359
+msgid "Peer closed connection"
+msgstr "Сервер закрыл соединение"
 
 #: filetransfer.c:98
 msgid "The file you are trying to send is too large!"
@@ -211,6 +219,10 @@ msgstr "Добавить в список видящих"
 msgid "Visibility settings"
 msgstr "Настройки видимости"
 
+#: mrim.c:889
+msgid "Unable to create TCP-connection"
+msgstr "Не удаётся установить TCP-соединение"
+
 #: mrim.c:905
 #, c-format
 msgid "Unable to connect: %s"
@@ -235,6 +247,10 @@ msgstr "Ошибка ввода"
 #: mrim.c:960
 msgid "Bad Package"
 msgstr "Сбойный пакет (BP)."
+
+#: mrim.c:988
+msgid "Ping Error"
+msgstr "Ошибка пинга"
 
 #: mrim.c:1008
 #, c-format
@@ -294,6 +310,8 @@ msgstr "Здравствуйте. Пожалуйста, добавьте мен�
 
 #: cl.c:654
 #: cl.c:702
+#: cl.c:781
+#: cl.c:820
 msgid "Did you ever do this operation? (mpq == NULL)"
 msgstr "Такая операция осуществлялась? (mpq == NULL)"
 
@@ -324,11 +342,6 @@ msgstr "Неверные параметры SMS."
 #: cl.c:756
 msgid "Something went wrong!"
 msgstr "Что-то пошло не так!"
-
-#: cl.c:781
-#: cl.c:820
-msgid "Did you ever do this operation? (mpq == NUL)"
-msgstr "Такая операция осуществлялась? (mpq == NULL)"
 
 #: cl.c:820
 #: cl.c:826
@@ -541,4 +554,7 @@ msgstr "Дата рождения"
 #: cl.h:39
 msgid "Phone"
 msgstr "Телефон"
+
+#~ msgid "Did you ever do this operation? (mpq == NUL)"
+#~ msgstr "Такая операция осуществлялась? (mpq == NULL)"
 
