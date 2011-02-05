@@ -1,8 +1,8 @@
-trunk (31/01/2011) (r88)
+trunk (05/02/2011) (r100)
 	Core
 		? Fix bad package
 		File Transfer draft
-		i18n: ru_RU (rc), uk (draft)
+		i18n: ru_RU (rc), uk (draft), be_BY (draft)
 	Roster
 		Fix offline auth		
 
