@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27-rc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-05 04:03+0300\n"
+"POT-Creation-Date: 2011-02-08 01:06+0300\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Janus Kobain Stamp <Janus.Kobain.Stamp@gmail.com>\n"
+"Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -19,15 +19,15 @@ msgstr ""
 
 #: package.c:84
 msgid "Encoding error: can't convert UTF8 into CP1251"
-msgstr ""
+msgstr "Памылка кадоўкі: не магу пераўтварыць з UTF8 в CP1251"
 
 #: package.c:354
 msgid "Read Error!"
-msgstr ""
+msgstr "Памылка чытання!"
 
 #: package.c:359
 msgid "Peer closed connection"
-msgstr ""
+msgstr "Cервер разарваў злучэнне."
 
 #: filetransfer.c:98
 msgid "The file you are trying to send is too large!"
@@ -197,7 +197,7 @@ msgstr "Адпраўка SMS..."
 
 #: mrim.c:657
 msgid "Edit phone numbers..."
-msgstr ""
+msgstr "Кіраваць нумары тэлефонаў..."
 
 #: mrim.c:662
 msgid "Remove from 'Invisible to' list"
@@ -249,9 +249,8 @@ msgid "Bad Package"
 msgstr "Збойны пакет (BP)."
 
 #: mrim.c:988
-#, fuzzy
 msgid "Ping Error"
-msgstr "Памылка пiнгу"
+msgstr "Памылка пінгу"
 
 #: mrim.c:1008
 #, c-format
@@ -297,7 +296,7 @@ msgstr "Група не знойдзена."
 #: cl.c:342
 #, c-format
 msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and '-'."
-msgstr ""
+msgstr "Не магу дадаць суразмоўцу \"%s\" з-за няслушнага імя карыстача. Імя карыстача павінна быць існым паштовым адрасам (у даменах @mail.ru, @bk.ru, @list.ru, @inbox.ru, @corp.mail.ru) ці існым тэлефонным нумарам, якія ўключаюць знакі \"+\", \"-\", знакі прабелу і што складаюцца толькі з лічбаў. "
 
 #: cl.c:343
 msgid "Unable to Add"
@@ -337,9 +336,8 @@ msgid "SMS service is not available."
 msgstr "Служба дастаўкі SMS недаступная."
 
 #: cl.c:753
-#, fuzzy
 msgid "Wrong SMS parameters."
-msgstr "Неверные параметры SMS."
+msgstr "Няслушныя параметры SMS."
 
 #: cl.c:756
 msgid "Something went wrong!"
