@@ -1121,25 +1121,40 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 								}
 		case MRIM_CS_USER_INFO:{ // Contact details.
 									purple_debug_info("mrim","MRIM_CS_USER_INFO!\n");
-									gchar *param, *value;
-									do
+									gchar *param=NULL, *value=NULL;
+									while(TRUE)
 									{
 										param = read_LPS(pack);
 										value = read_LPS(pack);
 										if (! (param && value))
-											break;
-
-										if (strcmp(param, "MESSAGES.UNREAD") == 0)
 										{
+											FREE(param)
+											FREE(value)
+											break;
+										}
+
+										if (strcmp(param, "MESSAGES.TOTAL") == 0 )
+										{
+
+										}
+										else if (strcmp(param, "MESSAGES.UNREAD") == 0)
+										{
+											mrim->mails = atoi(value);
 											mrim_pq *mpq = g_new0(mrim_pq, 1);
 											mpq->type = NEW_EMAILS;
 											mpq->seq = mrim->seq;
-											mpq->new_emails.count = atoi(value);
+											mpq->new_emails.count = mrim->mails;
 											g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq), mpq);
 										}
+										else if (strcmp(param, "micblog.status.text")==0)
+										{
+
+										}
+										else if (strcmp(param, "MRIM.NICKNAME")==0)
+										{
+
+										}
 										// TODO
-										// MESSAGES.TOTAL
-										// MRIM.NICKNAME
 										// base64?? rb.target.cookie
 										// lps timestamp
 										// ul HAS_MYMAIL
@@ -1151,10 +1166,11 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 
 										FREE(param);
 										FREE(value);
-									}while (param && value);
-									break;
+									}
+									break;									
 								}
 		case MRIM_CS_MAILBOX_STATUS:{ // New messages in mailbox count.
+									mrim->mails = read_UL(pack);
 									purple_debug_info("mrim","MRIM_CS_MAILBOX_STATUS! mails=<%u>\n", mrim->mails);
 									mrim_pq *mpq = g_new0(mrim_pq, 1);
 									mpq->type = NEW_EMAILS;

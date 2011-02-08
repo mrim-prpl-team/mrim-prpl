@@ -57,6 +57,13 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 		purple_debug_info("mrim", "CONTACT: group <%i>  E-MAIL <%s> NICK <%s> id <%i> status <0x%X> flags <0x%X>\n", mb->group_id, mb->addr, mb->alias, mb->id, (int)mb->status, mb->flags );
 		if (mb->flags & CONTACT_FLAG_REMOVED)
 			purple_debug_info("mrim","[%s] <%s> has flag REMOVED\n", __func__, mb->addr);
+			
+		if (mb->flags & CONTACT_FLAG_MULTICHAT)
+		{
+			FREE(mb);
+			cl_skeep(c_mask + 7, pack);
+			continue;
+		}
 
 		if (!(mb->flags & CONTACT_FLAG_REMOVED))
 		{
@@ -124,8 +131,8 @@ static mrim_buddy *new_mrim_buddy(package *pack)
 {
 	mrim_buddy *mb = g_new(mrim_buddy, 1);
 	mb->flags = read_UL(pack); // Flag.
-	if (mb->flags & CONTACT_FLAG_MULTICHAT)
-		return NULL; // TODO CHATS
+//	if (mb->flags & CONTACT_FLAG_MULTICHAT)
+//		return NULL; // TODO CHATS
 	//mb->flags &= !CONTACT_FLAG_REMOVED;
 	int gr_id = mb->group_id = read_UL(pack); // Group ID
 	if (gr_id > MRIM_MAX_GROUPS)
