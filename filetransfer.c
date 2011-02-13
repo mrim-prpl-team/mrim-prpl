@@ -8,16 +8,16 @@
 /* Look for specific xfer handle */
 static unsigned int next_id = 0;
 
-static void mrim_xfer_init(PurpleXfer *xfer);
-static void mrim_xfer_start( PurpleXfer* xfer );
-static void mrim_xfer_cancel_send(PurpleXfer *xfer);
-static void mrim_xfer_end(PurpleXfer *xfer);
-static void mrim_xfer_free(PurpleXfer *xfer);
+void mrim_xfer_init(PurpleXfer *xfer);
+void mrim_xfer_start( PurpleXfer* xfer );
+void mrim_xfer_cancel_send(PurpleXfer *xfer);
+void mrim_xfer_end(PurpleXfer *xfer);
+void mrim_xfer_free(PurpleXfer *xfer);
 
 // открывает listener
-static void mrim_xfer_slave_init(PurpleXfer *xfer, const gchar *to);
+void mrim_xfer_slave_init(PurpleXfer *xfer, const gchar *to);
 // открывает tcp client
-static void mrim_xfer_master_init(PurpleXfer *xfer, char *from);
+void mrim_xfer_master_init(PurpleXfer *xfer, char *from);
 
 
 /*
@@ -73,7 +73,7 @@ PurpleXfer *mrim_xfer_new(PurpleConnection *gc, const char *who)
  * Эта функция будет вызвана, когда пользователь согласится на приём/передачу
  * файла
  */
-static void mrim_xfer_init(PurpleXfer *xfer)
+void mrim_xfer_init(PurpleXfer *xfer)
 {
 	PurpleBuddy *buddy;
 	mrim_buddy *mb;
@@ -113,7 +113,7 @@ static void mrim_xfer_init(PurpleXfer *xfer)
 	purple_debug_info("mrim","[%s] bytes_remaining=<%i> \n",__func__, xfer->bytes_remaining);
 }
 
-static void mrim_xfer_cancel_send(PurpleXfer *xfer)
+void mrim_xfer_cancel_send(PurpleXfer *xfer)
 {
 	// TODO разорвать соединение???
 	purple_debug_info("mrim", "[%s]\n",__func__);
@@ -121,7 +121,7 @@ static void mrim_xfer_cancel_send(PurpleXfer *xfer)
 }
 
 
-static void mrim_xfer_end(PurpleXfer *xfer)
+void mrim_xfer_end(PurpleXfer *xfer)
 {
 	purple_debug_info("mrim", "[%s]\n",__func__);
 
@@ -137,7 +137,7 @@ static void mrim_xfer_end(PurpleXfer *xfer)
 	mrim_xfer_free(xfer);
 }
 
-static void mrim_xfer_free(PurpleXfer *xfer)
+void mrim_xfer_free(PurpleXfer *xfer)
 {
 	XepXfer *xf;
 
@@ -172,7 +172,7 @@ static void mrim_xfer_free(PurpleXfer *xfer)
 }
 
 
-static void mrim_xfer_start( PurpleXfer* xfer )
+void mrim_xfer_start( PurpleXfer* xfer )
 {
 	unsigned char*	buffer;
 	int				size;
@@ -211,7 +211,7 @@ void mrim_xfer_denied(PurpleXfer *xfer)
 
 //////////////////////////
 
-static void mrim_xfer_slave_init(PurpleXfer *xfer, const gchar *to)
+void mrim_xfer_slave_init(PurpleXfer *xfer, const gchar *to)
 {
 	xmlnode *si_node, *feature, *field, *file, *x;
 	XepXfer *xf = xfer->data;
@@ -253,7 +253,7 @@ static void mrim_xfer_slave_init(PurpleXfer *xfer, const gchar *to)
 	}
 }
 
-static void mrim_xfer_master_init(PurpleXfer *xfer, char *from)
+void mrim_xfer_master_init(PurpleXfer *xfer, char *from)
 {
 	XepXfer *xf;
 	mrim_data *mrim;

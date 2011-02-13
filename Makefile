@@ -19,6 +19,8 @@ ifdef CFLAGS
 CFLAGS += -shared -fPIC -DPIC  -std=gnu99
 endif
 
+DEBUG_CFLAGS = -Wall -Wextra -Wconversion -Wsign-conversion -Winit-self -Wunreachable-code --pedantic
+
 PURPLE_CFLAGS = $(shell pkg-config --cflags purple)
 #PURPLE_CFLAGS += $(shell pkg-config --libs glib-2.0)
 
@@ -28,7 +30,7 @@ compile:
 	${CC} ${CFLAGS} ${PURPLE_CFLAGS} ${LDFLAGS} message.c cl.c package.c mrim.c filetransfer.c -o libmrim.so
 debug:
 	make clean
-	make compile
+	${CC} ${CFLAGS} ${DEBUG_CFLAGS} ${PURPLE_CFLAGS} ${LDFLAGS} message.c cl.c package.c mrim.c filetransfer.c -o libmrim.so
 	make i18n
 i18n:
 	msgfmt ${PODIR}/mrim-prpl-ru_RU.po --output-file=${PODIR}/mrim-prpl-ru_RU.mo

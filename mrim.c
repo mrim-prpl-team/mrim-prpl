@@ -48,44 +48,35 @@ void clean_string(gchar *str)
 	purple_debug_info("mrim","[%s] %s\n",__func__, str);
 }
 
+gboolean string_is_match(gchar *string, gchar *pattern)
+{
+	g_return_val_if_fail(string, FALSE);
+	g_return_val_if_fail(pattern, FALSE);
+	GRegex *regex;
+	gboolean res;
+	GMatchInfo *match_info;
+
+    regex = g_regex_new (pattern, G_REGEX_MULTILINE | G_REGEX_DOTALL, 0, NULL);
+    res = g_regex_match (regex, string, 0, &match_info);
+	// TODO Mem free.
+    g_match_info_free(match_info);
+    g_regex_unref (regex);
+    return res;
+}
 
 gboolean is_valid_email(gchar *email)
 {
-	#define DOMIANS_COUNT 6
-	const gchar *mrim_domains[] = {"mail.ru", "list.ru", "inbox.ru", "bk.ru", "corp.mail.ru", "chat.agent"};
-	gboolean valid = FALSE;
-  	unsigned int i;
+	return string_is_match(email, "([a-z]|[A-Z]|[0-9])+([a-z]|[A-Z]|[0-9]|[_\\-\\.])*@(mail.ru|list.ru|inbox.ru|bk.ru|corp.mail.ru)");
+}
 
-	purple_debug_info("mrim ","[%s] <%s> \n", __func__, email);
-    if (! purple_email_is_valid(email))
-        return FALSE;
-
-    /********/
-    //return TRUE; // TODO ??
-    /********/
-  	// check domain names
-    char **emailv = g_strsplit(email, "@", 2);
-  	for (i=0; i < DOMIANS_COUNT; i++)
-  		if (strcmp(emailv[1], mrim_domains[i]) == 0)
-  				valid = TRUE;
-
-  	g_strfreev(emailv);
-	return valid;
+gboolean is_valid_chat(gchar *chat)
+{
+	return string_is_match(chat, "([0-9])+@(chat.agent)");
 }
 
 gboolean is_valid_phone(gchar *phone)
 {
-	g_return_val_if_fail(phone, FALSE);
-	purple_debug_info("mrim","[%s] <%s>\n",__func__, phone);
-	int length = 0;
-	while(*phone)
-	{
-		g_return_val_if_fail(*phone <= '9' && *phone >= '0' , FALSE); // TODO letters are NOT ALLOWED
-		phone++;
-		length++;
-	}
-	g_return_val_if_fail(length == 11, FALSE);
-	return TRUE;
+	return string_is_match(phone, "([+][0-9]+)");
 }
 
 gchar *clear_phone(gchar *original_phone)
@@ -139,8 +130,6 @@ static void mrim_get_info(PurpleConnection *gc, const char *username)
 	g_return_if_fail(gc);
 
 	mrim_data *mrim = gc->proto_data;
-	const char *body;
-	PurpleAccount *acct;
 
 	purple_debug_info("mrim", "Fetching %s's user info for %s\n", username, gc->account->username);
 
@@ -249,6 +238,7 @@ static void mrim_search_action(PurplePluginAction *action)
 
 }
 
+// It is url open actions
 static void mrim_easy_action(PurplePluginAction *action)
 {
 	PurpleConnection *gc = (PurpleConnection *)action->context;
@@ -353,7 +343,7 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 /******************************************
  *             USER ACTION
  ******************************************/
-static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields)
+void blist_search(PurpleConnection *gc, PurpleRequestFields *fields)
 {
 	g_return_if_fail(gc);
 	mrim_data *mrim = gc->proto_data;
@@ -451,7 +441,7 @@ void blist_send_sms(PurpleConnection *gc, PurpleRequestFields *fields)
 	while (index-- && list)
 		list = list->next;
 
-	gchar *message = purple_request_fields_get_string(fields, "message_box");
+	const char *message = purple_request_fields_get_string(fields, "message_box");
 	mrim_send_sms(list->data, message, gc->proto_data);
 }
 
@@ -693,7 +683,7 @@ void notify_emails(void *gc, gchar* webkey, guint32 count)
 		url = g_strdup("mail.ru");
 	
 	char *mas[count], *mas_tos[count], *mas_urls[count];
-	for (int i=0; i<count; i++)
+	for (guint32 i=0; i<count; i++)
 	{
 		mas[i]=NULL;
 		mas_tos[i] = mrim->username;
@@ -857,7 +847,7 @@ static void mrim_prpl_login(PurpleAccount *account)
 	FREE(endpoint)
 }  
 
-static void mrim_balancer_cb(PurpleUtilFetchUrlData *url_data, gpointer user_data, const gchar *url_text, gsize len, const gchar *error_message)
+void mrim_balancer_cb(PurpleUtilFetchUrlData *url_data, gpointer user_data, const gchar *url_text, gsize len, const gchar *error_message)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
 	mrim_data* mrim = (mrim_data*)user_data;
@@ -889,7 +879,7 @@ static void mrim_balancer_cb(PurpleUtilFetchUrlData *url_data, gpointer user_dat
 		purple_connection_error_reason (mrim->gc,PURPLE_CONNECTION_ERROR_NETWORK_ERROR, _("Unable to create TCP-connection") );
 }
 
-static void mrim_connect_cb(gpointer data, gint source, const gchar *error_message)
+void mrim_connect_cb(gpointer data, gint source, const gchar *error_message)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
 	PurpleConnection *gc = data;
@@ -930,7 +920,7 @@ static void mrim_connect_cb(gpointer data, gint source, const gchar *error_messa
 /******************************************
  *              INPUT
  ******************************************/
-static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
+void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 {	// TODO mem leaks
 	// read_LPS
 	// g_list_append
@@ -978,7 +968,14 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 											add_LPS(mrim->username, pack_ack);
 											add_LPS(mrim->password, pack_ack);
 											add_ul(mrim->status, pack_ack);
-											add_LPS( USER_AGENT, pack_ack);
+											//add_LPS("STATUS_ONLINE", pack_ack);
+											//add_LPS(NULL, pack_ack); // TODO
+											//add_LPS(NULL, pack_ack); // TODO
+											//add_ul(0x03FF, pack_ack);
+											add_LPS(USER_AGENT, pack_ack);
+											//add_LPS(_("ru"),pack_ack);
+											pack_ack->header->proto = ((((guint32)(1))<<16)|(guint32)(13));
+
 											send_package(pack_ack, mrim);
 											// Keep Alive
 											mrim->keep_alive_handle = purple_timeout_add_seconds(gc->keepalive,mrim_keep_alive,gc);
@@ -1083,7 +1080,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 								}
 		case MRIM_CS_MESSAGE_STATUS:{ // Acknowledge message sent.
 									purple_debug_info("mrim","MRIM_CS_MESSAGE_STATUS!  \n");
-									mrim_message_status(mrim, pack);
+									mrim_message_status(pack);
 									break;
 								}
 		case MRIM_CS_SMS_ACK:{
@@ -1167,7 +1164,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 										FREE(param);
 										FREE(value);
 									}
-									break;									
+									break;
 								}
 		case MRIM_CS_MAILBOX_STATUS:{ // New messages in mailbox count.
 									mrim->mails = read_UL(pack);
@@ -1207,7 +1204,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									gchar *from = read_LPS(pack);
 
 									guint32 session_id = read_UL(pack);
-									guint32 files_size = read_UL(pack);
+									//guint32 files_size = read_UL(pack);
 									//read_UL(pack); // skip habracadabra bullshit XDD
 									//gchar *files_info = read_LPS(pack);
 									//gchar *more_file_info = read_UTF16LE(pack); // TODO FIX
@@ -1242,6 +1239,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									}
 		default :	{
 						purple_debug_info("mrim","Not recognized pack received! Type=<%i> len=<%i>\n",(int) header->msg, (int)header->dlen);
+						//mrim_packet_dump(pack);
 						break;
 					}
 	}
@@ -1397,7 +1395,8 @@ static gboolean mrim_unload_plugin(PurplePlugin *plugin)
 
 static PurplePluginProtocolInfo prpl_info =
 {
-  OPT_PROTO_MAIL_CHECK,                /* options */
+  OPT_PROTO_MAIL_CHECK | OPT_PROTO_UNIQUE_CHATNAME |
+  OPT_PROTO_CHAT_TOPIC,                /* options */
   NULL,                                /* user_splits */
   NULL,                                /* protocol_options */
   {   /* icon_spec, a PurpleBuddyIconSpec */
@@ -1415,8 +1414,8 @@ static PurplePluginProtocolInfo prpl_info =
   mrim_tooltip_text,                   /* tooltip_text */
   mrim_status_types,                   /* status_types */
   mrim_user_actions,	               /* blist_node_menu */
-  NULL,                  			   /* ` */
-  NULL,         					   /* chat_info_defaults */
+  mrim_chat_info,                  	   /* chat_info */
+  mrim_chat_info_defaults,   		   /* chat_info_defaults */
   mrim_prpl_login,                     /** login */
   mrim_prpl_close,                     /** close */
   mrim_send_im,      	               /* send_im */
@@ -1435,13 +1434,13 @@ static PurplePluginProtocolInfo prpl_info =
   NULL,               				   /* rem_permit */
   NULL,             			       /* rem_deny */
   NULL,           					   /* set_permit_deny */
-  NULL,                  			   /* join_chat */
+  mrim_chat_join,          			   /* join_chat */
   NULL,               				   /* reject_chat */
-  NULL,              				   /* get_chat_name */
-  NULL,               				   /* chat_invite */
-  NULL,                				   /* chat_leave */
-  NULL,               				   /* chat_whisper */
-  NULL,                  			   /* chat_send */
+  mrim_get_chat_name,          		   /* get_chat_name */
+  mrim_chat_invite,    				   /* chat_invite */
+  mrim_chat_leave,     				   /* chat_leave */
+  mrim_chat_whisper,     			   /* chat_whisper */
+  mrim_chat_send,               	   /* chat_send */
   NULL,			                       /* keepalive */
   NULL,                  			   /* register_user */
   NULL, 				               /* устарела - get_cb_info */
@@ -1455,7 +1454,7 @@ static PurplePluginProtocolInfo prpl_info =
   NULL, /*mrim_set_buddy_icon,*/       /* set_buddy_icon */
   mrim_remove_group,               	   /* remove_group */
   NULL,                                /* get_cb_real_name */
-  NULL,					               /* set_chat_topic */
+  mirm_set_chat_topic,	               /* set_chat_topic */
   NULL,                                /* find_blist_chat */
   NULL,         					   /* roomlist_get_list */
   NULL,            					   /* roomlist_cancel */
@@ -1507,7 +1506,7 @@ static PurplePluginInfo info =
   NULL,                                                    /* author */
   "open-club.ru",                                          /* homepage */
   mrim_load_plugin,                                        /* load */
-  NULL,                                                    /* unload */
+  mrim_unload_plugin,                                                    /* unload */
   mrim_prpl_destroy,	                                   /* destroy */
   NULL,                                                    /* ui_info */
   &prpl_info,                                              /* extra_info */

@@ -6,7 +6,7 @@
 guint32 atox(gchar *str)
 {
 	g_return_val_if_fail(str,0);
-	purple_debug_info("mrim","[%s] <%s>\n",__func__,str);
+	purple_debug_info("mrim", "[%s] <%s>\n", __func__, str);
 	guint32 res = 0;
 	while (*str)
 	{
@@ -19,7 +19,7 @@ guint32 atox(gchar *str)
 			res += *str-'a'+0xa;
 		str++;
 	}
-	purple_debug_info("mrim","[%s] <%x>\n",__func__,res);
+	purple_debug_info("mrim", "[%s] <%x>\n", __func__, res);
 	return res;
 }
 
@@ -30,19 +30,19 @@ guint32 atox(gchar *str)
 void mrim_message_offline(PurpleConnection *gc, char* message)
 {
 	mrim_data *mrim = gc->proto_data;
-	purple_debug_info("mrim","parse offline message\n");
+	purple_debug_info("mrim", "parse offline message\n");
 	if (!message)
 		return;
 
-	gchar* from = mrim_message_offline_get_attr("From:",message);
-	gchar* date_str = mrim_message_offline_get_attr("Date:",message);
-	gchar* charset = mrim_message_offline_get_attr("Charset:",message);
-	gchar* msg = mrim_message_offline_get_attr("MSG",message);
-	gchar* encoding = mrim_message_offline_get_attr("Content-Transfer-Encoding:",message);
+	gchar* from = mrim_message_offline_get_attr("From:", message);
+	gchar* date_str = mrim_message_offline_get_attr("Date:", message);
+	gchar* charset = mrim_message_offline_get_attr("Charset:", message);
+	gchar* msg = mrim_message_offline_get_attr("MSG", message);
+	gchar* encoding = mrim_message_offline_get_attr("Content-Transfer-Encoding:", message);
 	time_t date = mrim_str_to_time(date_str);
-	gchar* flags = mrim_message_offline_get_attr("X-MRIM-Flags:",message);
+	gchar* flags = mrim_message_offline_get_attr("X-MRIM-Flags:", message);
 	guint32 mrim_flags = atox(flags);
-	gchar* correct_code=NULL;
+	gchar* correct_code = NULL;
 	gchar *draft_message = NULL;
 
 
@@ -105,12 +105,12 @@ void mrim_message_offline(PurpleConnection *gc, char* message)
 	FREE(draft_message);
 }
 
-static gchar* mrim_message_offline_get_attr(const gchar* attr,void* input)
+gchar* mrim_message_offline_get_attr(const gchar* attr,void* input)
 {
-    char* retVal=NULL;
-    GRegex *regex;
-    gboolean res;
-    GMatchInfo *match_info;
+    char* retVal = NULL;
+	GRegex *regex;
+	gboolean res;
+	GMatchInfo *match_info;
 
     gchar* pattern=NULL;
          if(g_strcmp0(attr,"From:")==0)      pattern=g_strdup("From:\\s([a-zA-Z0-9\\-\\_\\.]+@[a-zA-Z0-9\\-\\_]+\\.+[a-zA-Z]+)\\R");
@@ -140,17 +140,17 @@ static gchar* mrim_message_offline_get_attr(const gchar* attr,void* input)
     purple_debug_info("mrim"," attr <%s> : <%s>\n",attr,retVal);
 
 	// TODO Mem free.
-    g_free(pattern);
-    g_match_info_free (match_info);
-    g_regex_unref (regex);
-    return retVal;
+	g_free(pattern);
+	g_match_info_free(match_info);
+	g_regex_unref(regex);
+	return retVal;
 }
 
 
-static time_t mrim_str_to_time(const gchar* str)
+time_t mrim_str_to_time(const gchar* str)
 {	// TODO: Determine whether we need to transit from GMT-shift to UTC-shift
 	// and implement such transition.
-    guint year=0,month=0,day=0,hour=0,min=0,sec=0;
+    int year=0,month=0,day=0,hour=0,min=0,sec=0;
     gchar month_str[4];
     int ret;
     if(str==NULL)
@@ -196,18 +196,20 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 
 	guint32 msg_id = read_UL(pack);		// seq
 	guint32 flag = read_UL(pack);		// flag - look at MRIM_CS_MESSAGE
-	//if (flag & MESSAGE_FLAG_SPAMF_SPAM)
-	//	return;
+	purple_debug_info("mrim","[%s] flags=<%x>\n", __func__, flag);
+	if (flag & MESSAGE_FLAG_SPAMF_SPAM)
+		purple_debug_info("mrim","[%s] Message is SPAM?\n",__func__);
+	//return;
 	gchar *from = read_LPS(pack);
 	
-	mrim_pq *pq = (mrim_pq *) g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq)); // or msg_id?
+/*	mrim_pq *pq = (mrim_pq *) g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq)); // or msg_id?
 	if (pq == NULL)
 	{
 		purple_debug_info("mrim","Can't find pack in pq\n");
 	}
 	else
 		g_hash_table_remove(mrim->pq,  GUINT_TO_POINTER(pack->header->seq));
-
+*/
 	if (!(flag & MESSAGE_FLAG_NORECV)) 
 	{// Delivery confirmation.
 		package *pack = new_package(mrim->seq, MRIM_CS_MESSAGE_RECV);
@@ -219,9 +221,46 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 		send_package(pack, mrim);
 	}
 	
+	// CHATS
+	//if (flag & MESSAGE_FLAG_MULTICHAT) // WTF?? WHY IT DOES'NT WORK???
+	if (is_valid_chat(from))
+	{
+		purple_debug_info("mrim", "[%s] it is CHAT!\n",__func__);
+		if (flag & MESSAGE_FLAG_AUTHORIZE)
+		{
+
+
+		}
+		else
+		{
+			gchar *mes = read_LPS(pack);	// message
+			// TODO unescape
+			gchar** split = g_strsplit(mes,":\r\n",3);
+			if (split && split[0])
+			{
+				purple_debug_info("mrim", "[%s] <%s>\n",__func__, split[0]);
+				if (split[1])
+				{
+					purple_debug_info("mrim", "[%s] <%s>\n",__func__,split[1]);
+					if (split[2])
+						purple_debug_info("mrim", "[%s] <%s>\n",__func__,split[2]);
+
+				}
+			}
+			// PurpleChat *pc = purple_blist_find_chat(gc->account, split[0]);
+			PurpleConversation *pconv =	purple_conversation_new(PURPLE_CONV_TYPE_CHAT, gc->account, split[0]);
+			int id = purple_conv_chat_get_id(purple_conversation_get_chat_data(pconv));
+			serv_got_chat_in(gc, id, split[1], PURPLE_MESSAGE_RECV, split[2], time(NULL));
+			g_strfreev(split);
+		}
+
+		return;
+	}
+
+	//
 	if (flag & MESSAGE_FLAG_AUTHORIZE)
 	{	// Auth request.
-		purple_debug_info("mrim"," auth\n");
+		purple_debug_info("mrim","[%s] auth\n", __func__);
 		guint32 i;// mst be equal ==2; Two LSP
 		gchar* authorize_alias = NULL;
 		gchar* authorize_message = NULL;
@@ -245,6 +284,7 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 #else
 	gchar *correct_message = g_markup_escape_text(mes, -1);
 #endif
+
 	if ((flag & MESSAGE_FLAG_NOTIFY) || (strcmp(mes," ")==0)) // According to proto spec should check MESSAGE_FLAG_NOTIFY only.
 	{	// A buddy types.
 		purple_debug_info("mrim"," notify\n");
@@ -272,7 +312,6 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 			FREE(rtf);
 		}
 	}
-
 	else
 	{	// A buddy sent a message.
 		purple_debug_info("mrim","[%s] simple message <%s>\n", __func__, correct_message);
@@ -391,7 +430,7 @@ gboolean mrim_send_attention(PurpleConnection  *gc, const char *username, guint 
 /******************************************
  *
  ******************************************/
-void mrim_message_status(mrim_data *mrim, package *pack)
+void mrim_message_status(package *pack)
 {
 	// TODO PQ
 	gchar *mes;
@@ -471,7 +510,7 @@ void mrim_sms_ack(mrim_data *mrim ,package *pack)
 	purple_debug_info("mrim","[%s]\n",__func__);
 
 	guint32 status = read_UL(pack);
-	mrim_pq *mpq = g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
+	g_hash_table_remove(mrim->pq, GUINT_TO_POINTER(pack->header->seq));
 
 	switch (status)
 	{
@@ -488,43 +527,274 @@ void mrim_sms_ack(mrim_data *mrim ,package *pack)
 /******************************************
  *                Chats
  ******************************************/
+GList *mrim_chat_info(PurpleConnection *gc)
+{
+	purple_debug_info("mrim", "%s\n", __func__);
+
+	struct proto_chat_entry *pce = g_new0(struct proto_chat_entry, 1); // defined in prpl.h
+	GList *chat_info = NULL;
+	pce->label = "Search";
+	pce->identifier = "search";
+	pce->required = FALSE;
+	chat_info = g_list_append(chat_info, pce);
+	return chat_info; // TODO pidgin bureport: if returned NULL, crash at purple_blist_find_chat>>parts = prpl_info->chat_info( purple_account_get_connection(chat->account));
+}
+
+GHashTable *mrim_chat_info_defaults(PurpleConnection *gc, const char *chat_name)
+{
+	purple_debug_info("mrim", "%s\n", __func__);
+
+	GHashTable *defaults;
+	defaults = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+	g_hash_table_insert(defaults, "search", g_strdup(chat_name));
+	return defaults; //defauts;
+}
+
+void mrim_chat_join(PurpleConnection *gc, GHashTable *components)
+{
+	purple_debug_info("mrim", "%s\n", __func__);
+	purple_serv_got_join_chat_failed(gc, components);
+
+	const char *username = gc->account->username;
+	const char *room = g_hash_table_lookup(components, "room");
+	//guint chat_id = g_str_hash(room);
+	purple_debug_info("mrim", "%s is joining chat room %s\n", username, room);
+
+	//if (!purple_find_chat(gc, chat_id))
+	//{
+		//serv_got_joined_chat(gc, chat_id, room);
+	serv_got_joined_chat(gc, 99, "1213");
+
+		/* tell everyone that we joined, and add them if they're already there */
+		//foreach_gc_in_chat(joined_chat, gc, chat_id, NULL);
+	//}
+	//else
+	{
+		purple_debug_info("mrim", "%s is already in chat room %s\n", username, room);
+	}
+}
+
+void mrim_reject_chat(PurpleConnection *gc, GHashTable *components)
+{
+	const char *invited_by = g_hash_table_lookup(components, "invited_by");
+	const char *room = g_hash_table_lookup(components, "room");
+	const char *username = gc->account->username;
+	//PurpleConnection *invited_by_gc = get_nullprpl_gc(invited_by);
+	char *message = g_strdup_printf("%s %s %s.", username,	_("has rejected your invitation to join the chat room"), room);
+
+	purple_debug_info("mrim", "%s has rejected %s's invitation to join chat room %s\n", username, invited_by, room);
+
+	g_free(message);
+}
+
+char *mrim_get_chat_name(GHashTable *components)
+{
+	purple_debug_info("mrim", "%s\n", __func__);
+	char *str = g_strdup("mrim_chat");
+	/*
+	 const char *chat_type_str = g_hash_table_lookup(components, "chat_type");
+	 TwitterChatType chat_type = chat_type_str == NULL ? 0 : strtol(chat_type_str, NULL, 10);
+	 TwitterEndpointChatSettings *settings = twitter_get_endpoint_chat_settings(chat_type);
+	 if (settings && settings->get_name)
+	 return settings->get_name(components);
+	 */
+	return str;
+	/*const char *room = g_hash_table_lookup(components, "room");
+	 purple_debug_info("nullprpl", "reporting chat room name '%s'\n", room);
+	 return g_strdup(room);
+	 */
+}
+
+void mrim_chat_invite(PurpleConnection *gc, int id, const char *message, const char *who)
+{
+	purple_debug_info("mrim", "%s\n", __func__);
+
+	const char *username = gc->account->username;
+	PurpleConversation *conv = purple_find_chat(gc, id);
+	const char *room = conv->name;
+	PurpleAccount *to_acct = purple_accounts_find(who, MRIM_PRPL_ID);
+
+	purple_debug_info("mrim", "%s is inviting %s to join chat room %s\n", username, who, room);
+
+	if (to_acct)
+	{
+		PurpleConversation *to_conv = purple_find_chat(to_acct->gc, id);
+		if (to_conv)
+		{
+			char *tmp = g_strdup_printf("%s is already in chat room %s.", who, room);
+			purple_debug_info("mrim", "%s is already in chat room %s; ignoring invitation from %s\n", who, room, username);
+			purple_notify_info(gc, _("Chat invitation"), _("Chat invitation"), tmp);
+			g_free(tmp);
+		}
+		else
+		{
+			GHashTable *components;
+			components = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+			g_hash_table_replace(components, "room", g_strdup(room));
+			g_hash_table_replace(components, "invited_by", g_strdup(username));
+			serv_got_chat_invite(to_acct->gc, room, username, message, components);
+		}
+	}
+}
+
+void mrim_chat_leave(PurpleConnection *gc, int id)
+{
+	PurpleConversation *conv = purple_find_chat(gc, id);
+	purple_debug_info("mrim", "%s is leaving chat room %s\n", gc->account->username, conv->name);
+	/* tell everyone that we left */
+	//foreach_gc_in_chat(left_chat_room, gc, id, NULL);
+}
+
+void mrim_chat_whisper(PurpleConnection *gc, int id, const char *who, const char *message)
+{
+	purple_debug_info("mrim", "%s\n", __func__);
+	const char *username = gc->account->username;
+	PurpleConversation *conv = purple_find_chat(gc, id);
+	purple_debug_info("mrim", "%s receives whisper from %s in chat room %s: %s\n", username, who, conv->name, message);
+
+	/* receive whisper on recipient's account */
+	serv_got_chat_in(gc, id, who, PURPLE_MESSAGE_RECV | PURPLE_MESSAGE_WHISPER, message, time(NULL));
+}
+
+int mrim_chat_send(PurpleConnection *gc, int id, const char *message, PurpleMessageFlags flags)
+{
+	purple_debug_info("mrim", "%s\n", __func__);
+	const char *username = gc->account->username;
+	PurpleConversation *conv = purple_find_chat(gc, id);
+
+	if (conv)
+	{
+		purple_debug_info("mrim", "%s is sending message to chat room %s: %s\n", username, conv->name, message);
+		// TODO chat: send package
+		serv_got_chat_in(gc, id, username, flags, message, time(NULL));
+		return 0;
+	}
+	else
+	{
+		purple_debug_info("mrim", "tried to send message from %s to chat room #%d: %s\n but couldn't find chat room", username, id, message);
+		return -EINVAL; // todo why not -1?
+	}
+}
+
+void mirm_set_chat_topic(PurpleConnection *gc, int id, const char *topic)
+{
+	purple_debug_info("mrim", "%s\n", __func__);
+}
+
+static void nullprpl_register_user(PurpleAccount *acct)
+{
+	purple_debug_info("mrim", "registering account for %s\n", acct->username);
+}
+
+static PurpleRoomlist *mrim_roomlist_get_list(PurpleConnection *gc)
+{
+	const char *username = gc->account->username;
+	PurpleRoomlist *roomlist = purple_roomlist_new(gc->account);
+	GList *fields = NULL;
+	PurpleRoomlistField *field;
+	GList *chats;
+	GList *seen_ids = NULL;
+
+	purple_debug_info("mrim", "%s asks for room list; returning:\n", username);
+
+	/* set up the room list */
+	field = purple_roomlist_field_new(PURPLE_ROOMLIST_FIELD_STRING, "room",	"room", TRUE /* hidden */);
+	fields = g_list_append(fields, field);
+
+	field = purple_roomlist_field_new(PURPLE_ROOMLIST_FIELD_INT, "Id", "Id", FALSE);
+	fields = g_list_append(fields, field);
+
+	purple_roomlist_set_fields(roomlist, fields);
+
+	/* add each chat room. the chat ids are cached in seen_ids so that each room
+	 * is only returned once, even if multiple users are in it. */
+	for (chats = purple_get_chats(); chats; chats = g_list_next(chats))
+	{
+		PurpleConversation *conv = (PurpleConversation *) chats->data;
+		PurpleRoomlistRoom *room;
+		const char *name = conv->name;
+		int id = purple_conversation_get_chat_data(conv)->id;
+
+		/* have we already added this room? */
+		if (g_list_find_custom(seen_ids, name, (GCompareFunc) strcmp))
+			continue; /* yes! try the next one. */
+
+		/* This cast is OK because this list is only staying around for the life
+		 * of this function and none of the conversations are being deleted
+		 * in that timespan. */
+		seen_ids = g_list_prepend(seen_ids, (char *) name); /* no, it's new. */
+		purple_debug_info("mrim", "%s (%d), ", name, id);
+
+		room = purple_roomlist_room_new(PURPLE_ROOMLIST_ROOMTYPE_ROOM, name, NULL);
+		purple_roomlist_room_add_field(roomlist, room, name);
+		purple_roomlist_room_add_field(roomlist, room, &id);
+		purple_roomlist_room_add(roomlist, room);
+	}
+
+	g_list_free(seen_ids);
+	//purple_timeout_add(1 /* ms */, nullprpl_finish_get_roomlist, roomlist);
+	return roomlist;
+}
+
+static void mrim_roomlist_cancel(PurpleRoomlist *list)
+{
+	purple_debug_info("mrim", "%s asked to cancel room list request\n",	list->account->username);
+}
+
+static void mrim_roomlist_expand_category(PurpleRoomlist *list,	PurpleRoomlistRoom *category)
+{
+	purple_debug_info("mrim", "%s asked to expand room list category %s\n", list->account->username, category->name);
+}
+
 /*
-static GList *mrim_chat_info(PurpleConnection *gc)
+static PurpleRoomlist *irc_roomlist_get_list(PurpleConnection *gc)
 {
-        struct proto_chat_entry *pce; // defined in prpl.h
-        GList *chat_info = NULL;
+	struct irc_conn *irc;
+	GList *fields = NULL;
+	PurpleRoomlistField *f;
+	char *buf;
 
-        pce = g_new0(struct proto_chat_entry, 1);
-        pce->label = "Search";
-        pce->identifier = "search";
-        pce->required = FALSE;
+	irc = gc->proto_data;
 
-        chat_info = g_list_append(chat_info, pce);
+	if (irc->roomlist)
+		purple_roomlist_unref(irc->roomlist);
 
-        pce = g_new0(struct proto_chat_entry, 1);
-        pce->label = "Update Interval";
-        pce->identifier = "interval";
-        pce->required = TRUE;
-        pce->is_int = TRUE;
-        pce->min = 1;
-        pce->max = 60;
+	irc->roomlist = purple_roomlist_new(purple_connection_get_account(gc));
 
-        chat_info = g_list_append(chat_info, pce);
+	f = purple_roomlist_field_new(PURPLE_ROOMLIST_FIELD_STRING, "", "channel", TRUE);
+	fields = g_list_append(fields, f);
 
-        return chat_info;
+	f = purple_roomlist_field_new(PURPLE_ROOMLIST_FIELD_INT, _("Users"), "users", FALSE);
+	fields = g_list_append(fields, f);
+
+	f = purple_roomlist_field_new(PURPLE_ROOMLIST_FIELD_STRING, _("Topic"), "topic", FALSE);
+	fields = g_list_append(fields, f);
+
+	purple_roomlist_set_fields(irc->roomlist, fields);
+
+	buf = irc_format(irc, "v", "LIST");
+	irc_send(irc, buf);
+	g_free(buf);
+
+	return irc->roomlist;
 }
 
-GHashTable *twitter_chat_info_defaults(PurpleConnection *gc, const char *chat_name)
+static void irc_roomlist_cancel(PurpleRoomlist *list)
 {
-        GHashTable *defaults;
+	PurpleConnection *gc = purple_account_get_connection(list->account);
+	struct irc_conn *irc;
 
-        defaults = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+	if (gc == NULL)
+		return;
 
-        g_hash_table_insert(defaults, "search", g_strdup(chat_name));
+	irc = gc->proto_data;
 
-        //bug in pidgin prevents this from working
-        g_hash_table_insert(defaults, "interval",
-                        g_strdup_printf("%d", twitter_option_search_timeout(purple_connection_get_account(gc))));
-        return defaults;
+	purple_roomlist_set_in_progress(list, FALSE);
+
+	if (irc->roomlist == list) {
+		irc->roomlist = NULL;
+		purple_roomlist_unref(list);
+	}
 }
+
 */

@@ -115,15 +115,16 @@ typedef struct
 	guint32 flag;
 }mrim_group;
 
-/*
+
 typedef enum
 {
 	BUDDY,
 	GROUP,
 	PHONE, // phone only
-	CHAT
+	CHAT,
+	UNKNOWN
 }BUDDY_TYPE;
-* */
+
 typedef struct
 {
 	PurpleBuddy *buddy;
@@ -136,7 +137,7 @@ typedef struct
 	guint32 flags;
 	guint32 s_flags;
 	guint32 status;
-	/*BUDDY_TYPE type;*/
+	BUDDY_TYPE type;
 	gchar *ips; // IP:PORT;IP:PORT;
 }mrim_buddy;
 
@@ -316,25 +317,25 @@ static const gchar *links[]=
 
 };
 
-//char *mrim_status_to_prpl_status(guint32 status);
-const char* mrim_status_to_prpl_status( guint32 status );
+const char* mrim_status_to_prpl_status(guint32 status);
 void set_user_status_by_mb(mrim_data *mrim, mrim_buddy *mb);
 
-static gchar* mrim_message_offline_get_attr(const gchar* attr,void* input);
-static time_t mrim_str_to_time(const gchar* str);
-static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond);
-static void mrim_connect_cb(gpointer data, gint source, const gchar *error_message);
-static void mrim_balancer_cb(PurpleUtilFetchUrlData *url_data, gpointer user_data, const gchar *url_text, gsize len, const gchar *error_message);
+gchar* mrim_message_offline_get_attr(const gchar* attr,void* input);
+time_t mrim_str_to_time(const gchar* str);
+void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond);
+void mrim_connect_cb(gpointer data, gint source, const gchar *error_message);
+void mrim_balancer_cb(PurpleUtilFetchUrlData *url_data, gpointer user_data, const gchar *url_text, gsize len, const gchar *error_message);
 gboolean mrim_keep_alive(gpointer data);
 
 void notify_emails(void *gc, gchar* webkey, guint32 count);
 
-static void blist_search(PurpleConnection *gc, PurpleRequestFields *fields);
+void blist_search(PurpleConnection *gc, PurpleRequestFields *fields);
 
 void clean_string(gchar *email);
 gchar *clear_phone(gchar *phone);
 gboolean is_valid_email(gchar *email);
 gboolean is_valid_phone(gchar *phone);
+gboolean is_valid_chat(gchar *chat);
 #define is_valid_buddy_name(name) (is_valid_phone(name) || is_valid_email(name))
 
 #if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION <= 5

@@ -240,8 +240,8 @@ gboolean send_package(package *pack, mrim_data *mrim)
 	// подправляем длину
 	pack->header->dlen = pack->len;	
 	
-	ssize_t ret1 = write (mrim->fd, pack->header, sizeof(mrim_packet_header_t));
-	ssize_t ret2 = write (mrim->fd, pack->buf, pack->len);
+	ssize_t ret1 = send (mrim->fd, pack->header, sizeof(mrim_packet_header_t), 0);
+	ssize_t ret2 = send (mrim->fd, pack->buf, pack->len, 0);
 	if ( (ret1 < sizeof(mrim_packet_header_t)) || (ret2 < (pack->len)) )
 	{
 		purple_debug_info("mrim", "[%s] error\n", __func__);
@@ -257,7 +257,7 @@ gboolean send_package(package *pack, mrim_data *mrim)
 		purple_connection_set_state(gc, PURPLE_DISCONNECTED);
 		return FALSE;
 	}
-	purple_debug_info("mrim", "Отправил пакет len=<%i>\n", pack->len + sizeof(mrim_packet_header_t));
+	purple_debug_info("mrim", "Отправил пакет len=<%li>\n", pack->len + sizeof(mrim_packet_header_t));
 	free_package(pack);
 	(mrim->seq)++;
 	return TRUE;
@@ -433,6 +433,7 @@ gchar *read_UTF16LE(package *pack)
 		
 	return str;
 
+	// TODO read_UTF16LE
 	// ИЗМЕНЯЕМ КОДИРОВКУ
 	gchar *string = g_convert(str, -1, "UTF8", "UTF-16LE", NULL, NULL, NULL);
 	g_free(str);
@@ -567,6 +568,29 @@ void read_base64(package *pack, gboolean gziped, gchar *fmt, ...)
 	}
 	va_end(ap);
 	return;
+}
+
+
+void mrim_packet_dump(package *pack)
+{
+	mrim_packet_header_t *header = pack->header;
+	purple_debug_info("mrim","proto: %u\n", header->proto);
+	purple_debug_info("mrim","seq:   %u\n", header->seq);
+	purple_debug_info("mrim","msg:   %u\n", header->msg);
+	purple_debug_info("mrim","dlen:  %u\n", header->dlen);
+	purple_debug_info("mrim","fport: %u\n", header->fromport);
+	purple_debug_info("mrim","from:  %u\n", header->proto);
+/*
+	char *ptr = pack->buf;
+	char *str = g_new0(char, 80);
+	int len=0;
+	while (len < pack->len)
+	{
+		for (; len < pack->len ; ptr++, len++)
+			g_
+		purple_debug_info("mrim","%s\n")
+	}
+*/
 }
 
 

@@ -431,43 +431,6 @@ void mxit_update_buddy_presence( struct MXitSession* session, const char* userna
 
 
 
-
-
-#ifndef _WIN32
-#include <sys/time.h>
-#include <sys/wait.h>
-#include <sys/time.h>
-#endif
-
-
-
-
-
-#ifndef _WIN32
-# include <netinet/in.h>
-# include <sys/socket.h>
-# include <arpa/inet.h>
-# include <sys/un.h>
-# include <sys/utsname.h>
-# include <netdb.h>
-# include <signal.h>
-# include <unistd.h>
-#endif
-
-
-
-#ifdef _WIN32
-#include "win32dep.h"
-#endif
-
-
-
-
-
-
-
-
-
 static gchar *fb_gunzip(const guchar *gzip_data, ssize_t *len_ptr)
 {
 	gsize gzip_data_len	= *len_ptr;
@@ -542,27 +505,3 @@ static gchar *fb_gunzip(const guchar *gzip_data, ssize_t *len_ptr)
 	return g_string_free(output_string, FALSE);
 }
 #endif
-
-
-
-
-
-maksbotan: пропихни в санрайс
-maksbotan: или пинай слепногу чтоб в рион взял
-winterheart: кейворды не должны быть стабильными, только ~arch - требование любого оверлея
-winterheart: src_compile можно вообще убрать
-winterheart: пропиши переменную S="${WORKDIR}"/mrim-prpl под RDEPEND
-winterheart: и src_install при таком раскладе тоже можно будет убрать
-winterheart: ostinru: ну и repoman пройдись
-winterheart: PF не используют в общем случае. лучше  ${P}
-winterheart: у тебя же не используется ревизия в названии тарбола
-ostinru: ок. (у меня раньше использовалось - означало ревизию в svn, но потом я забил на это)
-winterheart: тэкс
-winterheart: как проверишь, скинь куда у тебя файлы скидываются
-winterheart: у тебя в Makefile ошибка
-winterheart: install -Dm0644 mrim.so ${DESTDIR}/usr/lib/purple-2/mrim.so
-winterheart: 25 строка
-winterheart: для 64битных систем не пойдет так
-winterheart: у них lib64 должен быть
-winterheart: сделай переменные для DATADIR и LIBDIR и пропихивай правильные значения в src_install
-winterheart: да, еще в Makefile 21 строка лишняя

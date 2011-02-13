@@ -40,4 +40,6 @@ gchar *read_Z(package *pack);
 void read_base64(package *pack, gboolean gziped, gchar *fmt, ...);
 
 void free_package(package *pack);
+
+void mrim_packet_dump(package *pack);
 #endif
