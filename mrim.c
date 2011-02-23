@@ -60,7 +60,7 @@ gboolean string_is_match(gchar *string, gchar *pattern)
     res = g_regex_match (regex, string, 0, &match_info);
 	// TODO Mem free.
     g_match_info_free(match_info);
-    g_regex_unref (regex);
+    g_regex_unref(regex);
     return res;
 }
 
@@ -95,8 +95,8 @@ gchar *clear_phone(gchar *original_phone)
 		*phone = '7';
 	// keep digits only
 	int j=0;
-	gchar *correct_phone = g_new0(gchar, 12);
-	while(*phone && j<11)
+	gchar *correct_phone = g_new0(gchar, 13);
+	while(*phone && j<12)
 	{
 		if ((*phone <= '9') && (*phone >= '0'))
 			correct_phone[j++] = *phone;
@@ -475,6 +475,34 @@ static void  blist_sms_menu_item(PurpleBlistNode *node, gpointer userdata)
 			_("_Cancel!"), NULL,
 			mrim->account, buddy->name, NULL, mrim->gc );
 }
+/*
+static void  blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata)
+{
+	PurpleBuddy *buddy = (PurpleBuddy *) node;
+	mrim_data *mrim = userdata;
+	g_return_if_fail(buddy != NULL);
+	g_return_if_fail(mrim != NULL);
+	mrim_buddy *mb = buddy->proto_data;
+	g_return_if_fail(mb != NULL);
+
+	  GtkWidget *window;
+
+	  gtk_init(NULL, NULL);
+
+	  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	  gtk_window_set_title(GTK_WINDOW(window), _("Send SMS"));
+	  gtk_window_set_default_size(GTK_WINDOW(window), 320, 240);
+	  g_signal_connect_swapped(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+
+
+
+	  gtk_widget_show(window);
+
+	  gtk_main();
+
+	  return;
+}
+*/
 
 // edit phones
 void blist_edit_phones(PurpleBuddy *buddy, PurpleRequestFields *fields)
@@ -641,8 +669,16 @@ static GList *mrim_user_actions(PurpleBlistNode *node)
 
 		if (mb->phones && mb->phones[0])
 		{
-			action = purple_menu_action_new(_("Send an SMS..."), PURPLE_CALLBACK(blist_sms_menu_item), mrim, NULL);
+			GHashTable *ht = purple_core_get_ui_info();
+			gchar *name = g_hash_table_lookup(ht, "name");
+			purple_debug_info("mrim", "[%s] UI is <%s>\n", __func__, name);
+			//if (name && g_strcmp0("Pidgin",name)==0)
+			// use pretty gtk+ form
+			//	action = purple_menu_action_new(_("Send an SMS..."), PURPLE_CALLBACK(blist_sms_menu_item_gtk), mrim, NULL);
+			//else
+				action = purple_menu_action_new(_("Send an SMS..."), PURPLE_CALLBACK(blist_sms_menu_item), mrim, NULL);
 			list = g_list_append(list, action);
+
 		}
 		action = purple_menu_action_new(_("Edit phone numbers..."), PURPLE_CALLBACK(blist_edit_phones_menu_item), mrim, NULL);
 		list = g_list_append(list, action);
@@ -713,7 +749,7 @@ GList* mrim_status_types( PurpleAccount* account )
 	}
 
 	/* add Mood option */
-	//type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE,	PURPLE_MOOD_NAME, _("Mood Name"), purple_value_new( PURPLE_TYPE_STRING ), NULL);
+	type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE,	PURPLE_MOOD_NAME, _("Mood Name"), purple_value_new( PURPLE_TYPE_STRING ), NULL);
 	//type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE, PURPLE_MOOD_NAME, "Mood Name", purple_value_new( PURPLE_TYPE_STRING ), NULL);
 	//statuslist = g_list_prepend( statuslist, type );
 
@@ -767,11 +803,14 @@ static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
 
 	package *pack = new_package(mrim->seq, MRIM_CS_CHANGE_STATUS);
 	add_ul(purple_status_to_mrim_status(status), pack);
-	add_LPS("X-status", pack);	// TODO ADD X-STATUS SETUP
+	add_LPS("X-status", pack);	// spec
+	add_LPS("", pack); // status title
+	add_LPS("", pack); // desc or NULL
+	add_ul(COM_SUPPORT, pack);
 	send_package(pack, mrim);
 }
 
-void set_user_status(mrim_data *mrim, gchar *email, guint32 status)
+void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, gchar *title, gchar *desc, gchar* user_agent)
 {
 	purple_debug_info("mrim", "[%s] %s change status to 0x%x\n", __func__, email, status);
 	g_return_if_fail(mrim != NULL);
@@ -782,12 +821,24 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status)
 		mrim_buddy *mb = buddy->proto_data;
 		if (!mb->authorized)
 		{
-	        purple_prpl_got_user_status(mrim->account, email, "offline", NULL);
+			purple_prpl_got_user_status_deactive(mrim->gc->account, email, "mood");
+			purple_prpl_got_user_status(mrim->account, email, "offline", NULL);
 	        return;
 		}
 	}
     
-	purple_prpl_got_user_status(mrim->account, email, mrim_status_to_prpl_status(status), NULL);
+	if (uri)
+	{
+		purple_prpl_got_user_status(mrim->gc->account, email, "mood",
+				PURPLE_MOOD_NAME, uri,
+				PURPLE_MOOD_COMMENT, desc,
+				NULL);
+	}
+	else
+	{
+		purple_prpl_got_user_status_deactive(mrim->gc->account, email, "mood");
+		purple_prpl_got_user_status(mrim->account, email, mrim_status_to_prpl_status(status), NULL);
+	}
 }
 
 void set_user_status_by_mb(mrim_data *mrim, mrim_buddy *mb)
@@ -820,6 +871,10 @@ static void mrim_prpl_login(PurpleAccount *account)
 
 	PurpleConnection *gc = purple_account_get_connection(account);
 	g_return_if_fail(gc != NULL);
+
+	gc->flags |= PURPLE_CONNECTION_NO_FONTSIZE | PURPLE_CONNECTION_NO_URLDESC
+			| PURPLE_CONNECTION_NO_IMAGES | PURPLE_CONNECTION_SUPPORT_MOODS
+			| PURPLE_CONNECTION_SUPPORT_MOOD_MESSAGES;
 
 	mrim_data *mrim = g_new0(mrim_data,1);
 	mrim->gc = gc;
@@ -968,12 +1023,12 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 											add_LPS(mrim->username, pack_ack);
 											add_LPS(mrim->password, pack_ack);
 											add_ul(mrim->status, pack_ack);
-											//add_LPS("STATUS_ONLINE", pack_ack);
-											//add_LPS(NULL, pack_ack); // TODO
-											//add_LPS(NULL, pack_ack); // TODO
-											//add_ul(0x03FF, pack_ack);
+											add_LPS("STATUS_ONLINE", pack_ack); // TODO
+											add_LPS("Курю", pack_ack); // TODO
+											add_LPS("Курю протокол агента", pack_ack); // TODO
+											add_ul(FEATURE_FLAG_WAKEUP | FEATURE_FLAG_BASE_SMILES, pack_ack);
 											add_LPS(USER_AGENT, pack_ack);
-											//add_LPS(_("ru"),pack_ack);
+											add_LPS(_("ru"),pack_ack);
 											pack_ack->header->proto = ((((guint32)(1))<<16)|(guint32)(13));
 
 											send_package(pack_ack, mrim);
@@ -1033,9 +1088,24 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 								}
 		case MRIM_CS_USER_STATUS:{  // A buddy changed his status.
 									guint32 status = read_UL(pack); //status
+									gchar *uri = read_LPS(pack);
+									gchar *title = read_LPS(pack);
+									gchar *desc = read_LPS(pack);
 									gchar *user = read_LPS(pack); //user
-									purple_debug_info("mrim","MRIM_CS_USER_STATUS! new_status<%i> user<%s>\n", (int) status ,user);
-									set_user_status(mrim, user, status);
+									read_UL(pack);
+									gchar *user_aget = read_LPS(pack);
+									// Params:
+									//  "client" - magent/jagent/???
+									//  "name" - sys-name.
+									//  "title" - display-name.
+									//  "version" - product internal numeration. Examples: "1.2", "1.3 pre".
+									//  "build" - product internal numeration (may be positive number or time).
+									//  "protocol" - MMP protocol number by format "<major>.<minor>".
+
+									if (!user)
+										user = uri; // old proto
+									purple_debug_info("mrim","MRIM_CS_USER_STATUS! new_status<%i> user<%s> uri=<%s> title=<%s> desc=<%s>\n", (int) status ,user, uri, title, desc);
+									set_user_status(mrim, user, status, uri, title, desc, user_aget);
 									FREE(user);
 									break;
 								}
@@ -1359,6 +1429,10 @@ static gboolean mrim_can_receive_file(PurpleConnection *gc,const char *who)
 	return FALSE;
 #endif
 }
+PurpleMood *mrim_get_moods(PurpleAccount *account)
+{
+	return moods;
+}
 /* mrim support offline messages */
 static gboolean mrim_offline_message(const PurpleBuddy *buddy) 
 {
@@ -1482,7 +1556,7 @@ static PurplePluginProtocolInfo prpl_info =
   NULL,                                 /* get_media_caps */
 #endif
 #if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >= 7
-  NULL,  								/* get_moods */
+  mrim_get_moods,  						/* get_moods */
   NULL,  								/* set_public_alias */
   NULL									/* get_public_alias */
 #endif
@@ -1501,8 +1575,8 @@ static PurplePluginInfo info =
   MRIM_PRPL_ID,                                            /* id */
   "Mail.Ru Agent",                                         /* name */
   DISPLAY_VERSION,                                         /* version */
-  "Mail.Ru Agent protocol plugin",                         /* summary */
-  "Mail.Ru Agent protocol plugin",                         /* description */
+  SUMMARY,   						                       /* summary */
+  DESCRIPTION,                                             /* description */
   NULL,                                                    /* author */
   "open-club.ru",                                          /* homepage */
   mrim_load_plugin,                                        /* load */
@@ -1510,7 +1584,7 @@ static PurplePluginInfo info =
   mrim_prpl_destroy,	                                   /* destroy */
   NULL,                                                    /* ui_info */
   &prpl_info,                                              /* extra_info */
-  NULL,                                                    /* prefs_info */
+  NULL,                                                    /* prefs_info - PurplePluginUiInfo*/
   mrim_prpl_actions,                                       /* actions */
   NULL,                                                    /* padding... */
   NULL,
@@ -1528,6 +1602,10 @@ static void mrim_prpl_init(PurplePlugin *plugin)
 	PurpleAccountOption *option_avatar = purple_account_option_bool_new(_("Load userpics"), "fetch_avatar", FALSE);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option_avatar);
     _mrim_plugin = plugin;
+
+    // i18n
+    plugin->info->summary = _(SUMMARY);
+    plugin->info->description = _(DESCRIPTION);
 }
 
 PURPLE_INIT_PLUGIN(mrim, mrim_prpl_init, info)

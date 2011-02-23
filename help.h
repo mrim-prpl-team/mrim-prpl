@@ -269,24 +269,6 @@ static gchar *vk_gunzip(const guchar *gzip_data, ssize_t *len_ptr)
 
 
 
-/* moods (reference: libpurple/status.h)
-static PurpleMood mrim_moods[] =
-{	// x3               i18n            NULL
-	{"angry",		N_("Angry"),		NULL},
-	{"excited",		N_("Excited"),		NULL},
-	{"grumpy",		N_("Grumpy"),		NULL},
-	{"happy",		N_("Happy"),		NULL},
-	{"in_love",		N_("In love"),		NULL},
-	{"invincible",	N_("Invincible"),	NULL},
-	{"sad",			N_("Sad"),			NULL},
-	{"hot",			N_("Hot"),			NULL},
-	{"sick",		N_("Sick"),			NULL},
-	{"sleepy",		N_("Sleepy"),		NULL},
-	// Mark the last record.
-	{ NULL, NULL, NULL }
-};
-*/
-
 
 /*
 
@@ -305,13 +287,6 @@ int mrim_convert_mood( const char* id )
 
 	return -1;
 }
-
-
-PurpleMood* mxit_get_moods(PurpleAccount *account)
-{
-	return mrim_moods;
-}
-
 
 
 const char* mxit_convert_mood_to_name( short id )

@@ -5,7 +5,7 @@
 #include <glib.h>
 #include <time.h>
 
-// i18n see
+// i18n
 #define GETTEXT_PACKAGE "mrim-prpl"
 #define LOCALEDIR "po"
 #include <glib/gi18n-lib.h>
@@ -51,6 +51,7 @@
 #include "cmds.h"
 #include "conversation.h"
 #include "connection.h"
+#include "core.h"
 #include "debug.h"
 #include "dnsquery.h"
 #include "dnssrv.h"
@@ -69,6 +70,9 @@
 //mrim
 #include "proto.h"
 #include <sys/types.h>
+
+// gtk+
+//#include <gtk/gtk.h>
 
 
 static PurplePlugin *_mrim_plugin = NULL;
@@ -90,6 +94,83 @@ static struct status
 	{	PURPLE_STATUS_AWAY,			STATUS_AWAY,			"away",				N_("Away"), 			TRUE,				FALSE}	/* 3 */
 //	{	PURPLE_STATUS_UNSET,		STATUS_UNDETERMINATED,	"UNDETERMINATED",	"UNDETERMINATED",	TRUE,				FALSE}	/* 4 */
 };
+
+
+
+// moods reference: libpurple/status.h)
+static PurpleMood moods[] =
+{
+		//  x3          i18n             NULL
+		//"status_0" "/status_offline.bmp"
+		{ "status_1", N_("status_online"), NULL },
+		{ "status_2", N_("status_away"), NULL },
+		//"status_3"  "/status_invisible.bmp"
+		{ "status_4", N_("boleu"), NULL },
+		{ "status_5", N_("doma"), NULL },
+		{ "status_6", "/em.bmp", NULL },
+		{ "status_7", "/gde_ia.bmp", NULL },
+		{ "status_8", "/gizn_gavno.bmp", NULL },
+		{ "status_9", "/gotovlu.bmp", NULL },
+		{ "status_10", "/gulau.bmp", NULL },
+		{ "status_11", "/ia_inoplanet_razum.bmp", NULL },
+		{ "status_12", "/ia_krivetko.bmp", NULL },
+		{ "status_13", "/ia_poteralsa.bmp", NULL },
+		{ "status_14", "/ia_soshl_asuma.bmp", NULL },
+		{ "status_15", "/ia_utko.bmp", NULL },
+		{ "status_16", "/igrau.bmp", NULL },
+		{ NULL, NULL, NULL} // last record
+};
+/*
+"status_17"  "/kuru.bmp"
+"status_18" "/na_rabote.bmp"
+"status_19"  "/na_vstreche.bmp"
+"status_20"  "/pivo.bmp"
+"status_21"  "/pu_kofe.bmp"
+"status_22"  "/rabotau.bmp"
+"status_23" "/splu.bmp"
+"status_24"  "/telefon.bmp"
+// not exsist
+"status_26"  "/v_institute.bmp"
+"status_27"  "/v_shkole.bmp"
+"status_28"  "/vi_oshiblis_nomerom.bmp"
+"status_29" "/1.bmp"
+"status_30" "/2.bmp"
+// not exsist
+"status_32" "/4.bmp"
+"status_33" "/5.bmp"
+"status_34"  "/6.bmp"
+"status_35"  "/7.bmp"
+"status_36"  "/8.bmp"
+"status_37" "/9.bmp"
+"status_38" "/10.bmp"
+"status_39" "/11.bmp"
+"status_40"  "/12.bmp"
+"status_41"  "/13.bmp"
+"status_42"  "/14.bmp"
+"status_43" "/15.bmp"
+"status_44" "/16.bmp"
+"status_45"  "/17.bmp"
+"status_46"  "/cherep.bmp"
+"status_47"  "/rocket.bmp"
+"status_48"  "/kut.bmp"
+"status_49" "/18.bmp"
+"status_50"  "/20.bmp"
+"status_51"  "/belka.bmp"
+"status_52"  "/star.bmp"
+"status_53" "/music.bmp"
+
+
+
+"status_chat"  "/chat.bmp"
+"status_dnd" "/dnd.bmp"
+//"status_gray"  "/status_gray.bmp"
+//"status_connecting"  "/status_connecting.bmp"
+//"wrong_data"  "/wrong_data.bmp"
+"status_dating"  "/seekfriends.bmp" 'Знакомлюсь'
+
+*/
+
+
 #define MRIM_STATUS_ID_MOBILE "mobile"
 #define STATUSES_COUNT 4
 
@@ -102,10 +183,13 @@ static struct status
 #define MRIM_MAIL_RU_PORT 2042
 					// или 443
 #define USER_AGENT_DESC "client=\"Pidgin\" version=" DISPLAY_VERSION
-#define USER_AGENT "Mail.Ru Pidgin plugin by Ostin"
+#define USER_AGENT  "Mail.Ru Pidgin plugin by Ostin"
+#define SUMMARY     "Mail.Ru Agent protocol plugin"
+#define DESCRIPTION "Mail.Ru Agent protocol plugin"
 #define FREE(s) { if (s) g_free(s); s = NULL;}
 
 #define FEATURES (FEATURE_FLAG_WAKEUP | FEATURE_FLAG_BASE_SMILES)
+#define COM_SUPPORT 0x03FF
 
 typedef struct
 {

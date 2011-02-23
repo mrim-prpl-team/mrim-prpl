@@ -75,6 +75,7 @@ typedef struct mrim_packet_header_t
 	#define MESSAGE_FLAG_v1p16			0x00100000 // для перекодировки юникода
 	#define MESSAGE_FLAG_CP1251			0x00200000
 	#define MESSAGE_FLAG_MULTICHAT  	0x00400000
+	#define MESSAGE_FLAG_CONFERENCE		0x00400000
 	#define MESSAGE_USERFLAGS_MASK      0x000036A8 // Flags that user is allowed to set himself 
 	// ???
 	#define MULTICHAT_MESSAGE  0
@@ -327,7 +328,7 @@ typedef struct mrim_packet_header_t
 // LPS spec_status_uri ANSI (>=1.14)
 // LPS status_title UNICODE (>=1.14)
 // LPS X-status UNICODE (>=1.14)
-// UL com_support (>=1.14) (see MRIM_CS_USER_STATUS)
+// UL com_support (>=1.14) (see MRIM_CS_USER_STATUS) 0x03FF
 
 
 #define MRIM_CS_GET_MPOP_SESSION		0x1024	// C -> S

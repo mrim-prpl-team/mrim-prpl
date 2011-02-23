@@ -313,16 +313,16 @@ PurpleGroup *get_mrim_group_by_id(mrim_data *mrim, guint32 id)
 //	purple_debug_info("mrim","[%s]\n",__func__);
 	mrim_group *mg =  g_hash_table_lookup(mrim->mg, GUINT_TO_POINTER(id));
 	g_return_val_if_fail(mg != NULL, NULL);
-//	if (mg->gr)
-//		purple_debug_info("mrim", "Found grp %s, ID <%u> \n", mg->gr->name, id);
-//	else
-//		purple_debug_info("mrim", "Not found group by ID <%u>\n", id);
+	if (mg->gr)
+		purple_debug_info("mrim", "Found grp %s, ID <%u> \n", mg->gr->name, id);
+	else
+		purple_debug_info("mrim", "Not found group by ID <%u>\n", id);
 	return mg->gr;
 }
 // Look for group by its name:
 guint32 get_mrim_group_id_by_name(mrim_data *mrim, char *name)
 {
-//	purple_debug_info("mrim","[%s]\n",__func__);
+	purple_debug_info("mrim","[%s]\n",__func__);
 
 	GList *g = g_list_first(g_hash_table_get_values(mrim->mg));
 	mrim_group *mg = NULL;
@@ -331,7 +331,7 @@ guint32 get_mrim_group_id_by_name(mrim_data *mrim, char *name)
 		mg = g->data;
 		if ( g_strcmp0(mg->name, name) == 0 )
 		{
-//			purple_debug_info("mrim", "Found grp %s, ID %u\n", mg->name, mg->id);
+			purple_debug_info("mrim", "Found grp %s, ID %u\n", mg->name, mg->id);
 			g_list_free(g);
 			return mg->id;
 		};

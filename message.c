@@ -201,7 +201,7 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 		purple_debug_info("mrim","[%s] Message is SPAM?\n",__func__);
 	//return;
 	gchar *from = read_LPS(pack);
-	
+
 /*	mrim_pq *pq = (mrim_pq *) g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq)); // or msg_id?
 	if (pq == NULL)
 	{
@@ -659,15 +659,37 @@ void mrim_chat_whisper(PurpleConnection *gc, int id, const char *who, const char
 int mrim_chat_send(PurpleConnection *gc, int id, const char *message, PurpleMessageFlags flags)
 {
 	purple_debug_info("mrim", "%s\n", __func__);
+	mrim_data *mrim = gc->proto_data;
 	const char *username = gc->account->username;
 	PurpleConversation *conv = purple_find_chat(gc, id);
 
 	if (conv)
 	{
 		purple_debug_info("mrim", "%s is sending message to chat room %s: %s\n", username, conv->name, message);
-		// TODO chat: send package
+		gboolean res;
+
+		mrim_pq *mpq = g_new0(mrim_pq, 1);
+		mpq->seq =  mrim->seq;
+		mpq->type = MESSAGE;
+		mpq->kap_count = mrim->kap_count;
+		mpq->message.flags = MESSAGE_FLAG_NORECV | MESSAGE_FLAG_MULTICHAT;
+		mpq->message.to = g_strdup(""); // TODO chatname
+		mpq->message.message = g_strdup_printf("%s:\r\n%s", mrim->username, message);
+		g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq), mpq);
+
+
+		package *pack = new_package(mrim->seq, MRIM_CS_MESSAGE);
+		add_ul(mpq->message.flags, pack); //flags
+		add_LPS(mpq->message.to, pack);
+		add_LPS(mpq->message.message, pack);
+		add_LPS(" ", pack);
+
+		res = send_package(pack, mrim);
 		serv_got_chat_in(gc, id, username, flags, message, time(NULL));
-		return 0;
+		if (res)
+			return 1;
+		else
+			return -E2BIG; // Failed.
 	}
 	else
 	{
