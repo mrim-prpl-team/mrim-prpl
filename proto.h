@@ -159,7 +159,6 @@ typedef struct mrim_packet_header_t
 	#define STATUS_DESC_MAX 64
 // LPS user e-mail ANSI
 // UL com_support (>=1.14)
-// LPS user_agent (>=1.14) ANSI
 	#define FEATURE_FLAG_RTF_MESSAGE       0x00000001
 	#define FEATURE_FLAG_BASE_SMILES       0x00000002
 	#define FEATURE_FLAG_ADVANCED_SMILES   0x00000004
@@ -222,7 +221,7 @@ typedef struct mrim_packet_header_t
 // UL 0
 // LPS Group_Name
 // UL 0
-// UL 0
+// UL 0 // base64
 // UL 0
 // UL 0 ( >=1.15 )
 /** phones 1.13 **/

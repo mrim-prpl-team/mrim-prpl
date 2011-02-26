@@ -72,7 +72,7 @@
 #include <sys/types.h>
 
 // gtk+
-//#include <gtk/gtk.h>
+#include <gtk/gtk.h>
 
 
 static PurplePlugin *_mrim_plugin = NULL;

@@ -22,6 +22,9 @@ libpurple.
 
 Зависимости:
    libpurple >=2.4.1
+   gtk+ >= 2.?
+   так же используется gettext, pkg-config
+   
 
 Официальный сайт:
    http://code.google.com/p/mrim-prpl/

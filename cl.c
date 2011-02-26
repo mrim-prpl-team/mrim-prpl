@@ -24,7 +24,7 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 	gchar *g_mask = read_LPS(pack); // Group mask
 	gchar *c_mask = read_LPS(pack); // Contact mask
 
-	purple_debug_info("mrim", "Group mask <%s>, Contack mask <%s>\n", g_mask, c_mask);
+	purple_debug_info("mrim", "Group number <%u>, Group mask <%s>, Contack mask <%s>\n", g_number, g_mask, c_mask);
 
 	/* Phone group */
 	mg_add(0, "phone", MRIM_PHONE_GROUP_ID, mrim);
@@ -35,12 +35,8 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 	{
 		guint32 flags = read_UL(pack);//  & 0x00FFFFFF;
 		gchar *name = read_LPS(pack); // groups (UTF16)
-		if (!(flags & CONTACT_FLAG_REMOVED))
-			mg_add(flags, name, i, mrim);
-		if (flags & CONTACT_FLAG_REMOVED)
-			purple_debug_info("mrim","[%s] <%s> has flag REMOVED\n", __func__, name);
-		
-		FREE(name)
+		mg_add(flags, name, i, mrim);
+		//FREE(name)
 		cl_skeep(g_mask + 2, pack);
 	}
 
@@ -286,13 +282,21 @@ void mrim_remove_group(PurpleConnection *gc, PurpleGroup *group)
 	mpq->remove_group.group_id = group_id;
 	g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mrim->seq), mpq);
 
-	mrim_pkt_modify_group(mrim, group_id, group->name, flags | CONTACT_FLAG_REMOVED);
+	mrim_pkt_modify_group(mrim, group_id, group->name, flags | CONTACT_FLAG_REMOVED | (8<<24) |CONTACT_FLAG_SHADOW);
 }
 
 
 // MG
 void mg_add(guint32 flags, gchar *name, guint id, mrim_data *mrim)
 {
+	purple_debug_info("mrim", "[%s] Group id=<%u> flag=<%x> <%s>\n", __func__, id, flags, name);
+	if (flags & CONTACT_FLAG_REMOVED)
+		purple_debug_info("mrim", "[%s] Group <%s> REMOVED\n", __func__, name);
+	if (flags & CONTACT_FLAG_SHADOW)
+	{
+		purple_debug_info("mrim", "[%s] Group <%s> SHADOW\n", __func__ ,name);
+			return;
+	}
 	mrim_group *mg = g_new0(mrim_group, 1);
 	mg->flag = flags;
 	mg->name = name;
@@ -304,7 +308,6 @@ void mg_add(guint32 flags, gchar *name, guint id, mrim_data *mrim)
 		purple_blist_add_group(gr, NULL);
 	}
 	mg->gr = gr;
-	purple_debug_info("mrim", "[%s] Group id=<%u> flag=<%x> <%s>\n", __func__, mg->id, mg->flag, mg->name);
 	g_hash_table_insert(mrim->mg, GUINT_TO_POINTER(id), mg);
 }
 // Look for group by its id:
@@ -1213,6 +1216,8 @@ void mrim_pkt_modify_group(mrim_data *mrim, guint32 group_id, gchar *group_name,
 void mrim_pkt_add_group(mrim_data *mrim, gchar *group_name, guint32 seq)
 {
 	guint32 groups_count = g_hash_table_size(mrim->mg);
+	groups_count -= 1; // phone group
+	purple_debug_info("mrim", "[%s] groups_count=<%u>\n", __func__, groups_count);
 	package *pack = new_package(seq, MRIM_CS_ADD_CONTACT);
 	add_ul(CONTACT_FLAG_GROUP | (groups_count << 24), pack);
 	add_ul(0, pack);

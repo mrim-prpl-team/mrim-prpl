@@ -475,7 +475,7 @@ static void  blist_sms_menu_item(PurpleBlistNode *node, gpointer userdata)
 			_("_Cancel!"), NULL,
 			mrim->account, buddy->name, NULL, mrim->gc );
 }
-/*
+
 static void  blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata)
 {
 	PurpleBuddy *buddy = (PurpleBuddy *) node;
@@ -502,7 +502,6 @@ static void  blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata)
 
 	  return;
 }
-*/
 
 // edit phones
 void blist_edit_phones(PurpleBuddy *buddy, PurpleRequestFields *fields)
@@ -672,10 +671,10 @@ static GList *mrim_user_actions(PurpleBlistNode *node)
 			GHashTable *ht = purple_core_get_ui_info();
 			gchar *name = g_hash_table_lookup(ht, "name");
 			purple_debug_info("mrim", "[%s] UI is <%s>\n", __func__, name);
-			//if (name && g_strcmp0("Pidgin",name)==0)
+			if (name && g_strcmp0("Pidgin",name)==0)
 			// use pretty gtk+ form
-			//	action = purple_menu_action_new(_("Send an SMS..."), PURPLE_CALLBACK(blist_sms_menu_item_gtk), mrim, NULL);
-			//else
+				action = purple_menu_action_new(_("Send an SMS..."), PURPLE_CALLBACK(blist_sms_menu_item_gtk), mrim, NULL);
+			else
 				action = purple_menu_action_new(_("Send an SMS..."), PURPLE_CALLBACK(blist_sms_menu_item), mrim, NULL);
 			list = g_list_append(list, action);
 
@@ -751,7 +750,7 @@ GList* mrim_status_types( PurpleAccount* account )
 	/* add Mood option */
 	type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE,	PURPLE_MOOD_NAME, _("Mood Name"), purple_value_new( PURPLE_TYPE_STRING ), NULL);
 	//type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE, PURPLE_MOOD_NAME, "Mood Name", purple_value_new( PURPLE_TYPE_STRING ), NULL);
-	//statuslist = g_list_prepend( statuslist, type );
+	statuslist = g_list_prepend( statuslist, type );
 
 	/* add sms */
 	type = purple_status_type_new_full(PURPLE_STATUS_MOBILE, MRIM_STATUS_ID_MOBILE, NULL, FALSE, FALSE, TRUE);
@@ -1087,10 +1086,14 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									break;
 								}
 		case MRIM_CS_USER_STATUS:{  // A buddy changed his status.
+									gchar *uri=NULL, *title=NULL, *desc=NULL;
 									guint32 status = read_UL(pack); //status
-									gchar *uri = read_LPS(pack);
-									gchar *title = read_LPS(pack);
-									gchar *desc = read_LPS(pack);
+									if ( PROTO_MINOR(pack->header->proto) >= 0x14)
+									{
+										uri = read_LPS(pack);  // "status_22"
+										title = read_LPS(pack); // "Работаю"
+										desc = read_LPS(pack); // "Работаю не покладая рук"
+									}
 									gchar *user = read_LPS(pack); //user
 									read_UL(pack);
 									gchar *user_aget = read_LPS(pack);
@@ -1102,9 +1105,9 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									//  "build" - product internal numeration (may be positive number or time).
 									//  "protocol" - MMP protocol number by format "<major>.<minor>".
 
-									if (!user)
-										user = uri; // old proto
-									purple_debug_info("mrim","MRIM_CS_USER_STATUS! new_status<%i> user<%s> uri=<%s> title=<%s> desc=<%s>\n", (int) status ,user, uri, title, desc);
+									//if (!user)
+									//	user = uri; // old proto
+									purple_debug_info("mrim","MRIM_CS_USER_STATUS! new_status<%i> user<%s> uri=<%s> title=<%s> desc=<%s> ua=<%s>\n", (int) status ,user, uri, title, desc, user_aget);
 									set_user_status(mrim, user, status, uri, title, desc, user_aget);
 									FREE(user);
 									break;
@@ -1291,7 +1294,9 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									}
 		case MRIM_CS_FILE_TRANSFER_ACK:{
 									purple_debug_info("mrim","MRIM_CS_FILE_TRANSFER_ACK\n");
+#ifdef FT
 									mrim_process_file_transfer_ack(mrim ,pack);
+#endif
 									break;
 									}
 		case MRIM_CS_PROXY:{
@@ -1534,8 +1539,13 @@ static PurplePluginProtocolInfo prpl_info =
   NULL,            					   /* roomlist_cancel */
   NULL,   							   /* roomlist_expand_category */
   mrim_can_receive_file,           	   /* can_receive_file */
+#ifdef FT
   mrim_send_file,                      /* send_file */
   mrim_xfer_new,                       /* new_xfer */
+#else
+  NULL,         			           /* send_file */
+  NULL,			                       /* new_xfer */
+#endif
   mrim_offline_message,                /* offline_message */
   NULL,                                /* whiteboard_prpl_ops */
   NULL,                                /* send_raw */
