@@ -1164,7 +1164,6 @@ gchar *mrim_phones_to_string(gchar **phones)
 	gchar *cl_phone = NULL;
 	while (phone)
 	{
-		purple_debug_info("mrim","[%s] <%s>\n",__func__, *phones);
 		++phones;
 		cl_phone = clear_phone(phone); // TODO mem leaks
 		if (cl_phone)
@@ -1174,6 +1173,7 @@ gchar *mrim_phones_to_string(gchar **phones)
 				string = g_strconcat(string, ",", NULL);
 		}
 		phone = *phones;
+		purple_debug_info("mrim","[%s] <%s>\n",__func__, string);
 	}
 	purple_debug_info("mrim","[%s] <%s>\n", __func__, string);
 	return string;

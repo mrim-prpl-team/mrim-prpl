@@ -81,6 +81,7 @@ gboolean is_valid_phone(gchar *phone)
 
 gchar *clear_phone(gchar *original_phone)
 {
+	// TODO REWRITE
 	purple_debug_info("mrim","[%s] <%s>\n",__func__, original_phone);
 	if (original_phone == NULL)
 		return NULL;
@@ -111,7 +112,7 @@ gchar *clear_phone(gchar *original_phone)
 #ifdef DEBUG
 	purple_debug_info("mrim","[%s] original=<%s>, correct=<%s>\n",__func__, original_phone, correct_phone );
 #endif
-	if (is_valid_phone(correct_phone))
+	//if (is_valid_phone(correct_phone))
 		return correct_phone;
 
 	g_free(correct_phone);
