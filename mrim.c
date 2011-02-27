@@ -672,10 +672,10 @@ static GList *mrim_user_actions(PurpleBlistNode *node)
 			GHashTable *ht = purple_core_get_ui_info();
 			gchar *name = g_hash_table_lookup(ht, "name");
 			purple_debug_info("mrim", "[%s] UI is <%s>\n", __func__, name);
-			if (name && g_strcmp0("Pidgin",name)==0)
-			// use pretty gtk+ form
-				action = purple_menu_action_new(_("Send an SMS..."), PURPLE_CALLBACK(blist_sms_menu_item_gtk), mrim, NULL);
-			else
+			//if (name && g_strcmp0("Pidgin",name)==0)
+			// TODO:  // use pretty gtk+ form
+			//	action = purple_menu_action_new(_("Send an SMS..."), PURPLE_CALLBACK(blist_sms_menu_item_gtk), mrim, NULL);
+			//else
 				action = purple_menu_action_new(_("Send an SMS..."), PURPLE_CALLBACK(blist_sms_menu_item), mrim, NULL);
 			list = g_list_append(list, action);
 
