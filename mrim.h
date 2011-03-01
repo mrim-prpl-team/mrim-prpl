@@ -97,13 +97,14 @@ static struct status
 
 static struct
 {
-	gchar *id, *alias;
+	gchar *id, *alias, *pattern;
 } ua_aliases[]=
 {
-		//	id		alias
-		{"magent",					N_("Agent@Mail.Ru")},
-		{"ostin-mrim-prpl",		N_("Pidgin and Ostin's mrim-prpl plugin")},
-		{NULL,						NULL}		
+		//	id							alias																regex
+		{"magent",				N_("Agent@Mail.Ru for Win/PC, ver. %s build %s"),		"client=\"(magent)\" version=\"([0-9\.]+)\" build=\"([0-9]+)\""},
+		{"jagent",				N_("Java phone Agent@Mail.Ru, ver. %s"),					"client=\"(jagent)\" version=\"([0-9\.]+)\""},
+		{"prpl-ostin-mrim",	N_("Pidgin and Ostin's mrim-prpl plugin"),				"prpl-ostin-mrim"},
+		{NULL,					NULL,																	""}
 };
 
 // moods reference: libpurple/status.h)

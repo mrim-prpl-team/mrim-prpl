@@ -173,20 +173,33 @@ gchar* mrim_get_ua_alias(const gchar* ua)
 {
 	if (ua)
 	{
-		gchar *alias = "";
+		gchar *alias = ua;
 		guint j = 0;
-		while (ua_aliases[j].id && (ua_aliases[j].id != ua))
+		while (ua_aliases[j].id)
 		{
-			j++;
+			if (string_is_match(ua, ua_aliases[j].pattern))
+			{
+				purple_debug_info("mrim", "UA %s match %s\n", ua, ua_aliases[j].pattern);
+				// TODO: Implement (version) and (buid) parameters getting.
+				//Implement another function not only to compare a string against a pattern
+				//but to get these (parametrs) out and return a struct.
+				alias = ua_aliases[j].alias;
+				break;
+			} else
+				j++;
 		}
+		/*
 		if (ua_aliases[j].id == ua)
 		{
 			alias = ua_aliases[j].alias;
-		}
+		} else
+		{
+			alias = ua;
+		}*/
 		return alias;
 	} else
 	{
-		return "";
+		return ua;
 	}
 }
 
@@ -1066,7 +1079,7 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 											add_LPS("Курю протокол агента", pack_ack); // TODO
 											add_ul(FEATURE_FLAG_WAKEUP | FEATURE_FLAG_BASE_SMILES, pack_ack);
 											add_LPS(USER_AGENT, pack_ack);
-											add_LPS(_("ru"),pack_ack);
+											add_LPS(_("ru"),pack_ack); // TODO: CS locale selection.
 											pack_ack->header->proto = ((((guint32)(1))<<16)|(guint32)(13));
 
 											send_package(pack_ack, mrim);

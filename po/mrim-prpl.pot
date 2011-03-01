@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl v0.1.27-rc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-01 03:00+0300\n"
+"POT-Creation-Date: 2011-03-01 08:34+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
@@ -48,249 +48,249 @@ msgstr ""
 msgid "UserInfo is not available for conferences and phones."
 msgstr ""
 
-#: mrim.c:229
+#: mrim.c:242
 msgid "Nick"
 msgstr ""
 
-#: mrim.c:231
-#: mrim.c:338
+#: mrim.c:244
+#: mrim.c:351
 msgid "Name"
 msgstr ""
 
-#: mrim.c:233
+#: mrim.c:246
 #: cl.h:37
 msgid "LastName"
 msgstr ""
 
-#: mrim.c:235
+#: mrim.c:248
 msgid "Gender"
 msgstr ""
 
-#: mrim.c:236
+#: mrim.c:249
 msgid "No matter"
 msgstr ""
 
-#: mrim.c:237
+#: mrim.c:250
 #: cl.c:960
 msgid "Male"
 msgstr ""
 
-#: mrim.c:238
+#: mrim.c:251
 #: cl.c:960
 msgid "Female"
 msgstr ""
 
-#: mrim.c:245
+#: mrim.c:258
 msgid "Age from"
 msgstr ""
 
-#: mrim.c:247
+#: mrim.c:260
 msgid "Age up to"
 msgstr ""
 
-#: mrim.c:251
+#: mrim.c:264
 msgid "Online"
 msgstr ""
 
-#: mrim.c:256
+#: mrim.c:269
 msgid "Buddies search"
 msgstr ""
 
-#: mrim.c:257
+#: mrim.c:270
 msgid "_Search!"
 msgstr ""
 
-#: mrim.c:258
-#: mrim.c:506
+#: mrim.c:271
+#: mrim.c:519
 msgid "_Cancel!"
 msgstr ""
 
-#: mrim.c:295
+#: mrim.c:308
 msgid "[web] Set User Info"
 msgstr ""
 
-#: mrim.c:298
+#: mrim.c:311
 msgid "[web] Set User avatar"
 msgstr ""
 
-#: mrim.c:301
+#: mrim.c:314
 msgid "Search for buddies"
 msgstr ""
 
-#: mrim.c:350
-#: mrim.c:368
+#: mrim.c:363
+#: mrim.c:381
 msgid "Contact details"
 msgstr ""
 
-#: mrim.c:357
+#: mrim.c:370
 msgid "Phone numbers"
 msgstr ""
 
-#: mrim.c:360
-#: mrim.c:363
+#: mrim.c:373
+#: mrim.c:376
 msgid "User agent"
 msgstr ""
 
-#: mrim.c:363
+#: mrim.c:376
 msgid "Hidden"
 msgstr ""
 
-#: mrim.c:368
+#: mrim.c:381
 #: mrim.h:92
 msgid "Offline"
 msgstr ""
 
-#: mrim.c:495
+#: mrim.c:508
 msgid "Choose phone number"
 msgstr ""
 
-#: mrim.c:501
+#: mrim.c:514
 msgid "SMS message text"
 msgstr ""
 
-#: mrim.c:504
-#: mrim.c:524
+#: mrim.c:517
+#: mrim.c:537
 msgid "Send SMS"
 msgstr ""
 
-#: mrim.c:504
+#: mrim.c:517
 msgid ""
 "SMS message should contain not\n"
 "more than 135 symbols in latin\n"
 "or 35 in cyrillic."
 msgstr ""
 
-#: mrim.c:505
+#: mrim.c:518
 msgid "_Send"
 msgstr ""
 
-#: mrim.c:592
+#: mrim.c:605
 msgid "_Main number"
 msgstr ""
 
-#: mrim.c:594
+#: mrim.c:607
 msgid "S_econd number"
 msgstr ""
 
-#: mrim.c:596
+#: mrim.c:609
 msgid "_Third number"
 msgstr ""
 
-#: mrim.c:601
+#: mrim.c:614
 msgid "Phone numbers editor"
 msgstr ""
 
-#: mrim.c:601
+#: mrim.c:614
 msgid "Specify numbers as shown: +71234567890"
 msgstr ""
 
-#: mrim.c:602
+#: mrim.c:615
 msgid "_Ok"
 msgstr ""
 
-#: mrim.c:603
+#: mrim.c:616
 msgid "_Cancel"
 msgstr ""
 
-#: mrim.c:696
+#: mrim.c:709
 msgid "(Re-)request authorization"
 msgstr ""
 
-#: mrim.c:709
+#: mrim.c:722
 msgid "Send an SMS..."
 msgstr ""
 
-#: mrim.c:713
+#: mrim.c:726
 msgid "Edit phone numbers..."
 msgstr ""
 
-#: mrim.c:718
+#: mrim.c:731
 msgid "Remove from 'Invisible to' list"
 msgstr ""
 
-#: mrim.c:718
+#: mrim.c:731
 msgid "Add to 'Invisible to' list"
 msgstr ""
 
-#: mrim.c:722
+#: mrim.c:735
 msgid "Remove from 'Visible to' list"
 msgstr ""
 
-#: mrim.c:722
+#: mrim.c:735
 msgid "Add to 'Visible to' list"
 msgstr ""
 
-#: mrim.c:726
+#: mrim.c:739
 msgid "Visibility settings"
 msgstr ""
 
-#: mrim.c:782
+#: mrim.c:795
 msgid "Mood Name"
 msgstr ""
 
-#: mrim.c:972
+#: mrim.c:985
 msgid "Unable to create TCP-connection"
 msgstr ""
 
-#: mrim.c:988
+#: mrim.c:1001
 #, c-format
 msgid "Unable to connect: %s"
 msgstr ""
 
-#: mrim.c:1001
+#: mrim.c:1014
 msgid "Connecting"
 msgstr ""
 
-#: mrim.c:1007
+#: mrim.c:1020
 msgid "Unable to write to socket."
 msgstr ""
 
-#: mrim.c:1028
+#: mrim.c:1041
 msgid "Disconnected by user action?"
 msgstr ""
 
-#: mrim.c:1037
+#: mrim.c:1050
 msgid "Input Error"
 msgstr ""
 
-#: mrim.c:1043
+#: mrim.c:1056
 msgid "Bad Package"
 msgstr ""
 
-#: mrim.c:1069
+#: mrim.c:1082
 msgid "ru"
 msgstr ""
 
-#: mrim.c:1078
+#: mrim.c:1091
 msgid "Ping Error"
 msgstr ""
 
-#: mrim.c:1098
+#: mrim.c:1111
 #, c-format
 msgid "Disconnected. Reason: %s"
 msgstr ""
 
-#: mrim.c:1163
+#: mrim.c:1176
 msgid "Logged in from another location."
 msgstr ""
 
-#: mrim.c:1165
+#: mrim.c:1178
 msgid "Server broke connection."
 msgstr ""
 
-#: mrim.c:1178
+#: mrim.c:1191
 msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
 msgstr ""
 
-#: mrim.c:1647
+#: mrim.c:1660
 msgid "Server"
 msgstr ""
 
-#: mrim.c:1649
+#: mrim.c:1662
 msgid "Port"
 msgstr ""
 
-#: mrim.c:1651
+#: mrim.c:1664
 msgid "Load userpics"
 msgstr ""
 
@@ -513,26 +513,32 @@ msgid "Away"
 msgstr ""
 
 #: mrim.h:104
-msgid "Agent@Mail.Ru"
+#, c-format
+msgid "Agent@Mail.Ru for Win/PC, ver. %s build %s"
 msgstr ""
 
 #: mrim.h:105
+#, c-format
+msgid "Java phone Agent@Mail.Ru, ver. %s"
+msgstr ""
+
+#: mrim.h:106
 msgid "Pidgin and Ostin's mrim-prpl plugin"
 msgstr ""
 
-#: mrim.h:114
+#: mrim.h:115
 msgid "status_online"
 msgstr ""
 
-#: mrim.h:115
+#: mrim.h:116
 msgid "status_away"
 msgstr ""
 
-#: mrim.h:117
+#: mrim.h:118
 msgid "boleu"
 msgstr ""
 
-#: mrim.h:118
+#: mrim.h:119
 msgid "doma"
 msgstr ""
 
