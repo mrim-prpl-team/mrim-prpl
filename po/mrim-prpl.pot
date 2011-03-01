@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl v0.1.27-rc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-14 00:18+0300\n"
+"POT-Creation-Date: 2011-03-01 03:00+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
@@ -31,289 +31,307 @@ msgstr ""
 msgid "The file you are trying to send is too large!"
 msgstr ""
 
-#: mrim.c:138
+#: mrim.c:139
 #, c-format
 msgid "%s is offline."
 msgstr ""
 
-#: mrim.c:139
+#: mrim.c:140
 msgid "UserInfo"
 msgstr ""
 
-#: mrim.c:139
+#: mrim.c:140
 msgid "UserInfo is not available."
 msgstr ""
 
-#: mrim.c:145
+#: mrim.c:146
 msgid "UserInfo is not available for conferences and phones."
 msgstr ""
 
-#: mrim.c:207
+#: mrim.c:229
 msgid "Nick"
 msgstr ""
 
-#: mrim.c:209
-#: mrim.c:316
+#: mrim.c:231
+#: mrim.c:338
 msgid "Name"
 msgstr ""
 
-#: mrim.c:211
+#: mrim.c:233
 #: cl.h:37
 msgid "LastName"
 msgstr ""
 
-#: mrim.c:213
+#: mrim.c:235
 msgid "Gender"
 msgstr ""
 
-#: mrim.c:214
+#: mrim.c:236
 msgid "No matter"
 msgstr ""
 
-#: mrim.c:215
-#: cl.c:955
+#: mrim.c:237
+#: cl.c:960
 msgid "Male"
 msgstr ""
 
-#: mrim.c:216
-#: cl.c:955
+#: mrim.c:238
+#: cl.c:960
 msgid "Female"
 msgstr ""
 
-#: mrim.c:223
+#: mrim.c:245
 msgid "Age from"
 msgstr ""
 
-#: mrim.c:225
+#: mrim.c:247
 msgid "Age up to"
 msgstr ""
 
-#: mrim.c:229
+#: mrim.c:251
 msgid "Online"
 msgstr ""
 
-#: mrim.c:234
+#: mrim.c:256
 msgid "Buddies search"
 msgstr ""
 
-#: mrim.c:235
+#: mrim.c:257
 msgid "_Search!"
 msgstr ""
 
-#: mrim.c:236
-#: mrim.c:475
+#: mrim.c:258
+#: mrim.c:506
 msgid "_Cancel!"
 msgstr ""
 
-#: mrim.c:273
+#: mrim.c:295
 msgid "[web] Set User Info"
 msgstr ""
 
-#: mrim.c:276
+#: mrim.c:298
 msgid "[web] Set User avatar"
 msgstr ""
 
-#: mrim.c:279
+#: mrim.c:301
 msgid "Search for buddies"
 msgstr ""
 
-#: mrim.c:328
-#: mrim.c:337
+#: mrim.c:350
+#: mrim.c:368
 msgid "Contact details"
 msgstr ""
 
-#: mrim.c:334
+#: mrim.c:357
 msgid "Phone numbers"
 msgstr ""
 
-#: mrim.c:337
-#: mrim.h:88
+#: mrim.c:360
+#: mrim.c:363
+msgid "User agent"
+msgstr ""
+
+#: mrim.c:363
+msgid "Hidden"
+msgstr ""
+
+#: mrim.c:368
+#: mrim.h:92
 msgid "Offline"
 msgstr ""
 
-#: mrim.c:464
+#: mrim.c:495
 msgid "Choose phone number"
 msgstr ""
 
-#: mrim.c:470
+#: mrim.c:501
 msgid "SMS message text"
 msgstr ""
 
-#: mrim.c:473
+#: mrim.c:504
+#: mrim.c:524
 msgid "Send SMS"
 msgstr ""
 
-#: mrim.c:473
+#: mrim.c:504
 msgid ""
 "SMS message should contain not\n"
 "more than 135 symbols in latin\n"
 "or 35 in cyrillic."
 msgstr ""
 
-#: mrim.c:474
+#: mrim.c:505
 msgid "_Send"
 msgstr ""
 
-#: mrim.c:534
+#: mrim.c:592
 msgid "_Main number"
 msgstr ""
 
-#: mrim.c:536
+#: mrim.c:594
 msgid "S_econd number"
 msgstr ""
 
-#: mrim.c:538
+#: mrim.c:596
 msgid "_Third number"
 msgstr ""
 
-#: mrim.c:543
+#: mrim.c:601
 msgid "Phone numbers editor"
 msgstr ""
 
-#: mrim.c:543
+#: mrim.c:601
 msgid "Specify numbers as shown: +71234567890"
 msgstr ""
 
-#: mrim.c:544
+#: mrim.c:602
 msgid "_Ok"
 msgstr ""
 
-#: mrim.c:545
+#: mrim.c:603
 msgid "_Cancel"
 msgstr ""
 
-#: mrim.c:638
+#: mrim.c:696
 msgid "(Re-)request authorization"
 msgstr ""
 
-#: mrim.c:644
+#: mrim.c:709
 msgid "Send an SMS..."
 msgstr ""
 
-#: mrim.c:647
+#: mrim.c:713
 msgid "Edit phone numbers..."
 msgstr ""
 
-#: mrim.c:652
+#: mrim.c:718
 msgid "Remove from 'Invisible to' list"
 msgstr ""
 
-#: mrim.c:652
+#: mrim.c:718
 msgid "Add to 'Invisible to' list"
 msgstr ""
 
-#: mrim.c:656
+#: mrim.c:722
 msgid "Remove from 'Visible to' list"
 msgstr ""
 
-#: mrim.c:656
+#: mrim.c:722
 msgid "Add to 'Visible to' list"
 msgstr ""
 
-#: mrim.c:660
+#: mrim.c:726
 msgid "Visibility settings"
 msgstr ""
 
-#: mrim.c:879
+#: mrim.c:782
+msgid "Mood Name"
+msgstr ""
+
+#: mrim.c:972
 msgid "Unable to create TCP-connection"
 msgstr ""
 
-#: mrim.c:895
+#: mrim.c:988
 #, c-format
 msgid "Unable to connect: %s"
 msgstr ""
 
-#: mrim.c:908
+#: mrim.c:1001
 msgid "Connecting"
 msgstr ""
 
-#: mrim.c:914
+#: mrim.c:1007
 msgid "Unable to write to socket."
 msgstr ""
 
-#: mrim.c:935
+#: mrim.c:1028
 msgid "Disconnected by user action?"
 msgstr ""
 
-#: mrim.c:944
+#: mrim.c:1037
 msgid "Input Error"
 msgstr ""
 
-#: mrim.c:950
+#: mrim.c:1043
 msgid "Bad Package"
 msgstr ""
 
-#: mrim.c:985
+#: mrim.c:1069
+msgid "ru"
+msgstr ""
+
+#: mrim.c:1078
 msgid "Ping Error"
 msgstr ""
 
-#: mrim.c:1005
+#: mrim.c:1098
 #, c-format
 msgid "Disconnected. Reason: %s"
 msgstr ""
 
-#: mrim.c:1051
+#: mrim.c:1163
 msgid "Logged in from another location."
 msgstr ""
 
-#: mrim.c:1053
+#: mrim.c:1165
 msgid "Server broke connection."
 msgstr ""
 
-#: mrim.c:1066
+#: mrim.c:1178
 msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
 msgstr ""
 
-#: mrim.c:1524
+#: mrim.c:1647
 msgid "Server"
 msgstr ""
 
-#: mrim.c:1526
+#: mrim.c:1649
 msgid "Port"
 msgstr ""
 
-#: mrim.c:1528
+#: mrim.c:1651
 msgid "Load userpics"
 msgstr ""
 
-#: cl.c:246
-#: cl.c:686
-#: cl.c:734
-#: cl.c:813
-#: cl.c:1126
+#: cl.c:243
+#: cl.c:691
+#: cl.c:739
+#: cl.c:818
+#: cl.c:1131
 msgid "Encountered an error while working on contact list!"
 msgstr ""
 
-#: cl.c:246
+#: cl.c:243
 msgid "Group not found."
 msgstr ""
 
-#: cl.c:374
+#: cl.c:378
 #, c-format
 msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and '-'."
 msgstr ""
 
-#: cl.c:375
+#: cl.c:379
 msgid "Unable to Add"
 msgstr ""
 
-#: cl.c:441
-#: cl.c:469
-#: cl.c:1139
+#: cl.c:446
+#: cl.c:474
+#: cl.c:1144
 msgid "Hello. Add me to your buddies please."
 msgstr ""
 
-#: cl.c:686
-#: cl.c:734
-#: cl.c:813
-#: cl.c:852
+#: cl.c:691
+#: cl.c:739
+#: cl.c:818
+#: cl.c:857
 msgid "Did you ever do this operation? (mpq == NULL)"
 msgstr ""
 
-#: cl.c:779
-#: cl.c:782
-#: cl.c:785
-#: cl.c:788
+#: cl.c:784
+#: cl.c:787
+#: cl.c:790
+#: cl.c:793
 #: message.c:487
 #: message.c:517
 #: message.c:518
@@ -322,83 +340,83 @@ msgstr ""
 msgid "SMS"
 msgstr ""
 
-#: cl.c:779
+#: cl.c:784
 msgid "SMS delivered successfully."
 msgstr ""
 
-#: cl.c:782
+#: cl.c:787
 msgid "SMS service is not available."
 msgstr ""
 
-#: cl.c:785
+#: cl.c:790
 msgid "Wrong SMS parameters."
 msgstr ""
 
-#: cl.c:788
+#: cl.c:793
 msgid "Something went wrong!"
 msgstr ""
 
-#: cl.c:852
-#: cl.c:858
-#: cl.c:861
-#: cl.c:864
-#: cl.c:867
+#: cl.c:857
+#: cl.c:863
+#: cl.c:866
+#: cl.c:869
+#: cl.c:872
 msgid "Encountered an error while working on user details!"
 msgstr ""
 
-#: cl.c:858
+#: cl.c:863
 msgid "User not found."
 msgstr ""
 
-#: cl.c:861
+#: cl.c:866
 msgid "DBERR error. Please try later."
 msgstr ""
 
-#: cl.c:864
+#: cl.c:869
 msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
 msgstr ""
 
-#: cl.c:867
+#: cl.c:872
 msgid "unknown error"
 msgstr ""
 
-#: cl.c:889
+#: cl.c:894
 msgid "email"
 msgstr ""
 
-#: cl.c:948
+#: cl.c:953
 msgid "Sex"
 msgstr ""
 
-#: cl.c:962
+#: cl.c:967
 msgid "Zodiac"
 msgstr ""
 
-#: cl.c:1036
+#: cl.c:1041
 msgid "Search results"
 msgstr ""
 
-#: cl.c:1117
+#: cl.c:1122
 msgid "Invalid data provided."
 msgstr ""
 
-#: cl.c:1118
+#: cl.c:1123
 msgid "Internal error encountered while processing request."
 msgstr ""
 
-#: cl.c:1119
+#: cl.c:1124
 msgid "No such user as you added."
 msgstr ""
 
-#: cl.c:1120
+#: cl.c:1125
 msgid "Invalid user name."
 msgstr ""
 
-#: cl.c:1121
+#: cl.c:1126
 msgid "Buddy/group cannot be added."
 msgstr ""
 
-#: cl.c:1122
+#: cl.c:1127
 msgid "Max groups allowed count exceedeed."
 msgstr ""
 
@@ -482,16 +500,40 @@ msgstr ""
 msgid "Chat invitation"
 msgstr ""
 
-#: mrim.h:87
+#: mrim.h:91
 msgid "invisible"
 msgstr ""
 
-#: mrim.h:89
+#: mrim.h:93
 msgid "Available"
 msgstr ""
 
-#: mrim.h:90
+#: mrim.h:94
 msgid "Away"
+msgstr ""
+
+#: mrim.h:104
+msgid "Agent@Mail.Ru"
+msgstr ""
+
+#: mrim.h:105
+msgid "Pidgin and Ostin's mrim-prpl plugin"
+msgstr ""
+
+#: mrim.h:114
+msgid "status_online"
+msgstr ""
+
+#: mrim.h:115
+msgid "status_away"
+msgstr ""
+
+#: mrim.h:117
+msgid "boleu"
+msgstr ""
+
+#: mrim.h:118
+msgid "doma"
 msgstr ""
 
 #: cl.h:10

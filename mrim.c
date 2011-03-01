@@ -169,6 +169,27 @@ static void mrim_get_info(PurpleConnection *gc, const char *username)
 	}
 }
 
+gchar* mrim_get_ua_alias(const gchar* ua)
+{
+	if (ua)
+	{
+		gchar *alias = "";
+		guint j = 0;
+		while (ua_aliases[j].id && (ua_aliases[j].id != ua))
+		{
+			j++;
+		}
+		if (ua_aliases[j].id == ua)
+		{
+			alias = ua_aliases[j].alias;
+		}
+		return alias;
+	} else
+	{
+		return "";
+	}
+}
+
 /******************************************
  *             PRPL ACTION
  ******************************************/
@@ -331,8 +352,17 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 
 		mrim_buddy *mb = buddy->proto_data;
 		if (mb)
+		{
 			if (mb->phones && mb->phones[0])
 				purple_notify_user_info_add_pair(info, _("Phone numbers"), mrim_phones_to_string(mb->phones));
+			if (mb->user_agent)
+			{
+				purple_notify_user_info_add_pair(info, _("User agent"), _(mrim_get_ua_alias(mb->user_agent)) );
+			} else
+			{
+				purple_notify_user_info_add_pair(info, _("User agent"), _("Hidden") );
+			}
+		}
 	} 
 	else
 		purple_notify_user_info_add_pair(info, _("Contact details"), _("Offline"));
@@ -812,8 +842,9 @@ static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
 
 void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, gchar *title, gchar *desc, gchar* user_agent)
 {
-	purple_debug_info("mrim", "[%s] %s change status to 0x%x\n", __func__, email, status);
+	purple_debug_info("mrim", "[%s] %s changes status to 0x%x\n", __func__, email, status);
 	g_return_if_fail(mrim != NULL);
+	purple_debug_info("mrim", "[%s] %s user agent becomes %s\n", __func__, email, user_agent);
 
 	PurpleBuddy *buddy = purple_find_buddy(mrim->account, email);
 	if (buddy && buddy->proto_data)
@@ -824,6 +855,13 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 			purple_prpl_got_user_status_deactive(mrim->gc->account, email, "mood");
 			purple_prpl_got_user_status(mrim->account, email, "offline", NULL);
 	        return;
+		}
+		if (user_agent)
+		{
+			mb->user_agent = user_agent;
+		} else
+		{
+			mb->user_agent = NULL;
 		}
 	}
     
@@ -1097,7 +1135,7 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									}
 									gchar *user = read_LPS(pack); //user
 									read_UL(pack);
-									gchar *user_aget = read_LPS(pack);
+									gchar *user_agent = read_LPS(pack);
 									// Params:
 									//  "client" - magent/jagent/???
 									//  "name" - sys-name.
@@ -1108,8 +1146,8 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 
 									//if (!user)
 									//	user = uri; // old proto
-									purple_debug_info("mrim","MRIM_CS_USER_STATUS! new_status<%i> user<%s> uri=<%s> title=<%s> desc=<%s> ua=<%s>\n", (int) status ,user, uri, title, desc, user_aget);
-									set_user_status(mrim, user, status, uri, title, desc, user_aget);
+									purple_debug_info("mrim","MRIM_CS_USER_STATUS! new_status<%i> user<%s> uri=<%s> title=<%s> desc=<%s> ua=<%s>\n", (int) status ,user, uri, title, desc, user_agent);
+									set_user_status(mrim, user, status, uri, title, desc, user_agent);
 									FREE(user);
 									break;
 								}

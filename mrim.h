@@ -95,7 +95,16 @@ static struct status
 //	{	PURPLE_STATUS_UNSET,		STATUS_UNDETERMINATED,	"UNDETERMINATED",	"UNDETERMINATED",	TRUE,				FALSE}	/* 4 */
 };
 
-
+static struct
+{
+	gchar *id, *alias;
+} ua_aliases[]=
+{
+		//	id		alias
+		{"magent",					N_("Agent@Mail.Ru")},
+		{"ostin-mrim-prpl",		N_("Pidgin and Ostin's mrim-prpl plugin")},
+		{NULL,						NULL}		
+};
 
 // moods reference: libpurple/status.h)
 static PurpleMood moods[] =
@@ -223,6 +232,7 @@ typedef struct
 	guint32 status;
 	BUDDY_TYPE type;
 	gchar *ips; // IP:PORT;IP:PORT;
+	gchar *user_agent;
 }mrim_buddy;
 
 typedef struct {
@@ -405,6 +415,7 @@ const char* mrim_status_to_prpl_status(guint32 status);
 void set_user_status_by_mb(mrim_data *mrim, mrim_buddy *mb);
 
 gchar* mrim_message_offline_get_attr(const gchar* attr,void* input);
+gchar* mrim_get_ua_alias(const gchar* ua);
 time_t mrim_str_to_time(const gchar* str);
 void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond);
 void mrim_connect_cb(gpointer data, gint source, const gchar *error_message);

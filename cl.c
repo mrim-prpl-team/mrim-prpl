@@ -24,7 +24,7 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 	gchar *g_mask = read_LPS(pack); // Group mask
 	gchar *c_mask = read_LPS(pack); // Contact mask
 
-	purple_debug_info("mrim", "Group number <%u>, Group mask <%s>, Contack mask <%s>\n", g_number, g_mask, c_mask);
+	purple_debug_info("mrim", "Group number <%u>, Group mask <%s>, Contact mask <%s>\n", g_number, g_mask, c_mask);
 
 	/* Phone group */
 	mg_add(0, "phone", MRIM_PHONE_GROUP_ID, mrim);
@@ -155,6 +155,7 @@ mrim_buddy *new_mrim_buddy(package *pack)
 	mb->alias = read_LPS(pack); // Nick (UTF16LE)
 	mb->s_flags= read_UL(pack); // Server flag (not authorized)
 	mb->status = read_UL(pack); // Status.
+	mb->user_agent = NULL;
 
 	if (mb->flags & CONTACT_FLAG_MULTICHAT)
 		mb->type = CHAT;
@@ -439,6 +440,7 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 				mb->authorized = FALSE;
 				mb->group_id = group_id;
 				mb->flags = 0;
+				mb->user_agent = NULL;
 
 				// TODO use send_package_authorize
 				gchar *text = _("Hello. Add me to your buddies please.");
