@@ -101,7 +101,7 @@ gboolean is_valid_chat(gchar *chat)
 
 gboolean is_valid_phone(gchar *phone)
 {
-	return string_is_match(phone, "([+][0-9]+)");
+	return string_is_match(phone, "([+]{0,1}[0-9]{10,12})");
 }
 
 gchar *clear_phone(gchar *original_phone)
