@@ -63,8 +63,8 @@ gboolean ua_matches(const gchar *string, const gchar *pattern, ua_data *result)
 		purple_debug_info("mrim", "regex match! (%s):\n", pattern);
 		purple_debug_info("mrim", "ver: %s\n", g_match_info_fetch(match_info,2));
 		purple_debug_info("mrim", "bld: %s\n", g_match_info_fetch(match_info,3));
-		result->version	= g_match_info_fetch(match_info,1);
-		result->build		= g_match_info_fetch(match_info,2);
+		result->version	= g_match_info_fetch(match_info,2);
+		result->build		= g_match_info_fetch(match_info,3);
 		purple_debug_info("mrim", "regex complete.\n");
 	}
 	// TODO Mem free.
