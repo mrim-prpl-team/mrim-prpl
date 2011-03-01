@@ -95,14 +95,19 @@ static struct status
 //	{	PURPLE_STATUS_UNSET,		STATUS_UNDETERMINATED,	"UNDETERMINATED",	"UNDETERMINATED",	TRUE,				FALSE}	/* 4 */
 };
 
+typedef struct
+{
+	gchar *version, *build;
+}ua_data;
+
 static struct
 {
 	gchar *id, *alias, *pattern;
 } ua_aliases[]=
 {
 		//	id							alias																regex
-		{"magent",				N_("Agent@Mail.Ru for Win/PC, ver. %s build %s"),		"client=\"(magent)\" version=\"([0-9\.]+)\" build=\"([0-9]+)\""},
-		{"jagent",				N_("Java phone Agent@Mail.Ru, ver. %s"),					"client=\"(jagent)\" version=\"([0-9\.]+)\""},
+		{"magent",				N_("Agent@Mail.Ru for Win/PC, ver. %s build %s"),		"client=\"(magent)\" version=\"([0-9.]+)\" build=\"([0-9]+)\""},
+		{"jagent",				N_("Java phone Agent@Mail.Ru, ver. %s"),					"client=\"(jagent)\" version=\"([0-9.]+)\""},
 		{"prpl-ostin-mrim",	N_("Pidgin and Ostin's mrim-prpl plugin"),				"prpl-ostin-mrim"},
 		{NULL,					NULL,																	""}
 };
@@ -416,6 +421,7 @@ const char* mrim_status_to_prpl_status(guint32 status);
 void set_user_status_by_mb(mrim_data *mrim, mrim_buddy *mb);
 
 gchar* mrim_message_offline_get_attr(const gchar* attr,void* input);
+gboolean ua_matches(const gchar *string, const gchar *pattern, ua_data *result);
 gchar* mrim_get_ua_alias(const gchar* ua);
 time_t mrim_str_to_time(const gchar* str);
 void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond);

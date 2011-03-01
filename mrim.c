@@ -48,6 +48,31 @@ void clean_string(gchar *str)
 	purple_debug_info("mrim","[%s] %s\n",__func__, str);
 }
 
+gboolean ua_matches(const gchar *string, const gchar *pattern, ua_data *result)
+{
+	g_return_val_if_fail(string, FALSE);
+	g_return_val_if_fail(pattern, FALSE);
+	GRegex *regex;
+	gboolean res;
+	GMatchInfo *match_info;
+
+	regex	= g_regex_new (pattern, G_REGEX_MULTILINE | G_REGEX_DOTALL, 0, NULL);
+	res	= g_regex_match (regex, string, 0, &match_info);
+	if(res)
+	{
+		purple_debug_info("mrim", "regex match! (%s):\n", pattern);
+		purple_debug_info("mrim", "ver: %s\n", g_match_info_fetch(match_info,2));
+		purple_debug_info("mrim", "bld: %s\n", g_match_info_fetch(match_info,3));
+		result->version	= g_match_info_fetch(match_info,1);
+		result->build		= g_match_info_fetch(match_info,2);
+		purple_debug_info("mrim", "regex complete.\n");
+	}
+	// TODO Mem free.
+	g_match_info_free(match_info);
+	g_regex_unref(regex);
+	return res;
+}
+
 gboolean string_is_match(gchar *string, gchar *pattern)
 {
 	g_return_val_if_fail(string, FALSE);
@@ -174,28 +199,20 @@ gchar* mrim_get_ua_alias(const gchar* ua)
 	if (ua)
 	{
 		gchar *alias = ua;
+		ua_data *ua_details = g_new0(ua_data, 1);
+		ua_details->version	= g_strdup("");
+		ua_details->build		= g_strdup("");
 		guint j = 0;
 		while (ua_aliases[j].id)
 		{
-			if (string_is_match(ua, ua_aliases[j].pattern))
+			if (ua_matches(ua, ua_aliases[j].pattern, ua_details))
 			{
 				purple_debug_info("mrim", "UA %s match %s\n", ua, ua_aliases[j].pattern);
-				// TODO: Implement (version) and (buid) parameters getting.
-				//Implement another function not only to compare a string against a pattern
-				//but to get these (parametrs) out and return a struct.
-				alias = ua_aliases[j].alias;
+				alias = g_strdup_printf(_(ua_aliases[j].alias), ua_details->version, ua_details->build);
 				break;
 			} else
 				j++;
 		}
-		/*
-		if (ua_aliases[j].id == ua)
-		{
-			alias = ua_aliases[j].alias;
-		} else
-		{
-			alias = ua;
-		}*/
 		return alias;
 	} else
 	{
