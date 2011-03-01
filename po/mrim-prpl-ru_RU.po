@@ -464,7 +464,7 @@ msgstr "Размер сообщения превышает допустимый.
 
 #: message.c:456
 msgid "Recipient does not support offline messages."
-msgstr "Получательне поддерживает приём оффлайн-сообщений."
+msgstr "Получатель не поддерживает приём оффлайн-сообщений."
 
 #: message.c:459
 msgid "User does not accept offline flash animation"
