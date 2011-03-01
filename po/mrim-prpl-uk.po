@@ -19,11 +19,11 @@ msgstr ""
 
 #: package.c:84
 msgid "Encoding error: can't convert UTF8 into CP1251"
-msgstr ""
+msgstr "Помилка кодування: не можу перетворити з UTF8 в CP1251"
 
 #: package.c:354
 msgid "Read Error!"
-msgstr ""
+msgstr "Помилка читання!"
 
 #: package.c:359
 #, fuzzy
@@ -316,11 +316,11 @@ msgstr "Група не знайдена."
 #: cl.c:378
 #, c-format
 msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and '-'."
-msgstr ""
+msgstr "Не можу додати співрозмовника \"%s\" з-за невірного имені користувача. Ім'я користувача повинно бути існуючою поштовою адресою (в доменах @mail.ru, @bk.ru, @list.ru, @inbox.ru, @corp.mail.ru) або існуючим телефонним номером, який включає знаки \"+\", \"-\", символи пробелу і складається лише з цифр."
 
 #: cl.c:379
 msgid "Unable to Add"
-msgstr ""
+msgstr "Не вдається додати"
 
 #: cl.c:446
 #: cl.c:474
