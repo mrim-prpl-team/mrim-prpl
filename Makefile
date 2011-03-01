@@ -38,6 +38,7 @@ i18n:
 	msgfmt ${PODIR}/mrim-prpl-be_BY.po --output-file=${PODIR}/mrim-prpl-be_BY.mo
 	msgfmt ${PODIR}/mrim-prpl-uk.po --output-file=${PODIR}/mrim-prpl-uk.mo
 	msgfmt ${PODIR}/mrim-prpl-pl_PL.po --output-file=${PODIR}/mrim-prpl-pl_PL.mo
+	msgfmt ${PODIR}/mrim-prpl-es_ES.po --output-file=${PODIR}/mrim-prpl-es_ES.mo
 install:
 	install -Dm0755 libmrim.so ${DESTDIR}/usr/${LIBDIR}/purple-2/libmrim.so
 	install -Dm0644 pixmaps/mrim16.png  ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/16/mrim.png
@@ -47,6 +48,7 @@ install:
 	install -Dm0644 po/mrim-prpl-be_BY.mo ${DESTDIR}/usr/share/locale/be_BY/LC_MESSAGES/mrim-prpl.mo
 	install -Dm0644 po/mrim-prpl-uk.mo    ${DESTDIR}/usr/share/locale/uk/LC_MESSAGES/mrim-prpl.mo
 	install -Dm0644 po/mrim-prpl-pl_PL.mo    ${DESTDIR}/usr/share/locale/pl_PL/LC_MESSAGES/mrim-prpl.mo
+	install -Dm0644 po/mrim-prpl-es_ES.mo    ${DESTDIR}/usr/share/locale/es_ES/LC_MESSAGES/mrim-prpl.mo
 uninstall:uninstall-old
 	rm -fv ${DESTDIR}/usr/${LIBDIR}/purple-2/libmrim.so
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/16/mrim.png
