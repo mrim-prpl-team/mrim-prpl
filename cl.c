@@ -990,6 +990,19 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 			for(guint32 j=0 ; j <= fields_num ; j++)
 				if (!skip[j])
 					purple_notify_user_info_add_pair(info, header[j], mas[0][j]);
+			gchar *mb_email = g_strdup_printf("%s@%s", mas[0][username_index],  mas[0][domain_index]);
+			PurpleBuddy *buddy = purple_find_buddy(mrim->account, mb_email);
+			if (buddy)
+			{
+				mrim_buddy *mb = buddy->proto_data;
+				if (mb && mb->user_agent)
+				{
+					purple_notify_user_info_add_pair(info, _("User agent"), _(mrim_get_ua_alias(mb->user_agent)) );
+				} else
+				{
+					purple_notify_user_info_add_pair(info, _("User agent"), _("Hidden") );
+				}
+			}
 			purple_notify_userinfo(mrim->gc,        // connection the buddy info came through
 				mpq->anketa_info.username,  // buddy's username
 				info,      // body

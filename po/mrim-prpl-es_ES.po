@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl 0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-01 19:30+0300\n"
+"POT-Creation-Date: 2011-03-02 03:19+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl team\n"
@@ -130,10 +130,13 @@ msgstr "Telefoninumbrid"
 
 #: mrim.c:390
 #: mrim.c:393
+#: cl.c:1000
+#: cl.c:1003
 msgid "User agent"
 msgstr ""
 
 #: mrim.c:393
+#: cl.c:1003
 msgid "Hidden"
 msgstr "Varjatud"
 
@@ -303,7 +306,7 @@ msgstr "Laadida vestluskaaslaste fotosid"
 #: cl.c:691
 #: cl.c:739
 #: cl.c:818
-#: cl.c:1131
+#: cl.c:1144
 msgid "Encountered an error while working on contact list!"
 msgstr "Kontaktidega opereerimisel tekkis viga!"
 
@@ -322,7 +325,7 @@ msgstr "Ei ole võimalik lisata"
 
 #: cl.c:446
 #: cl.c:474
-#: cl.c:1144
+#: cl.c:1157
 msgid "Hello. Add me to your buddies please."
 msgstr "Tervist. Palun, lisage mind Teie vestluskaaslaste nimikirja."
 
@@ -397,31 +400,31 @@ msgstr "Sugu"
 msgid "Zodiac"
 msgstr "Sodiaagimärk"
 
-#: cl.c:1041
+#: cl.c:1054
 msgid "Search results"
 msgstr "Otsingu tulemused"
 
-#: cl.c:1122
+#: cl.c:1135
 msgid "Invalid data provided."
 msgstr "Sisestatud andmed on ebakorrektsed."
 
-#: cl.c:1123
+#: cl.c:1136
 msgid "Internal error encountered while processing request."
 msgstr "On tekkinud sisemise viga päringu töötluse ajal."
 
-#: cl.c:1124
+#: cl.c:1137
 msgid "No such user as you added."
 msgstr "Sisestatud kasutaja nimi ei ole olemas."
 
-#: cl.c:1125
+#: cl.c:1138
 msgid "Invalid user name."
 msgstr "Kasutaja nimi on vale."
 
-#: cl.c:1126
+#: cl.c:1139
 msgid "Buddy/group cannot be added."
 msgstr "Ei saa lisata kasutaja/gruppi."
 
-#: cl.c:1127
+#: cl.c:1140
 msgid "Max groups allowed count exceedeed."
 msgstr "Gruppide lubatud arv on ületatud."
 
@@ -529,22 +532,32 @@ msgid "Java phone Agent@Mail.Ru, ver. %s"
 msgstr ""
 
 #: mrim.h:111
+#, c-format
+msgid "Agent@Mail.Ru for Symbian, ver. %s build %s"
+msgstr ""
+
+#: mrim.h:112
+#, c-format
+msgid "QIP 2010, ver. %s build %s"
+msgstr ""
+
+#: mrim.h:113
 msgid "Pidgin and Ostin's mrim-prpl plugin"
 msgstr ""
 
-#: mrim.h:120
+#: mrim.h:122
 msgid "status_online"
 msgstr ""
 
-#: mrim.h:121
+#: mrim.h:123
 msgid "status_away"
 msgstr ""
 
-#: mrim.h:123
+#: mrim.h:125
 msgid "boleu"
 msgstr ""
 
-#: mrim.h:124
+#: mrim.h:126
 msgid "doma"
 msgstr ""
 

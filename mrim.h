@@ -108,6 +108,8 @@ static struct
 		//	id							alias																regex
 		{"magent",				N_("Agent@Mail.Ru for Win/PC, ver. %s build %s"),		"client=\"(magent)\" version=\"([0-9.]+)\" build=\"([0-9]+)\""},
 		{"jagent",				N_("Java phone Agent@Mail.Ru, ver. %s"),					"client=\"(jagent)\" version=\"([0-9.]+)\""},
+		{"sagent",				N_("Agent@Mail.Ru for Symbian, ver. %s build %s"),					"client=\"(sagent)\" version=\"([0-9.]+\" build=\"([0-9]+)\""},
+		{"QIP 2010",			N_("QIP 2010, ver. %s build %s"),							"client=\"(QIP 2010)\" version=\"([0-9.]+)\" build=\"[0-9]\""},
 		{"prpl-ostin-mrim",	N_("Pidgin and Ostin's mrim-prpl plugin"),				"prpl-ostin-mrim"},
 		{NULL,					NULL,																	""}
 };

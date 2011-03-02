@@ -1167,7 +1167,7 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									read_UL(pack);
 									gchar *user_agent = read_LPS(pack);
 									// Params:
-									//  "client" - magent/jagent/???
+									//  "client" - magent/jagent/??? -> mrim-get_ua_alias.
 									//  "name" - sys-name.
 									//  "title" - display-name.
 									//  "version" - product internal numeration. Examples: "1.2", "1.3 pre".
