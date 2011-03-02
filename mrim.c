@@ -542,8 +542,37 @@ static void  blist_sms_menu_item(PurpleBlistNode *node, gpointer userdata)
 			mrim->account, buddy->name, NULL, mrim->gc );
 }
 
-static void  blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata)
-{
+void update_sms_char_counter(GtkTextBuffer *buffer, GtkLabel *char_counter) {
+	gint count = gtk_text_buffer_get_char_count(buffer);
+	gchar buf[64];
+	g_sprintf(&buf, _("Symbols: %d"), count);
+	gtk_label_set_text(char_counter, buf);
+}
+
+void sms_dialog_response(GtkDialog *dialog, gint response_id, gpointer *params) {
+	switch (response_id) {
+		case GTK_RESPONSE_ACCEPT:
+			{
+				mrim_buddy *mb = params[1];
+				mrim_data *mrim = params[0];
+				GtkTextBuffer *buffer = gtk_text_view_get_buffer(params[3]);
+				GtkTextIter start, end;
+				gtk_text_buffer_get_start_iter(buffer, &start);
+				gtk_text_buffer_get_end_iter(buffer, &end);
+				gchar *text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
+				gint phone_index = gtk_combo_box_get_active(params[2]);
+				if (phone_index > -1) {
+					gchar *phone = mb->phones[phone_index];
+					PurpleConnection *gc = mrim->gc;
+					mrim_send_sms(phone, text, mrim);
+				}
+				g_free(text);
+				break;
+			}
+	}
+}
+
+static void blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata) {
 	PurpleBuddy *buddy = (PurpleBuddy *) node;
 	mrim_data *mrim = userdata;
 	g_return_if_fail(buddy != NULL);
@@ -551,22 +580,58 @@ static void  blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata)
 	mrim_buddy *mb = buddy->proto_data;
 	g_return_if_fail(mb != NULL);
 
-	  GtkWidget *window;
-
-	  gtk_init(NULL, NULL);
-
-	  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	  gtk_window_set_title(GTK_WINDOW(window), _("Send SMS"));
-	  gtk_window_set_default_size(GTK_WINDOW(window), 320, 240);
-	  g_signal_connect_swapped(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
-
-
-
-	  gtk_widget_show(window);
-
-	  gtk_main();
-
-	  return;
+	/* Диалог */
+	GtkDialog *dialog = gtk_dialog_new_with_buttons(_("Send SMS"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+	gtk_window_set_default_size(dialog, 320, 240);
+	GtkWidget *content_area = gtk_dialog_get_content_area(dialog);
+	GtkWidget *hbox;
+	//gtk_container_set_border_width(content_area, 8); // Не понимаю почему не работает. Если когда-нибудь заработает - убрать следующую строчку
+	gtk_container_set_border_width(dialog, 6);
+	gtk_box_set_spacing(content_area, 6);
+	/* Псевдоним */
+	GtkLabel *buddy_name = gtk_label_new(mb->alias);
+	gtk_box_pack_start(content_area, buddy_name, FALSE, TRUE, 0);
+	/* Телефон */
+	hbox = gtk_hbox_new(FALSE, 6);
+	gtk_box_pack_start(content_area, hbox, FALSE, TRUE, 0);
+	GtkComboBox *phone_combo_box = gtk_combo_box_new_text();
+	gtk_combo_box_append_text(phone_combo_box, mb->phones[0]);
+	gtk_combo_box_append_text(phone_combo_box, mb->phones[1]);
+	gtk_combo_box_append_text(phone_combo_box, mb->phones[2]);
+	gtk_combo_box_set_active(phone_combo_box, 0);
+	gtk_box_pack_start(hbox, gtk_label_new(_("Phone:")), FALSE, TRUE, 0);
+	gtk_box_pack_start(hbox, phone_combo_box, TRUE, TRUE, 0);
+	GtkButton *edit_phones_button = gtk_button_new_from_stock(GTK_STOCK_EDIT);
+	gtk_box_pack_end(hbox, edit_phones_button, FALSE, TRUE, 0);
+	/* Текст сообщения */
+	GtkScrolledWindow *scrolled_wnd = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_policy(scrolled_wnd, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	GtkTextView *message_text = gtk_text_view_new();
+	gtk_container_add(scrolled_wnd, message_text);
+	gtk_box_pack_start(content_area, scrolled_wnd, TRUE, TRUE, 0);
+	gtk_text_view_set_wrap_mode(message_text, GTK_WRAP_WORD);
+	/* Флажок транслитерации и счётчик символов */
+	hbox = gtk_hbutton_box_new();
+	gtk_button_box_set_spacing(hbox, 6);
+	gtk_button_box_set_layout(hbox, GTK_BUTTONBOX_EDGE);
+	GtkCheckButton *translit = gtk_check_button_new_with_label(_("Translit"));
+	gtk_container_add(hbox, translit);
+	GtkLabel *char_counter = gtk_label_new("");
+	gtk_container_add(hbox, char_counter);
+	gtk_box_pack_end(content_area, hbox, FALSE, TRUE, 0);
+	/* Подключим обработчики сигналов */
+	{
+		GtkTextBuffer *buffer = gtk_text_view_get_buffer(message_text);
+		g_signal_connect(buffer, "changed", update_sms_char_counter, char_counter);
+		update_sms_char_counter(buffer, char_counter);
+	}
+	gpointer params[4] = {mrim, mb, phone_combo_box, message_text}; //Передаём некоторые объекты в функцию подтверждения формы
+	g_signal_connect(dialog, "response", sms_dialog_response, &params);
+	
+	gtk_widget_show_all(content_area);
+	gtk_dialog_run(dialog);
+	gtk_widget_destroy(dialog);
 }
 
 // edit phones
@@ -737,13 +802,15 @@ static GList *mrim_user_actions(PurpleBlistNode *node)
 			GHashTable *ht = purple_core_get_ui_info();
 			gchar *name = g_hash_table_lookup(ht, "name");
 			purple_debug_info("mrim", "[%s] UI is <%s>\n", __func__, name);
-			//if (name && g_strcmp0("Pidgin",name)==0)
+			if (name && g_strcmp0("Pidgin",name)==0) {
 			// TODO:  // use pretty gtk+ form
-			//	action = purple_menu_action_new(_("Send an SMS..."), PURPLE_CALLBACK(blist_sms_menu_item_gtk), mrim, NULL);
+				action = purple_menu_action_new(_("Send an SMS... (GTK)"), PURPLE_CALLBACK(blist_sms_menu_item_gtk), mrim, NULL);
 			//else
-				action = purple_menu_action_new(_("Send an SMS..."), PURPLE_CALLBACK(blist_sms_menu_item), mrim, NULL);
+				//action = purple_menu_action_new(_("Send an SMS..."), PURPLE_CALLBACK(blist_sms_menu_item), mrim, NULL);
+				list = g_list_append(list, action);
+			}
+			action = purple_menu_action_new(_("Send an SMS..."), PURPLE_CALLBACK(blist_sms_menu_item), mrim, NULL);
 			list = g_list_append(list, action);
-
 		}
 		action = purple_menu_action_new(_("Edit phone numbers..."), PURPLE_CALLBACK(blist_edit_phones_menu_item), mrim, NULL);
 		list = g_list_append(list, action);

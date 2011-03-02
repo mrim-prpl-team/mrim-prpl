@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-02 23:33+0300\n"
+"POT-Creation-Date: 2011-03-03 02:37+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
@@ -155,7 +155,7 @@ msgid "SMS message text"
 msgstr "Текст SMS-сообщения"
 
 #: mrim.c:539
-#: mrim.c:559
+#: mrim.c:584
 msgid "Send SMS"
 msgstr "Отправить SMS"
 
@@ -173,133 +173,150 @@ msgstr ""
 msgid "_Send"
 msgstr "_Отправить"
 
-#: mrim.c:627
+#: mrim.c:548
+#, c-format
+msgid "Symbols: %d"
+msgstr "Символов: %d"
+
+#: mrim.c:603
+msgid "Phone:"
+msgstr "Телефон:"
+
+#: mrim.c:618
+msgid "Translit"
+msgstr "Транслит"
+
+#: mrim.c:692
 msgid "_Main number"
 msgstr "_Основной номер"
 
-#: mrim.c:629
+#: mrim.c:694
 msgid "S_econd number"
 msgstr "_Второй номер"
 
-#: mrim.c:631
+#: mrim.c:696
 msgid "_Third number"
 msgstr "Т_ретий номер"
 
-#: mrim.c:636
+#: mrim.c:701
 msgid "Phone numbers editor"
 msgstr "Редактор номеров телефонов"
 
-#: mrim.c:636
+#: mrim.c:701
 msgid "Specify numbers as shown: +71234567890"
 msgstr "Номер указывается в виде: +71234567890"
 
-#: mrim.c:637
+#: mrim.c:702
 msgid "_Ok"
 msgstr "_OK"
 
-#: mrim.c:638
+#: mrim.c:703
 msgid "_Cancel"
 msgstr "О_тменить"
 
-#: mrim.c:731
+#: mrim.c:796
 msgid "(Re-)request authorization"
 msgstr "(Повторно) Запросить авторизацию"
 
-#: mrim.c:744
+#: mrim.c:807
+msgid "Send an SMS... (GTK)"
+msgstr "Отправка SMS... (GTK)"
+
+#: mrim.c:812
 msgid "Send an SMS..."
 msgstr "Отправка SMS"
 
-#: mrim.c:748
+#: mrim.c:815
 msgid "Edit phone numbers..."
 msgstr "Править номера телефонов"
 
-#: mrim.c:753
+#: mrim.c:820
 msgid "Remove from 'Invisible to' list"
 msgstr "Удалить из списка невидящих"
 
-#: mrim.c:753
+#: mrim.c:820
 msgid "Add to 'Invisible to' list"
 msgstr "Добавить в список невидящих"
 
-#: mrim.c:757
+#: mrim.c:824
 msgid "Remove from 'Visible to' list"
 msgstr "Удалить из списка видящих"
 
-#: mrim.c:757
+#: mrim.c:824
 msgid "Add to 'Visible to' list"
 msgstr "Добавить в список видящих"
 
-#: mrim.c:761
+#: mrim.c:828
 msgid "Visibility settings"
 msgstr "Настройки видимости"
 
-#: mrim.c:817
+#: mrim.c:884
 msgid "Mood Name"
 msgstr "Название настроения"
 
-#: mrim.c:1007
+#: mrim.c:1074
 msgid "Unable to create TCP-connection"
 msgstr "Не удаётся установить TCP-соединение"
 
-#: mrim.c:1023
+#: mrim.c:1090
 #, c-format
 msgid "Unable to connect: %s"
 msgstr "Не могу соединиться: %s"
 
-#: mrim.c:1036
+#: mrim.c:1103
 msgid "Connecting"
 msgstr "Соединяюсь"
 
-#: mrim.c:1042
+#: mrim.c:1109
 msgid "Unable to write to socket."
 msgstr "Не удаётся запись в сокет."
 
-#: mrim.c:1063
+#: mrim.c:1130
 msgid "Disconnected by user action?"
 msgstr "Соединение прервано пользователем?"
 
-#: mrim.c:1072
+#: mrim.c:1139
 msgid "Input Error"
 msgstr "Ошибка ввода"
 
-#: mrim.c:1078
+#: mrim.c:1145
 msgid "Bad Package"
 msgstr "Сбойный пакет (BP)."
 
-#: mrim.c:1104
+#: mrim.c:1171
 msgid "ru"
 msgstr ""
 
-#: mrim.c:1113
+#: mrim.c:1180
 msgid "Ping Error"
 msgstr "Ошибка пинга"
 
-#: mrim.c:1133
+#: mrim.c:1200
 #, c-format
 msgid "Disconnected. Reason: %s"
 msgstr "Отключено. Причина: %s"
 
-#: mrim.c:1198
+#: mrim.c:1265
 msgid "Logged in from another location."
 msgstr "Выполнен вход в сеть из другого места."
 
-#: mrim.c:1200
+#: mrim.c:1267
 msgid "Server broke connection."
 msgstr "Сервер разорвал соединение."
 
-#: mrim.c:1213
+#: mrim.c:1280
 msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
 msgstr "Ошибка пинга в MRIM_CS_CONNECTION_PARAMS"
 
-#: mrim.c:1682
+#: mrim.c:1749
 msgid "Server"
 msgstr "Сервер"
 
-#: mrim.c:1684
+#: mrim.c:1751
 msgid "Port"
 msgstr "Порт"
 
-#: mrim.c:1686
+#: mrim.c:1753
 msgid "Load userpics"
 msgstr "Загружать фото собеседников"
 
@@ -535,43 +552,43 @@ msgstr "Агент@Mail.Ru для Java, версия %s"
 msgid "Web-Agent@Mail.Ru"
 msgstr "Веб-Агент@Mail.Ru"
 
-#: mrim.h:113
+#: mrim.h:112
 #, c-format
 msgid "Agent@Mail.Ru for Android, ver. %s build %s"
 msgstr "Агент@Mail.Ru для Android, версия %s сборка %s"
 
-#: mrim.h:116
+#: mrim.h:113
 #, c-format
 msgid "Agent@Mail.Ru for Symbian, ver. %s build %s"
 msgstr "Агент@Mail.Ru для Symbian, версия %s сборка %s"
 
-#: mrim.h:117
+#: mrim.h:114
 #, c-format
 msgid "QIP 2010, ver. %s build %s"
 msgstr "QIP 2010, версия %s сборка %s"
 
-#: mrim.h:118
+#: mrim.h:115
 #, c-format
 msgid "Agent@Mail.Ru for GNU/Linux, ver. %s rev. %s"
 msgstr "Агент@Mail.Ru для GNU/Linux, версия %s ревизия %s"
 
-#: mrim.h:119
+#: mrim.h:116
 msgid "Pidgin and Ostin's mrim-prpl plugin"
 msgstr "Плагин для Pidgin от Ostin"
 
-#: mrim.h:128
+#: mrim.h:125
 msgid "status_online"
 msgstr "В сети"
 
-#: mrim.h:129
+#: mrim.h:126
 msgid "status_away"
 msgstr "Отсутствую"
 
-#: mrim.h:131
+#: mrim.h:128
 msgid "boleu"
 msgstr "Болею"
 
-#: mrim.h:132
+#: mrim.h:129
 msgid "doma"
 msgstr "Дома"
 
