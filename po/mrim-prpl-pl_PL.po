@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-02 04:31+0300\n"
+"POT-Creation-Date: 2011-03-02 23:33+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
@@ -533,37 +533,46 @@ msgid "Java phone Agent@Mail.Ru, ver. %s"
 msgstr ""
 
 #: mrim.h:111
-#, c-format
-msgid "Agent@Mail.Ru for Symbian, ver. %s build %s"
-msgstr ""
-
-#: mrim.h:112
-#, c-format
-msgid "QIP 2010, ver. %s build %s"
+msgid "Web-Agent@Mail.Ru"
 msgstr ""
 
 #: mrim.h:113
 #, c-format
+msgid "Agent@Mail.Ru for Android, ver. %s build %s"
+msgstr ""
+
+#: mrim.h:116
+#, c-format
+msgid "Agent@Mail.Ru for Symbian, ver. %s build %s"
+msgstr ""
+
+#: mrim.h:117
+#, c-format
+msgid "QIP 2010, ver. %s build %s"
+msgstr ""
+
+#: mrim.h:118
+#, c-format
 msgid "Agent@Mail.Ru for GNU/Linux, ver. %s rev. %s"
 msgstr ""
 
-#: mrim.h:114
+#: mrim.h:119
 msgid "Pidgin and Ostin's mrim-prpl plugin"
 msgstr ""
 
-#: mrim.h:123
+#: mrim.h:128
 msgid "status_online"
 msgstr ""
 
-#: mrim.h:124
+#: mrim.h:129
 msgid "status_away"
 msgstr ""
 
-#: mrim.h:126
+#: mrim.h:131
 msgid "boleu"
 msgstr ""
 
-#: mrim.h:127
+#: mrim.h:132
 msgid "doma"
 msgstr ""
 
