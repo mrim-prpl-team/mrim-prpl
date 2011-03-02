@@ -66,6 +66,9 @@ gboolean ua_matches(const gchar *string, const gchar *pattern, ua_data *result)
 		result->version	= g_match_info_fetch(match_info,2);
 		result->build		= g_match_info_fetch(match_info,3);
 		purple_debug_info("mrim", "regex complete.\n");
+	} else
+	{
+		purple_debug_info("mrim", "No match!\n");
 	}
 	// TODO Mem free.
 	g_match_info_free(match_info);
@@ -196,6 +199,7 @@ static void mrim_get_info(PurpleConnection *gc, const char *username)
 
 gchar* mrim_get_ua_alias(const gchar* ua)
 {
+	purple_debug_info("mrim", "Gonna parse UA %s.\n", ua);
 	if (ua)
 	{
 		gchar *alias = ua;
@@ -205,6 +209,7 @@ gchar* mrim_get_ua_alias(const gchar* ua)
 		guint j = 0;
 		while (ua_aliases[j].id)
 		{
+			purple_debug_info("mrim", "checking for %s.\n", ua_aliases[j].pattern);
 			if (ua_matches(ua, ua_aliases[j].pattern, ua_details))
 			{
 				purple_debug_info("mrim", "UA %s match %s\n", ua, ua_aliases[j].pattern);
