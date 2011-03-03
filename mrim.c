@@ -563,7 +563,9 @@ void sms_dialog_response(GtkDialog *dialog, gint response_id, gpointer *params) 
 				gint phone_index = gtk_combo_box_get_active(params[2]);
 				if (phone_index > -1) {
 					gchar *phone = mb->phones[phone_index];
-					PurpleConnection *gc = mrim->gc;
+					if (gtk_toggle_button_get_active(params[4])) {
+						/* TODO: транслитерация сообщения в переменной text */
+					}
 					mrim_send_sms(phone, text, mrim);
 				}
 				g_free(text);
@@ -626,7 +628,7 @@ static void blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata) {
 		g_signal_connect(buffer, "changed", update_sms_char_counter, char_counter);
 		update_sms_char_counter(buffer, char_counter);
 	}
-	gpointer params[4] = {mrim, mb, phone_combo_box, message_text}; //Передаём некоторые объекты в функцию подтверждения формы
+	gpointer params[5] = {mrim, mb, phone_combo_box, message_text, translit}; //Передаём некоторые объекты в функцию подтверждения формы
 	g_signal_connect(dialog, "response", sms_dialog_response, &params);
 	
 	gtk_widget_show_all(content_area);
