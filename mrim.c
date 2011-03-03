@@ -542,36 +542,37 @@ static void  blist_sms_menu_item(PurpleBlistNode *node, gpointer userdata)
 			mrim->account, buddy->name, NULL, mrim->gc );
 }
 
-void update_sms_char_counter(GtkTextBuffer *buffer, gpointer *params) {
+void update_sms_char_counter(GObject *object, sms_dialog_params *params) {
 	gchar *original_text, *new_text;
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(params->message_text);
 	{
 		GtkTextIter start, end;
 		gtk_text_buffer_get_start_iter(buffer, &start);
 		gtk_text_buffer_get_end_iter(buffer, &end);
 		original_text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);			
 	}
-	if (gtk_toggle_button_get_active(params[3])) {
+	if (gtk_toggle_button_get_active(params->translit)) {
 		/* TODO: транслитерация сообщения */
-		new_text = original_text;
+		new_text = original_text; //new_text должен указывать на транслитированный текст. original_text должен быть освобождён
 	} else {
 		new_text = original_text;
 	}
-	g_free(params[6]);
-	params[6] = new_text;
+	g_free(params->sms_text);
+	params->sms_text = new_text;
 	gint count = strlen(new_text);
 	gchar buf[64];
 	g_sprintf(&buf, _("Symbols: %d"), count);
-	gtk_label_set_text(params[4], buf);
+	gtk_label_set_text(params->char_counter, buf);
 }
 
-void sms_dialog_response(GtkDialog *dialog, gint response_id, gpointer *params) {
+void sms_dialog_response(GtkDialog *dialog, gint response_id, sms_dialog_params *params) {
 	switch (response_id) {
 		case GTK_RESPONSE_ACCEPT:
 			{
-				mrim_buddy *mb = params[1];
-				mrim_data *mrim = params[0];
-				gchar *text = params[6];
-				gint phone_index = gtk_combo_box_get_active(params[5]);
+				mrim_buddy *mb = params->mb;
+				mrim_data *mrim = params->mrim;
+				gchar *text = params->sms_text;
+				gint phone_index = gtk_combo_box_get_active(params->phone);
 				if (phone_index > -1) {
 					gchar *phone = mb->phones[phone_index];
 					mrim_send_sms(phone, text, mrim);
@@ -581,12 +582,12 @@ void sms_dialog_response(GtkDialog *dialog, gint response_id, gpointer *params) 
 	}
 }
 
-void sms_dialog_destroy(GtkDialog *dialog, gpointer *params) {
-	g_free(params[6]);
+void sms_dialog_destroy(GtkDialog *dialog, sms_dialog_params *params) {
+	g_free(params->sms_text);
 	g_free(params);
 }
 
-static void blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata) {
+void blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata) {
 	PurpleBuddy *buddy = (PurpleBuddy *) node;
 	mrim_data *mrim = userdata;
 	g_return_if_fail(buddy != NULL);
@@ -635,14 +636,14 @@ static void blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata) {
 	gtk_container_add(hbox, char_counter);
 	gtk_box_pack_end(content_area, hbox, FALSE, TRUE, 0);
 	/* Сохраним адреса нужных объектов */
-	gpointer *params = g_malloc(sizeof(gpointer) * 7);
-	params[0] = mrim;
-	params[1] = mb;
-	params[2] = message_text;
-	params[3] = translit;
-	params[4] = char_counter;
-	params[5] = phone_combo_box;
-	params[6] = NULL;
+	sms_dialog_params *params = g_new0(sms_dialog_params, 1);
+	params->mrim = mrim;
+	params->mb = mb;
+	params->message_text = message_text;
+	params->translit = translit;
+	params->char_counter = char_counter;
+	params->phone = phone_combo_box;
+	params->sms_text = NULL;
 	/* Подключим обработчики сигналов */
 	g_signal_connect(dialog, "destroy", sms_dialog_destroy, params);
 	{
@@ -650,6 +651,7 @@ static void blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata) {
 		g_signal_connect(buffer, "changed", update_sms_char_counter, params);
 		update_sms_char_counter(buffer, params);
 	}
+	g_signal_connect(translit, "toggled", update_sms_char_counter, params);
 	g_signal_connect(dialog, "response", sms_dialog_response, params);
 	
 	gtk_widget_show_all(content_area);

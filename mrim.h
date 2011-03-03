@@ -4,6 +4,7 @@
 #include "config.h"
 #include <glib.h>
 #include <time.h>
+#include <gtk/gtk.h>
 
 // i18n
 #define GETTEXT_PACKAGE "mrim-prpl"
@@ -451,5 +452,15 @@ gboolean is_valid_chat(gchar *chat);
 	gpointer purple_buddy_get_protocol_data(const PurpleBuddy *buddy);
 	void purple_buddy_set_protocol_data(PurpleBuddy *buddy, gpointer data);
 #endif
+
+typedef struct {
+	mrim_data *mrim;
+	mrim_buddy *mb;
+	GtkTextView *message_text;
+	GtkCheckButton *translit;
+	GtkLabel *char_counter;
+	GtkComboBox *phone;
+	gchar *sms_text;
+} sms_dialog_params;
 
 #endif
