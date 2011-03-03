@@ -579,7 +579,10 @@ void sms_dialog_response(GtkDialog *dialog, gint response_id, sms_dialog_params 
 				}
 				break;
 			}
+		case GTK_RESPONSE_REJECT:
+			break;
 	}
+	gtk_widget_destroy(dialog);
 }
 
 void sms_dialog_destroy(GtkDialog *dialog, sms_dialog_params *params) {
@@ -654,9 +657,7 @@ void blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata) {
 	g_signal_connect(translit, "toggled", update_sms_char_counter, params);
 	g_signal_connect(dialog, "response", sms_dialog_response, params);
 	
-	gtk_widget_show_all(content_area);
-	gtk_dialog_run(dialog);
-	gtk_widget_destroy(dialog);
+	gtk_widget_show_all(dialog);
 }
 
 // edit phones

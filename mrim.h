@@ -456,6 +456,7 @@ gboolean is_valid_chat(gchar *chat);
 typedef struct {
 	mrim_data *mrim;
 	mrim_buddy *mb;
+	GtkDialog *dialog;
 	GtkTextView *message_text;
 	GtkCheckButton *translit;
 	GtkLabel *char_counter;
