@@ -590,6 +590,19 @@ void sms_dialog_destroy(GtkDialog *dialog, sms_dialog_params *params) {
 	g_free(params);
 }
 
+static void  blist_edit_phones_menu_item(PurpleBlistNode *node, gpointer userdata);
+
+void sms_dialog_edit_phones(GtkButton *button, sms_dialog_params *params) {
+	blist_edit_phones_menu_item(params->buddy, params->mrim);
+	gtk_combo_box_remove_text(params->phone, 2);
+	gtk_combo_box_remove_text(params->phone, 1);
+	gtk_combo_box_remove_text(params->phone, 0);
+	gtk_combo_box_append_text(params->phone, params->mb->phones[0]);
+	gtk_combo_box_append_text(params->phone, params->mb->phones[1]);
+	gtk_combo_box_append_text(params->phone, params->mb->phones[2]);
+	gtk_combo_box_set_active(params->phone, 0);
+}
+
 void blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata) {
 	PurpleBuddy *buddy = (PurpleBuddy *) node;
 	mrim_data *mrim = userdata;
@@ -640,6 +653,7 @@ void blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata) {
 	gtk_box_pack_end(content_area, hbox, FALSE, TRUE, 0);
 	/* Сохраним адреса нужных объектов */
 	sms_dialog_params *params = g_new0(sms_dialog_params, 1);
+	params->buddy = buddy;
 	params->mrim = mrim;
 	params->mb = mb;
 	params->message_text = message_text;
@@ -656,6 +670,7 @@ void blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata) {
 	}
 	g_signal_connect(translit, "toggled", update_sms_char_counter, params);
 	g_signal_connect(dialog, "response", sms_dialog_response, params);
+	g_signal_connect(edit_phones_button, "clicked", sms_dialog_edit_phones, params);
 	
 	gtk_widget_show_all(dialog);
 }

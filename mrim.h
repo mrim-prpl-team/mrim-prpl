@@ -454,6 +454,7 @@ gboolean is_valid_chat(gchar *chat);
 #endif
 
 typedef struct {
+	PurpleBuddy *buddy;
 	mrim_data *mrim;
 	mrim_buddy *mb;
 	GtkDialog *dialog;
