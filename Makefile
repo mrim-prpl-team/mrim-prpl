@@ -19,7 +19,7 @@ ifdef CFLAGS
 CFLAGS += -shared -fPIC -DPIC  -std=gnu99
 endif
 
-#DEBUG_CFLAGS = -Wall -Wextra -Wconversion -Wsign-conversion -Winit-self -Wunreachable-code --pedantic  -Wstrict-aliasing
+DEBUG_CFLAGS = -Wall -Wextra -Wconversion -Wsign-conversion -Winit-self -Wunreachable-code --pedantic  -Wstrict-aliasing
 
 PURPLE_CFLAGS = $(shell pkg-config --cflags purple)
 #PURPLE_CFLAGS += $(shell pkg-config --libs glib-2.0)
