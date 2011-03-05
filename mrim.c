@@ -671,8 +671,10 @@ void blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata) {
 	g_signal_connect(translit, "toggled", update_sms_char_counter, params);
 	g_signal_connect(dialog, "response", sms_dialog_response, params);
 	g_signal_connect(edit_phones_button, "clicked", sms_dialog_edit_phones, params);
-	
+	/* Отображаем диалог */
 	gtk_widget_show_all(dialog);
+	/* Делаем активным окном окно ввода сообщения */
+	gtk_widget_grab_focus(message_text);
 }
 
 // edit phones
