@@ -23,6 +23,7 @@
 #include "package.h"
 #include "cl.h"
 #include "message.h"
+#include "convert.h"
 #include "filetransfer.h"
 
 static PurpleConnection *get_mrim_gc(const char *username)
@@ -94,7 +95,7 @@ gboolean string_is_match(gchar *string, gchar *pattern)
 
 gboolean is_valid_email(gchar *email)
 {
-	return string_is_match(email, "([a-z]|[A-Z]|[0-9])+([a-z]|[A-Z]|[0-9]|[_\\-\\.])*@(mail.ru|list.ru|inbox.ru|bk.ru|corp.mail.ru)");
+	return string_is_match(email, "([[a-z]|[A-Z]|[0-9]]+[[a-z]|[A-Z]|[0-9]|[_\\-\\.]]+)@(mail.ru|list.ru|inbox.ru|bk.ru|corp.mail.ru)");
 }
 
 gboolean is_valid_chat(gchar *chat)
@@ -374,7 +375,14 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 		
 		PurplePresence *presence = purple_buddy_get_presence(buddy);
 		PurpleStatus *status = purple_presence_get_active_status(presence);
-		char *msg = g_strdup(""); // TODO X-status?
+		char *msg = g_strdup("Курим протокол..."); // TODO X-status?
+		mrim_buddy *mb = buddy->proto_data;
+		if (mb)
+			if (mb->status_title || mb->status_desc)
+			{
+				FREE(msg);
+				msg = g_strdup_printf("%s: %s.", mb->status_title, mb->status_desc);
+			}
 		purple_notify_user_info_add_pair(info, purple_status_get_name(status), msg);
 		g_free(msg);
 		
@@ -385,7 +393,6 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 				purple_notify_user_info_add_pair(info, _("Contact details"), user_info);
 		}
 
-		mrim_buddy *mb = buddy->proto_data;
 		if (mb)
 		{
 			if (mb->phones && mb->phones[0])
@@ -553,10 +560,11 @@ void update_sms_char_counter(GObject *object, sms_dialog_params *params) {
 	}
 	if (gtk_toggle_button_get_active(params->translit)) {
 		/* TODO: транслитерация сообщения */
-		new_text = original_text; //new_text должен указывать на транслитированный текст. original_text должен быть освобождён
+		new_text = g_strdup(original_text); //new_text должен указывать на транслитерированный текст. original_text должен быть освобождён
 	} else {
-		new_text = original_text;
+		new_text = g_strdup(original_text);
 	}
+	FREE(original_text);
 	g_free(params->sms_text);
 	params->sms_text = new_text;
 	gint count = strlen(new_text);
@@ -979,8 +987,8 @@ static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
 	package *pack = new_package(mrim->seq, MRIM_CS_CHANGE_STATUS);
 	add_ul(purple_status_to_mrim_status(status), pack);
 	add_LPS("X-status", pack);	// spec
-	add_LPS("", pack); // status title
-	add_LPS("", pack); // desc or NULL
+	add_LPS("Курим", pack); // status title
+	add_LPS("Курим протокол, и не колышет.", pack); // desc or NULL
 	add_ul(COM_SUPPORT, pack);
 	send_package(pack, mrim);
 }
@@ -995,23 +1003,46 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 	if (buddy && buddy->proto_data)
 	{
 		mrim_buddy *mb = buddy->proto_data;
+		if (user_agent)
+		{
+			FREE(mb->user_agent);
+			mb->user_agent = user_agent;
+		} else
+		{
+			FREE(mb->user_agent);
+			mb->user_agent = NULL;
+		}
+		if (title || desc)
+		{
+			FREE(mb->status_title);
+			FREE(mb->status_desc);
+			mb->status_title	= g_strdup(title);
+			mb->status_desc	= g_strdup(desc);
+		} else
+		{
+			FREE(mb->status_title);
+			FREE(mb->status_desc);
+			mb->status_title	= g_strdup("");
+			mb->status_desc	= g_strdup("");
+		}
 		if (!mb->authorized)
 		{
 			purple_prpl_got_user_status_deactive(mrim->gc->account, email, "mood");
 			purple_prpl_got_user_status(mrim->account, email, "offline", NULL);
 	        return;
 		}
-		if (user_agent)
-		{
-			mb->user_agent = user_agent;
-		} else
-		{
-			mb->user_agent = NULL;
-		}
 	}
     
 	if (uri)
 	{
+		// TODO: Implement some more appropriate moods processing!!
+		purple_debug_info("mrim", "[%s] %s user mood %s (%s; %s).\n", __func__, email, uri, desc, title);
+		gchar *status_comment = NULL;
+		if (title || desc)
+		{
+			status_comment = g_strdup_printf("% (%s)", title, desc);
+		}
+		purple_prpl_got_user_status(mrim->account, email, "online" /* TODO */, NULL);
 		purple_prpl_got_user_status(mrim->gc->account, email, "mood",
 				PURPLE_MOOD_NAME, uri,
 				PURPLE_MOOD_COMMENT, desc,

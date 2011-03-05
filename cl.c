@@ -155,7 +155,9 @@ mrim_buddy *new_mrim_buddy(package *pack)
 	mb->alias = read_LPS(pack); // Nick (UTF16LE)
 	mb->s_flags= read_UL(pack); // Server flag (not authorized)
 	mb->status = read_UL(pack); // Status.
-	mb->user_agent = NULL;
+	mb->user_agent		= NULL;
+	mb->status_title	= NULL;
+	mb->status_desc	= NULL;
 
 	if (mb->flags & CONTACT_FLAG_MULTICHAT)
 		mb->type = CHAT;

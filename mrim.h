@@ -108,6 +108,7 @@ static struct
 {
 		//	id							alias																regex
 		{"magent",					N_("Agent@Mail.Ru for Win/PC, ver. %s build %s"),		"client=\"(magent)\" version=\"([0-9.]+)\" build=\"([0-9]+)\""},
+		{"magent",					N_("Agent@Mail.Ru for Win/PC, ver. %s"),					"client=\"(magent)\" version=\"([0-9.]+)\""},
 		{"jagent",					N_("Java phone Agent@Mail.Ru, ver. %s"),					"client=\"(jagent)\" version=\"([0-9.]+)\""},
 		{"webagent",				N_("Web-Agent@Mail.Ru"),										"client=\"(webagent)\" name=\"(jmp)\" title=\"(Web Agent)\""},
 		{"android",					N_("Agent@Mail.Ru for Android, ver. %s build %s"),		"client=\"(android)\" version=\"([0-9\\.]+) \\(build ([0-9]+)\\)\" desc=\"Android Agent\""},
@@ -245,6 +246,8 @@ typedef struct
 	BUDDY_TYPE type;
 	gchar *ips; // IP:PORT;IP:PORT;
 	gchar *user_agent;
+	gchar *status_title;
+	gchar *status_desc;
 }mrim_buddy;
 
 typedef struct {
@@ -273,7 +276,6 @@ typedef struct {
 	GHashTable *pq;        // "очередь" сообщений (pending queue)
 	GHashTable *mg;        // хеш-таблица групп
 	GList *xfer_lists;     // список всех файлов для передачи
-
 }mrim_data;
 
 typedef struct
