@@ -556,7 +556,7 @@ void update_sms_char_counter(GObject *object, sms_dialog_params *params) {
 		GtkTextIter start, end;
 		gtk_text_buffer_get_start_iter(buffer, &start);
 		gtk_text_buffer_get_end_iter(buffer, &end);
-		original_text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);			
+		original_text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
 	}
 	if (gtk_toggle_button_get_active(params->translit)) {
 		/* TODO: транслитерация сообщения */
@@ -932,7 +932,7 @@ GList* mrim_status_types( PurpleAccount* account )
 	}
 
 	/* add Mood option */
-	type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE,	PURPLE_MOOD_NAME, _("Mood Name"), purple_value_new( PURPLE_TYPE_STRING ), NULL);
+	type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE,	PURPLE_MOOD_NAME, _("Mood Name"), purple_value_new( PURPLE_TYPE_STRING ), PURPLE_MOOD_COMMENT, _("Mood Comment"), purple_value_new(PURPLE_TYPE_STRING), NULL);
 	//type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE, PURPLE_MOOD_NAME, "Mood Name", purple_value_new( PURPLE_TYPE_STRING ), NULL);
 	statuslist = g_list_prepend( statuslist, type );
 
@@ -947,6 +947,9 @@ guint32 purple_status_to_mrim_status(PurpleStatus *status)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
 	g_return_val_if_fail(status != NULL, 0);
+	if (purple_status_type_get_primitive(purple_status_get_type(status)) == PURPLE_STATUS_MOOD)
+		return STATUS_USER_DEFINED;
+
 	PurpleStatusPrimitive primitive = purple_status_type_get_primitive(purple_status_get_type(status));
 	unsigned int i;
 	for ( i = 0; i < STATUSES_COUNT ; i++ )
@@ -977,20 +980,33 @@ static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
 	g_return_if_fail(status != NULL);
 	g_return_if_fail(purple_account_is_connected(acct));
 
-	// Changed Pidgin status.
-	const char *msg = purple_status_get_attr_string(status, "message");
-	purple_debug_info("mrim", "setting %s's status to <%s>: %s\n", acct->username, purple_status_get_name(status), msg);
-
 	PurpleConnection *gc = purple_account_get_connection(acct);
 	mrim_data *mrim = gc->proto_data;
 
+	const char*	statusid;
+	int	presence;
+	char* mood = NULL;
+	/* Changed Pidgin status. */
+	const char *statusmsg = purple_markup_strip_html( purple_status_get_attr_string( status, "message" ) );
+	purple_debug_info("mrim", "setting %s's status to <%s>: %s\n", acct->username, purple_status_get_name(status), statusmsg);
+
+	/* Handle mood changes */
+	if (purple_status_type_get_primitive(purple_status_get_type(status)) == PURPLE_STATUS_MOOD)
+	{
+		mood = purple_status_get_attr_string( status, PURPLE_MOOD_NAME );
+		purple_debug_info("mrim", "mood id =<%s>\n", mood );
+		// TODO проверка на существование mood
+	}
+
 	package *pack = new_package(mrim->seq, MRIM_CS_CHANGE_STATUS);
 	add_ul(purple_status_to_mrim_status(status), pack);
-	add_LPS("X-status", pack);	// spec
-	add_LPS("Курим", pack); // status title
-	add_LPS("Курим протокол, и не колышет.", pack); // desc or NULL
+	add_LPS(mood, pack);	// spec
+	add_LPS(_(mood), pack); // status title
+	add_LPS(statusmsg, pack); // desc or NULL
 	add_ul(COM_SUPPORT, pack);
 	send_package(pack, mrim);
+
+	FREE( statusmsg );
 }
 
 void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, gchar *title, gchar *desc, gchar* user_agent)
@@ -1320,8 +1336,11 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									//  "build" - product internal numeration (may be positive number or time).
 									//  "protocol" - MMP protocol number by format "<major>.<minor>".
 
-									//if (!user)
-									//	user = uri; // old proto
+									if (!user)
+									{
+										user = uri; // old proto
+										uri = title = desc = NULL;
+									}
 									purple_debug_info("mrim","MRIM_CS_USER_STATUS! new_status<%i> user<%s> uri=<%s> title=<%s> desc=<%s> ua=<%s>\n", (int) status ,user, uri, title, desc, user_agent);
 									set_user_status(mrim, user, status, uri, title, desc, user_agent);
 									FREE(user);

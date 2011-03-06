@@ -1,10 +1,15 @@
-trunk (05/02/2011) (r103)
+trunk (06/03/2011) (r141)
 	Core
 		? Fix bad package
-		File Transfer draft
-		i18n: ru_RU (rc), uk (draft), be_BY (draft)
+		i18n: ru_RU (rc), uk (draft), be_BY (draft), maby other languages
 	Roster
-		Fix offline auth		
+		Fix offline auth
+		Fir 12-numbered phones
+		Fix group search(regression)
+		UserAgent
+		Chat-contacts support(draft)
+	UI
+		Gtk+ SMS_send form
 
 
 version 0.1.26 (11/11/2010). svn r38

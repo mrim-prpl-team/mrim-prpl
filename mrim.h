@@ -4,7 +4,6 @@
 #include "config.h"
 #include <glib.h>
 #include <time.h>
-#include <gtk/gtk.h>
 
 // i18n
 #define GETTEXT_PACKAGE "mrim-prpl"
@@ -89,11 +88,12 @@ static struct status
 	gboolean independent;
 } mrim_statuses[] = {
 	/*	primative,					mrim_status,				id,				name(i18n)			user_settable 		independent  			 */
-	{	PURPLE_STATUS_INVISIBLE,	STATUS_FLAG_INVISIBLE,	"invisible",		N_("invisible"),		TRUE,				FALSE},	/* 0 */
-	{	PURPLE_STATUS_OFFLINE,		STATUS_OFFLINE,			"offline",			N_("Offline"),			TRUE,				FALSE},	/* 1 */
-	{	PURPLE_STATUS_AVAILABLE,	STATUS_ONLINE,			"online",			N_("Available"),		TRUE,				FALSE},	/* 2 */
-	{	PURPLE_STATUS_AWAY,			STATUS_AWAY,			"away",				N_("Away"), 			TRUE,				FALSE}	/* 3 */
-//	{	PURPLE_STATUS_UNSET,		STATUS_UNDETERMINATED,	"UNDETERMINATED",	"UNDETERMINATED",	TRUE,				FALSE}	/* 4 */
+	{	PURPLE_STATUS_AVAILABLE,	STATUS_ONLINE,			"online",			N_("Available"),		TRUE,				FALSE},	/* 0 */
+	{	PURPLE_STATUS_INVISIBLE,	STATUS_FLAG_INVISIBLE,	"invisible",		N_("invisible"),		TRUE,				FALSE},	/* 1 */
+	{	PURPLE_STATUS_OFFLINE,		STATUS_OFFLINE,			"offline",			N_("Offline"),			TRUE,				FALSE},	/* 2 */
+	{	PURPLE_STATUS_AWAY,			STATUS_AWAY,			"away",				N_("Away"), 			TRUE,				FALSE},	/* 3 */
+	{   PURPLE_STATUS_MOOD,			STATUS_USER_DEFINED,	"mood",				N_("mood"),				TRUE,				FALSE}  /* 4 */
+//	{	PURPLE_STATUS_UNSET,		STATUS_UNDETERMINATED,	"UNDETERMINATED",	"UNDETERMINATED",	TRUE,				FALSE}
 };
 
 typedef struct
@@ -129,17 +129,17 @@ static PurpleMood moods[] =
 		//"status_3"  "/status_invisible.bmp"
 		{ "status_4", N_("boleu"), NULL },
 		{ "status_5", N_("doma"), NULL },
-		{ "status_6", "/em.bmp", NULL },
-		{ "status_7", "/gde_ia.bmp", NULL },
-		{ "status_8", "/gizn_gavno.bmp", NULL },
-		{ "status_9", "/gotovlu.bmp", NULL },
-		{ "status_10", "/gulau.bmp", NULL },
-		{ "status_11", "/ia_inoplanet_razum.bmp", NULL },
-		{ "status_12", "/ia_krivetko.bmp", NULL },
-		{ "status_13", "/ia_poteralsa.bmp", NULL },
-		{ "status_14", "/ia_soshl_asuma.bmp", NULL },
-		{ "status_15", "/ia_utko.bmp", NULL },
-		{ "status_16", "/igrau.bmp", NULL },
+		{ "status_6", N_("em.bmp"), NULL },
+		{ "status_7", N_("gde_ia"), NULL },
+		{ "status_8", N_("gizn_gavno"), NULL },
+		{ "status_9", N_("gotovlu"), NULL },
+		{ "status_10", N_("gulau"), NULL },
+		{ "status_11", N_("ia_inoplanet_razum"), NULL },
+		{ "status_12", N_("ia_krivetko"), NULL },
+		{ "status_13", N_("ia_poteralsa"), NULL },
+		{ "status_14", N_("ia_soshl_asuma"), NULL },
+		{ "status_15", N_("ia_utko"), NULL },
+		{ "status_16", N_("igrau"), NULL },
 		{ NULL, NULL, NULL} // last record
 };
 /*
