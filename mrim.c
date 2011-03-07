@@ -983,30 +983,50 @@ static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
 	PurpleConnection *gc = purple_account_get_connection(acct);
 	mrim_data *mrim = gc->proto_data;
 
-	const char*	statusid;
-	int	presence;
-	char* mood = NULL;
-	/* Changed Pidgin status. */
-	const char *statusmsg = purple_markup_strip_html( purple_status_get_attr_string( status, "message" ) );
-	purple_debug_info("mrim", "setting %s's status to <%s>: %s\n", acct->username, purple_status_get_name(status), statusmsg);
+	purple_debug_info("mrim", "[%s] setting %s's status to <%s>\n", __func__, acct->username, purple_status_get_name(status));
+
+	// статус под кнопкой статуса в основном окне пиджина
+	gchar * status_desc = purple_markup_strip_html( purple_status_get_attr_string( status, "message" ) );
+	if (status_desc)
+	{
+		//FREE(mrim->status_desc)
+		mrim->status_desc = status_desc;
+		purple_debug_info("mrim", "[%s] new satus \"message\"=<%s>\n", __func__, mrim->status_desc);
+	}
 
 	/* Handle mood changes */
 	if (purple_status_type_get_primitive(purple_status_get_type(status)) == PURPLE_STATUS_MOOD)
 	{
-		mood = purple_status_get_attr_string( status, PURPLE_MOOD_NAME );
-		purple_debug_info("mrim", "mood id =<%s>\n", mood );
+		//FREE(mrim->status_spec) // А надо?
+		mrim->status_spec = purple_status_get_attr_string(status, PURPLE_MOOD_NAME);
+		if (mrim->status_spec)
+		{
+		purple_debug_info("mrim", "[%s] mood id =<%s>\n", __func__, mrim->status_spec);
 		// TODO проверка на существование mood
+		for (int i=0; i< ARRAY_SIZE(moods)-1; i++)
+			if ( strcmp( moods[i].mood,  mrim->status_spec) == 0 )
+			{
+				mrim->status_title = moods[i].description;
+				break;
+			}
+		}
+		else
+		{
+			mrim->status_desc = NULL;
+			mrim->status_spec = NULL;
+			mrim->status_title = NULL;
+		}
 	}
+
+
 
 	package *pack = new_package(mrim->seq, MRIM_CS_CHANGE_STATUS);
 	add_ul(purple_status_to_mrim_status(status), pack);
-	add_LPS(mood, pack);	// spec
-	add_LPS(_(mood), pack); // status title
-	add_LPS(statusmsg, pack); // desc or NULL
+	add_LPS(mrim->status_spec, pack);	// spec
+	add_LPS(mrim->status_title, pack); // status title
+	add_LPS(mrim->status_desc, pack); // desc or NULL
 	add_ul(COM_SUPPORT, pack);
 	send_package(pack, mrim);
-
-	FREE( statusmsg );
 }
 
 void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, gchar *title, gchar *desc, gchar* user_agent)
@@ -1117,6 +1137,9 @@ static void mrim_prpl_login(PurpleAccount *account)
 	mrim->error_count = 0;
 	mrim->ProxyConnectHandle = NULL;
 	mrim->status = purple_status_to_mrim_status(purple_presence_get_active_status(account->presence));
+	mrim->status_spec = NULL;
+	mrim->status_title = NULL;
+	mrim->status_desc = NULL;
 	  
 	mrim->server = g_strdup(purple_account_get_string(account, "balancer_host", MRIM_MAIL_RU));
 	mrim->port = purple_account_get_int(account, "balancer_port", MRIM_MAIL_RU_PORT);

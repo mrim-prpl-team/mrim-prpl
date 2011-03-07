@@ -3,6 +3,7 @@
 
 #include "config.h"
 #include <glib.h>
+#include <glib/gprintf.h> // g_sprintf and Co
 #include <time.h>
 
 // i18n
@@ -209,6 +210,7 @@ static PurpleMood moods[] =
 #define SUMMARY     "Mail.Ru Agent protocol plugin"
 #define DESCRIPTION "Mail.Ru Agent protocol plugin"
 #define FREE(s) { if (s) g_free(s); s = NULL;}
+#define	ARRAY_SIZE(x) ( sizeof(x) / sizeof(x[0]) )
 
 #define FEATURES (FEATURE_FLAG_WAKEUP | FEATURE_FLAG_BASE_SMILES)
 #define COM_SUPPORT 0x03FF
@@ -255,7 +257,12 @@ typedef struct {
 	PurpleAccount *account;
 	char *username;
 	char *password;
+
 	guint32 status;		  // status в формате Маил.Агента
+	gchar *status_spec;   // status_51
+	gchar *status_title;  // белка (или любое другое короткое название, на выбор пользователя)
+	gchar *status_desc;   // тут комментарий к статусу
+
 	gchar *server;        // IP сервера
 	int port;             // port на сервере
 	int fd;               // дескриптор сокета
