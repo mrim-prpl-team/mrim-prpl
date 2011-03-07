@@ -375,16 +375,19 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 		
 		PurplePresence *presence = purple_buddy_get_presence(buddy);
 		PurpleStatus *status = purple_presence_get_active_status(presence);
-		char *msg = g_strdup("Курим протокол..."); // TODO X-status?
 		mrim_buddy *mb = buddy->proto_data;
-		if (mb)
-			if (mb->status_title || mb->status_desc)
-			{
-				FREE(msg);
-				msg = g_strdup_printf("%s: %s.", mb->status_title, mb->status_desc);
+		if (mb && mb->status_title) { //TODO X-status?
+			gchar *msg;
+			if (mb->status_desc) {
+				msg = g_strdup_printf("%s - %s", mb->status_title, mb->status_desc);
+			} else {
+				msg = g_strdup(mb->status_title);
 			}
-		purple_notify_user_info_add_pair(info, purple_status_get_name(status), msg);
-		g_free(msg);
+			purple_notify_user_info_add_pair(info, _("Status"), msg);
+			FREE(msg);
+		} else {
+			purple_notify_user_info_add_pair(info, _("Status"), purple_status_get_name(status));
+		}
 		
 		if (full)
 		{
