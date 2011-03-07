@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-07 03:43+0300\n"
+"POT-Creation-Date: 2011-03-07 16:49+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
@@ -142,7 +142,7 @@ msgid "Hidden"
 msgstr "Скрыто"
 
 #: mrim.c:410
-#: mrim.h:93
+#: mrim.h:94
 msgid "Offline"
 msgstr "Не в сети"
 
@@ -255,73 +255,72 @@ msgid "Mood Name"
 msgstr "Название настроения"
 
 #: mrim.c:935
-#, fuzzy
 msgid "Mood Comment"
-msgstr "Название настроения"
+msgstr "Комментарий к настроению"
 
-#: mrim.c:1164
+#: mrim.c:1187
 msgid "Unable to create TCP-connection"
 msgstr "Не удаётся установить TCP-соединение"
 
-#: mrim.c:1180
+#: mrim.c:1203
 #, c-format
 msgid "Unable to connect: %s"
 msgstr "Не могу соединиться: %s"
 
-#: mrim.c:1193
+#: mrim.c:1216
 msgid "Connecting"
 msgstr "Соединяюсь"
 
-#: mrim.c:1199
+#: mrim.c:1222
 msgid "Unable to write to socket."
 msgstr "Не удаётся запись в сокет."
 
-#: mrim.c:1220
+#: mrim.c:1243
 msgid "Disconnected by user action?"
 msgstr "Соединение прервано пользователем?"
 
-#: mrim.c:1229
+#: mrim.c:1252
 msgid "Input Error"
 msgstr "Ошибка ввода"
 
-#: mrim.c:1235
+#: mrim.c:1258
 msgid "Bad Package"
 msgstr "Сбойный пакет (BP)."
 
-#: mrim.c:1261
+#: mrim.c:1284
 msgid "ru"
 msgstr ""
 
-#: mrim.c:1270
+#: mrim.c:1293
 msgid "Ping Error"
 msgstr "Ошибка пинга"
 
-#: mrim.c:1290
+#: mrim.c:1313
 #, c-format
 msgid "Disconnected. Reason: %s"
 msgstr "Отключено. Причина: %s"
 
-#: mrim.c:1358
+#: mrim.c:1381
 msgid "Logged in from another location."
 msgstr "Выполнен вход в сеть из другого места."
 
-#: mrim.c:1360
+#: mrim.c:1383
 msgid "Server broke connection."
 msgstr "Сервер разорвал соединение."
 
-#: mrim.c:1373
+#: mrim.c:1396
 msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
 msgstr "Ошибка пинга в MRIM_CS_CONNECTION_PARAMS"
 
-#: mrim.c:1842
+#: mrim.c:1865
 msgid "Server"
 msgstr "Сервер"
 
-#: mrim.c:1844
+#: mrim.c:1867
 msgid "Port"
 msgstr "Порт"
 
-#: mrim.c:1846
+#: mrim.c:1869
 msgid "Load userpics"
 msgstr "Загружать фото собеседников"
 
@@ -531,124 +530,124 @@ msgstr "отвергает Ваше приглашение в чат"
 msgid "Chat invitation"
 msgstr "Приглашение в чат"
 
-#: mrim.h:91
+#: mrim.h:92
 msgid "Available"
 msgstr "Доступен"
 
-#: mrim.h:92
+#: mrim.h:93
 msgid "invisible"
 msgstr "Невидим"
 
-#: mrim.h:94
+#: mrim.h:95
 msgid "Away"
 msgstr "Отошёл"
 
-#: mrim.h:95
+#: mrim.h:96
 msgid "mood"
-msgstr ""
+msgstr "Настроение"
 
-#: mrim.h:110
+#: mrim.h:111
 #, c-format
 msgid "Agent@Mail.Ru for Win/PC, ver. %s build %s"
 msgstr "Агент@Mail.Ru для Windows, версия %s сборка %s"
 
-#: mrim.h:111
+#: mrim.h:112
 #, c-format
 msgid "Agent@Mail.Ru for Win/PC, ver. %s"
 msgstr "Агент@Mail.Ru для Windows, версия %s"
 
-#: mrim.h:112
+#: mrim.h:113
 #, c-format
 msgid "Java phone Agent@Mail.Ru, ver. %s"
 msgstr "Агент@Mail.Ru для Java, версия %s"
 
-#: mrim.h:113
+#: mrim.h:114
 msgid "Web-Agent@Mail.Ru"
 msgstr "Веб-Агент@Mail.Ru"
 
-#: mrim.h:114
+#: mrim.h:115
 #, c-format
 msgid "Agent@Mail.Ru for Android, ver. %s build %s"
 msgstr "Агент@Mail.Ru для Android, версия %s сборка %s"
 
-#: mrim.h:115
+#: mrim.h:116
 #, c-format
 msgid "Agent@Mail.Ru for Symbian, ver. %s build %s"
 msgstr "Агент@Mail.Ru для Symbian, версия %s сборка %s"
 
-#: mrim.h:116
+#: mrim.h:117
 #, c-format
 msgid "QIP 2010, ver. %s build %s"
 msgstr "QIP 2010, версия %s сборка %s"
 
-#: mrim.h:117
+#: mrim.h:118
 #, c-format
 msgid "Agent@Mail.Ru for GNU/Linux, ver. %s rev. %s"
 msgstr "Агент@Mail.Ru для GNU/Linux, версия %s ревизия %s"
 
-#: mrim.h:118
+#: mrim.h:119
 msgid "Pidgin and Ostin's mrim-prpl plugin"
 msgstr "Плагин для Pidgin от Ostin"
 
-#: mrim.h:127
+#: mrim.h:128
 msgid "status_online"
 msgstr "В сети"
 
-#: mrim.h:128
+#: mrim.h:129
 msgid "status_away"
 msgstr "Отсутствую"
 
-#: mrim.h:130
+#: mrim.h:131
 msgid "boleu"
 msgstr "Болею"
 
-#: mrim.h:131
+#: mrim.h:132
 msgid "doma"
 msgstr "Дома"
 
-#: mrim.h:132
-msgid "em.bmp"
-msgstr ""
-
 #: mrim.h:133
-msgid "gde_ia"
-msgstr ""
+msgid "em.bmp"
+msgstr "Ем"
 
 #: mrim.h:134
-msgid "gizn_gavno"
-msgstr ""
+msgid "gde_ia"
+msgstr "Где я?"
 
 #: mrim.h:135
-msgid "gotovlu"
-msgstr ""
+msgid "gizn_gavno"
+msgstr "Жизнь -- говно!"
 
 #: mrim.h:136
-msgid "gulau"
-msgstr ""
+msgid "gotovlu"
+msgstr "Готовлю"
 
 #: mrim.h:137
-msgid "ia_inoplanet_razum"
-msgstr ""
+msgid "gulau"
+msgstr "Гуляю"
 
 #: mrim.h:138
-msgid "ia_krivetko"
-msgstr ""
+msgid "ia_inoplanet_razum"
+msgstr "Я -- инопланетный разум"
 
 #: mrim.h:139
-msgid "ia_poteralsa"
-msgstr ""
+msgid "ia_krivetko"
+msgstr "Йа Креведко!"
 
 #: mrim.h:140
-msgid "ia_soshl_asuma"
-msgstr ""
+msgid "ia_poteralsa"
+msgstr "Йа Потерялся"
 
 #: mrim.h:141
-msgid "ia_utko"
-msgstr ""
+msgid "ia_soshl_asuma"
+msgstr "Йа Сошла С Ума"
 
 #: mrim.h:142
+msgid "ia_utko"
+msgstr "Йа Утко"
+
+#: mrim.h:143
 msgid "igrau"
-msgstr ""
+msgstr "Играю"
 
 #: cl.h:10
 msgid "Aries"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-07 03:43+0300\n"
+"POT-Creation-Date: 2011-03-07 16:50+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
@@ -141,7 +141,7 @@ msgid "Hidden"
 msgstr ""
 
 #: mrim.c:410
-#: mrim.h:93
+#: mrim.h:94
 msgid "Offline"
 msgstr "Nieaktywny"
 
@@ -261,69 +261,69 @@ msgstr "Imię"
 msgid "Mood Comment"
 msgstr "Imię"
 
-#: mrim.c:1164
+#: mrim.c:1187
 msgid "Unable to create TCP-connection"
 msgstr "Nie można ustanowić połączenia TCP"
 
-#: mrim.c:1180
+#: mrim.c:1203
 #, c-format
 msgid "Unable to connect: %s"
 msgstr "Nie można się połączyć: %s"
 
-#: mrim.c:1193
+#: mrim.c:1216
 msgid "Connecting"
 msgstr "Podłączenie"
 
-#: mrim.c:1199
+#: mrim.c:1222
 msgid "Unable to write to socket."
 msgstr "Nie można zapisać do gniazda."
 
-#: mrim.c:1220
+#: mrim.c:1243
 msgid "Disconnected by user action?"
 msgstr "Rozłączony przez działania użytkownika?"
 
-#: mrim.c:1229
+#: mrim.c:1252
 msgid "Input Error"
 msgstr "Błąd wejścia"
 
-#: mrim.c:1235
+#: mrim.c:1258
 msgid "Bad Package"
 msgstr "Złe Pakiet (BP)."
 
-#: mrim.c:1261
+#: mrim.c:1284
 msgid "ru"
 msgstr ""
 
-#: mrim.c:1270
+#: mrim.c:1293
 msgid "Ping Error"
 msgstr "Nie ping"
 
-#: mrim.c:1290
+#: mrim.c:1313
 #, c-format
 msgid "Disconnected. Reason: %s"
 msgstr "Wyłączone. Przyczyna: %s"
 
-#: mrim.c:1358
+#: mrim.c:1381
 msgid "Logged in from another location."
 msgstr "Zalogowano się z innego miejsca."
 
-#: mrim.c:1360
+#: mrim.c:1383
 msgid "Server broke connection."
 msgstr "Serwer przerwał połączenie."
 
-#: mrim.c:1373
+#: mrim.c:1396
 msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
 msgstr "Ping Błąd w MRIM_CS_CONNECTION_PARAMS"
 
-#: mrim.c:1842
+#: mrim.c:1865
 msgid "Server"
 msgstr "Serwer"
 
-#: mrim.c:1844
+#: mrim.c:1867
 msgid "Port"
 msgstr "Port"
 
-#: mrim.c:1846
+#: mrim.c:1869
 msgid "Load userpics"
 msgstr "Załaduj zdjęcie kontaktów"
 
@@ -533,123 +533,123 @@ msgstr ""
 msgid "Chat invitation"
 msgstr ""
 
-#: mrim.h:91
+#: mrim.h:92
 msgid "Available"
 msgstr "Dostępny"
 
-#: mrim.h:92
+#: mrim.h:93
 msgid "invisible"
 msgstr "Niewidoczny"
 
 # What??
-#: mrim.h:94
+#: mrim.h:95
 msgid "Away"
 msgstr "Away"
 
-#: mrim.h:95
+#: mrim.h:96
 msgid "mood"
-msgstr ""
-
-#: mrim.h:110
-#, c-format
-msgid "Agent@Mail.Ru for Win/PC, ver. %s build %s"
 msgstr ""
 
 #: mrim.h:111
 #, c-format
-msgid "Agent@Mail.Ru for Win/PC, ver. %s"
+msgid "Agent@Mail.Ru for Win/PC, ver. %s build %s"
 msgstr ""
 
 #: mrim.h:112
 #, c-format
-msgid "Java phone Agent@Mail.Ru, ver. %s"
+msgid "Agent@Mail.Ru for Win/PC, ver. %s"
 msgstr ""
 
 #: mrim.h:113
-msgid "Web-Agent@Mail.Ru"
+#, c-format
+msgid "Java phone Agent@Mail.Ru, ver. %s"
 msgstr ""
 
 #: mrim.h:114
-#, c-format
-msgid "Agent@Mail.Ru for Android, ver. %s build %s"
+msgid "Web-Agent@Mail.Ru"
 msgstr ""
 
 #: mrim.h:115
 #, c-format
-msgid "Agent@Mail.Ru for Symbian, ver. %s build %s"
+msgid "Agent@Mail.Ru for Android, ver. %s build %s"
 msgstr ""
 
 #: mrim.h:116
 #, c-format
-msgid "QIP 2010, ver. %s build %s"
+msgid "Agent@Mail.Ru for Symbian, ver. %s build %s"
 msgstr ""
 
 #: mrim.h:117
 #, c-format
-msgid "Agent@Mail.Ru for GNU/Linux, ver. %s rev. %s"
+msgid "QIP 2010, ver. %s build %s"
 msgstr ""
 
 #: mrim.h:118
+#, c-format
+msgid "Agent@Mail.Ru for GNU/Linux, ver. %s rev. %s"
+msgstr ""
+
+#: mrim.h:119
 msgid "Pidgin and Ostin's mrim-prpl plugin"
 msgstr ""
 
-#: mrim.h:127
+#: mrim.h:128
 msgid "status_online"
 msgstr ""
 
-#: mrim.h:128
+#: mrim.h:129
 msgid "status_away"
 msgstr ""
 
-#: mrim.h:130
+#: mrim.h:131
 msgid "boleu"
 msgstr ""
 
-#: mrim.h:131
+#: mrim.h:132
 msgid "doma"
 msgstr ""
 
-#: mrim.h:132
+#: mrim.h:133
 msgid "em.bmp"
 msgstr ""
 
-#: mrim.h:133
+#: mrim.h:134
 msgid "gde_ia"
 msgstr ""
 
-#: mrim.h:134
+#: mrim.h:135
 msgid "gizn_gavno"
 msgstr ""
 
-#: mrim.h:135
+#: mrim.h:136
 msgid "gotovlu"
 msgstr ""
 
-#: mrim.h:136
+#: mrim.h:137
 msgid "gulau"
 msgstr ""
 
-#: mrim.h:137
+#: mrim.h:138
 msgid "ia_inoplanet_razum"
 msgstr ""
 
-#: mrim.h:138
+#: mrim.h:139
 msgid "ia_krivetko"
 msgstr ""
 
-#: mrim.h:139
+#: mrim.h:140
 msgid "ia_poteralsa"
 msgstr ""
 
-#: mrim.h:140
+#: mrim.h:141
 msgid "ia_soshl_asuma"
 msgstr ""
 
-#: mrim.h:141
+#: mrim.h:142
 msgid "ia_utko"
 msgstr ""
 
-#: mrim.h:142
+#: mrim.h:143
 msgid "igrau"
 msgstr ""
 
