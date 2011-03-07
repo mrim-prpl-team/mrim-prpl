@@ -376,17 +376,19 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 		PurplePresence *presence = purple_buddy_get_presence(buddy);
 		PurpleStatus *status = purple_presence_get_active_status(presence);
 		mrim_buddy *mb = buddy->proto_data;
-		if (mb && mb->status_title) { //TODO X-status?
+		if (mb && (mb->status_title || mb->status_desc)) { //TODO X-status?
 			gchar *msg;
-			if (mb->status_desc) {
-				msg = g_strdup_printf("%s - %s", mb->status_title, mb->status_desc);
+			if (mb->status_desc && mb->status_desc) {
+				msg = g_strdup_printf("%s - %s", _(mb->status_title), mb->status_desc); //Есть и status_title и status_desc
+			} else if (mb->status_desc) {
+				msg = g_strdup_printf("%s - %s", purple_status_get_name(status), mb->status_desc); //Есть только status_desc
 			} else {
-				msg = g_strdup(mb->status_title);
+				msg = g_strdup(_(mb->status_title)); //Есть только status_title
 			}
 			purple_notify_user_info_add_pair(info, _("Status"), msg);
 			FREE(msg);
 		} else {
-			purple_notify_user_info_add_pair(info, _("Status"), purple_status_get_name(status));
+			purple_notify_user_info_add_pair(info, _("Status"), purple_status_get_name(status)); //Нет Х-статуса
 		}
 		
 		if (full)
