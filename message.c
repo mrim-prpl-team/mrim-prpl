@@ -502,6 +502,15 @@ gboolean mrim_send_sms(gchar *phone, gchar *message, mrim_data *mrim)
 	add_LPS(correct_phone, pack);
 	add_LPS(message, pack);
 	gboolean ret = send_package(pack, mrim);
+
+
+	PurpleConversation *pc = purple_conversation_new(PURPLE_CONV_TYPE_UNKNOWN, mrim->account, phone);
+	PurpleLog *pl = purple_log_new(PURPLE_LOG_IM /*PURPLE_LOG_SYSTEM*/, correct_phone, mrim->account, pc, time(NULL), NULL);
+	// PURPLE_MESSAGE_INVISIBLE PURPLE_MESSAGE_SYSTEM PURPLE_MESSAGE_ACTIVE_ONLY
+	purple_log_write(pl, PURPLE_MESSAGE_ACTIVE_ONLY, phone, time(NULL), message);
+	purple_log_delete(pl);
+	purple_conversation_destroy(pc);
+
 	return ret;
 }
 
