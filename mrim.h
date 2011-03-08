@@ -89,10 +89,10 @@ static struct status
 	gboolean independent;
 } mrim_statuses[] = {
 	/*	primative,					mrim_status,				id,				name(i18n)			user_settable 		independent  			 */
-	{	PURPLE_STATUS_AVAILABLE,	STATUS_ONLINE,			"online",			N_("Available"),		TRUE,				FALSE},	/* 0 */
-	{	PURPLE_STATUS_INVISIBLE,	STATUS_FLAG_INVISIBLE,	"invisible",		N_("invisible"),		TRUE,				FALSE},	/* 1 */
+	{	PURPLE_STATUS_AVAILABLE,	STATUS_ONLINE,			"status_online",			N_("Available"),		TRUE,				FALSE},	/* 0 */
+	{	PURPLE_STATUS_INVISIBLE,	STATUS_FLAG_INVISIBLE,	"invisible",		N_("Invisible"),		TRUE,				FALSE},	/* 1 */
 	{	PURPLE_STATUS_OFFLINE,		STATUS_OFFLINE,			"offline",			N_("Offline"),			TRUE,				FALSE},	/* 2 */
-	{	PURPLE_STATUS_AWAY,			STATUS_AWAY,			"away",				N_("Away"), 			TRUE,				FALSE},	/* 3 */
+	{	PURPLE_STATUS_AWAY,			STATUS_AWAY,			"status_away",				N_("Away"), 			TRUE,				FALSE},	/* 3 */
 	{   PURPLE_STATUS_MOOD,			STATUS_USER_DEFINED,	"mood",				N_("mood"),				TRUE,				FALSE}  /* 4 */
 //	{	PURPLE_STATUS_UNSET,		STATUS_UNDETERMINATED,	"UNDETERMINATED",	"UNDETERMINATED",	TRUE,				FALSE}
 };
@@ -126,7 +126,7 @@ static PurpleMood moods[] =
 		//  x3          i18n             NULL
 		//"status_0" "/status_offline.bmp"
 		{ "status_1", N_("status_online"), NULL },
-		{ "status_2", N_("status_away"), NULL },
+		{ "status_2", N_("status_away"),  NULL },
 		//"status_3"  "/status_invisible.bmp"
 		{ "status_4", N_("boleu"), NULL },
 		{ "status_5", N_("doma"), NULL },
