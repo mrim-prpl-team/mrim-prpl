@@ -3,6 +3,7 @@
 * Committed by ostinru@gmail.com aka Ostin.
 * Thanks to bounjur plugin developers.
 */
+#ifdef FT
 #include "filetransfer.h"
 
 /* Look for specific xfer handle */
@@ -356,3 +357,4 @@ void mrim_process_file_transfer_ack(mrim_data *mrim, package *pack)
 {
 
 }
+#endif

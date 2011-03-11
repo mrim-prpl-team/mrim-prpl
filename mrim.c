@@ -303,23 +303,7 @@ static void mrim_easy_action(PurplePluginAction *action)
 	mrim_data *mrim = gc->proto_data;
 	g_return_if_fail(mrim);
 
-	gchar *p=NULL;
-    gchar** split = g_strsplit(mrim->username,"@",2);
-	gchar *name = g_strdup(split[0]);
-	gchar *domain =p= g_strdup(split[1]);
-	if (domain)
-	{
-		while(*domain)
-			domain++;
-		while((*domain != '.')&&(domain > p))
-			domain--; // TODO segfault
-		*domain = 0;
-	}
-	domain = p;
-	g_strfreev(split);
-	gchar *url = g_strdup_printf(links[GPOINTER_TO_UINT(action->user_data)], domain, name);
-	purple_debug_info("mrim","[%s] d<%s> n<%s>\n",__func__, domain, name);
-	purple_notify_uri(_mrim_plugin, url);
+	mrim_open_myworld_url(mrim->username, links[GPOINTER_TO_UINT(action->user_data)]);
 }
 
 static GList *mrim_prpl_actions(PurplePlugin *plugin, gpointer context)
@@ -338,19 +322,20 @@ static GList *mrim_prpl_actions(PurplePlugin *plugin, gpointer context)
 	action->user_data = NULL;
 	actions = g_list_append(actions, action);
 
-	/*
-	action = purple_plugin_action_new("[web] MY_WORLD", mrim_easy_action);
+	actions = g_list_append(actions, NULL); // separator
+	// DO NOT REMOVE THIS CODE. WE *MUST* PROVIDE THIS LINKS DUE TO LICENSE AGREEME
+	action = purple_plugin_action_new(_("[web] MY_WORLD"), mrim_easy_action);
 	action->user_data = GUINT_TO_POINTER(MY_WORLD);
 	actions = g_list_append(actions, action);
-	action = purple_plugin_action_new("[web] MY_PHOTO", mrim_easy_action);
+	action = purple_plugin_action_new(_("[web] MY_PHOTO"), mrim_easy_action);
 	action->user_data = GUINT_TO_POINTER(MY_PHOTO);
 	actions = g_list_append(actions, action);
-	action = purple_plugin_action_new("[web] MY_VIDEO", mrim_easy_action);
+	action = purple_plugin_action_new(_("[web] MY_VIDEO"), mrim_easy_action);
 	action->user_data = GUINT_TO_POINTER(MY_VIDEO);
 	actions = g_list_append(actions, action);
-	action = purple_plugin_action_new("[web] MY_BLOG", mrim_easy_action);
+	action = purple_plugin_action_new(_("[web] MY_BLOG"), mrim_easy_action);
 	action->user_data = GUINT_TO_POINTER(MY_BLOG);
-	actions = g_list_append(actions, action);*/
+	actions = g_list_append(actions, action);
 	return actions;
 }
 
@@ -729,7 +714,7 @@ void blist_edit_phones(PurpleBuddy *buddy, PurpleRequestFields *fields)
 
 	mrim_pkt_modify_buddy(mrim, buddy, mpq->seq);
 }
-static void  blist_edit_phones_menu_item(PurpleBlistNode *node, gpointer userdata)
+static void blist_edit_phones_menu_item(PurpleBlistNode *node, gpointer userdata)
 {
 	PurpleBuddy *buddy = (PurpleBuddy *) node;
 	mrim_data *mrim = userdata;
@@ -807,6 +792,15 @@ static void  blist_edit_visible(PurpleBlistNode *node, gpointer userdata)
 	mrim_pkt_modify_buddy(mrim, buddy, mpq->seq);
 }
 
+static void mrim_url_menu_action(PurpleBlistNode *node, gpointer userdata)
+{
+	// TODO code duplication
+	PurpleBuddy *buddy = (PurpleBuddy *) node;
+	g_return_if_fail(buddy != NULL);
+	mrim_data *mrim = purple_buddy_get_protocol_data(buddy);
+	mrim_buddy *mb = buddy->proto_data;
+	mrim_open_myworld_url(buddy->name, links[GPOINTER_TO_UINT(userdata)]);
+}
 
 // authorize
 static void blist_authorize_menu_item(PurpleBlistNode *node, gpointer userdata)
@@ -886,6 +880,24 @@ static GList *mrim_user_actions(PurpleBlistNode *node)
 		
 		action = purple_menu_action_new(_("Visibility settings"), NULL, mrim, private_list);
 		list = g_list_append(list, action);
+
+		if (mb->type == BUDDY)
+		{
+			// DO NOT REMOVE THIS CODE. WE *MUST* PROVIDE THIS LINKS DUE TO LICENSE AGREEMENT
+			GList *myworld_list = NULL;
+			action = purple_menu_action_new(_("[web] MY_WORLD"), PURPLE_CALLBACK(mrim_url_menu_action), GINT_TO_POINTER(MY_WORLD), NULL);
+			myworld_list = g_list_append(myworld_list, action);
+			action = purple_menu_action_new(_("[web] MY_PHOTO"), PURPLE_CALLBACK(mrim_url_menu_action), GINT_TO_POINTER(MY_PHOTO), NULL);
+			myworld_list = g_list_append(myworld_list, action);
+			action = purple_menu_action_new(_("[web] MY_VIDEO"), PURPLE_CALLBACK(mrim_url_menu_action), GINT_TO_POINTER(MY_VIDEO), NULL);
+			myworld_list = g_list_append(myworld_list, action);
+			action = purple_menu_action_new(_("[web] MY_BLOG"), PURPLE_CALLBACK(mrim_url_menu_action), GINT_TO_POINTER(MY_BLOG), NULL);
+			myworld_list = g_list_append(myworld_list, action);
+			action = purple_menu_action_new(_("My world"), NULL, mrim, myworld_list);
+			list = g_list_append(list, action);
+			// END MUST_HAVE CODE
+
+		}
 	}
 	else
 		; // mb should be created in add_buddy also.

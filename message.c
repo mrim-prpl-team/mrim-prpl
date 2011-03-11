@@ -405,27 +405,14 @@ gboolean mrim_send_attention(PurpleConnection  *gc, const char *username, guint 
 {
 	purple_debug_info("mrim", "[%s] %s\n", __func__, gc->account->username);
 
-	gchar *Username = g_strdup(username);
 	mrim_data *mrim = gc->proto_data;
 	package *pack = new_package(mrim->seq, MRIM_CS_MESSAGE);
 	add_ul(MESSAGE_FLAG_ALARM | MESSAGE_FLAG_RTF , pack); 
-	add_LPS(Username, pack); // Destination.
-	add_LPS(" Будильник ", pack);
-	add_RTF(" ", pack); // RTF part  // TODO
+	add_LPS(username, pack); // Destination.
+	add_LPS("s", pack);
+	add_raw(&buzz_mas, ARRAY_SIZE(buzz_mas), pack);
 	send_package(pack, mrim);
-	FREE(Username)
-	return 10;// Need to send every 10 seconds.
-	/*
-	 *
-	 mrim_data *mrim = gc->proto_data;
-	package *pack = new_package(mrim->seq, MRIM_CS_MESSAGE);
-	add_ul(MESSAGE_FLAG_ALARM | MESSAGE_FLAG_RTF , pack);
-	add_LPS((gchar *) username, pack); // Destination.
-	add_LPS(" Будильник ", pack);
-	add_base64(pack, FALSE, "uss", 2, (gchar *)username, "Динь-Динь!"); // TODO RTF part.
-	send_package(pack, mrim);
-	return 9;// Need to send every 10 seconds.
-	 */
+	return TRUE;
 }
 /******************************************
  *
@@ -486,9 +473,12 @@ gboolean mrim_send_sms(gchar *phone, gchar *message, mrim_data *mrim)
 	{
 		purple_notify_info(_mrim_plugin, _("SMS"), _("Message is too short."), "");
 		return FALSE;
-	} 
-	//else send:
-	// TODO Too long messages.
+	}
+	else if (len >= 1024)// TODO Too long messages: en(135?) & others(37?)
+	{
+		purple_notify_info(_mrim_plugin, _("SMS"), _("Message is too long."), "");
+		return FALSE;
+	}
 	purple_debug_info("mrim", "[%s] to=<%s> message=<%s>\n", __func__, phone, message);
 	mrim_pq *mpq = g_new0(mrim_pq, 1);
 	mpq->type = SMS;

@@ -274,12 +274,13 @@ static mrim_packet_header_t *read_header(mrim_data *mrim)
 
 	ret = recv(mrim->fd, header, sizeof(mrim_packet_header_t), RECV_FLAGS);
 
-	
+	if (ret == 0)
+		purple_debug_info("mrim","[%s] TODO disconnect detect", __func__);
 	if (ret < sizeof(mrim_packet_header_t))
-		{
-			g_free(header);
-			return NULL;
-		}
+	{
+		g_free(header);
+		return NULL;
+	}
 	if (header->magic == CS_MAGIC)		
 		return header;
 	else
@@ -300,7 +301,7 @@ package *read_package(mrim_data *mrim)
 		ssize_t size = pack->len - (pack->cur - pack->buf);
 		ret = recv(mrim->fd, pack->cur, size, RECV_FLAGS);
 #ifdef DEBUG
-		purple_debug_info( "mrim", "[%s] ret=<%ui> \n", __func__, ret);
+		purple_debug_info( "mrim", "[%s] ret=<%li> \n", __func__, ret);
 #endif
 
 		if (ret > 0)
@@ -336,7 +337,7 @@ package *read_package(mrim_data *mrim)
 		// читаем буфер
 		ret = recv(mrim->fd, pack->buf, pack->len, RECV_FLAGS);
 #ifdef DEBUG
-		purple_debug_info( "mrim", "[%s] ret=<%u> \n", __func__, ret);
+		purple_debug_info( "mrim", "[%s] ret=<%li> \n", __func__, ret);
 #endif
 		
 		if ((ret < (pack->len)) && (ret>0))
@@ -357,6 +358,7 @@ package *read_package(mrim_data *mrim)
 	if (ret == 0)
 	{
 		purple_connection_error(mrim->gc, _("Peer closed connection") );
+		purple_debug_info("mrim","[%s] TODO disconnect detect", __func__); // TODO
 		return NULL;
 	}
 	return NULL;
@@ -485,7 +487,7 @@ void read_base64(package *pack, gboolean gziped, gchar *fmt, ...)
 		// декодируем
 		decoded = purple_base64_decode(pack->cur,  &decoded_len); // TODO аккуратнее со знаковостью
 		#ifdef DEBUG
-		purple_debug_info("mrim", "[%s] decoded_len=<%u>\n",__func__, decoded_len);
+		purple_debug_info("mrim", "[%s] decoded_len=<%li>\n",__func__, decoded_len);
 		int i=0;
 		for (i=0; i< decoded_len; i+=4)
 			purple_debug_info("mrim", "[%s] %x\n",__func__, decoded[i]);
