@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-14 00:45+0300\n"
+"POT-Creation-Date: 2011-03-14 00:50+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
@@ -582,8 +582,8 @@ msgstr "Настроение"
 
 #: mrim.h:111
 #, c-format
-msgid "Agent@Mail.Ru for Win/PC, ver. %s build %s"
-msgstr "Агент@Mail.Ru для Windows, версия %s сборка %s"
+msgid "Agent@Mail.Ru for Win/PC, ver. %s, build %s"
+msgstr "Агент@Mail.Ru для Windows, версия %s, сборка %s"
 
 #: mrim.h:112
 #, c-format
@@ -601,28 +601,28 @@ msgstr "Веб-Агент@Mail.Ru"
 
 #: mrim.h:115
 #, c-format
-msgid "Agent@Mail.Ru for Android, ver. %s build %s"
-msgstr "Агент@Mail.Ru для Android, версия %s сборка %s"
+msgid "Agent@Mail.Ru for Android, ver. %s, build %s"
+msgstr "Агент@Mail.Ru для Android, версия %s, сборка %s"
 
 #: mrim.h:116
 #, c-format
-msgid "Agent@Mail.Ru for Symbian, ver. %s build %s"
-msgstr "Агент@Mail.Ru для Symbian, версия %s сборка %s"
+msgid "Agent@Mail.Ru for Symbian, ver. %s, build %s"
+msgstr "Агент@Mail.Ru для Symbian, версия %s, сборка %s"
 
 #: mrim.h:117
 #, c-format
-msgid "QIP 2010, ver. %s build %s"
-msgstr "QIP 2010, версия %s сборка %s"
+msgid "QIP 2010, ver. %s, build %s"
+msgstr "QIP 2010, версия %s, сборка %s"
 
 #: mrim.h:118
 #, c-format
-msgid "QIP Infium, ver. %s build %s"
-msgstr "QIP infium, версия %s сборка %s"
+msgid "QIP Infium, ver. %s, build %s"
+msgstr "QIP infium, версия %s, сборка %s"
 
 #: mrim.h:119
 #, c-format
-msgid "Agent@Mail.Ru for GNU/Linux, ver. %s rev. %s"
-msgstr "Агент@Mail.Ru для GNU/Linux, версия %s ревизия %s"
+msgid "Agent@Mail.Ru for GNU/Linux, ver. %s, rev. %s"
+msgstr "Агент@Mail.Ru для GNU/Linux, версия %s, ревизия %s"
 
 #: mrim.h:120
 msgid "Pidgin and Ostin's mrim-prpl plugin"
