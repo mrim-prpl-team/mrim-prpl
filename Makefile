@@ -31,7 +31,7 @@ compile:
 	${CC} ${CFLAGS} ${PURPLE_CFLAGS} ${GTK_CFLAGS} ${LDFLAGS} message.c cl.c package.c mrim.c filetransfer.c convert.c -o libmrim.so
 debug:
 	make clean
-	${CC} ${CFLAGS} ${DEBUG_CFLAGS} ${PURPLE_CFLAGS} ${GTK_CFLAGS} ${LDFLAGS} message.c cl.c package.c mrim.c filetransfer.c -o libmrim.so
+	${CC} ${CFLAGS} ${DEBUG_CFLAGS} ${PURPLE_CFLAGS} ${GTK_CFLAGS} ${LDFLAGS} message.c cl.c package.c mrim.c filetransfer.c convert.c -o libmrim.so
 	make i18n
 i18n:
 	msgfmt ${PODIR}/mrim-prpl-ru_RU.po --output-file=${PODIR}/mrim-prpl-ru_RU.mo
