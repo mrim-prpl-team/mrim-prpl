@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-08 08:09+0300\n"
+"POT-Creation-Date: 2011-03-14 00:39+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
@@ -22,15 +22,15 @@ msgstr ""
 msgid "Encoding error: can't convert UTF8 into CP1251"
 msgstr "Ошибка кодировки: не могу преобразовать из UTF8 в CP1251"
 
-#: package.c:354
+#: package.c:355
 msgid "Read Error!"
 msgstr "Ошибка чтения!"
 
-#: package.c:359
+#: package.c:360
 msgid "Peer closed connection"
 msgstr "Сервер закрыл соединение"
 
-#: filetransfer.c:98
+#: filetransfer.c:99
 msgid "The file you are trying to send is too large!"
 msgstr "Отправляемый Вами файл слишком велик!"
 
@@ -56,7 +56,7 @@ msgid "Nick"
 msgstr "Псевдоним"
 
 #: mrim.c:267
-#: mrim.c:374
+#: mrim.c:359
 msgid "Name"
 msgstr "Имя"
 
@@ -104,67 +104,87 @@ msgid "_Search!"
 msgstr "_Искать!"
 
 #: mrim.c:294
-#: mrim.c:556
+#: mrim.c:541
 msgid "_Cancel!"
 msgstr "О_тменить!"
 
-#: mrim.c:331
+#: mrim.c:315
 msgid "[web] Set User Info"
 msgstr "Установить пользовательскую информацию (web)..."
 
-#: mrim.c:334
+#: mrim.c:318
 msgid "[web] Set User avatar"
 msgstr "Установить пользовательскую картинку (web)..."
 
-#: mrim.c:337
+#: mrim.c:321
 msgid "Search for buddies"
 msgstr "Искать пользователей..."
 
-#: mrim.c:390
-#: mrim.c:393
+#: mrim.c:327
+#: mrim.c:888
+msgid "[web] MY_WORLD"
+msgstr "Мир@Mail.Ru (в сети)..."
+
+#: mrim.c:330
+#: mrim.c:890
+msgid "[web] MY_PHOTO"
+msgstr "Фото@Mail.Ru (в сети)..."
+
+#: mrim.c:333
+#: mrim.c:892
+msgid "[web] MY_VIDEO"
+msgstr "Видео@Mail.Ru (в сети)..."
+
+#: mrim.c:336
+#: mrim.c:894
+msgid "[web] MY_BLOG"
+msgstr "Блоги@Mail.Ru (в сети)..."
+
+#: mrim.c:375
+#: mrim.c:378
 msgid "Status"
 msgstr "Состояние"
 
-#: mrim.c:401
-#: mrim.c:418
+#: mrim.c:386
+#: mrim.c:403
 msgid "Contact details"
 msgstr "Подробности о собеседнике"
 
-#: mrim.c:407
+#: mrim.c:392
 msgid "Phone numbers"
 msgstr "Номера телефонов"
 
-#: mrim.c:410
-#: mrim.c:413
+#: mrim.c:395
+#: mrim.c:398
 #: cl.c:1002
 #: cl.c:1005
 msgid "User agent"
 msgstr "Программа"
 
-#: mrim.c:413
+#: mrim.c:398
 #: cl.c:1005
 msgid "Hidden"
 msgstr "Скрыто"
 
-#: mrim.c:418
+#: mrim.c:403
 #: mrim.h:94
 msgid "Offline"
 msgstr "Не в сети"
 
-#: mrim.c:545
+#: mrim.c:530
 msgid "Choose phone number"
 msgstr "Выберите номер"
 
-#: mrim.c:551
+#: mrim.c:536
 msgid "SMS message text"
 msgstr "Текст SMS-сообщения"
 
-#: mrim.c:554
-#: mrim.c:631
+#: mrim.c:539
+#: mrim.c:616
 msgid "Send SMS"
 msgstr "Отправить SMS"
 
-#: mrim.c:554
+#: mrim.c:539
 msgid ""
 "SMS message should contain not\n"
 "more than 135 symbols in latin\n"
@@ -174,158 +194,162 @@ msgstr ""
 "больше 135-ти символов в латинице\n"
 "или 35 -х символов в кириллице."
 
-#: mrim.c:555
+#: mrim.c:540
 msgid "_Send"
 msgstr "_Отправить"
 
-#: mrim.c:580
+#: mrim.c:565
 #, c-format
 msgid "Symbols: %d"
 msgstr "Символов: %d"
 
-#: mrim.c:650
+#: mrim.c:635
 msgid "Phone:"
 msgstr "Телефон:"
 
-#: mrim.c:665
+#: mrim.c:650
 msgid "Translit"
 msgstr "Транслит"
 
-#: mrim.c:751
+#: mrim.c:736
 msgid "_Main number"
 msgstr "_Основной номер"
 
-#: mrim.c:753
+#: mrim.c:738
 msgid "S_econd number"
 msgstr "_Второй номер"
 
-#: mrim.c:755
+#: mrim.c:740
 msgid "_Third number"
 msgstr "Т_ретий номер"
 
-#: mrim.c:760
+#: mrim.c:745
 msgid "Phone numbers editor"
 msgstr "Редактор номеров телефонов"
 
-#: mrim.c:760
+#: mrim.c:745
 msgid "Specify numbers as shown: +71234567890"
 msgstr "Номер указывается в виде: +71234567890"
 
-#: mrim.c:761
+#: mrim.c:746
 msgid "_Ok"
 msgstr "_OK"
 
-#: mrim.c:762
+#: mrim.c:747
 msgid "_Cancel"
 msgstr "О_тменить"
 
-#: mrim.c:855
+#: mrim.c:849
 msgid "(Re-)request authorization"
 msgstr "(Повторно) Запросить авторизацию"
 
-#: mrim.c:866
+#: mrim.c:860
 msgid "Send an SMS... (GTK)"
 msgstr "Отправка SMS... (GTK)"
 
-#: mrim.c:871
+#: mrim.c:865
 msgid "Send an SMS..."
 msgstr "Отправка SMS"
 
-#: mrim.c:874
+#: mrim.c:868
 msgid "Edit phone numbers..."
 msgstr "Править номера телефонов"
 
-#: mrim.c:879
+#: mrim.c:873
 msgid "Remove from 'Invisible to' list"
 msgstr "Удалить из списка невидящих"
 
-#: mrim.c:879
+#: mrim.c:873
 msgid "Add to 'Invisible to' list"
 msgstr "Добавить в список невидящих"
 
-#: mrim.c:883
+#: mrim.c:877
 msgid "Remove from 'Visible to' list"
 msgstr "Удалить из списка видящих"
 
-#: mrim.c:883
+#: mrim.c:877
 msgid "Add to 'Visible to' list"
 msgstr "Добавить в список видящих"
 
-#: mrim.c:887
+#: mrim.c:881
 msgid "Visibility settings"
 msgstr "Настройки видимости"
 
-#: mrim.c:943
+#: mrim.c:896
+msgid "My world"
+msgstr "Мой Мир"
+
+#: mrim.c:955
 msgid "Mood Name"
 msgstr "Название настроения"
 
-#: mrim.c:943
+#: mrim.c:955
 msgid "Mood Comment"
 msgstr "Комментарий к настроению"
 
-#: mrim.c:1225
+#: mrim.c:1237
 msgid "Unable to create TCP-connection"
 msgstr "Не удаётся установить TCP-соединение"
 
-#: mrim.c:1241
+#: mrim.c:1253
 #, c-format
 msgid "Unable to connect: %s"
 msgstr "Не могу соединиться: %s"
 
-#: mrim.c:1254
+#: mrim.c:1266
 msgid "Connecting"
 msgstr "Соединяюсь"
 
-#: mrim.c:1260
+#: mrim.c:1272
 msgid "Unable to write to socket."
 msgstr "Не удаётся запись в сокет."
 
-#: mrim.c:1281
+#: mrim.c:1293
 msgid "Disconnected by user action?"
 msgstr "Соединение прервано пользователем?"
 
-#: mrim.c:1290
+#: mrim.c:1302
 msgid "Input Error"
 msgstr "Ошибка ввода"
 
-#: mrim.c:1296
+#: mrim.c:1308
 msgid "Bad Package"
 msgstr "Сбойный пакет (BP)."
 
-#: mrim.c:1322
+#: mrim.c:1334
 msgid "ru"
 msgstr ""
 
-#: mrim.c:1331
+#: mrim.c:1343
 msgid "Ping Error"
 msgstr "Ошибка пинга"
 
-#: mrim.c:1351
+#: mrim.c:1363
 #, c-format
 msgid "Disconnected. Reason: %s"
 msgstr "Отключено. Причина: %s"
 
-#: mrim.c:1419
+#: mrim.c:1431
 msgid "Logged in from another location."
 msgstr "Выполнен вход в сеть из другого места."
 
-#: mrim.c:1421
+#: mrim.c:1433
 msgid "Server broke connection."
 msgstr "Сервер разорвал соединение."
 
-#: mrim.c:1434
+#: mrim.c:1446
 msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
 msgstr "Ошибка пинга в MRIM_CS_CONNECTION_PARAMS"
 
-#: mrim.c:1903
+#: mrim.c:1915
 msgid "Server"
 msgstr "Сервер"
 
-#: mrim.c:1905
+#: mrim.c:1917
 msgid "Port"
 msgstr "Порт"
 
-#: mrim.c:1907
+#: mrim.c:1919
 msgid "Load userpics"
 msgstr "Загружать фото собеседников"
 
@@ -367,11 +391,12 @@ msgstr "Такая операция осуществлялась? (mpq == NULL)"
 #: cl.c:789
 #: cl.c:792
 #: cl.c:795
-#: message.c:487
+#: message.c:474
+#: message.c:479
+#: message.c:516
 #: message.c:517
 #: message.c:518
 #: message.c:519
-#: message.c:520
 msgid "SMS"
 msgstr "SMS"
 
@@ -471,67 +496,71 @@ msgstr "больше не набирает сообщение."
 msgid "unknown typing state"
 msgstr "неизвестно, пишет ли."
 
-#: message.c:441
+#: message.c:428
 msgid "Message successfully delivered."
 msgstr "Сообщение успешно доставлено."
 
-#: message.c:444
+#: message.c:431
 msgid "Internal error encountered."
 msgstr "Внутренняя ошибка."
 
-#: message.c:447
+#: message.c:434
 msgid "Recipient does not exist."
 msgstr "Получатель не существует."
 
-#: message.c:450
+#: message.c:437
 msgid "Recipient is offline. Message can not be stored in his mailbox."
 msgstr "Получатель не в сети. Сообщение не может быть сохранено в его почтовом ящике."
 
-#: message.c:453
+#: message.c:440
 msgid "Message size exceeds maximal length allowed."
 msgstr "Размер сообщения превышает допустимый."
 
-#: message.c:456
+#: message.c:443
 msgid "Recipient does not support offline messages."
 msgstr "Получатель не поддерживает приём оффлайн-сообщений."
 
-#: message.c:459
+#: message.c:446
 msgid "User does not accept offline flash animation"
 msgstr "Пользователь не принимает в оффлайн flash-анимацию."
 
-#: message.c:462
+#: message.c:449
 msgid "Unknown status"
 msgstr "Неизвестный статус."
 
-#: message.c:487
+#: message.c:474
 msgid "Message is too short."
 msgstr "Слишком короткое сообщение."
 
-#: message.c:517
+#: message.c:479
+msgid "Message is too long."
+msgstr "Слишком длинное сообщение."
+
+#: message.c:516
 msgid "SMS service is not available"
 msgstr "Служба доставки SMS недоступна."
 
-#: message.c:518
+#: message.c:517
 msgid "SMS message sent."
 msgstr "SMS-сообщение отправлено."
 
-#: message.c:519
+#: message.c:518
 msgid "Wrong SMS settings."
 msgstr "Неверные настройки SMS."
 
-#: message.c:520
+#: message.c:519
 msgid "Achtung!"
 msgstr "Ахтунг!"
 
-#: message.c:520
+#: message.c:519
 msgid "Anyone here?? !"
 msgstr "Кто здесь?? !"
 
-#: message.c:583
+#: message.c:582
 msgid "has rejected your invitation to join the chat room"
 msgstr "отвергает Ваше приглашение в чат"
 
-#: message.c:626
+#: message.c:625
 msgid "Chat invitation"
 msgstr "Приглашение в чат"
 
@@ -587,70 +616,75 @@ msgstr "QIP 2010, версия %s сборка %s"
 
 #: mrim.h:118
 #, c-format
+msgid "QIP Infium, ver. %s build %s"
+msgstr "QIP infium, версия %s сборка %s"
+
+#: mrim.h:119
+#, c-format
 msgid "Agent@Mail.Ru for GNU/Linux, ver. %s rev. %s"
 msgstr "Агент@Mail.Ru для GNU/Linux, версия %s ревизия %s"
 
-#: mrim.h:119
+#: mrim.h:120
 msgid "Pidgin and Ostin's mrim-prpl plugin"
 msgstr "Плагин для Pidgin от Ostin"
 
-#: mrim.h:128
+#: mrim.h:129
 msgid "status_online"
 msgstr "В сети"
 
-#: mrim.h:129
+#: mrim.h:130
 msgid "status_away"
 msgstr "Отсутствую"
 
-#: mrim.h:131
+#: mrim.h:132
 msgid "boleu"
 msgstr "Болею"
 
-#: mrim.h:132
+#: mrim.h:133
 msgid "doma"
 msgstr "Дома"
 
-#: mrim.h:133
+#: mrim.h:134
 msgid "em.bmp"
 msgstr "Ем"
 
-#: mrim.h:134
+#: mrim.h:135
 msgid "gde_ia"
 msgstr "Где я?"
 
-#: mrim.h:135
+#: mrim.h:136
 msgid "gizn_gavno"
 msgstr "Жизнь -- говно!"
 
-#: mrim.h:136
+#: mrim.h:137
 msgid "gotovlu"
 msgstr "Готовлю"
 
-#: mrim.h:137
+#: mrim.h:138
 msgid "gulau"
 msgstr "Гуляю"
 
-#: mrim.h:138
+#: mrim.h:139
 msgid "ia_inoplanet_razum"
 msgstr "Я -- инопланетный разум"
 
-#: mrim.h:139
+#: mrim.h:140
 msgid "ia_krivetko"
 msgstr "Йа Креведко!"
 
-#: mrim.h:140
+#: mrim.h:141
 msgid "ia_poteralsa"
 msgstr "Йа Потерялся"
 
-#: mrim.h:141
+#: mrim.h:142
 msgid "ia_soshl_asuma"
 msgstr "Йа Сошла С Ума"
 
-#: mrim.h:142
+#: mrim.h:143
 msgid "ia_utko"
 msgstr "Йа Утко"
 
-#: mrim.h:143
+#: mrim.h:144
 msgid "igrau"
 msgstr "Играю"
 
