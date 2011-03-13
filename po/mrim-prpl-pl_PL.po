@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-14 00:39+0300\n"
+"POT-Creation-Date: 2011-03-14 00:47+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
@@ -631,63 +631,67 @@ msgstr ""
 msgid "Pidgin and Ostin's mrim-prpl plugin"
 msgstr ""
 
-#: mrim.h:129
-msgid "status_online"
+#: mrim.h:121
+msgid "Purple plugin by lemax1@mail.ru"
 msgstr ""
 
 #: mrim.h:130
+msgid "status_online"
+msgstr ""
+
+#: mrim.h:131
 msgid "status_away"
 msgstr ""
 
-#: mrim.h:132
+#: mrim.h:133
 msgid "boleu"
 msgstr ""
 
-#: mrim.h:133
+#: mrim.h:134
 msgid "doma"
 msgstr ""
 
-#: mrim.h:134
+#: mrim.h:135
 msgid "em.bmp"
 msgstr ""
 
-#: mrim.h:135
+#: mrim.h:136
 msgid "gde_ia"
 msgstr ""
 
-#: mrim.h:136
+#: mrim.h:137
 msgid "gizn_gavno"
 msgstr ""
 
-#: mrim.h:137
+#: mrim.h:138
 msgid "gotovlu"
 msgstr ""
 
-#: mrim.h:138
+#: mrim.h:139
 msgid "gulau"
 msgstr ""
 
-#: mrim.h:139
+#: mrim.h:140
 msgid "ia_inoplanet_razum"
 msgstr ""
 
-#: mrim.h:140
+#: mrim.h:141
 msgid "ia_krivetko"
 msgstr ""
 
-#: mrim.h:141
+#: mrim.h:142
 msgid "ia_poteralsa"
 msgstr ""
 
-#: mrim.h:142
+#: mrim.h:143
 msgid "ia_soshl_asuma"
 msgstr ""
 
-#: mrim.h:143
+#: mrim.h:144
 msgid "ia_utko"
 msgstr ""
 
-#: mrim.h:144
+#: mrim.h:145
 msgid "igrau"
 msgstr ""
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-14 00:39+0300\n"
+"POT-Creation-Date: 2011-03-14 00:45+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
@@ -628,63 +628,67 @@ msgstr "Агент@Mail.Ru для GNU/Linux, версия %s ревизия %s"
 msgid "Pidgin and Ostin's mrim-prpl plugin"
 msgstr "Плагин для Pidgin от Ostin"
 
-#: mrim.h:129
+#: mrim.h:121
+msgid "Purple plugin by lemax1@mail.ru"
+msgstr "Плагин для Purple от lemax1@mail.ru"
+
+#: mrim.h:130
 msgid "status_online"
 msgstr "В сети"
 
-#: mrim.h:130
+#: mrim.h:131
 msgid "status_away"
 msgstr "Отсутствую"
 
-#: mrim.h:132
+#: mrim.h:133
 msgid "boleu"
 msgstr "Болею"
 
-#: mrim.h:133
+#: mrim.h:134
 msgid "doma"
 msgstr "Дома"
 
-#: mrim.h:134
+#: mrim.h:135
 msgid "em.bmp"
 msgstr "Ем"
 
-#: mrim.h:135
+#: mrim.h:136
 msgid "gde_ia"
 msgstr "Где я?"
 
-#: mrim.h:136
+#: mrim.h:137
 msgid "gizn_gavno"
 msgstr "Жизнь -- говно!"
 
-#: mrim.h:137
+#: mrim.h:138
 msgid "gotovlu"
 msgstr "Готовлю"
 
-#: mrim.h:138
+#: mrim.h:139
 msgid "gulau"
 msgstr "Гуляю"
 
-#: mrim.h:139
+#: mrim.h:140
 msgid "ia_inoplanet_razum"
 msgstr "Я -- инопланетный разум"
 
-#: mrim.h:140
+#: mrim.h:141
 msgid "ia_krivetko"
 msgstr "Йа Креведко!"
 
-#: mrim.h:141
+#: mrim.h:142
 msgid "ia_poteralsa"
 msgstr "Йа Потерялся"
 
-#: mrim.h:142
+#: mrim.h:143
 msgid "ia_soshl_asuma"
 msgstr "Йа Сошла С Ума"
 
-#: mrim.h:143
+#: mrim.h:144
 msgid "ia_utko"
 msgstr "Йа Утко"
 
-#: mrim.h:144
+#: mrim.h:145
 msgid "igrau"
 msgstr "Играю"
 

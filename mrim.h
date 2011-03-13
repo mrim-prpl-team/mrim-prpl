@@ -118,6 +118,7 @@ static struct
 		{"QIP Infium",				N_("QIP Infium, ver. %s build %s"),							"client=\"(QIP Infium)\" version=\"([0-9.]+)\" build=\"([0-9]+)\""},
 		{"prpl-ostin-mrim-fun",	N_("Agent@Mail.Ru for GNU/Linux, ver. %s rev. %s"),	"client=\"(prpl-ostin-mrim-fun)\" version=\"([0-9.]+)\" revision=\"([0-9]+)\""}, // Just for test and fun; used with myagent-im mod.
 		{"prpl-ostin-mrim",		N_("Pidgin and Ostin's mrim-prpl plugin"),				"prpl-ostin-mrim"},
+		{"mrimprpl",				N_("Purple plugin by lemax1@mail.ru"),				"Purple plugin by lemax1\@mail\.ru"},
 		{NULL,					NULL,																	""}
 };
 
