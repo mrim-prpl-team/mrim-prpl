@@ -991,7 +991,7 @@ const char* mrim_status_to_prpl_status( guint32 status )
 			 ( mrim_statuses[i].mrim_status & status ))     // partial status match.
 			return mrim_statuses[i].id;
 		
-	return "status_online"; // TODO: Purify this moment!!
+	return "status_online";
 }
 
 
@@ -1104,7 +1104,7 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 	else
 	{
 		purple_prpl_got_user_status_deactive(mrim->gc->account, email, "mood");
-		purple_prpl_got_user_status(mrim->gc->account, email, mrim_status_to_prpl_status(status), (desc) ? desc : g_strdup("") , NULL);
+		purple_prpl_got_user_status(mrim->gc->account, email, mrim_status_to_prpl_status(status), (desc && desc[0]) ? desc : NULL , NULL);
 	}
 	
 	if (buddy && buddy->proto_data)
