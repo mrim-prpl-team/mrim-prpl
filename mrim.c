@@ -363,12 +363,13 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 		mrim_buddy *mb = buddy->proto_data;
 		if (mb)
 		{
-			 if (mb->status_title || mb->status_desc) { //TODO X-status?
+			if (mb->status_title || mb->status_desc) { //TODO X-status?
 				gchar *msg;
-				if (mb->status_desc && mb->status_desc) {
+				if (mb->status_desc && mb->status_title) {
 					msg = g_strdup_printf("%s - %s", _(mb->status_title), mb->status_desc); //Есть и status_title и status_desc
 				} else if (mb->status_desc) {
-					msg = g_strdup_printf("%s - %s", purple_status_get_name(status), mb->status_desc); //Есть только status_desc
+					gchar *status_if_void = (purple_status_get_name(status)) ? g_strdup("Not void") : g_strdup("Void");
+					msg = g_strdup_printf("%s - %s", (purple_status_get_name(status)) ? purple_status_get_name(status) : g_printf("TODO: PSGN (%s)!", status_if_void) , mb->status_desc); //Есть только status_desc
 				} else {
 					msg = g_strdup(_(mb->status_title)); //Есть только status_title
 				}
@@ -1085,15 +1086,25 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 	purple_debug_info("mrim", "[%s] %s user agent becomes %s\n", __func__, email, user_agent);
 
 	PurpleBuddy *buddy = purple_find_buddy(mrim->account, email);
+	g_return_if_fail(buddy != NULL);
 	
 	if (uri)
 	{
 		// TODO: Implement some more appropriate moods processing!!
 		purple_debug_info("mrim", "[%s] %s user mood %s (%s; %s).\n", __func__, email, uri, desc, title);
 		gchar *status_comment = NULL;
-		if (title || desc)
+		if (title && desc)
 		{
-			status_comment = g_strdup_printf("% (%s)", title, desc);
+			status_comment = g_strdup_printf("%s (%s)", title, desc);
+		} else if (title)
+		{
+			status_comment = g_strdup_printf("%s", title);
+		} else if (desc)
+		{
+			status_comment = g_strdup_printf("(%s)", desc);
+		} else
+		{
+			status_comment = g_strdup_printf("\"%s\"", uri);
 		}
 		purple_prpl_got_user_status(mrim->account, email, "status_online" /* TODO */, NULL);
 		purple_prpl_got_user_status(mrim->gc->account, email, "mood",
@@ -1123,8 +1134,13 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 		{
 			FREE(mb->status_title);
 			FREE(mb->status_desc);
-			mb->status_title	= g_strdup(title);
-			mb->status_desc	= g_strdup(desc);
+			mb->status_title	= title;
+			mb->status_desc	= desc;
+			if (uri)
+			{
+				FREE(mb->status_uri);
+				mb->status_uri	= uri;
+			}	
 		} else
 		{
 			FREE(mb->status_title);
@@ -1186,10 +1202,10 @@ static void mrim_prpl_login(PurpleAccount *account)
 	mrim->web_key = NULL;
 	mrim->error_count = 0;
 	mrim->ProxyConnectHandle = NULL;
-	mrim->status = purple_status_to_mrim_status(purple_presence_get_active_status(account->presence));
-	mrim->status_spec = NULL;
-	mrim->status_title = NULL;
-	mrim->status_desc = NULL;
+	mrim->status			= purple_status_to_mrim_status(purple_presence_get_active_status(account->presence));
+	mrim->status_spec		= NULL;
+	mrim->status_title	= NULL;
+	mrim->status_desc		= NULL;
 	  
 	mrim->server = g_strdup(purple_account_get_string(account, "balancer_host", MRIM_MAIL_RU));
 	mrim->port = purple_account_get_int(account, "balancer_port", MRIM_MAIL_RU_PORT);

@@ -251,6 +251,7 @@ typedef struct
 	BUDDY_TYPE type;
 	gchar *ips; // IP:PORT;IP:PORT;
 	gchar *user_agent;
+	gchar *status_uri;
 	gchar *status_title;
 	gchar *status_desc;
 }mrim_buddy;

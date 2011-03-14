@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl 0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-14 12:07+0300\n"
+"POT-Creation-Date: 2011-03-14 13:54+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl team\n"
@@ -73,12 +73,12 @@ msgid "No matter"
 msgstr "Ükskõik"
 
 #: mrim.c:273
-#: cl.c:962
+#: cl.c:963
 msgid "Male"
 msgstr "Mees"
 
 #: mrim.c:274
-#: cl.c:962
+#: cl.c:963
 msgid "Female"
 msgstr "Naine"
 
@@ -103,7 +103,7 @@ msgid "_Search!"
 msgstr "_Otsi!"
 
 #: mrim.c:294
-#: mrim.c:541
+#: mrim.c:542
 msgid "_Cancel!"
 msgstr "_Tühistada!"
 
@@ -120,70 +120,70 @@ msgid "Search for buddies"
 msgstr "Otsida kasutajaid..."
 
 #: mrim.c:327
-#: mrim.c:888
+#: mrim.c:889
 msgid "[web] MY_WORLD"
 msgstr ""
 
 #: mrim.c:330
-#: mrim.c:890
+#: mrim.c:891
 msgid "[web] MY_PHOTO"
 msgstr ""
 
 #: mrim.c:333
-#: mrim.c:892
+#: mrim.c:893
 msgid "[web] MY_VIDEO"
 msgstr ""
 
 #: mrim.c:336
-#: mrim.c:894
+#: mrim.c:895
 msgid "[web] MY_BLOG"
 msgstr ""
 
-#: mrim.c:375
-#: mrim.c:378
+#: mrim.c:376
+#: mrim.c:379
 msgid "Status"
 msgstr ""
 
-#: mrim.c:386
-#: mrim.c:403
+#: mrim.c:387
+#: mrim.c:404
 msgid "Contact details"
 msgstr "Vestluskaaslase detailid"
 
-#: mrim.c:392
+#: mrim.c:393
 msgid "Phone numbers"
 msgstr "Telefoninumbrid"
 
-#: mrim.c:395
-#: mrim.c:398
-#: cl.c:1002
-#: cl.c:1005
+#: mrim.c:396
+#: mrim.c:399
+#: cl.c:1003
+#: cl.c:1006
 msgid "User agent"
 msgstr ""
 
-#: mrim.c:398
-#: cl.c:1005
+#: mrim.c:399
+#: cl.c:1006
 msgid "Hidden"
 msgstr "Varjatud"
 
-#: mrim.c:403
+#: mrim.c:404
 #: mrim.h:94
 msgid "Offline"
 msgstr "Võrgu väljas"
 
-#: mrim.c:530
+#: mrim.c:531
 msgid "Choose phone number"
 msgstr "Valige number"
 
-#: mrim.c:536
+#: mrim.c:537
 msgid "SMS message text"
 msgstr "Sõnumi tekst"
 
-#: mrim.c:539
-#: mrim.c:616
+#: mrim.c:540
+#: mrim.c:617
 msgid "Send SMS"
 msgstr "Saada sõnum"
 
-#: mrim.c:539
+#: mrim.c:540
 msgid ""
 "SMS message should contain not\n"
 "more than 135 symbols in latin\n"
@@ -193,203 +193,203 @@ msgstr ""
 "135 sümbolit ladina tähestikus või lühem\n"
 "kui 35 sümbolit kirilitsas."
 
-#: mrim.c:540
+#: mrim.c:541
 msgid "_Send"
 msgstr "_Saada"
 
-#: mrim.c:565
+#: mrim.c:566
 #, c-format
 msgid "Symbols: %d"
 msgstr ""
 
-#: mrim.c:635
+#: mrim.c:636
 msgid "Phone:"
 msgstr "Telefon:"
 
-#: mrim.c:650
+#: mrim.c:651
 msgid "Translit"
 msgstr ""
 
-#: mrim.c:736
+#: mrim.c:737
 msgid "_Main number"
 msgstr "_Pea number"
 
-#: mrim.c:738
+#: mrim.c:739
 msgid "S_econd number"
 msgstr "T_eine number"
 
-#: mrim.c:740
+#: mrim.c:741
 msgid "_Third number"
 msgstr "_Kolmas number"
 
-#: mrim.c:745
+#: mrim.c:746
 msgid "Phone numbers editor"
 msgstr "Telefoni numbrite toimetaja"
 
-#: mrim.c:745
+#: mrim.c:746
 msgid "Specify numbers as shown: +71234567890"
 msgstr "Number on näidetud kujul: +71234567890"
 
-#: mrim.c:746
+#: mrim.c:747
 msgid "_Ok"
 msgstr "_Ok"
 
-#: mrim.c:747
+#: mrim.c:748
 msgid "_Cancel"
 msgstr "_Tühistada"
 
-#: mrim.c:849
+#: mrim.c:850
 msgid "(Re-)request authorization"
 msgstr "(Korduvalt) Paluda autoriseerimist"
 
-#: mrim.c:860
+#: mrim.c:861
 msgid "Send an SMS... (GTK)"
 msgstr "Sõnumi saatmine... (GTK)"
 
-#: mrim.c:865
+#: mrim.c:866
 msgid "Send an SMS..."
 msgstr "Sõnumi saatmine..."
 
-#: mrim.c:868
+#: mrim.c:869
 msgid "Edit phone numbers..."
 msgstr "Redigeeri telefoni numbreid"
 
-#: mrim.c:873
+#: mrim.c:874
 msgid "Remove from 'Invisible to' list"
 msgstr "Kustuta nähtamatu nimekirjast"
 
-#: mrim.c:873
+#: mrim.c:874
 msgid "Add to 'Invisible to' list"
 msgstr "Lisa nähtamatu nimekirjasse"
 
-#: mrim.c:877
+#: mrim.c:878
 msgid "Remove from 'Visible to' list"
 msgstr "Kustuta nähtava nimekirjast"
 
-#: mrim.c:877
+#: mrim.c:878
 msgid "Add to 'Visible to' list"
 msgstr "Lisa nähtava nimekirjasse"
 
-#: mrim.c:881
+#: mrim.c:882
 msgid "Visibility settings"
 msgstr "Nähtavuse seaded"
 
-#: mrim.c:896
+#: mrim.c:897
 msgid "My world"
 msgstr ""
 
-#: mrim.c:955
+#: mrim.c:956
 msgid "Mood Name"
 msgstr ""
 
-#: mrim.c:955
+#: mrim.c:956
 msgid "Mood Comment"
 msgstr ""
 
-#: mrim.c:1237
+#: mrim.c:1253
 msgid "Unable to create TCP-connection"
 msgstr "Ei ole võimalik kehtestada TCP-sidumist"
 
-#: mrim.c:1253
+#: mrim.c:1269
 #, c-format
 msgid "Unable to connect: %s"
 msgstr "Ei saa ühendada: %s"
 
-#: mrim.c:1266
+#: mrim.c:1282
 msgid "Connecting"
 msgstr "Ühendan"
 
-#: mrim.c:1272
+#: mrim.c:1288
 msgid "Unable to write to socket."
 msgstr "Ei ole võimalik kirjutada soklis."
 
-#: mrim.c:1293
+#: mrim.c:1309
 msgid "Disconnected by user action?"
 msgstr "Kas ühendus oli katkestatud kasutaja poolt?"
 
-#: mrim.c:1302
+#: mrim.c:1318
 msgid "Input Error"
 msgstr "Sisestamise viga"
 
-#: mrim.c:1308
+#: mrim.c:1324
 msgid "Bad Package"
 msgstr "Tõrge pakett (BP)"
 
-#: mrim.c:1334
+#: mrim.c:1350
 msgid "ru"
 msgstr ""
 
-#: mrim.c:1343
+#: mrim.c:1359
 msgid "Ping Error"
 msgstr "Pingi viga"
 
-#: mrim.c:1363
+#: mrim.c:1379
 #, c-format
 msgid "Disconnected. Reason: %s"
 msgstr "On välja lülitatud. Põhjus: %s"
 
-#: mrim.c:1431
+#: mrim.c:1447
 msgid "Logged in from another location."
 msgstr "Olete logitud sisse muu kohast."
 
-#: mrim.c:1433
+#: mrim.c:1449
 msgid "Server broke connection."
 msgstr "Server katkestas ühendust."
 
-#: mrim.c:1446
+#: mrim.c:1462
 msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
 msgstr "Pingi viga MRIM_CS_CONNECTION_PARAMS"
 
-#: mrim.c:1915
+#: mrim.c:1931
 msgid "Server"
 msgstr "Server"
 
-#: mrim.c:1917
+#: mrim.c:1933
 msgid "Port"
 msgstr "Port"
 
-#: mrim.c:1919
+#: mrim.c:1935
 msgid "Load userpics"
 msgstr "Laadida vestluskaaslaste fotosid"
 
-#: cl.c:245
-#: cl.c:693
-#: cl.c:741
-#: cl.c:820
-#: cl.c:1146
+#: cl.c:246
+#: cl.c:694
+#: cl.c:742
+#: cl.c:821
+#: cl.c:1147
 msgid "Encountered an error while working on contact list!"
 msgstr "Kontaktidega opereerimisel tekkis viga!"
 
-#: cl.c:245
+#: cl.c:246
 msgid "Group not found."
 msgstr "See grupp ei leitud."
 
-#: cl.c:380
+#: cl.c:381
 #, c-format
 msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and '-'."
 msgstr "Ei ole võimalik vestluskaaslast lisata \"%s\" kasutaja nimi ebaõigsuse tõttu. Kasutaja nimi peaks olema eksisteerivaks e-mailiks (domeenides @mail.ru, @bk.ru, @list.ru, @inbox.ru, @corp.mail.ru) või eksisteerivaks telefoninumbriks,mis sisaldab märke \"+\", \"-\", tühiku sümboleid ning sisaldab ainult numbreid."
 
-#: cl.c:381
+#: cl.c:382
 msgid "Unable to Add"
 msgstr "Ei ole võimalik lisata"
 
-#: cl.c:448
-#: cl.c:476
-#: cl.c:1159
+#: cl.c:449
+#: cl.c:477
+#: cl.c:1160
 msgid "Hello. Add me to your buddies please."
 msgstr "Tervist. Palun, lisage mind Teie vestluskaaslaste nimikirja."
 
-#: cl.c:693
-#: cl.c:741
-#: cl.c:820
-#: cl.c:859
+#: cl.c:694
+#: cl.c:742
+#: cl.c:821
+#: cl.c:860
 msgid "Did you ever do this operation? (mpq == NULL)"
 msgstr "Kas Te juba teostasite seda operatsiooni? (mpq == NULL)"
 
-#: cl.c:786
-#: cl.c:789
-#: cl.c:792
-#: cl.c:795
+#: cl.c:787
+#: cl.c:790
+#: cl.c:793
+#: cl.c:796
 #: message.c:474
 #: message.c:479
 #: message.c:516
@@ -399,83 +399,83 @@ msgstr "Kas Te juba teostasite seda operatsiooni? (mpq == NULL)"
 msgid "SMS"
 msgstr "SMS"
 
-#: cl.c:786
+#: cl.c:787
 msgid "SMS delivered successfully."
 msgstr "Sõnum on edukalt saadetud."
 
-#: cl.c:789
+#: cl.c:790
 msgid "SMS service is not available."
 msgstr "Sõnumi kohaletoimetamise teenus on kättesaamatu."
 
-#: cl.c:792
+#: cl.c:793
 msgid "Wrong SMS parameters."
 msgstr "Sõnumi parametrid on valed."
 
-#: cl.c:795
+#: cl.c:796
 msgid "Something went wrong!"
 msgstr "Midagi läks valesti!"
 
-#: cl.c:859
-#: cl.c:865
-#: cl.c:868
-#: cl.c:871
-#: cl.c:874
+#: cl.c:860
+#: cl.c:866
+#: cl.c:869
+#: cl.c:872
+#: cl.c:875
 msgid "Encountered an error while working on user details!"
 msgstr "Kohtas viga ankeedi täitmisel!"
 
-#: cl.c:865
+#: cl.c:866
 msgid "User not found."
 msgstr "Kasutaja ei ole leitud."
 
-#: cl.c:868
+#: cl.c:869
 msgid "DBERR error. Please try later."
 msgstr "DBERR viga. Palun proovige uuesti."
 
-#: cl.c:871
+#: cl.c:872
 msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
 msgstr "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
 
-#: cl.c:874
+#: cl.c:875
 msgid "unknown error"
 msgstr "Tundmatu viga"
 
-#: cl.c:896
+#: cl.c:897
 msgid "email"
 msgstr "Aadress"
 
-#: cl.c:955
+#: cl.c:956
 msgid "Sex"
 msgstr "Sugu"
 
-#: cl.c:969
+#: cl.c:970
 msgid "Zodiac"
 msgstr "Sodiaagimärk"
 
-#: cl.c:1056
+#: cl.c:1057
 msgid "Search results"
 msgstr "Otsingu tulemused"
 
-#: cl.c:1137
+#: cl.c:1138
 msgid "Invalid data provided."
 msgstr "Sisestatud andmed on ebakorrektsed."
 
-#: cl.c:1138
+#: cl.c:1139
 msgid "Internal error encountered while processing request."
 msgstr "On tekkinud sisemise viga päringu töötluse ajal."
 
-#: cl.c:1139
+#: cl.c:1140
 msgid "No such user as you added."
 msgstr "Sisestatud kasutaja nimi ei ole olemas."
 
-#: cl.c:1140
+#: cl.c:1141
 msgid "Invalid user name."
 msgstr "Kasutaja nimi on vale."
 
-#: cl.c:1141
+#: cl.c:1142
 msgid "Buddy/group cannot be added."
 msgstr "Ei saa lisata kasutaja/gruppi."
 
-#: cl.c:1142
+#: cl.c:1143
 msgid "Max groups allowed count exceedeed."
 msgstr "Gruppide lubatud arv on ületatud."
 

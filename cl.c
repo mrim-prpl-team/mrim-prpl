@@ -156,6 +156,7 @@ mrim_buddy *new_mrim_buddy(package *pack)
 	mb->s_flags= read_UL(pack); // Server flag (not authorized)
 	mb->status = read_UL(pack); // Status.
 	mb->user_agent		= NULL;
+	mb->status_uri		= NULL;
 	mb->status_title	= NULL;
 	mb->status_desc	= NULL;
 
