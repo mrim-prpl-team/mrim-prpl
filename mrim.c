@@ -1089,11 +1089,12 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 	PurpleBuddy *buddy = purple_find_buddy(mrim->account, email);
 	g_return_if_fail(buddy != NULL);
 	
+	gchar *prpl_status		= mrim_status_to_prpl_status(status);
 	if (uri)
 	{
 		// TODO: Implement some more appropriate moods processing!!
 		purple_debug_info("mrim", "[%s] %s user mood %s (%s; %s).\n", __func__, email, uri, desc, title);
-		gchar *status_comment = NULL;
+		gchar *status_comment	= NULL;
 		if (title && desc)
 		{
 			status_comment = g_strdup_printf("%s (%s)", title, desc);
@@ -1107,7 +1108,7 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 		{
 			status_comment = g_strdup_printf("\"%s\"", uri);
 		}
-		purple_prpl_got_user_status(mrim->account, email, "status_online" /* TODO */, NULL);
+		purple_prpl_got_user_status(mrim->account, email, (prpl_status) ? prpl_status : "status_online" /* TODO */, NULL);
 		purple_prpl_got_user_status(mrim->gc->account, email, "mood",
 				PURPLE_MOOD_NAME, uri,
 				PURPLE_MOOD_COMMENT, desc,
@@ -1115,8 +1116,9 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 	}
 	else
 	{
+		purple_debug_info("mrim", "[%s] %s user mood-free: %s (%s; %s) / %s.\n", __func__, email, uri, desc, title, prpl_status);
 		purple_prpl_got_user_status_deactive(mrim->gc->account, email, "mood");
-		purple_prpl_got_user_status(mrim->gc->account, email, mrim_status_to_prpl_status(status), (desc && desc[0]) ? desc : NULL , NULL);
+		purple_prpl_got_user_status(mrim->gc->account, email, prpl_status, (desc && desc[0]) ? desc : NULL , NULL);
 	}
 	
 	if (buddy && buddy->proto_data)

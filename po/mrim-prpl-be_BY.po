@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27-rc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-14 15:08+0300\n"
+"POT-Creation-Date: 2011-03-14 18:29+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
@@ -55,7 +55,7 @@ msgid "Nick"
 msgstr "Псеуданим"
 
 #: mrim.c:267
-#: mrim.c:362
+#: mrim.c:359
 msgid "Name"
 msgstr "Имя"
 
@@ -103,7 +103,7 @@ msgid "_Search!"
 msgstr "_Шукаць!"
 
 #: mrim.c:294
-#: mrim.c:553
+#: mrim.c:543
 msgid "_Cancel!"
 msgstr "А_дмяниць!"
 
@@ -120,70 +120,70 @@ msgid "Search for buddies"
 msgstr "Шукаць карыстальникау…"
 
 #: mrim.c:327
-#: mrim.c:900
+#: mrim.c:890
 msgid "[web] MY_WORLD"
 msgstr ""
 
 #: mrim.c:330
-#: mrim.c:902
+#: mrim.c:892
 msgid "[web] MY_PHOTO"
 msgstr ""
 
 #: mrim.c:333
-#: mrim.c:904
+#: mrim.c:894
 msgid "[web] MY_VIDEO"
 msgstr ""
 
 #: mrim.c:336
-#: mrim.c:906
+#: mrim.c:896
 msgid "[web] MY_BLOG"
 msgstr ""
 
-#: mrim.c:388
-#: mrim.c:392
+#: mrim.c:379
+#: mrim.c:382
 msgid "Status"
 msgstr ""
 
-#: mrim.c:397
+#: mrim.c:387
 msgid "Phone numbers"
 msgstr "Нумары тэлефонау"
 
-#: mrim.c:400
-#: mrim.c:403
+#: mrim.c:390
+#: mrim.c:393
 #: cl.c:1003
 #: cl.c:1006
 msgid "User agent"
 msgstr ""
 
-#: mrim.c:403
+#: mrim.c:393
 #: cl.c:1006
 msgid "Hidden"
 msgstr ""
 
-#: mrim.c:411
-#: mrim.c:415
+#: mrim.c:401
+#: mrim.c:405
 msgid "Contact details"
 msgstr "Падрабязнасці пра суразмоўцу"
 
-#: mrim.c:415
+#: mrim.c:405
 #: mrim.h:94
 msgid "Offline"
 msgstr "Не у сециве"
 
-#: mrim.c:542
+#: mrim.c:532
 msgid "Choose phone number"
 msgstr "Абярыце нумар"
 
-#: mrim.c:548
+#: mrim.c:538
 msgid "SMS message text"
 msgstr "Тэкст SMS-паведамлення"
 
-#: mrim.c:551
-#: mrim.c:628
+#: mrim.c:541
+#: mrim.c:618
 msgid "Send SMS"
 msgstr "Адправіць SMS"
 
-#: mrim.c:551
+#: mrim.c:541
 msgid ""
 "SMS message should contain not\n"
 "more than 135 symbols in latin\n"
@@ -193,164 +193,164 @@ msgstr ""
 "больш 135-ти знакаў у лацінцы\n"
 "ці 35 -х знакаў у кірыліцы."
 
-#: mrim.c:552
+#: mrim.c:542
 msgid "_Send"
 msgstr "_Адправиць"
 
-#: mrim.c:577
+#: mrim.c:567
 #, c-format
 msgid "Symbols: %d"
 msgstr ""
 
-#: mrim.c:647
+#: mrim.c:637
 msgid "Phone:"
 msgstr "Тэлефон:"
 
-#: mrim.c:662
+#: mrim.c:652
 msgid "Translit"
 msgstr ""
 
-#: mrim.c:748
+#: mrim.c:738
 msgid "_Main number"
 msgstr "А_сноуны нумар"
 
-#: mrim.c:750
+#: mrim.c:740
 msgid "S_econd number"
 msgstr "_Други нумар"
 
-#: mrim.c:752
+#: mrim.c:742
 msgid "_Third number"
 msgstr "Т_рэци нумар"
 
-#: mrim.c:757
+#: mrim.c:747
 msgid "Phone numbers editor"
 msgstr "Рэдактар нумароў тэлефонаў"
 
-#: mrim.c:757
+#: mrim.c:747
 msgid "Specify numbers as shown: +71234567890"
 msgstr "Нумар паказваецца ў выглядзе: +71234567890"
 
-#: mrim.c:758
+#: mrim.c:748
 msgid "_Ok"
 msgstr "_АК"
 
-#: mrim.c:759
+#: mrim.c:749
 msgid "_Cancel"
 msgstr "А_дмяниць"
 
-#: mrim.c:861
+#: mrim.c:851
 msgid "(Re-)request authorization"
 msgstr "(Паўторна) Запытаць аўтарызацыю"
 
-#: mrim.c:872
+#: mrim.c:862
 msgid "Send an SMS... (GTK)"
 msgstr "Адпраўка SMS... (GTK)"
 
-#: mrim.c:877
+#: mrim.c:867
 msgid "Send an SMS..."
 msgstr "Адпраўка SMS..."
 
-#: mrim.c:880
+#: mrim.c:870
 msgid "Edit phone numbers..."
 msgstr "Кіраваць нумары тэлефонаў..."
 
-#: mrim.c:885
+#: mrim.c:875
 msgid "Remove from 'Invisible to' list"
 msgstr "Выдаліць са спісу тых, якія не бачаць"
 
-#: mrim.c:885
+#: mrim.c:875
 msgid "Add to 'Invisible to' list"
 msgstr "Дадаць у спіс тых, якія не бачаць"
 
-#: mrim.c:889
+#: mrim.c:879
 msgid "Remove from 'Visible to' list"
 msgstr "Выдаліць са спісу тых, якія бачаць"
 
-#: mrim.c:889
+#: mrim.c:879
 msgid "Add to 'Visible to' list"
 msgstr "Дадаць у спіс тых, якія бачаць"
 
-#: mrim.c:893
+#: mrim.c:883
 msgid "Visibility settings"
 msgstr "Налады бачнасці"
 
-#: mrim.c:908
+#: mrim.c:898
 msgid "My world"
 msgstr ""
 
-#: mrim.c:967
+#: mrim.c:957
 #, fuzzy
 msgid "Mood Name"
 msgstr "Имя"
 
-#: mrim.c:967
+#: mrim.c:957
 #, fuzzy
 msgid "Mood Comment"
 msgstr "Имя"
 
-#: mrim.c:1254
+#: mrim.c:1246
 msgid "Unable to create TCP-connection"
 msgstr "Не атрымоўваецца ўсталяваць TCP-злучэнне"
 
-#: mrim.c:1270
+#: mrim.c:1262
 #, c-format
 msgid "Unable to connect: %s"
 msgstr "Не магу злучыцца: %s"
 
-#: mrim.c:1283
+#: mrim.c:1275
 msgid "Connecting"
 msgstr "Злучаюся"
 
-#: mrim.c:1289
+#: mrim.c:1281
 msgid "Unable to write to socket."
 msgstr "Не атрымоўваецца запіс у сокет."
 
-#: mrim.c:1310
+#: mrim.c:1302
 msgid "Disconnected by user action?"
 msgstr "Злучэнне перапынена карыстачом?"
 
-#: mrim.c:1319
+#: mrim.c:1311
 msgid "Input Error"
 msgstr "Памылка ўводу"
 
-#: mrim.c:1325
+#: mrim.c:1317
 msgid "Bad Package"
 msgstr "Збойны пакет (BP)."
 
-#: mrim.c:1351
+#: mrim.c:1343
 msgid "ru"
 msgstr ""
 
-#: mrim.c:1360
+#: mrim.c:1352
 msgid "Ping Error"
 msgstr "Памылка пінгу"
 
-#: mrim.c:1380
+#: mrim.c:1372
 #, c-format
 msgid "Disconnected. Reason: %s"
 msgstr "Адключана. Чыннік: %s"
 
-#: mrim.c:1448
+#: mrim.c:1440
 msgid "Logged in from another location."
 msgstr "Выкананы ўваход у сетку з іншага месца."
 
-#: mrim.c:1450
+#: mrim.c:1442
 msgid "Server broke connection."
 msgstr "Сервер разарваў злучэнне."
 
-#: mrim.c:1463
+#: mrim.c:1455
 msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
 msgstr "Памылка пінгу ў MRIM_CS_CONNECTION_PARAMS"
 
-#: mrim.c:1932
+#: mrim.c:1924
 msgid "Server"
 msgstr "Сервер"
 
-#: mrim.c:1934
+#: mrim.c:1926
 msgid "Port"
 msgstr "Порт"
 
-#: mrim.c:1936
+#: mrim.c:1928
 msgid "Load userpics"
 msgstr "Загружаць фота суразмоўцаў"
 
