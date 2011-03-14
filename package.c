@@ -84,7 +84,7 @@ void add_LPS(gchar *string, package *pack)
 		purple_notify_warning(_mrim_plugin, "g_convert", _("Encoding error: can't convert UTF8 into CP1251"), "");
 		return;
 	}
-	guint32 len = strlen(str);
+	size_t len = strlen(str);
 	
 	// копируем текущее содержимое буфера
 	char *buf = g_new(char, pack->len + sizeof(guint32) + len*sizeof(char));
@@ -298,7 +298,7 @@ package *read_package(mrim_data *mrim)
 	{
 		// дочитываем пакет
 		package *pack = mrim->inp_package;
-		ssize_t size = pack->len - (pack->cur - pack->buf);
+		size_t size = pack->len - (pack->cur - pack->buf);
 		ret = recv(mrim->fd, pack->cur, size, RECV_FLAGS);
 #ifdef DEBUG
 		purple_debug_info( "mrim", "[%s] ret=<%li> \n", __func__, ret);
@@ -358,7 +358,7 @@ package *read_package(mrim_data *mrim)
 	if (ret == 0)
 	{
 		purple_connection_error(mrim->gc, _("Peer closed connection") );
-		purple_debug_info("mrim","[%s] TODO disconnect detect", __func__); // TODO
+		purple_debug_info("mrim","[%s] TODO disconnect detect\n", __func__); // TODO
 		return NULL;
 	}
 	return NULL;

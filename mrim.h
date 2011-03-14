@@ -208,7 +208,7 @@ static PurpleMood moods[] =
 #define MRIM_MAIL_RU "mrim.mail.ru"
 #define MRIM_MAIL_RU_PORT 2042
 					// или 443
-#define USER_AGENT_DESC "client=\"Pidgin\" version=" DISPLAY_VERSION
+#define USER_AGENT_DESC "client=\"Pidgin\" version=\"" DISPLAY_VERSION "\" build=\"1\""
 #define USER_AGENT  "Mail.Ru Pidgin plugin by Ostin"
 #define SUMMARY     "Mail.Ru Agent protocol plugin"
 #define DESCRIPTION "Mail.Ru Agent protocol plugin"
@@ -458,6 +458,7 @@ gboolean is_valid_email(gchar *email);
 gboolean is_valid_phone(gchar *phone);
 gboolean is_valid_chat(gchar *chat);
 #define is_valid_buddy_name(name) (is_valid_phone(name) || is_valid_email(name))
+PurpleBuddy *mrim_phone_get_parent_buddy(mrim_data *mrim, gchar *phone);
 
 #if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION <= 5
 	void purple_connection_set_protocol_data(PurpleConnection *connection, void *proto_data);

@@ -449,13 +449,25 @@ typedef struct mrim_packet_header_t
 // LPS contacts fields mask(*) ANSI.
  // group fields
  // contacts fields
-   //(*) mask symbols table:
-   //    's' - lps
-   //    'u' - unsigned long
-   //    'z' - zero terminated string 
-   //    groups mask 'us' == flags, name UNICODE
-   //    contact mask 'uussuussssus' flags, group id, e-mail ANSI, nick UNICODE, server flags, status, custom phone numbers ANSI, spec_status_uri ANSI, xstatus_title UNICODE, xstatus_desc UNICODE, com_support (future flags), user_agent (formated string) ANSI
-   //                  uussuussssusuuus
+	//(*) mask symbols table:
+	//    's' - lps
+	//    'u' - unsigned long
+	//    'z' - zero terminated string
+	//    groups mask 'us' == flags, name UNICODE
+	//    contact mask 'uussuussssusuuusssss'
+	// u - buddy flags
+	// u - group id
+	// l - email ANSI
+	// l - nick UNICODE
+	// u - server flags
+	// u - status
+	// s - custom phone numbers ANSI
+	// s - spec_status_uri ANSI
+	// s - xstatus_title UNICODE
+	// s - xstatus_desc UNICODE
+	// u - com_support (future flags). example: 0x3FF or -1
+	// s - user_agent (formated string) ANSI
+	//  uuusssss
 	#define CONTACT_INTFLAG_NOT_AUTHORIZED	0x0001
 
 /*

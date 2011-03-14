@@ -5,6 +5,11 @@
 int mrim_send_im(PurpleConnection *gc, const char *to, const char *message, PurpleMessageFlags flags);
 gboolean mrim_send_attention(PurpleConnection  *gc, const char *username, guint type);
 unsigned int mrim_send_typing(PurpleConnection *gc, const char *name,PurpleTypingState typing);
+/*
+ * Send SMS @message to @phone
+ */
+gboolean mrim_send_sms(gchar *phone, gchar *message, mrim_data *mrim);
+void mrim_sms_ack(mrim_data *mrim ,package *pack);
 
 void mrim_message_offline(PurpleConnection *gc, char* message);
 void mrim_read_im(mrim_data *mrim, package *pack);

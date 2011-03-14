@@ -23,17 +23,8 @@
 #include "package.h"
 #include "cl.h"
 #include "message.h"
-#include "util.h"
+#include "mrim-util.h"
 #include "filetransfer.h"
-
-static PurpleConnection *get_mrim_gc(const char *username)
-{
-	PurpleAccount *acct = purple_accounts_find(username, MRIM_PRPL_ID);
-	if (acct && purple_account_is_connected(acct))
-		return acct->gc;
-	else
-		return NULL;
-}
 
 // TODO rewrite
 void clean_string(gchar *str)
@@ -148,6 +139,37 @@ gchar *clear_phone(gchar *original_phone)
 	return NULL;
 }
 
+PurpleBuddy *mrim_phone_get_parent_buddy(mrim_data *mrim, gchar *phone)
+{
+	PurpleBuddy *result = NULL;
+	GSList *list, *head;
+
+	head = list = purple_find_buddies(mrim->account, NULL); // get all our buddies
+	if (!list)
+		return NULL;
+
+	for (; list; list = list->next)
+	{
+		PurpleBuddy *buddy = (PurpleBuddy *) (list->data);
+		purple_debug_info("mrim", "[%s] %s\n", __func__, buddy->name);
+		mrim_buddy *mb = purple_buddy_get_protocol_data(buddy);
+		if (mb && mb->phones && mb->phones[0])
+			for (int i = 0; (i < 3) && (mb->phones[i]); i++)
+			{
+				purple_debug_info("mrim", "[%s]## %s\n", __func__, mb->phones[i]);
+				if (strcmp(mb->phones[i], phone) == 0)
+				{
+					result = buddy;
+					goto exit;
+				}
+			}
+	}
+exit:
+	g_slist_free(list);
+	purple_debug_info("mrim", "[%s]result:%s\n", __func__, (result)?result->name:"NotFound");
+	return result;
+}
+
 
 
 /******************************************
@@ -200,7 +222,7 @@ static void mrim_get_info(PurpleConnection *gc, const char *username)
 
 gchar* mrim_get_ua_alias(const gchar* ua)
 {
-	purple_debug_info("mrim", "Gonna parse UA %s.\n", ua);
+	purple_debug_info("mrim", "[%s] Gonna parse UA %s.\n", __func__, ua);
 	if (ua)
 	{
 		gchar *alias = ua;
@@ -350,14 +372,13 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 	PurpleAccount *account = purple_buddy_get_account(buddy);
 	g_return_if_fail(account);
 	PurpleConnection *gc = purple_account_get_connection(account);
-	
-	gc = get_mrim_gc(buddy->account->username);
-	if (gc) 
+
+	if (gc)
 	{
 		/* they're logged in */
 		if (buddy->alias)
 			purple_notify_user_info_add_pair(info, _("Name"), buddy->alias);
-		
+
 		PurplePresence *presence = purple_buddy_get_presence(buddy);
 		PurpleStatus *status = purple_presence_get_active_status(presence);
 		gchar *presence_name = purple_status_get_name(status);
@@ -562,7 +583,7 @@ void update_sms_char_counter(GObject *object, sms_dialog_params *params) {
 	FREE(original_text);
 	g_free(params->sms_text);
 	params->sms_text = new_text;
-	gint count = strlen(new_text);
+	size_t count = strlen(new_text);
 	gchar buf[64];
 	g_sprintf(&buf, _("Symbols: %d"), count);
 	gtk_label_set_text(params->char_counter, buf);
@@ -743,7 +764,6 @@ static void blist_edit_phones_menu_item(PurpleBlistNode *node, gpointer userdata
 	purple_request_field_group_add_field(group, field);
 
 
-
 	purple_request_fields(mrim->gc, _("Phone numbers editor"), _("Phone numbers editor"), _("Specify numbers as shown: +71234567890"),  fields,
 			_("_Ok"), G_CALLBACK(blist_edit_phones),
 			_("_Cancel"), NULL,
@@ -898,7 +918,6 @@ static GList *mrim_user_actions(PurpleBlistNode *node)
 			action = purple_menu_action_new(_("My world"), NULL, mrim, myworld_list);
 			list = g_list_append(list, action);
 			// END MUST_HAVE CODE
-
 		}
 	}
 	else
@@ -1338,10 +1357,10 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 											add_LPS("STATUS_ONLINE", pack_ack); // TODO
 											add_LPS("Курю", pack_ack); // TODO
 											add_LPS("Курю протокол агента", pack_ack); // TODO
-											add_ul(FEATURE_FLAG_WAKEUP | FEATURE_FLAG_BASE_SMILES, pack_ack);
-											add_LPS(USER_AGENT, pack_ack);
+											add_ul(COM_SUPPORT /*FEATURES*/, pack_ack); // see mrim.h
+											add_LPS(USER_AGENT_DESC, pack_ack);
 											add_LPS(_("ru"),pack_ack); // TODO: CS locale selection.
-											pack_ack->header->proto = ((((guint32)(1))<<16)|(guint32)(13));
+											add_LPS(DISPLAY_VERSION, pack_ack);
 
 											send_package(pack_ack, mrim);
 											// Keep Alive
@@ -1845,7 +1864,7 @@ static PurplePluginProtocolInfo prpl_info =
   mrim_rename_group,                   /* rename_group */
   free_buddy,  		                   /* buddy_free */
   NULL,            				       /* convo_closed */
-  NULL,                  			   /* normalize */
+  mrim_normalize,          			   /* normalize */
   NULL, /*mrim_set_buddy_icon,*/       /* set_buddy_icon */
   mrim_remove_group,               	   /* remove_group */
   NULL,                                /* get_cb_real_name */

@@ -8,8 +8,12 @@ trunk (06/03/2011) (r141)
 		Fix group search(regression)
 		UserAgent
 		Chat-contacts support(draft)
+		X-Status(draft)
 	UI
 		Gtk+ SMS_send form
+		MyWorld Integration
+	Messages
+		Log SMS to History
 
 
 version 0.1.26 (11/11/2010). svn r38

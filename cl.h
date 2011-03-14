@@ -41,7 +41,6 @@ static const gchar *info_header_i18n[]={
 
 //	Buddy list
 void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack);
-mrim_buddy *new_mrim_buddy(package *pack);
 
 //	Groups
 void mrim_add_group(mrim_data *mrim, char *name);
@@ -52,7 +51,6 @@ PurpleGroup *get_mrim_group_by_id(mrim_data *mrim, guint32 id);
 guint32 get_mrim_group_id_by_name(mrim_data *mrim, gchar *name);
 
 //	Buddies
-mrim_buddy *new_mrim_buddy(package *pack);
 void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group);
 void mrim_remove_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group);
 void mrim_alias_buddy(PurpleConnection *gc, const char *who, const char *alias);
@@ -85,8 +83,6 @@ void send_package_authorize(mrim_data *mrim, gchar *to, gchar *who);
 void mrim_searchresults_add_buddy(PurpleConnection *gc, GList *row, void *user_data);
 
 gchar *mrim_phones_to_string(gchar **phones);
-
-gboolean mrim_send_sms(gchar *phone, gchar *message, mrim_data *mrim);
 
 void mrim_pkt_modify_buddy(mrim_data *mrim, PurpleBuddy *buddy, guint32 seq);
 void mrim_pkt_modify_group(mrim_data *mrim, guint32 group_id, gchar *group_name, guint32 flags);

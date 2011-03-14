@@ -2,27 +2,7 @@
 #include "message.h"
 #include "package.h"
 #include "cl.h"
-
-guint32 atox(gchar *str)
-{
-	g_return_val_if_fail(str,0);
-	purple_debug_info("mrim", "[%s] <%s>\n", __func__, str);
-	guint32 res = 0;
-	while (*str)
-	{
-		res *= 16;
-		if (*str >= '0' && *str <='9')
-			res += *str-'0';
-		else if (*str >= 'A' && *str<='F')
-			res += *str-'A'+0xA;
-		else if (*str >= 'a' && *str<='f')
-			res += *str-'a'+0xa;
-		str++;
-	}
-	purple_debug_info("mrim", "[%s] <%x>\n", __func__, res);
-	return res;
-}
-
+#include "mrim-util.h"
 /******************************************
  *           *Offline messages.*
  ******************************************/
@@ -44,7 +24,6 @@ void mrim_message_offline(PurpleConnection *gc, char* message)
 	guint32 mrim_flags = atox(flags);
 	gchar* correct_code = NULL;
 	gchar *draft_message = NULL;
-
 
 
 	if (mrim_flags & MESSAGE_FLAG_AUTHORIZE)
@@ -158,7 +137,7 @@ time_t mrim_str_to_time(const gchar* str)
         purple_debug_error("mrim","DATE sscanf error: str=NULL\n");
         return 0;
     }
-    ret=sscanf(str,"%*03s, %u %03s %u %u:%u:%u",&day,month_str,&year,&hour,&min,&sec);
+    ret=sscanf(str,"%*03s, %i %03s %i %i:%i:%i",&day,month_str,&year,&hour,&min,&sec);
     if(ret!=6)
     {
         purple_debug_error("mrim","DATE sscanf error: str=%s\n",str);
@@ -202,7 +181,8 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 	//return;
 	gchar *from = read_LPS(pack);
 
-/*	mrim_pq *pq = (mrim_pq *) g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq)); // or msg_id?
+/*	TODO messages PQ
+ * mrim_pq *pq = (mrim_pq *) g_hash_table_lookup(mrim->pq, GUINT_TO_POINTER(pack->header->seq)); // or msg_id?
 	if (pq == NULL)
 	{
 		purple_debug_info("mrim","Can't find pack in pq\n");
@@ -210,8 +190,9 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 	else
 		g_hash_table_remove(mrim->pq,  GUINT_TO_POINTER(pack->header->seq));
 */
+	// Delivery confirmation.
 	if (!(flag & MESSAGE_FLAG_NORECV)) 
-	{// Delivery confirmation.
+	{
 		package *pack = new_package(mrim->seq, MRIM_CS_MESSAGE_RECV);
 		if (flag & MESSAGE_FLAG_SMS)
 			add_LPS("mrim_sms@mail.ru",pack); //TODO What is that?
@@ -313,7 +294,21 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 		}
 	}
 	else
-	{	// A buddy sent a message.
+	{
+		if (is_valid_phone(from))
+		{
+			// если телефон - пытаемся привязать к пользователю
+			PurpleBuddy *parent = mrim_phone_get_parent_buddy(mrim, from);
+			if (parent)
+			{
+				FREE(from);
+				from = g_strdup(parent->name);
+			}
+			gchar *correct_sms_message = g_strdup_printf("SMS MESSAGE: %s", correct_message);
+			FREE(correct_message)
+			correct_message = correct_sms_message;
+		}
+		// A buddy sent a message.
 		purple_debug_info("mrim","[%s] simple message <%s>\n", __func__, correct_message);
 		serv_got_im(mrim->gc, from, correct_message, PURPLE_MESSAGE_RECV, time(NULL));
 	}
@@ -494,10 +489,16 @@ gboolean mrim_send_sms(gchar *phone, gchar *message, mrim_data *mrim)
 	gboolean ret = send_package(pack, mrim);
 
 
-	PurpleConversation *pc = purple_conversation_new(PURPLE_CONV_TYPE_UNKNOWN, mrim->account, phone);
+
+	PurpleBuddy *buddy = mrim_phone_get_parent_buddy(mrim, phone);
+	gchar *from = correct_phone;
+	if (buddy)
+		from = buddy->name;
+
+	PurpleConversation *pc = purple_conversation_new(PURPLE_CONV_TYPE_UNKNOWN, mrim->account, from);
 	PurpleLog *pl = purple_log_new(PURPLE_LOG_IM /*PURPLE_LOG_SYSTEM*/, correct_phone, mrim->account, pc, time(NULL), NULL);
 	// PURPLE_MESSAGE_INVISIBLE PURPLE_MESSAGE_SYSTEM PURPLE_MESSAGE_ACTIVE_ONLY
-	purple_log_write(pl, PURPLE_MESSAGE_ACTIVE_ONLY, phone, time(NULL), message);
+	purple_log_write(pl, PURPLE_MESSAGE_SYSTEM, NULL, time(NULL), message);
 	purple_log_delete(pl);
 	purple_conversation_destroy(pc);
 
