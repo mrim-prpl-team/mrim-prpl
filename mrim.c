@@ -23,7 +23,7 @@
 #include "package.h"
 #include "cl.h"
 #include "message.h"
-#include "convert.h"
+#include "util.h"
 #include "filetransfer.h"
 
 static PurpleConnection *get_mrim_gc(const char *username)
@@ -350,7 +350,7 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 	PurpleAccount *account = purple_buddy_get_account(buddy);
 	g_return_if_fail(account);
 	PurpleConnection *gc = purple_account_get_connection(account);
-
+	
 	gc = get_mrim_gc(buddy->account->username);
 	if (gc) 
 	{
@@ -360,35 +360,29 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 		
 		PurplePresence *presence = purple_buddy_get_presence(buddy);
 		PurpleStatus *status = purple_presence_get_active_status(presence);
+		gchar *presence_name = purple_status_get_name(status);
+		if (!presence_name)
+			presence_name = g_strdup("Undefined");
 		mrim_buddy *mb = buddy->proto_data;
 		if (mb)
 		{
+			// Presence info:
+			gchar *msg = NULL;
 			if (mb->status_title || mb->status_desc) { //TODO X-status?
-				gchar *msg;
 				if (mb->status_desc && mb->status_title) {
 					msg = g_strdup_printf("%s - %s", _(mb->status_title), mb->status_desc); //Есть и status_title и status_desc
 				} else if (mb->status_desc) {
-					gchar *status_if_void = (purple_status_get_name(status)) ? g_strdup("Not void") : g_strdup("Void");
-					msg = g_strdup_printf("%s - %s", (purple_status_get_name(status)) ? purple_status_get_name(status) : g_printf("TODO: PSGN (%s)!", status_if_void) , mb->status_desc); //Есть только status_desc
+					msg = g_strdup_printf("%s - %s", presence_name , mb->status_desc); //Есть только status_desc
 				} else {
 					msg = g_strdup(_(mb->status_title)); //Есть только status_title
 				}
 				purple_notify_user_info_add_pair(info, _("Status"), msg);
-				FREE(msg);
+				//FREE(msg);
 			} else {
-				purple_notify_user_info_add_pair(info, _("Status"), purple_status_get_name(status)); //Нет Х-статуса
+				purple_notify_user_info_add_pair(info, _("Status"), presence_name); //Нет Х-статуса
 			}
-		}
-		
-		if (full)
-		{
-			const char *user_info = purple_account_get_user_info(account);
-			if (user_info)
-				purple_notify_user_info_add_pair(info, _("Contact details"), user_info);
-		}
-
-		if (mb)
-		{
+			
+			// Phones info:
 			if (mb->phones && mb->phones[0])
 				purple_notify_user_info_add_pair(info, _("Phone numbers"), mrim_phones_to_string(mb->phones));
 			if (mb->user_agent)
@@ -398,6 +392,13 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 			{
 				purple_notify_user_info_add_pair(info, _("User agent"), _("Hidden") );
 			}
+		}
+		
+		if (full)
+		{
+			const char *user_info = purple_account_get_user_info(account);
+			if (user_info)
+				purple_notify_user_info_add_pair(info, _("Contact details"), user_info);
 		}
 	} 
 	else
@@ -1130,24 +1131,14 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 			FREE(mb->user_agent);
 			mb->user_agent = NULL;
 		}
-		if (title || desc)
-		{
-			FREE(mb->status_title);
-			FREE(mb->status_desc);
-			mb->status_title	= title;
-			mb->status_desc	= desc;
-			if (uri)
-			{
-				FREE(mb->status_uri);
-				mb->status_uri	= uri;
-			}	
-		} else
-		{
-			FREE(mb->status_title);
-			FREE(mb->status_desc);
-			mb->status_title	= g_strdup("");
-			mb->status_desc	= g_strdup("");
-		}
+		FREE(mb->status_title);
+		FREE(mb->status_desc);
+		FREE(mb->status_uri);
+		
+		mb->status_title	= mrim_str_non_empty(title);
+		mb->status_desc	= mrim_str_non_empty(desc);
+		mb->status_uri		= mrim_str_non_empty(uri);
+		
 		if (!mb->authorized)
 		{
 			purple_prpl_got_user_status_deactive(mrim->gc->account, email, "mood");

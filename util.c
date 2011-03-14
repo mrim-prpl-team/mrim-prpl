@@ -1,8 +1,8 @@
-/**   convert.c of mrim-prpl project.
+/**   util.c of mrim-prpl project.
 * Contact List management routines.
 * Committed by Reslayer@mail.ru aka Reslayer.
 */
-#include "convert.h"
+#include "util.h"
 
 
 /* Convert a string from non-latin spelling to latin one. */
@@ -40,4 +40,17 @@ void mrim_open_myworld_url(gchar *username, gchar *url)
 	purple_debug_info("mrim","[%s] d<%s> n<%s>\n",__func__, domain, name);
 	gchar *full_url = g_strdup_printf(url, domain, name);
 	purple_notify_uri(_mrim_plugin, full_url);
+}
+
+gchar *mrim_str_non_empty(gchar *str)
+{
+	if (str)
+	{
+		if (strlen(str) > 0)
+		{
+			return g_strdup(str);
+		} else
+			return NULL;
+	} else
+		return NULL;
 }
