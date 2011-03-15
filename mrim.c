@@ -401,7 +401,9 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 				purple_notify_user_info_add_pair(info, _("Status"), msg);
 				//FREE(msg);
 			} else {
-				purple_notify_user_info_add_pair(info, _("Status"), presence_name); //Нет Х-статуса
+				if (purple_status_type_get_primitive(purple_status_get_type(status)) != PURPLE_STATUS_OFFLINE) {
+					purple_notify_user_info_add_pair(info, _("Status"), presence_name); //Нет Х-статуса
+				}
 			}
 			
 			// Phones info:
@@ -412,7 +414,9 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 				purple_notify_user_info_add_pair(info, _("User agent"), _(mrim_get_ua_alias(mb->user_agent)) );
 			} else if (is_valid_email(mb->addr))
 			{
-				purple_notify_user_info_add_pair(info, _("User agent"), _("Hidden") );
+				if (purple_status_type_get_primitive(purple_status_get_type(status)) != PURPLE_STATUS_OFFLINE) {
+					purple_notify_user_info_add_pair(info, _("User agent"), _("Hidden") );
+				}
 			}
 		}
 		
@@ -1222,7 +1226,7 @@ static void mrim_prpl_login(PurpleAccount *account)
 	mrim->server = g_strdup(purple_account_get_string(account, "balancer_host", MRIM_MAIL_RU));
 	mrim->port = purple_account_get_int(account, "balancer_port", MRIM_MAIL_RU_PORT);
 	mrim->user_agent = purple_account_get_bool(account, "use_custom_user_agent", FALSE) ?
-		purple_account_get_string(account, "custom_user_agent", mrim_user_agent) : mrim_user_agent;
+		purple_account_get_string(account, "custom_user_agent", mrim_user_agent) : mrim_user_agent; //TODO: Memory leak
 	mrim->pq = g_hash_table_new_full(NULL,NULL, NULL, pq_free_element);
 	mrim->mg = g_hash_table_new_full(NULL,NULL, NULL, mg_free_element);
 	mrim->xfer_lists = NULL;
