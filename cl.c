@@ -13,7 +13,7 @@ static void cl_skeep(gchar *mask, package *pack)
 	while (*mask)
 		switch (*mask++)
 		{
-			case 's': FREE(read_rawLPS(pack)); break;
+			case 's': g_free(read_rawLPS(pack)); break;
 			case 'u': read_UL(pack); break;
 			case 'z': read_Z(pack); break;
 		}
