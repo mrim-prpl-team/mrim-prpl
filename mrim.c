@@ -410,7 +410,7 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 			if (mb->user_agent)
 			{
 				purple_notify_user_info_add_pair(info, _("User agent"), _(mrim_get_ua_alias(mb->user_agent)) );
-			} else
+			} else if (is_valid_email(mb->addr))
 			{
 				purple_notify_user_info_add_pair(info, _("User agent"), _("Hidden") );
 			}
