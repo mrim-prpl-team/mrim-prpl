@@ -389,6 +389,7 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 		{
 			// Presence info:
 			gchar *msg = NULL;
+			// TODO: status_title may appear not i18n-able!! DANGEROUS!!
 			if (mb->status_title || mb->status_desc) { //TODO X-status?
 				if (mb->status_desc && mb->status_title) {
 					msg = g_strdup_printf("%s - %s", _(mb->status_title), mb->status_desc); //Есть и status_title и status_desc
