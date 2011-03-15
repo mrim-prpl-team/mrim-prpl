@@ -13,7 +13,7 @@ static void cl_skeep(gchar *mask, package *pack)
 	while (*mask)
 		switch (*mask++)
 		{
-			case 's': read_rawLPS(pack); break;
+			case 's': FREE(read_rawLPS(pack)); break;
 			case 'u': read_UL(pack); break;
 			case 'z': read_Z(pack); break;
 		}
@@ -153,13 +153,15 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 	mb->s_flags= read_UL(pack); // Server flag (not authorized)
 	mb->status = read_UL(pack); // Status.
 	gchar *phones = read_LPS(pack); // Phone number.
-	// sssusuuusssss
-	cl_skeep(mask+7, pack);
 
-	mb->user_agent		= NULL;
-	mb->status_uri		= NULL;
-	mb->status_title	= NULL;
-	mb->status_desc	= NULL;
+	mb->status_uri		= read_LPS(pack);
+	mb->status_title	= read_LPS(pack);
+	mb->status_desc	= read_LPS(pack);
+	read_UL(pack);
+	mb->user_agent		= read_LPS(pack);
+	
+	// sssusuuusssss
+	cl_skeep(mask+12, pack);
 
 	if (mb->flags & CONTACT_FLAG_MULTICHAT)
 		mb->type = CHAT;
