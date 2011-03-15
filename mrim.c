@@ -1226,7 +1226,7 @@ static void mrim_prpl_login(PurpleAccount *account)
 	mrim->server = g_strdup(purple_account_get_string(account, "balancer_host", MRIM_MAIL_RU));
 	mrim->port = purple_account_get_int(account, "balancer_port", MRIM_MAIL_RU_PORT);
 	mrim->user_agent = purple_account_get_bool(account, "use_custom_user_agent", FALSE) ?
-		purple_account_get_string(account, "custom_user_agent", mrim_user_agent) : mrim_user_agent; //TODO: Memory leak
+		g_strdup(purple_account_get_string(account, "custom_user_agent", mrim_user_agent)) : g_strdup(mrim_user_agent); //TODO: Memory leak
 	mrim->pq = g_hash_table_new_full(NULL,NULL, NULL, pq_free_element);
 	mrim->mg = g_hash_table_new_full(NULL,NULL, NULL, mg_free_element);
 	mrim->xfer_lists = NULL;
@@ -1307,6 +1307,27 @@ void mrim_connect_cb(gpointer data, gint source, const gchar *error_message)
 		purple_connection_set_state(gc, PURPLE_DISCONNECTED);
 		return;
 	}
+}
+
+char *mrim_status_text(PurpleBuddy *buddy) {
+	mrim_buddy *mb = buddy->proto_data;
+	PurplePresence *presence = purple_buddy_get_presence(buddy);
+	PurpleStatus *status = purple_presence_get_active_status(presence);
+	if (mb) {
+		if (mb->status_title && mb->status_desc) {
+			return g_strdup_printf("%s - %s", mb->status_title, mb->status_desc);
+		} else if (mb->status_title) {
+			return g_strdup(mb->status_title);
+		} else if (mb->status_desc) {
+			gchar *presence_name = purple_status_get_name(status);
+			if (!presence_name)
+				presence_name = g_strdup("Undefined");
+			gchar *result = g_strdup_printf("%s - %s", presence_name, mb->status_desc);
+			FREE(presence_name)
+			return result;
+		}
+	}
+	return NULL;
 }
 
 /******************************************
@@ -1749,6 +1770,7 @@ static void mrim_prpl_close(PurpleConnection *gc)
 	FREE(mrim->inp_package)
 	FREE(mrim->web_key)
 	FREE(mrim->url)
+	FREE(mrim->user_agent)
 
 	g_hash_table_remove_all(mrim->mg);
 	g_hash_table_remove_all(mrim->pq);
@@ -1831,7 +1853,7 @@ static PurplePluginProtocolInfo prpl_info =
   },
   mrim_list_icon,                      /** list_icon **/
   mrim_list_emblem,                    /* list_emblem */
-  NULL,			                       /* status_text */
+  mrim_status_text,			                       /* status_text */
   mrim_tooltip_text,                   /* tooltip_text */
   mrim_status_types,                   /* status_types */
   mrim_user_actions,	               /* blist_node_menu */
