@@ -116,7 +116,7 @@ static struct
 		{"sagent",					N_("Agent@Mail.Ru for Symbian, ver. %s, build %s"),	"client=\"(sagent)\" version=\"([0-9.]+)\" build=\"([0-9]+)\""},
 		{"QIP 2010",				N_("QIP 2010, ver. %s, build %s"),							"client=\"(QIP 2010)\" version=\"([0-9.]+)\" build=\"([0-9]+)\""},
 		{"QIP Infium",				N_("QIP Infium, ver. %s, build %s"),						"client=\"(QIP Infium)\" version=\"([0-9.]+)\" build=\"([0-9]+)\""},
-		{"Pidgin",					N_("Pidgin and Ostin's mrim-prpl plugin"),				"client=\"(Pidgin)\" version=\"([0-9.]+)\" build=\"([0-9]+)\""},
+		{"Pidgin",					N_("Pidgin and Ostin's mrim-prpl plugin, ver. %s, build %s"),				"client=\"(Pidgin)\" version=\"([0-9.]+)\" build=\"([0-9]+)\""},
 		{"prpl-ostin-mrim-fun",	N_("Agent@Mail.Ru for GNU/Linux, ver. %s, rev. %s"),	"client=\"(prpl-ostin-mrim-fun)\" version=\"([0-9.]+)\" revision=\"([0-9]+)\""}, // Just for test and fun; used with myagent-im mod.
 		{"prpl-ostin-mrim",		N_("Pidgin and Ostin's mrim-prpl plugin"),				"prpl-ostin-mrim"},
 		{"mrimprpl",				N_("Purple plugin by lemax1@mail.ru"),				"Purple plugin by lemax1\@mail\.ru"},
@@ -208,7 +208,7 @@ static PurpleMood moods[] =
 #define MRIM_MAIL_RU "mrim.mail.ru"
 #define MRIM_MAIL_RU_PORT 2042
 					// или 443
-#define USER_AGENT_DESC "client=\"Pidgin\" version=\"" DISPLAY_VERSION "\" build=\"1\""
+#define USER_AGENT_DESC "client=\"Pidgin\" version=\"" DISPLAY_VERSION "\" build=\"4\""
 #define USER_AGENT  "Mail.Ru Pidgin plugin by Ostin"
 #define SUMMARY     "Mail.Ru Agent protocol plugin"
 #define DESCRIPTION "Mail.Ru Agent protocol plugin"

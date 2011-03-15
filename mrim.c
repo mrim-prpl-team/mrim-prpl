@@ -86,7 +86,7 @@ gboolean string_is_match(gchar *string, gchar *pattern)
 
 gboolean is_valid_email(gchar *email)
 {
-	return string_is_match(email, "([[a-z]|[A-Z]|[0-9]]+[[a-z]|[A-Z]|[0-9]|[_\\-\\.]]+)@(mail.ru|list.ru|inbox.ru|bk.ru|corp.mail.ru)");
+	return string_is_match(email, "([[:alnum:]]+[[:alnum:]\\-\\.\\_]+)@(mail.ru|list.ru|inbox.ru|bk.ru|corp.mail.ru)");
 }
 
 gboolean is_valid_chat(gchar *chat)
@@ -1354,9 +1354,9 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 											add_LPS(mrim->username, pack_ack);
 											add_LPS(mrim->password, pack_ack);
 											add_ul(mrim->status, pack_ack);
-											add_LPS("STATUS_ONLINE", pack_ack); // TODO
-											add_LPS("Курю", pack_ack); // TODO
-											add_LPS("Курю протокол агента", pack_ack); // TODO
+											add_LPS("status_online", pack_ack); // TODO
+											add_LPS("Neutral", pack_ack); // TODO
+											add_LPS("Neutral-all", pack_ack); // TODO
 											add_ul(COM_SUPPORT /*FEATURES*/, pack_ack); // see mrim.h
 											add_LPS(USER_AGENT_DESC, pack_ack);
 											add_LPS(_("ru"),pack_ack); // TODO: CS locale selection.
