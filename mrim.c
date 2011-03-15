@@ -879,7 +879,6 @@ static GList *mrim_user_actions(PurpleBlistNode *node)
 			gchar *name = g_hash_table_lookup(ht, "name");
 			purple_debug_info("mrim", "[%s] UI is <%s>\n", __func__, name);
 			if (name && g_strcmp0("Pidgin",name)==0) {
-			// TODO:  // use pretty gtk+ form
 				action = purple_menu_action_new(_("Send an SMS... (GTK)"), PURPLE_CALLBACK(blist_sms_menu_item_gtk), mrim, NULL);
 			//else
 				//action = purple_menu_action_new(_("Send an SMS..."), PURPLE_CALLBACK(blist_sms_menu_item), mrim, NULL);
@@ -1222,6 +1221,8 @@ static void mrim_prpl_login(PurpleAccount *account)
 	  
 	mrim->server = g_strdup(purple_account_get_string(account, "balancer_host", MRIM_MAIL_RU));
 	mrim->port = purple_account_get_int(account, "balancer_port", MRIM_MAIL_RU_PORT);
+	mrim->user_agent = purple_account_get_bool(account, "use_custom_user_agent", FALSE) ?
+		purple_account_get_string(account, "custom_user_agent", mrim_user_agent) : mrim_user_agent;
 	mrim->pq = g_hash_table_new_full(NULL,NULL, NULL, pq_free_element);
 	mrim->mg = g_hash_table_new_full(NULL,NULL, NULL, mg_free_element);
 	mrim->xfer_lists = NULL;
@@ -1359,7 +1360,7 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 											add_LPS("Neutral", pack_ack); // TODO
 											add_LPS("Neutral-all", pack_ack); // TODO
 											add_ul(COM_SUPPORT /*FEATURES*/, pack_ack); // see mrim.h
-											add_LPS(USER_AGENT_DESC, pack_ack);
+											add_LPS(mrim->user_agent, pack_ack);
 											add_LPS(_("ru"),pack_ack); // TODO: CS locale selection.
 											add_LPS(DISPLAY_VERSION, pack_ack);
 
@@ -1792,6 +1793,7 @@ const char *mrim_list_emblem(PurpleBuddy *b)
 static void mrim_prpl_destroy(PurplePlugin *plugin) 
 {
 	// TODO Should we remove 'action'-s?
+	g_free(mrim_user_agent);
 	purple_debug_info("mrim", "shutting down\n");
 }
 
@@ -1941,12 +1943,24 @@ static PurplePluginInfo info =
 static void mrim_prpl_init(PurplePlugin *plugin)
 {
 	purple_debug_info("mrim", "starting up\n");
+	
+	gchar *purple_version = purple_core_get_version();
+	GHashTable *ht = purple_core_get_ui_info();
+	gchar *ui_name = g_hash_table_lookup(ht, "name");
+	gchar *ui_version = g_hash_table_lookup(ht, "version");
+	mrim_user_agent = g_strdup_printf("client=\"mrim-prpl\" version=\"%s/%s\" ui=\"%s %s\"", purple_version, DISPLAY_VERSION, ui_name, ui_version);
+	
 	PurpleAccountOption *option_server = purple_account_option_string_new(_("Server"),"balancer_host",MRIM_MAIL_RU);
 	prpl_info.protocol_options = g_list_append(NULL, option_server);
 	PurpleAccountOption *option_port = purple_account_option_int_new(_("Port"), "balancer_port", MRIM_MAIL_RU_PORT);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option_port);
 	PurpleAccountOption *option_avatar = purple_account_option_bool_new(_("Load userpics"), "fetch_avatar", FALSE);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option_avatar);
+	PurpleAccountOption *option_use_custom_ua = purple_account_option_bool_new(_("Use custom user agent string"), "use_custom_user_agent", FALSE);
+	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option_use_custom_ua);
+	PurpleAccountOption *option_custom_ua = purple_account_option_string_new(_("Custom user agent"), "custom_user_agent", mrim_user_agent);
+	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option_custom_ua);
+	
     _mrim_plugin = plugin;
 
     // i18n

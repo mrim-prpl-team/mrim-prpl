@@ -287,6 +287,8 @@ typedef struct {
 	GHashTable *pq;        // "очередь" сообщений (pending queue)
 	GHashTable *mg;        // хеш-таблица групп
 	GList *xfer_lists;     // список всех файлов для передачи
+	
+	gchar *user_agent;
 }mrim_data;
 
 typedef struct
@@ -478,5 +480,7 @@ typedef struct {
 	GtkComboBox *phone;
 	gchar *sms_text;
 } sms_dialog_params;
+
+gchar *mrim_user_agent;
 
 #endif
