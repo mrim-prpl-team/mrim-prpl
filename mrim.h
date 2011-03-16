@@ -131,7 +131,9 @@ static PurpleMood moods[] =
 		//  x3          i18n             NULL
 		//"status_0" "/status_offline.bmp"
 		{ "status_1", N_("status_online"), NULL },
+		{ "status_chat", N_("gotov_poboltat"), NULL },
 		{ "status_2", N_("status_away"),  NULL },
+		{ "status_dnd", N_("not_available"), NULL },
 		//"status_3"  "/status_invisible.bmp"
 		{ "status_4", N_("boleu"), NULL },
 		{ "status_5", N_("doma"), NULL },
@@ -238,6 +240,15 @@ typedef enum
 	UNKNOWN
 }BUDDY_TYPE;
 
+typedef struct {
+	guint32 code;
+	gchar *uri;
+	gchar *title;
+	gchar *desc;
+	gchar *purple_status;
+	gchar *display_string;
+} mrim_status;
+
 typedef struct
 {
 	PurpleBuddy *buddy;
@@ -249,13 +260,14 @@ typedef struct
 	gboolean authorized;
 	guint32 flags;
 	guint32 s_flags;
-	guint32 status;
+	//guint32 status;
 	BUDDY_TYPE type;
 	gchar *ips; // IP:PORT;IP:PORT;
 	gchar *user_agent;
-	gchar *status_uri;
-	gchar *status_title;
-	gchar *status_desc;
+	//gchar *status_uri;
+	//gchar *status_title;
+	//gchar *status_desc;
+	mrim_status status;
 }mrim_buddy;
 
 typedef struct {

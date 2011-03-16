@@ -54,11 +54,11 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 		mb->id = num++;
 		if (mb->flags & CONTACT_FLAG_REMOVED)
 		{
-			purple_debug_info("mrim", "CONTACT: group <%i>  E-MAIL <%s> NICK <%s> id <%i> status <0x%X> flags <0x%X> REMOVED\n", mb->group_id, mb->addr, mb->alias, mb->id, (int)mb->status, mb->flags );
+			purple_debug_info("mrim", "CONTACT: group <%i>  E-MAIL <%s> NICK <%s> id <%i> status <0x%X> flags <0x%X> REMOVED\n", mb->group_id, mb->addr, mb->alias, mb->id, (int)mb->status.code, mb->flags );
 			continue;
 		}
 		else
-			purple_debug_info("mrim", "CONTACT: group <%i>  E-MAIL <%s> NICK <%s> id <%i> status <0x%X> flags <0x%X>\n", mb->group_id, mb->addr, mb->alias, mb->id, (int)mb->status, mb->flags );
+			purple_debug_info("mrim", "CONTACT: group <%i>  E-MAIL <%s> NICK <%s> id <%i> status <0x%X> flags <0x%X>\n", mb->group_id, mb->addr, mb->alias, mb->id, (int)mb->status.code, mb->flags );
 
 
 		PurpleGroup *group = get_mrim_group_by_id(mrim, mb->group_id);
@@ -153,17 +153,24 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 	mb->addr = read_LPS(pack); // Buddy address (UTF16LE)
 	mb->alias = read_LPS(pack); // Nick (UTF16LE)
 	mb->s_flags= read_UL(pack); // Server flag (not authorized)
-	mb->status = read_UL(pack); // Status.
+	guint32 status = read_UL(pack); // Status.
 	gchar *phones = read_LPS(pack); // Phone number.
 
-	mb->status_uri		= read_LPS(pack);
-	mb->status_title	= read_LPS(pack);
-	mb->status_desc	= read_LPS(pack);
+	gchar *status_uri		= read_LPS(pack);
+	gchar *status_title	= read_LPS(pack);
+	gchar *status_desc	= read_LPS(pack);
 	read_UL(pack);
 	mb->user_agent		= read_LPS(pack);
 	
 	// sssusuuusssss
 	cl_skeep(mask+12, pack);
+	
+	mb->status.display_string = NULL;
+	mb->status.uri = NULL;
+	mb->status.title = NULL;
+	mb->status.desc = NULL;
+	mb->status.purple_status = NULL;
+	make_mrim_status(&mb->status, status, status_uri, status_title, status_desc);
 
 	if (mb->flags & CONTACT_FLAG_MULTICHAT)
 		mb->type = CHAT;
@@ -195,7 +202,7 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 		FREE(mb->addr)
 		mb->addr = g_strdup(mb->phones[0]);
 		mb->authorized = TRUE;
-		mb->status = STATUS_ONLINE;
+		//mb->status = STATUS_ONLINE;
 	}
 /*	if (strcmp(mb->addr, "phone") == 0) // TODO Think of it.
 	{
@@ -207,7 +214,7 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 	}
 */
 	if (! mb->authorized)
-		mb->status = STATUS_OFFLINE;
+		make_mrim_status(&mb->status, STATUS_OFFLINE, "", "", "");
 
 	if (mb->addr == NULL)
 		return NULL;
@@ -484,7 +491,7 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 				mb->authorized = TRUE;
 				mb->group_id = MRIM_PHONE_GROUP_ID;
 				mb->addr = g_strdup("phone");
-				mb->status = STATUS_ONLINE;
+				make_mrim_status(&mb->status, STATUS_ONLINE, "", "", "");
 
 				// TODO use send_package_authorize
 				gchar *text = _("Hello. Add me to your buddies please.");

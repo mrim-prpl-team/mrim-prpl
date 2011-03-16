@@ -393,7 +393,7 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 			// Presence info:
 			gchar *msg = NULL;
 			// TODO: status_title may appear not i18n-able!! DANGEROUS!!
-			if (mb->status_title || mb->status_desc) { //TODO X-status?
+			/* if (mb->status_title || mb->status_desc) { //TODO X-status?
 				if (mb->status_desc && mb->status_title) {
 					msg = g_strdup_printf("%s - %s", _(mb->status_title), mb->status_desc); //Есть и status_title и status_desc
 				} else if (mb->status_desc) {
@@ -407,6 +407,9 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 				if (purple_status_type_get_primitive(purple_status_get_type(status)) != PURPLE_STATUS_OFFLINE) {
 					purple_notify_user_info_add_pair(info, _("Status"), presence_name); //Нет Х-статуса
 				}
+			} */
+			if (purple_status_type_get_primitive(purple_status_get_type(status)) != PURPLE_STATUS_OFFLINE) {
+				purple_notify_user_info_add_pair(info, _("Status"), g_strdup(mb->status.display_string));
 			}
 			
 			// Phones info:
@@ -1022,6 +1025,35 @@ const char* mrim_status_to_prpl_status( guint32 status )
 	return "status_online";
 }
 
+void free_mrim_status(mrim_status *status) {
+	if (status) {
+		FREE(status->uri)
+		FREE(status->title)
+		FREE(status->desc)
+		FREE(status->display_string)
+	}
+}
+
+void make_mrim_status(mrim_status *s, guint32 status, gchar *uri, gchar *title, gchar *desc) {
+	free_mrim_status(s);
+	s->uri = uri;
+	s->title = title;
+	s->desc = desc;
+	s->purple_status = mrim_status_to_prpl_status(status);
+	if (g_strcmp0(uri, "status_dnd") == 0) {
+		s->purple_status = N_("Not available"); //Отдельная обработка для "Не беспокоить"
+	}
+	if (title && desc) {
+		s->display_string = g_strdup_printf("%s - %s", title, desc);
+	} else if (title) {
+		s->display_string = g_strdup(title);
+	} else if (desc) {
+		s->display_string = g_strdup_printf("%s - %s", _(s->purple_status), desc);
+	} else {
+		s->display_string = g_strdup(_(s->purple_status));
+	}
+	return s;
+}
 
 static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
 {
@@ -1106,6 +1138,28 @@ static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
 	send_package(pack, mrim);
 }
 
+char *mrim_status_text(PurpleBuddy *buddy) {
+	mrim_buddy *mb = buddy->proto_data;
+	/* PurplePresence *presence = purple_buddy_get_presence(buddy);
+	PurpleStatus *status = purple_presence_get_active_status(presence); */
+	if (mb) {
+		/* if (mb->status_title && mb->status_desc) {
+			return g_strdup_printf("%s - %s", mb->status_title, mb->status_desc);
+		} else if (mb->status_title) {
+			return g_strdup(mb->status_title);
+		} else if (mb->status_desc) {
+			gchar *presence_name = purple_status_get_name(status);
+			if (!presence_name)
+				presence_name = g_strdup("Undefined");
+			gchar *result = g_strdup_printf("%s - %s", presence_name, mb->status_desc);
+			FREE(presence_name)
+			return result;
+		} */
+		return g_strdup(mb->status.display_string);
+	}
+	return NULL;
+}
+
 void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, gchar *title, gchar *desc, gchar* user_agent)
 {
 	purple_debug_info("mrim", "[%s] %s changes status to 0x%x\n", __func__, email, status);
@@ -1120,10 +1174,10 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 	{
 		// TODO: Implement some more appropriate moods processing!!
 		purple_debug_info("mrim", "[%s] %s user mood %s (%s; %s).\n", __func__, email, uri, desc, title);
-		gchar *status_comment	= NULL;
+		/* gchar *status_comment	= NULL; //Формируется значение, но нигде не используется
 		if (title && desc)
 		{
-			status_comment = g_strdup_printf("%s (%s)", title, desc);
+			status_comment = g_strdup_printf("%s - %s", title, desc);
 		} else if (title)
 		{
 			status_comment = g_strdup_printf("%s", title);
@@ -1133,7 +1187,7 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 		} else
 		{
 			status_comment = g_strdup_printf("\"%s\"", uri);
-		}
+		} */
 		purple_prpl_got_user_status(mrim->account, email, (prpl_status) ? prpl_status : "status_online" /* TODO */, NULL);
 		purple_prpl_got_user_status(mrim->gc->account, email, "mood",
 				PURPLE_MOOD_NAME, uri,
@@ -1159,13 +1213,16 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 			FREE(mb->user_agent);
 			mb->user_agent = NULL;
 		}
-		FREE(mb->status_title);
+		
+		make_mrim_status(&mb->status, status, uri, title, desc);
+		
+		/* FREE(mb->status_title);
 		FREE(mb->status_desc);
 		FREE(mb->status_uri);
 		
 		mb->status_title	= mrim_str_non_empty(title);
 		mb->status_desc	= mrim_str_non_empty(desc);
-		mb->status_uri		= mrim_str_non_empty(uri);
+		mb->status_uri		= mrim_str_non_empty(uri); */
 		
 		if (!mb->authorized)
 		{
@@ -1182,7 +1239,7 @@ void set_user_status_by_mb(mrim_data *mrim, mrim_buddy *mb)
 	g_return_if_fail(mrim);
 	PurpleAccount *account = mrim->account;
 	if (mb->authorized)
-		purple_prpl_got_user_status(account, mb->addr, mrim_status_to_prpl_status(mb->status), NULL);
+		purple_prpl_got_user_status(account, mb->addr, mb->status.purple_status, NULL);
 	else
 		purple_prpl_got_user_status(account, mb->addr, "offline", NULL);
 
@@ -1310,27 +1367,6 @@ void mrim_connect_cb(gpointer data, gint source, const gchar *error_message)
 		purple_connection_set_state(gc, PURPLE_DISCONNECTED);
 		return;
 	}
-}
-
-char *mrim_status_text(PurpleBuddy *buddy) {
-	mrim_buddy *mb = buddy->proto_data;
-	PurplePresence *presence = purple_buddy_get_presence(buddy);
-	PurpleStatus *status = purple_presence_get_active_status(presence);
-	if (mb) {
-		if (mb->status_title && mb->status_desc) {
-			return g_strdup_printf("%s - %s", mb->status_title, mb->status_desc);
-		} else if (mb->status_title) {
-			return g_strdup(mb->status_title);
-		} else if (mb->status_desc) {
-			gchar *presence_name = purple_status_get_name(status);
-			if (!presence_name)
-				presence_name = g_strdup("Undefined");
-			gchar *result = g_strdup_printf("%s - %s", presence_name, mb->status_desc);
-			FREE(presence_name)
-			return result;
-		}
-	}
-	return NULL;
 }
 
 /******************************************
