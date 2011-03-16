@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl 0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-16 05:44+0300\n"
+"POT-Creation-Date: 2011-03-16 21:29+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl team\n"
@@ -605,109 +605,110 @@ msgid "Java phone Agent@Mail.Ru, ver. %s"
 msgstr ""
 
 #: mrim.h:114
+#: mrim.h:115
 msgid "Web-Agent@Mail.Ru"
 msgstr "Web-Agent@Mail.Ru"
 
-#: mrim.h:115
+#: mrim.h:116
 #, c-format
 msgid "Agent@Mail.Ru for Android, ver. %s, build %s"
 msgstr ""
 
-#: mrim.h:116
+#: mrim.h:117
 #, c-format
 msgid "Agent@Mail.Ru for Symbian, ver. %s, build %s"
 msgstr ""
 
-#: mrim.h:117
+#: mrim.h:118
 #, c-format
 msgid "QIP 2010, ver. %s, build %s"
 msgstr ""
 
-#: mrim.h:118
+#: mrim.h:119
 #, c-format
 msgid "QIP Infium, ver. %s, build %s"
 msgstr ""
 
-#: mrim.h:119
+#: mrim.h:120
 #, c-format
 msgid "Pidgin and Ostin's mrim-prpl plugin, ver. %s, build %s"
 msgstr ""
 
-#: mrim.h:120
+#: mrim.h:121
 #, c-format
 msgid "mrim-prpl (libpurple %s) ver. %s, %s"
 msgstr ""
 
-#: mrim.h:121
+#: mrim.h:122
 #, c-format
 msgid "Agent@Mail.Ru for GNU/Linux, ver. %s, rev. %s"
 msgstr ""
 
-#: mrim.h:122
+#: mrim.h:123
 msgid "Pidgin and Ostin's mrim-prpl plugin"
 msgstr ""
 
-#: mrim.h:123
+#: mrim.h:124
 msgid "Purple plugin by lemax1@mail.ru"
 msgstr ""
 
-#: mrim.h:132
+#: mrim.h:133
 msgid "status_online"
 msgstr ""
 
-#: mrim.h:133
+#: mrim.h:134
 msgid "status_away"
 msgstr ""
 
-#: mrim.h:135
+#: mrim.h:136
 msgid "boleu"
 msgstr ""
 
-#: mrim.h:136
+#: mrim.h:137
 msgid "doma"
 msgstr ""
 
-#: mrim.h:137
+#: mrim.h:138
 msgid "em.bmp"
 msgstr ""
 
-#: mrim.h:138
+#: mrim.h:139
 msgid "gde_ia"
 msgstr ""
 
-#: mrim.h:139
+#: mrim.h:140
 msgid "gizn_gavno"
 msgstr ""
 
-#: mrim.h:140
+#: mrim.h:141
 msgid "gotovlu"
 msgstr ""
 
-#: mrim.h:141
+#: mrim.h:142
 msgid "gulau"
 msgstr ""
 
-#: mrim.h:142
+#: mrim.h:143
 msgid "ia_inoplanet_razum"
 msgstr ""
 
-#: mrim.h:143
+#: mrim.h:144
 msgid "ia_krivetko"
 msgstr ""
 
-#: mrim.h:144
+#: mrim.h:145
 msgid "ia_poteralsa"
 msgstr ""
 
-#: mrim.h:145
+#: mrim.h:146
 msgid "ia_soshl_asuma"
 msgstr ""
 
-#: mrim.h:146
+#: mrim.h:147
 msgid "ia_utko"
 msgstr ""
 
-#: mrim.h:147
+#: mrim.h:148
 msgid "igrau"
 msgstr ""
 
