@@ -49,7 +49,7 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 		if (pack->cur >= pack->buf + pack->len)
 			break; // To avoid trashing debug output.
 		mrim_buddy *mb = new_mrim_buddy(pack, c_mask);
-		if (mb == NULL)
+		if (!mb)
 			break;
 		mb->id = num++;
 		if (mb->flags & CONTACT_FLAG_REMOVED)
@@ -90,9 +90,9 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 			// 1) If met before -- attach,
 			//    otherwise create new one.
 			PurpleBuddy *old_buddy = purple_find_buddy(account, mb->addr);
-			if (old_buddy != NULL)
+			if (old_buddy)
 			{
-				purple_debug_info("mrim", "Buddy <%s> already exsist!\n", old_buddy->name);
+				purple_debug_info("mrim", "Buddy <%s> already exsists!\n", old_buddy->name);
 				// TODO Move to appropriate group.
 				buddy = old_buddy;
 			}
@@ -126,9 +126,11 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 		PurpleBuddy *buddy = (PurpleBuddy*) (buddies->data);
 		if (buddy)
 		{
-			purple_debug_info("mrim", "[%s] purge <%s>\n", __func__, buddy->name);
 			if (!(buddy->proto_data))
-				purple_blist_remove_buddy(buddy);
+			{
+				purple_debug_info("mrim", "[%s] purge <%s>\n", __func__, buddy->name);
+				/*purple_blist_remove_buddy(buddy);*/
+			}
 		}
 		buddies = g_slist_next(buddies);
 	}

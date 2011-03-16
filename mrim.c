@@ -55,8 +55,10 @@ gboolean ua_matches(const gchar *string, const gchar *pattern, ua_data *result)
 		purple_debug_info("mrim", "regex match! (%s):\n", pattern);
 		purple_debug_info("mrim", "ver: %s\n", g_match_info_fetch(match_info,2));
 		purple_debug_info("mrim", "bld: %s\n", g_match_info_fetch(match_info,3));
+		purple_debug_info("mrim", "mre: %s\n", g_match_info_fetch(match_info,4));
 		result->version	= g_match_info_fetch(match_info,2);
 		result->build		= g_match_info_fetch(match_info,3);
+		result->more		= g_match_info_fetch(match_info,4);
 		purple_debug_info("mrim", "regex complete.\n");
 	} else
 	{
@@ -229,6 +231,7 @@ gchar* mrim_get_ua_alias(const gchar* ua)
 		ua_data *ua_details = g_new0(ua_data, 1);
 		ua_details->version	= g_strdup("");
 		ua_details->build		= g_strdup("");
+		ua_details->more		= g_strdup("");
 		guint j = 0;
 		while (ua_aliases[j].id)
 		{
@@ -236,7 +239,7 @@ gchar* mrim_get_ua_alias(const gchar* ua)
 			if (ua_matches(ua, ua_aliases[j].pattern, ua_details))
 			{
 				purple_debug_info("mrim", "UA %s match %s\n", ua, ua_aliases[j].pattern);
-				alias = g_strdup_printf(_(ua_aliases[j].alias), ua_details->version, ua_details->build);
+				alias = g_strdup_printf(_(ua_aliases[j].alias), ua_details->version, ua_details->build, ua_details->more);
 				break;
 			} else
 				j++;

@@ -99,7 +99,7 @@ static struct status
 
 typedef struct
 {
-	gchar *version, *build;
+	gchar *version, *build, *more;
 }ua_data;
 
 static struct
@@ -107,20 +107,21 @@ static struct
 	gchar *id, *alias, *pattern;
 } ua_aliases[]=
 {
-		//	id							alias																regex
-		{"magent",					N_("Agent@Mail.Ru for Win/PC, ver. %s, build %s"),		"client=\"(magent)\" version=\"([0-9.]+)\" build=\"([0-9]+)\""},
-		{"magent",					N_("Agent@Mail.Ru for Win/PC, ver. %s"),					"client=\"(magent)\" version=\"([0-9.]+)\""},
-		{"jagent",					N_("Java phone Agent@Mail.Ru, ver. %s"),					"client=\"(jagent)\" version=\"([0-9.]+)\""},
-		{"webagent",				N_("Web-Agent@Mail.Ru"),										"client=\"(webagent)\" name=\"(jmp)\" title=\"(Web Agent)\""},
-		{"android",					N_("Agent@Mail.Ru for Android, ver. %s, build %s"),	"client=\"(android)\" version=\"([0-9\\.]+) \\(build ([0-9]+)\\)\" desc=\"Android Agent\""},
-		{"sagent",					N_("Agent@Mail.Ru for Symbian, ver. %s, build %s"),	"client=\"(sagent)\" version=\"([0-9.]+)\" build=\"([0-9]+)\""},
-		{"QIP 2010",				N_("QIP 2010, ver. %s, build %s"),							"client=\"(QIP 2010)\" version=\"([0-9.]+)\" build=\"([0-9]+)\""},
-		{"QIP Infium",				N_("QIP Infium, ver. %s, build %s"),						"client=\"(QIP Infium)\" version=\"([0-9.]+)\" build=\"([0-9]+)\""},
-		{"Pidgin",					N_("Pidgin and Ostin's mrim-prpl plugin, ver. %s, build %s"),				"client=\"(Pidgin)\" version=\"([0-9.]+)\" build=\"([0-9]+)\""},
-		{"prpl-ostin-mrim-fun",	N_("Agent@Mail.Ru for GNU/Linux, ver. %s, rev. %s"),	"client=\"(prpl-ostin-mrim-fun)\" version=\"([0-9.]+)\" revision=\"([0-9]+)\""}, // Just for test and fun; used with myagent-im mod.
-		{"prpl-ostin-mrim",		N_("Pidgin and Ostin's mrim-prpl plugin"),				"prpl-ostin-mrim"},
-		{"mrimprpl",				N_("Purple plugin by lemax1@mail.ru"),				"Purple plugin by lemax1\@mail\.ru"},
-		{NULL,					NULL,																	""}
+	//	id								alias																				regex
+	{"magent",					N_("Agent@Mail.Ru for Win/PC, ver. %s, build %s"),					"client=\"(magent)\" version=\"([[:digit:]\\.]+)\" build=\"([[:digit:]]+)\""},
+	{"magent",					N_("Agent@Mail.Ru for Win/PC, ver. %s"),								"client=\"(magent)\" version=\"([[:digit:]\\.]+)\""},
+	{"jagent",					N_("Java phone Agent@Mail.Ru, ver. %s"),								"client=\"(jagent)\" version=\"([[:digit:]\\.]+)\""},
+	{"webagent",				N_("Web-Agent@Mail.Ru"),													"client=\"(webagent)\" name=\"(jmp)\" title=\"(Web Agent)\""},
+	{"android",					N_("Agent@Mail.Ru for Android, ver. %s, build %s"),				"client=\"(android)\" version=\"([[:digit:]\\.]+) \\(build ([[:digit:]]+)\\)\" desc=\"Android Agent\""},
+	{"sagent",					N_("Agent@Mail.Ru for Symbian, ver. %s, build %s"),				"client=\"(sagent)\" version=\"([[:digit:]\\.]+)\" build=\"([[:digit:]]+)\""},
+	{"QIP 2010",				N_("QIP 2010, ver. %s, build %s"),										"client=\"(QIP 2010)\" version=\"([[:digit:]\\.]+)\" build=\"([[:digit:]]+)\""},
+	{"QIP Infium",				N_("QIP Infium, ver. %s, build %s"),									"client=\"(QIP Infium)\" version=\"([[:digit:]\\.]+)\" build=\"([[:digit:]]+)\""},
+	{"Pidgin",					N_("Pidgin and Ostin's mrim-prpl plugin, ver. %s, build %s"),	"client=\"(Pidgin)\" version=\"([[:digit:]\\.]+)\" build=\"([[:digit:]]+)\""},
+	{"mrim-prpl",				N_("mrim-prpl (libpurple %s) ver. %s, %s"),							"client=\"(mrim-prpl)\" version=\"([[:digit:]\\.]+)/([[:alnum:]\\.\\- ]+)\" ui=\"([[:alnum:]\\. /]+)\""},
+	{"prpl-ostin-mrim-fun",	N_("Agent@Mail.Ru for GNU/Linux, ver. %s, rev. %s"),				"client=\"(prpl-ostin-mrim-fun)\" version=\"([[:digit:]\\.]+)\" revision=\"([[:digit:]]+)\""}, // Just for test and fun; used with myagent-im mod.
+	{"prpl-ostin-mrim",		N_("Pidgin and Ostin's mrim-prpl plugin"),							"prpl-ostin-mrim"},
+	{"mrimprpl",				N_("Purple plugin by lemax1@mail.ru"),									"Purple plugin by lemax1@mail.ru"},
+	{NULL,						NULL,																				""}
 };
 
 // moods reference: libpurple/status.h)
