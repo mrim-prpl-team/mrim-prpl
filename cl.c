@@ -129,7 +129,7 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 			if (!(buddy->proto_data))
 			{
 				purple_debug_info("mrim", "[%s] purge <%s>\n", __func__, buddy->name);
-				/*purple_blist_remove_buddy(buddy);*/
+				purple_blist_remove_buddy(buddy);
 			}
 		}
 		buddies = g_slist_next(buddies);
