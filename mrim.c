@@ -997,7 +997,7 @@ GList* mrim_status_types( PurpleAccount* account )
 	PurpleStatusType *type;
 	unsigned int i;
 	for (i = 0; i < MRIM_PURPLE_STATUS_COUNT; i++) {
-		type = purple_status_type_new_with_attrs(mrim_purple_statuses[i].primative, mrim_purple_statuses[i].id, _(mrim_purple_statuses[i].title), TRUE, TRUE, FALSE,
+		type = purple_status_type_new_with_attrs(mrim_purple_statuses[i].primative, mrim_purple_statuses[i].id, _(mrim_purple_statuses[i].title), TRUE, mrim_purple_statuses[i].user_settable, FALSE,
 			"message", _("Message"), purple_value_new(PURPLE_TYPE_STRING), NULL);
 		status_list = g_list_append(status_list, type);
 	}
@@ -1050,6 +1050,7 @@ void make_mrim_status(mrim_status *s, guint32 status, gchar *uri, gchar *title, 
 	s->title = title;
 	s->desc = desc;
 	unsigned int status_index = -1;
+	s->have_mood = FALSE;
 	if (uri) {
 		unsigned int i;
 		for (i = 0; i < MRIM_PURPLE_STATUS_COUNT; i++) {
@@ -1073,6 +1074,9 @@ void make_mrim_status(mrim_status *s, guint32 status, gchar *uri, gchar *title, 
 		}
 		if (status_index == -1) {
 			status_index = 1;
+			if (uri) {
+				s->have_mood = TRUE;
+			}
 		}
 	}
 	s->purple_status = mrim_purple_statuses[status_index].id;
@@ -1281,10 +1285,14 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 		mb->status_uri		= mrim_str_non_empty(uri); */
 		
 		purple_prpl_got_user_status(mrim->account, email, mb->status.purple_status, NULL);
-		/*purple_prpl_got_user_status(mrim->gc->account, email, "mood",
-			PURPLE_MOOD_NAME, uri,
-			PURPLE_MOOD_COMMENT, desc,
-			NULL); */
+		if (mb->status.have_mood) {
+			purple_prpl_got_user_status(mrim->gc->account, email, "mood",
+				PURPLE_MOOD_NAME, uri,
+				PURPLE_MOOD_COMMENT, desc,
+				NULL);
+		} else {
+			purple_prpl_got_user_status_deactive(mrim->gc->account, email, "mood");
+		}
 		
 		if (!mb->authorized)
 		{
