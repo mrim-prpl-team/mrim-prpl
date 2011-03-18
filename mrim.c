@@ -1296,7 +1296,7 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 				NULL);
 		} else {
 			purple_prpl_got_user_status_deactive(mrim->gc->account, email, "mood");
-		}
+		} 
 		
 		if (!mb->authorized)
 		{
