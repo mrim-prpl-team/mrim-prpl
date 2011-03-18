@@ -970,7 +970,7 @@ void notify_emails(void *gc, gchar* webkey, guint32 count)
 GList* mrim_status_types( PurpleAccount* account )
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
-	GList*	statuslist	= NULL;
+	/* GList*	statuslist	= NULL;
 	PurpleStatusType* type = NULL;
 	unsigned int i;
 
@@ -983,18 +983,28 @@ GList* mrim_status_types( PurpleAccount* account )
 	}
 
 	/* add Mood option */
-	type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE,	PURPLE_MOOD_NAME, _("Mood Name"), purple_value_new( PURPLE_TYPE_STRING ), PURPLE_MOOD_COMMENT, _("Mood Comment"), purple_value_new(PURPLE_TYPE_STRING), NULL);
+	//type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE,	PURPLE_MOOD_NAME, _("Mood Name"), purple_value_new( PURPLE_TYPE_STRING ), PURPLE_MOOD_COMMENT, _("Mood Comment"), purple_value_new(PURPLE_TYPE_STRING), NULL);
 	//type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE, PURPLE_MOOD_NAME, "Mood Name", purple_value_new( PURPLE_TYPE_STRING ), NULL);
-	statuslist = g_list_prepend( statuslist, type );
+	//statuslist = g_list_prepend( statuslist, type );
 
 	/* add sms */
-	type = purple_status_type_new_full(PURPLE_STATUS_MOBILE, MRIM_STATUS_ID_MOBILE, NULL, FALSE, FALSE, TRUE);
-	statuslist = g_list_prepend(statuslist, type);
-
-	return g_list_reverse(statuslist);
+	//type = purple_status_type_new_full(PURPLE_STATUS_MOBILE, MRIM_STATUS_ID_MOBILE, NULL, FALSE, FALSE, TRUE);
+	//statuslist = g_list_prepend(statuslist, type);
+	
+	//return g_list_reverse(statuslist);
+	
+	GList *status_list = NULL;
+	PurpleStatusType *type;
+	unsigned int i;
+	for (i = 0; i < MRIM_PURPLE_STATUS_COUNT; i++) {
+		type = purple_status_type_new_with_attrs(mrim_purple_statuses[i].primative, mrim_purple_statuses[i].id, _(mrim_purple_statuses[i].title), TRUE, TRUE, FALSE,
+			"message", _("Message"), purple_value_new(PURPLE_TYPE_STRING), NULL);
+		status_list = g_list_append(status_list, type);
+	}
+	return status_list;
 }
 
-guint32 purple_status_to_mrim_status(PurpleStatus *status)
+/* guint32 purple_status_to_mrim_status(PurpleStatus *status)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
 	g_return_val_if_fail(status != NULL, 0);
@@ -1005,13 +1015,13 @@ guint32 purple_status_to_mrim_status(PurpleStatus *status)
 	unsigned int i;
 	for ( i = 0; i < STATUSES_COUNT ; i++ )
 		if ( mrim_statuses[i].primative == primitive )				/* status found! */
-			return mrim_statuses[i].mrim_status;
+			/* return mrim_statuses[i].mrim_status;
 
 	return STATUS_UNDETERMINATED;
-}
+} */
 
 
-const char* mrim_status_to_prpl_status( guint32 status )
+/* const char* mrim_status_to_prpl_status( guint32 status )
 {
 	purple_debug_info("mrim","[%s] 0x%X\n",__func__, status);
 	unsigned int	i;
@@ -1023,7 +1033,7 @@ const char* mrim_status_to_prpl_status( guint32 status )
 			return mrim_statuses[i].id;
 		
 	return "status_online";
-}
+} */
 
 void free_mrim_status(mrim_status *status) {
 	if (status) {
@@ -1039,20 +1049,64 @@ void make_mrim_status(mrim_status *s, guint32 status, gchar *uri, gchar *title, 
 	s->uri = uri;
 	s->title = title;
 	s->desc = desc;
-	s->purple_status = mrim_status_to_prpl_status(status);
-	if (g_strcmp0(uri, "status_dnd") == 0) {
-		s->purple_status = N_("Not available"); //Отдельная обработка для "Не беспокоить"
+	unsigned int status_index = -1;
+	if (uri) {
+		unsigned int i;
+		for (i = 0; i < MRIM_PURPLE_STATUS_COUNT; i++) {
+			if (mrim_purple_statuses[i].uri) {
+				if (strcmp(mrim_purple_statuses[i].uri, uri) == 0) {
+					status_index = i;
+					break;
+				}
+			}
+		}
 	}
+	if (status_index == -1) {
+		unsigned int i;
+		for (i = 0; i < MRIM_PURPLE_STATUS_COUNT; i++) {
+			if (mrim_purple_statuses[i].code !=  STATUS_USER_DEFINED) {
+				if ((mrim_purple_statuses[i].code == status) || (mrim_purple_statuses[i].code & status)) {
+					status_index = i;
+					break;	
+				}
+			}
+		}
+		if (status_index == -1) {
+			status_index = 1;
+		}
+	}
+	s->purple_status = mrim_purple_statuses[status_index].id;
 	if (title && desc) {
 		s->display_string = g_strdup_printf("%s - %s", title, desc);
 	} else if (title) {
 		s->display_string = g_strdup(title);
 	} else if (desc) {
-		s->display_string = g_strdup_printf("%s - %s", _(s->purple_status), desc);
+		s->display_string = g_strdup_printf("%s - %s", _(mrim_purple_statuses[status_index].title), desc);
 	} else {
-		s->display_string = g_strdup(_(s->purple_status));
+		s->display_string = g_strdup(_(mrim_purple_statuses[status_index].title));
 	}
-	return s;
+	/* char *s2 = g_strdup_printf("%s (%s)", s->display_string, mrim_purple_statuses[status_index].id);
+	g_free(s->display_string);
+	s->display_string = s2; */
+}
+
+void make_mrim_status_from_purple(mrim_status *s, PurpleStatus *status) {
+	unsigned int primative = purple_status_type_get_primitive(purple_status_get_type(status));
+	unsigned int status_index = -1, i;
+	for (i = 0; i < MRIM_PURPLE_STATUS_COUNT; i++) {
+		if (primative == mrim_purple_statuses[i].primative) {
+			status_index = i;
+			break;
+		}
+	}
+	if (status_index == -1) {
+		status_index = 1;
+	}
+	s->purple_status = g_strdup(mrim_purple_statuses[status_index].id);
+	s->code = mrim_purple_statuses[status_index].code;
+	s->uri = g_strdup(mrim_purple_statuses[status_index].uri);
+	s->title = g_strdup(_(mrim_purple_statuses[status_index].title));
+	s->desc = purple_markup_strip_html(purple_status_get_attr_string(status, "message"));
 }
 
 static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
@@ -1067,7 +1121,7 @@ static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
 	purple_debug_info("mrim", "[%s] setting %s's status to <%s, id %s>\n", __func__, acct->username, purple_status_get_name(status), prpl_status_id);
 
 	// статус под кнопкой статуса в основном окне пиджина
-	gchar * status_desc = purple_markup_strip_html( purple_status_get_attr_string( status, "message" ) );
+	/* gchar * status_desc = purple_markup_strip_html( purple_status_get_attr_string( status, "message" ) );
 	if (status_desc)
 	{
 		//FREE(mrim->status_desc)
@@ -1076,18 +1130,18 @@ static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
 	} else
 	{
 		mrim->status_desc		= NULL;
-	};
+	}; */
 
 	/* Handle mood changes */
 	//if (purple_status_type_get_primitive(purple_status_get_type(status)) == PURPLE_STATUS_MOOD)
-	{
+	//{
 		//FREE(mrim->status_spec) // А надо?
-		mrim->status_spec = purple_status_get_attr_string(status, PURPLE_MOOD_NAME);
+		//mrim->status_spec = purple_status_get_attr_string(status, PURPLE_MOOD_NAME);
 		//if (mrim->status_spec)
-		{
+		//{
 			//purple_debug_info("mrim", "[%s] %s's mood id =<%s>\n", __func__, acct->username, prpl_status_id);
 			// TODO проверка на существование mood
-			gboolean found_mood = FALSE;
+			/* gboolean found_mood = FALSE;
 			for (int i=0; i< ARRAY_SIZE(moods)-1; i++)
 			{
 				if ( mrim->status_spec && ( strcmp( moods[i].mood,  mrim->status_spec) ) == 0 )
@@ -1121,19 +1175,21 @@ static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
 		//	//mrim->status_desc		= NULL;
 		//	mrim->status_spec		= NULL;
 		//	mrim->status_title	= purple_status_get_name(status);
-		//}
+		//} */
 	//} else
 	//{
 	//	purple_debug_info("mrim", "[%s] %s has not a primitive mood now.\n", __func__, acct->username);
-	}
+	//}
 
 	//purple_debug_info("mrim", "[%s] (status) %s is now  <%s, %s, %s>\n", __func__, acct->username, mrim->status_spec, mrim->status_title, mrim->status_desc);
 
+	make_mrim_status_from_purple(&mrim->status, status);
 	package *pack = new_package(mrim->seq, MRIM_CS_CHANGE_STATUS);
-	add_ul(purple_status_to_mrim_status(status), pack);
-	add_LPS(mrim->status_spec, pack);	// spec
-	add_LPS(mrim->status_title, pack); // status title
-	add_LPS(mrim->status_desc, pack); // desc or NULL
+	//add_ul(purple_status_to_mrim_status(status), pack);
+	add_ul(mrim->status.code, pack);
+	add_LPS(mrim->status.uri, pack);	// spec
+	add_LPS(mrim->status.title, pack); // status title
+	add_LPS(mrim->status.desc, pack); // desc or NULL
 	add_ul(COM_SUPPORT, pack);
 	send_package(pack, mrim);
 }
@@ -1169,7 +1225,7 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 	PurpleBuddy *buddy = purple_find_buddy(mrim->account, email);
 	g_return_if_fail(buddy != NULL);
 	
-	gchar *prpl_status		= mrim_status_to_prpl_status(status);
+	/* gchar *prpl_status		= mrim_status_to_prpl_status(status);
 	if (uri)
 	{
 		// TODO: Implement some more appropriate moods processing!!
@@ -1188,8 +1244,8 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 		{
 			status_comment = g_strdup_printf("\"%s\"", uri);
 		} */
-		purple_prpl_got_user_status(mrim->account, email, (prpl_status) ? prpl_status : "status_online" /* TODO */, NULL);
-		purple_prpl_got_user_status(mrim->gc->account, email, "mood",
+		//purple_prpl_got_user_status(mrim->account, email, (prpl_status) ? prpl_status : "status_online" /* TODO */, NULL);
+		/*purple_prpl_got_user_status(mrim->gc->account, email, "mood",
 				PURPLE_MOOD_NAME, uri,
 				PURPLE_MOOD_COMMENT, desc,
 				NULL);
@@ -1199,7 +1255,7 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 		purple_debug_info("mrim", "[%s] %s user mood-free: %s (%s; %s) / %s.\n", __func__, email, uri, desc, title, prpl_status);
 		purple_prpl_got_user_status_deactive(mrim->gc->account, email, "mood");
 		purple_prpl_got_user_status(mrim->gc->account, email, prpl_status, (desc && desc[0]) ? desc : NULL , NULL);
-	}
+	}*/
 	
 	if (buddy && buddy->proto_data)
 	{
@@ -1224,12 +1280,21 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 		mb->status_desc	= mrim_str_non_empty(desc);
 		mb->status_uri		= mrim_str_non_empty(uri); */
 		
+		purple_prpl_got_user_status(mrim->account, email, mb->status.purple_status, NULL);
+		/*purple_prpl_got_user_status(mrim->gc->account, email, "mood",
+			PURPLE_MOOD_NAME, uri,
+			PURPLE_MOOD_COMMENT, desc,
+			NULL); */
+		
 		if (!mb->authorized)
 		{
 			purple_prpl_got_user_status_deactive(mrim->gc->account, email, "mood");
 			purple_prpl_got_user_status(mrim->account, email, "offline", NULL);
 	        return;
 		}
+	} else {
+		purple_prpl_got_user_status_deactive(mrim->gc->account, email, "mood");
+		purple_prpl_got_user_status(mrim->account, email, "offline", NULL);
 	}
 }
 
@@ -1256,7 +1321,7 @@ void set_user_status_by_mb(mrim_data *mrim, mrim_buddy *mb)
 /******************************************
  *              LOGIN
  ******************************************/
-static void mrim_prpl_login(PurpleAccount *account)
+void mrim_prpl_login(PurpleAccount *account)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
 	g_return_if_fail(account != NULL);
@@ -1278,10 +1343,11 @@ static void mrim_prpl_login(PurpleAccount *account)
 	mrim->web_key = NULL;
 	mrim->error_count = 0;
 	mrim->ProxyConnectHandle = NULL;
-	mrim->status			= purple_status_to_mrim_status(purple_presence_get_active_status(account->presence));
+	/* mrim->status			= purple_status_to_mrim_status(purple_presence_get_active_status(account->presence));
 	mrim->status_spec		= NULL;
 	mrim->status_title	= NULL;
-	mrim->status_desc		= NULL;
+	mrim->status_desc		= NULL; */
+	make_mrim_status_from_purple(&mrim->status, purple_presence_get_active_status(account->presence));
 	  
 	mrim->server = g_strdup(purple_account_get_string(account, "balancer_host", MRIM_MAIL_RU));
 	mrim->port = purple_account_get_int(account, "balancer_port", MRIM_MAIL_RU_PORT);
@@ -1419,13 +1485,16 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 											package *pack_ack = new_package(mrim->seq, MRIM_CS_LOGIN2);
 											add_LPS(mrim->username, pack_ack);
 											add_LPS(mrim->password, pack_ack);
-											add_ul(mrim->status, pack_ack);
-											add_LPS("status_online", pack_ack); // TODO
-											add_LPS("Neutral", pack_ack); // TODO
-											add_LPS("Neutral-all", pack_ack); // TODO
+											add_ul(mrim->status.code, pack_ack);
+											//add_LPS("status_online", pack_ack); // TODO
+											add_LPS(mrim->status.uri, pack_ack);
+											//add_LPS("Neutral", pack_ack); // TODO
+											add_LPS(_(mrim->status.title), pack_ack);
+											//add_LPS("Neutral-all", pack_ack); // TODO
+											add_LPS(mrim->status.desc, pack_ack);
 											add_ul(COM_SUPPORT /*FEATURES*/, pack_ack); // see mrim.h
 											add_LPS(mrim->user_agent, pack_ack);
-											add_LPS(_("ru"),pack_ack); // TODO: CS locale selection.
+											add_LPS(_("ru"), pack_ack); // TODO: CS locale selection.
 											add_LPS(DISPLAY_VERSION, pack_ack);
 
 											send_package(pack_ack, mrim);
@@ -1772,7 +1841,7 @@ gboolean mrim_keep_alive(gpointer data)
 	return TRUE; // Further KAP sending.
 }
 
-static void mrim_prpl_close(PurpleConnection *gc)
+void mrim_prpl_close(PurpleConnection *gc)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
 	g_return_if_fail(gc != NULL);
@@ -1823,12 +1892,12 @@ static void mrim_prpl_close(PurpleConnection *gc)
 }
 
 
-static const char *mrim_list_icon(PurpleAccount *account, PurpleBuddy *buddy)
+const char *mrim_list_icon(PurpleAccount *account, PurpleBuddy *buddy)
 {
 	return "mrim";
 }
 
-static gboolean mrim_can_receive_file(PurpleConnection *gc,const char *who) 
+gboolean mrim_can_receive_file(PurpleConnection *gc,const char *who) 
 {
 #ifdef FT
 	return TRUE;
@@ -1841,7 +1910,7 @@ PurpleMood *mrim_get_moods(PurpleAccount *account)
 	return moods;
 }
 /* mrim support offline messages */
-static gboolean mrim_offline_message(const PurpleBuddy *buddy) 
+gboolean mrim_offline_message(const PurpleBuddy *buddy) 
 {
 	return TRUE;
 }
@@ -1855,7 +1924,7 @@ const char *mrim_list_emblem(PurpleBuddy *b)
 			return "not-authorized";
 	return NULL;
 }
-static void mrim_prpl_destroy(PurplePlugin *plugin) 
+void mrim_prpl_destroy(PurplePlugin *plugin) 
 {
 	// TODO Should we remove 'action'-s?
 	g_free(mrim_user_agent);
@@ -1865,12 +1934,12 @@ static void mrim_prpl_destroy(PurplePlugin *plugin)
 /******************************************
  *              SMS COMMAND
  ******************************************/
-static gboolean mrim_load_plugin(PurplePlugin *plugin)
+gboolean mrim_load_plugin(PurplePlugin *plugin)
 {
 	return TRUE;
 }
 
-static gboolean mrim_unload_plugin(PurplePlugin *plugin)
+gboolean mrim_unload_plugin(PurplePlugin *plugin)
 {
 	return TRUE;
 }
@@ -1890,7 +1959,7 @@ static PurplePluginProtocolInfo prpl_info =
       10000,                           /* max_filesize */
       PURPLE_ICON_SCALE_DISPLAY,       /* scale_rules */
   },
-  mrim_list_icon,                      /** list_icon **/
+  mrim_list_icon,                      /* list_icon */
   mrim_list_emblem,                    /* list_emblem */
   mrim_status_text,			                       /* status_text */
   mrim_tooltip_text,                   /* tooltip_text */
@@ -1898,8 +1967,8 @@ static PurplePluginProtocolInfo prpl_info =
   mrim_user_actions,	               /* blist_node_menu */
   mrim_chat_info,                  	   /* chat_info */
   mrim_chat_info_defaults,   		   /* chat_info_defaults */
-  mrim_prpl_login,                     /** login */
-  mrim_prpl_close,                     /** close */
+  mrim_prpl_login,                     /* login */
+  mrim_prpl_close,                     /* close */
   mrim_send_im,      	               /* send_im */
   NULL,			                       /* set_info */
   mrim_send_typing,               	   /* send_typing */

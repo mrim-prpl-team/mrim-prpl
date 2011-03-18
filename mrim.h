@@ -97,6 +97,24 @@ static struct status
 //	{	PURPLE_STATUS_UNSET,		STATUS_UNDETERMINATED,	"UNDETERMINATED",	"UNDETERMINATED",	TRUE,				FALSE}
 };
 
+static struct mrim_purple_status {
+	PurpleStatusPrimitive primative;
+	guint32 code;
+	const char* uri;
+	const char* id;
+	const char* title;
+} mrim_purple_statuses[] = {
+	{ PURPLE_STATUS_OFFLINE, STATUS_OFFLINE, NULL, "offline", N_("Offline")},
+	{ PURPLE_STATUS_AVAILABLE, STATUS_ONLINE, "status_1", "status_online", N_("Available")},
+	{ PURPLE_STATUS_AWAY, STATUS_AWAY, "status_2", "status_away", "Away" },
+	{ PURPLE_STATUS_INVISIBLE, STATUS_FLAG_INVISIBLE, "status_3", "invisible", N_("Invisible") },
+	{ PURPLE_STATUS_MOOD, STATUS_USER_DEFINED, NULL, NULL, NULL },
+	{ PURPLE_STATUS_UNAVAILABLE, STATUS_USER_DEFINED, "status_dnd", "status_unavailable", N_("Not available") },
+	{ PURPLE_STATUS_AVAILABLE, STATUS_USER_DEFINED, "status_chat", "status_chat", N_("Ready to chat") }
+};
+
+#define MRIM_PURPLE_STATUS_COUNT ARRAY_SIZE(mrim_purple_statuses)
+
 typedef struct
 {
 	gchar *version, *build, *more;
@@ -276,10 +294,10 @@ typedef struct {
 	char *username;
 	char *password;
 
-	guint32 status;		  // status в формате Маил.Агента
-	gchar *status_spec;   // status_51
-	gchar *status_title;  // белка (или любое другое короткое название, на выбор пользователя)
-	gchar *status_desc;   // тут комментарий к статусу
+	//guint32 status;		  // status в формате Маил.Агента
+	//gchar *status_spec;   // status_51
+	//gchar *status_title;  // белка (или любое другое короткое название, на выбор пользователя)
+	//gchar *status_desc;   // тут комментарий к статусу
 
 	gchar *server;        // IP сервера
 	int port;             // port на сервере
@@ -303,6 +321,7 @@ typedef struct {
 	GList *xfer_lists;     // список всех файлов для передачи
 	
 	gchar *user_agent;
+	mrim_status status;
 }mrim_data;
 
 typedef struct
