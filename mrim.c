@@ -1315,10 +1315,20 @@ void set_user_status_by_mb(mrim_data *mrim, mrim_buddy *mb)
 	g_return_if_fail(mb);
 	g_return_if_fail(mrim);
 	PurpleAccount *account = mrim->account;
-	if (mb->authorized)
+	if (mb->authorized) {
 		purple_prpl_got_user_status(account, mb->addr, mb->status.purple_status, NULL);
-	else
+		if (mb->status.have_mood) {
+			purple_prpl_got_user_status(mrim->gc->account, mb->addr, "mood",
+				PURPLE_MOOD_NAME, mb->status.uri,
+				PURPLE_MOOD_COMMENT, mb->status.desc,
+				NULL);
+		} else {
+			purple_prpl_got_user_status_deactive(mrim->gc->account, mb->addr, "mood");
+		}
+	} else {
 		purple_prpl_got_user_status(account, mb->addr, "offline", NULL);
+		purple_prpl_got_user_status_deactive(mrim->gc->account, mb->addr, "mood");
+	}
 
 	if (mb->phones && mb->phones[0])
 		purple_prpl_got_user_status(account, mb->addr, MRIM_STATUS_ID_MOBILE, NULL);
