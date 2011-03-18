@@ -1095,12 +1095,16 @@ void make_mrim_status(mrim_status *s, guint32 status, gchar *uri, gchar *title, 
 }
 
 void make_mrim_status_from_purple(mrim_status *s, PurpleStatus *status) {
-	unsigned int primative = purple_status_type_get_primitive(purple_status_get_type(status));
+	const char *id = purple_status_type_get_id(purple_status_get_type(status));
 	unsigned int status_index = -1, i;
-	for (i = 0; i < MRIM_PURPLE_STATUS_COUNT; i++) {
-		if (primative == mrim_purple_statuses[i].primative) {
-			status_index = i;
-			break;
+	if (id) {
+		for (i = 0; i < MRIM_PURPLE_STATUS_COUNT; i++) {
+			if (mrim_purple_statuses[i].id) {
+				if (strcmp(mrim_purple_statuses[i].id, id) == 0) {
+					status_index = i;
+					break;
+				}
+			}
 		}
 	}
 	if (status_index == -1) {
