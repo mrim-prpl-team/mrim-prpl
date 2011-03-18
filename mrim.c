@@ -1001,6 +1001,11 @@ GList* mrim_status_types( PurpleAccount* account )
 			"message", _("Message"), purple_value_new(PURPLE_TYPE_STRING), NULL);
 		status_list = g_list_append(status_list, type);
 	}
+	type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE,	PURPLE_MOOD_NAME, _("Mood Name"), purple_value_new( PURPLE_TYPE_STRING ), PURPLE_MOOD_COMMENT, _("Mood Comment"), purple_value_new(PURPLE_TYPE_STRING), NULL);
+	status_list = g_list_append(status_list, type);
+	type = purple_status_type_new_full(PURPLE_STATUS_MOBILE, MRIM_STATUS_ID_MOBILE, NULL, FALSE, FALSE, TRUE);
+	status_list = g_list_append(status_list, type);
+	
 	return status_list;
 }
 
