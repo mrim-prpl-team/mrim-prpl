@@ -103,14 +103,15 @@ static struct mrim_purple_status {
 	const char* uri;
 	const char* id;
 	const char* title;
+	gboolean user_settable;
 } mrim_purple_statuses[] = {
-	{ PURPLE_STATUS_OFFLINE, STATUS_OFFLINE, NULL, "offline", N_("Offline")},
-	{ PURPLE_STATUS_AVAILABLE, STATUS_ONLINE, "status_1", "status_online", N_("Available")},
-	{ PURPLE_STATUS_AWAY, STATUS_AWAY, "status_2", "status_away", "Away" },
-	{ PURPLE_STATUS_INVISIBLE, STATUS_FLAG_INVISIBLE, "status_3", "invisible", N_("Invisible") },
-	{ PURPLE_STATUS_MOOD, STATUS_USER_DEFINED, NULL, NULL, NULL },
-	{ PURPLE_STATUS_UNAVAILABLE, STATUS_USER_DEFINED, "status_dnd", "status_unavailable", N_("Not available") },
-	{ PURPLE_STATUS_AVAILABLE, STATUS_USER_DEFINED, "status_chat", "status_chat", N_("Ready to chat") }
+	{ PURPLE_STATUS_OFFLINE, STATUS_OFFLINE, NULL, "offline", N_("Offline"), FALSE},
+	{ PURPLE_STATUS_AVAILABLE, STATUS_ONLINE, "status_1", "status_online", N_("Available"), TRUE },
+	{ PURPLE_STATUS_AWAY, STATUS_AWAY, "status_2", "status_away", "Away", TRUE },
+	{ PURPLE_STATUS_INVISIBLE, STATUS_FLAG_INVISIBLE, "status_3", "invisible", N_("Invisible"), TRUE },
+	{ PURPLE_STATUS_MOOD, STATUS_USER_DEFINED, NULL, NULL, NULL, FALSE },
+	{ PURPLE_STATUS_UNAVAILABLE, STATUS_USER_DEFINED, "status_dnd", "status_unavailable", N_("Not available"), TRUE },
+	{ PURPLE_STATUS_AVAILABLE, STATUS_USER_DEFINED, "status_chat", "status_chat", N_("Ready to chat"), TRUE }
 };
 
 #define MRIM_PURPLE_STATUS_COUNT ARRAY_SIZE(mrim_purple_statuses)
@@ -265,6 +266,7 @@ typedef struct {
 	gchar *desc;
 	gchar *purple_status;
 	gchar *display_string;
+	gboolean have_mood;
 } mrim_status;
 
 typedef struct
