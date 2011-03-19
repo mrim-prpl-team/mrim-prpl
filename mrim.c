@@ -1046,6 +1046,7 @@ void free_mrim_status(mrim_status *status) {
 		FREE(status->title)
 		FREE(status->desc)
 		FREE(status->display_string)
+		//FREE(status->mood) /* TODO Memory leak */
 	}
 }
 
@@ -1054,8 +1055,8 @@ void make_mrim_status(mrim_status *s, guint32 status, gchar *uri, gchar *title, 
 	s->uri = uri;
 	s->title = title;
 	s->desc = desc;
+	s->mood = NULL;
 	unsigned int status_index = -1;
-	s->have_mood = FALSE;
 	if (uri) {
 		unsigned int i;
 		for (i = 0; i < MRIM_PURPLE_STATUS_COUNT; i++) {
@@ -1080,7 +1081,15 @@ void make_mrim_status(mrim_status *s, guint32 status, gchar *uri, gchar *title, 
 		if (status_index == -1) {
 			status_index = 1;
 			if (uri) {
-				s->have_mood = TRUE;
+				for (i = 0; i < MRIM_PURPLE_MOOD_COUNT; i++) {
+					if (strcmp(uri, mrim_purple_moods[i].uri) == 0) {
+						s->mood = g_strdup(mrim_purple_moods[i].mood);
+						break;
+					}
+				}
+				if (!s->mood) {
+					s->mood = g_strdup(s->uri);
+				}
 			}
 		}
 	}
@@ -1115,10 +1124,27 @@ void make_mrim_status_from_purple(mrim_status *s, PurpleStatus *status) {
 	if (status_index == -1) {
 		status_index = 1;
 	}
+	s->mood = g_strdup(purple_status_get_attr_string(status, PURPLE_MOOD_NAME));
 	s->purple_status = g_strdup(mrim_purple_statuses[status_index].id);
-	s->code = mrim_purple_statuses[status_index].code;
-	s->uri = g_strdup(mrim_purple_statuses[status_index].uri);
-	s->title = g_strdup(_(mrim_purple_statuses[status_index].title));
+	if (s->mood) {
+		s->code = STATUS_USER_DEFINED;
+		s->uri = NULL;
+		for (i = 0; i < MRIM_PURPLE_MOOD_COUNT; i++) {
+			if (strcmp(s->mood, mrim_purple_moods[i].mood) == 0) {
+				s->uri = g_strdup(mrim_purple_moods[i].uri);
+				s->title = g_strdup(_(mrim_purple_moods[i].title));
+				break;
+			}
+		}
+		if (!s->uri) {
+			s->uri = g_strdup(s->mood);
+			s->title = g_strdup(_(mrim_purple_statuses[status_index].title));
+		}
+	} else {
+		s->code = mrim_purple_statuses[status_index].code;
+		s->uri = g_strdup(mrim_purple_statuses[status_index].uri);
+		s->title = g_strdup(_(mrim_purple_statuses[status_index].title));
+	}
 	s->desc = purple_markup_strip_html(purple_status_get_attr_string(status, "message"));
 }
 
@@ -1294,14 +1320,14 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 		mb->status_uri		= mrim_str_non_empty(uri); */
 		
 		purple_prpl_got_user_status(mrim->account, email, mb->status.purple_status, NULL);
-		if (mb->status.have_mood) {
-			purple_prpl_got_user_status(mrim->gc->account, email, "mood",
-				PURPLE_MOOD_NAME, uri,
-				PURPLE_MOOD_COMMENT, desc,
+		if (mb->status.mood) {
+			purple_prpl_got_user_status(mrim->gc->account, mb->addr, "mood",
+				PURPLE_MOOD_NAME, mb->status.mood,
+				PURPLE_MOOD_COMMENT, mb->status.desc,
 				NULL);
 		} else {
-			purple_prpl_got_user_status_deactive(mrim->gc->account, email, "mood");
-		} 
+			purple_prpl_got_user_status_deactive(mrim->gc->account, mb->addr, "mood");
+		}
 		
 		if (!mb->authorized)
 		{
@@ -1322,9 +1348,9 @@ void set_user_status_by_mb(mrim_data *mrim, mrim_buddy *mb)
 	PurpleAccount *account = mrim->account;
 	if (mb->authorized) {
 		purple_prpl_got_user_status(account, mb->addr, mb->status.purple_status, NULL);
-		if (mb->status.have_mood) {
+		if (mb->status.mood) {
 			purple_prpl_got_user_status(mrim->gc->account, mb->addr, "mood",
-				PURPLE_MOOD_NAME, mb->status.uri,
+				PURPLE_MOOD_NAME, mb->status.mood,
 				PURPLE_MOOD_COMMENT, mb->status.desc,
 				NULL);
 		} else {
@@ -1933,7 +1959,7 @@ gboolean mrim_can_receive_file(PurpleConnection *gc,const char *who)
 #endif
 }
 PurpleMood *mrim_get_moods(PurpleAccount *account)
-{
+{	
 	return moods;
 }
 /* mrim support offline messages */
@@ -2110,6 +2136,14 @@ static void mrim_prpl_init(PurplePlugin *plugin)
 	gchar *ui_name = g_hash_table_lookup(ht, "name");
 	gchar *ui_version = g_hash_table_lookup(ht, "version");
 	mrim_user_agent = g_strdup_printf("client=\"mrim-prpl\" version=\"%s/%s\" ui=\"%s %s\"", purple_version, DISPLAY_VERSION, ui_name, ui_version);
+	{
+		unsigned int i;
+		moods = g_new0(PurpleMood, MRIM_PURPLE_MOOD_COUNT);
+		for (i = 0; i < MRIM_PURPLE_MOOD_COUNT; i++) {
+			moods[i].mood = mrim_purple_moods[i].mood;
+			moods[i].description = _(mrim_purple_moods[i].title);
+		}
+	}
 	
 	PurpleAccountOption *option_server = purple_account_option_string_new(_("Server"),"balancer_host",MRIM_MAIL_RU);
 	prpl_info.protocol_options = g_list_append(NULL, option_server);

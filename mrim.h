@@ -115,6 +115,22 @@ static struct mrim_purple_status {
 
 #define MRIM_PURPLE_STATUS_COUNT ARRAY_SIZE(mrim_purple_statuses)
 
+static struct mrim_purple_mood {
+	const char *uri;
+	const char *mood;
+	const char *title;
+} mrim_purple_moods[] = {
+	{ "status_22", "working", N_("Working") },
+	{ "status_23", "sleeping", N_("Sleeping") },
+	{ "status_29", "excited", N_("Excited") },
+	{ "status_30", "wink", N_("Wink") },
+	{ "status_34", "sad", N_("Sad") },
+	{ "status_35", "crying", N_("Crying") },
+	{ "status_37", "angry", N_("Angry") }
+};
+
+#define MRIM_PURPLE_MOOD_COUNT ARRAY_SIZE(mrim_purple_statuses)
+
 typedef struct
 {
 	gchar *version, *build, *more;
@@ -144,7 +160,7 @@ static struct
 };
 
 // moods reference: libpurple/status.h)
-static PurpleMood moods[] =
+/* static PurpleMood moods[] =
 {
 		//  x3          i18n             NULL
 		//"status_0" "/status_offline.bmp"
@@ -265,7 +281,7 @@ typedef struct {
 	gchar *desc;
 	gchar *purple_status;
 	gchar *display_string;
-	gboolean have_mood;
+	gchar *mood;
 } mrim_status;
 
 typedef struct
@@ -516,5 +532,6 @@ typedef struct {
 } sms_dialog_params;
 
 gchar *mrim_user_agent;
+PurpleMood *moods;
 
 #endif
