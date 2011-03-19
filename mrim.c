@@ -1127,18 +1127,23 @@ void make_mrim_status_from_purple(mrim_status *s, PurpleStatus *status) {
 	s->mood = g_strdup(purple_status_get_attr_string(status, PURPLE_MOOD_NAME));
 	s->purple_status = g_strdup(mrim_purple_statuses[status_index].id);
 	if (s->mood) {
+		s->title = g_strdup(purple_status_get_attr_string(status, PURPLE_MOOD_COMMENT));
 		s->code = STATUS_USER_DEFINED;
 		s->uri = NULL;
 		for (i = 0; i < MRIM_PURPLE_MOOD_COUNT; i++) {
 			if (strcmp(s->mood, mrim_purple_moods[i].mood) == 0) {
 				s->uri = g_strdup(mrim_purple_moods[i].uri);
-				s->title = g_strdup(_(mrim_purple_moods[i].title));
+				if (!s->title) {
+					s->title = g_strdup(_(mrim_purple_moods[i].title));
+				}
 				break;
 			}
 		}
 		if (!s->uri) {
 			s->uri = g_strdup(s->mood);
-			s->title = g_strdup(_(mrim_purple_statuses[status_index].title));
+			if (!s->title) {
+				s->title = g_strdup(_(mrim_purple_statuses[status_index].title));
+			}
 		}
 	} else {
 		s->code = mrim_purple_statuses[status_index].code;
