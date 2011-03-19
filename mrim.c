@@ -2145,8 +2145,8 @@ static void mrim_prpl_init(PurplePlugin *plugin)
 		unsigned int i;
 		moods = g_new0(PurpleMood, MRIM_PURPLE_MOOD_COUNT);
 		for (i = 0; i < MRIM_PURPLE_MOOD_COUNT; i++) {
-			moods[i].mood = mrim_purple_moods[i].mood;
-			moods[i].description = _(mrim_purple_moods[i].title);
+			moods[i].mood = mrim_purple_moods[i].mood ? mrim_purple_moods[i].mood : "";
+			moods[i].description = _(mrim_purple_moods[i].title) ? _(mrim_purple_moods[i].title) : "";
 		}
 	}
 	

@@ -109,7 +109,7 @@ static struct mrim_purple_status {
 	{ PURPLE_STATUS_AVAILABLE, STATUS_ONLINE, "status_1", "status_online", N_("Available"), TRUE },
 	//{ PURPLE_STATUS_AVAILABLE, STATUS_USER_DEFINED, "status_chat", "status_chat", N_("Ready to chat"), TRUE },
 	{ PURPLE_STATUS_AWAY, STATUS_AWAY, "status_2", "status_away", "Away", TRUE },
-	{ PURPLE_STATUS_UNAVAILABLE, STATUS_USER_DEFINED, "status_dnd", "status_unavailable", N_("Not available"), TRUE },
+	{ PURPLE_STATUS_UNAVAILABLE, STATUS_USER_DEFINED, "status_dnd", "status_unavailable", N_("Unavailable"), TRUE },
 	{ PURPLE_STATUS_INVISIBLE, STATUS_FLAG_INVISIBLE, "status_3", "invisible", N_("Invisible"), TRUE }
 };
 
@@ -120,12 +120,13 @@ static struct mrim_purple_mood {
 	const char *mood;
 	const char *title;
 } mrim_purple_moods[] = {
-	//{ "status_chat", "meeting", N_("Ready to chat") }, /* TODO: SegFault */
+	{ "status_chat", "meeting", N_("Ready to chat") }, /* TODO: SegFault */
 	{ "status_4", "sick", N_("Sick") },
 	{ "status_6", "plate", N_("Plate") },
 	{ "status_8", "restroom", N_("Restroom") },
 	{ "status_15", "bathing", N_("Bathing") },
 	{ "status_16", "console", N_("Playing") },
+	{ "status_17", "cigarette", N_("Smoking") },
 	{ "status_22", "working", N_("Working") },
 	{ "status_23", "sleeping", N_("Sleeping") },
 	{ "status_29", "happy", N_("Happy") },
