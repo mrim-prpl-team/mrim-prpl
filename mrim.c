@@ -391,23 +391,6 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 		if (mb)
 		{
 			// Presence info:
-			gchar *msg = NULL;
-			// TODO: status_title may appear not i18n-able!! DANGEROUS!!
-			/* if (mb->status_title || mb->status_desc) { //TODO X-status?
-				if (mb->status_desc && mb->status_title) {
-					msg = g_strdup_printf("%s - %s", _(mb->status_title), mb->status_desc); //Есть и status_title и status_desc
-				} else if (mb->status_desc) {
-					msg = g_strdup_printf("%s - %s", presence_name , mb->status_desc); //Есть только status_desc
-				} else {
-					msg = g_strdup(_(mb->status_title)); //Есть только status_title
-				}
-				purple_notify_user_info_add_pair(info, _("Status"), msg);
-				//FREE(msg);
-			} else {
-				if (purple_status_type_get_primitive(purple_status_get_type(status)) != PURPLE_STATUS_OFFLINE) {
-					purple_notify_user_info_add_pair(info, _("Status"), presence_name); //Нет Х-статуса
-				}
-			} */
 			if (purple_status_type_get_primitive(purple_status_get_type(status)) != PURPLE_STATUS_OFFLINE) {
 				purple_notify_user_info_add_pair(info, _("Status"), g_strdup(mb->status.display_string));
 			}
@@ -970,35 +953,11 @@ void notify_emails(void *gc, gchar* webkey, guint32 count)
 GList* mrim_status_types( PurpleAccount* account )
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
-	/* GList*	statuslist	= NULL;
-	PurpleStatusType* type = NULL;
-	unsigned int i;
-
-	for ( i = 0; i < STATUSES_COUNT ; i++ )
-	{
-		const struct status* status = &mrim_statuses[i];
-		//type = purple_status_type_new_with_attrs( status->primative, status->id, _( status->name ), TRUE, TRUE, FALSE,"message", _( "Message" ), purple_value_new( PURPLE_TYPE_STRING ),	NULL );
-		type = purple_status_type_new_with_attrs( status->primative, status->id, _(status->name) , TRUE, status->user_settable, status->independent, "message", "Message", purple_value_new( PURPLE_TYPE_STRING ), NULL );
-		statuslist = g_list_prepend( statuslist, type );
-	}
-
-	/* add Mood option */
-	//type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE,	PURPLE_MOOD_NAME, _("Mood Name"), purple_value_new( PURPLE_TYPE_STRING ), PURPLE_MOOD_COMMENT, _("Mood Comment"), purple_value_new(PURPLE_TYPE_STRING), NULL);
-	//type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE, PURPLE_MOOD_NAME, "Mood Name", purple_value_new( PURPLE_TYPE_STRING ), NULL);
-	//statuslist = g_list_prepend( statuslist, type );
-
-	/* add sms */
-	//type = purple_status_type_new_full(PURPLE_STATUS_MOBILE, MRIM_STATUS_ID_MOBILE, NULL, FALSE, FALSE, TRUE);
-	//statuslist = g_list_prepend(statuslist, type);
-	
-	//return g_list_reverse(statuslist);
-	
 	GList *status_list = NULL;
 	PurpleStatusType *type;
 	unsigned int i;
 	for (i = 0; i < MRIM_PURPLE_STATUS_COUNT; i++) {
-		type = purple_status_type_new_with_attrs(mrim_purple_statuses[i].primative, mrim_purple_statuses[i].id, _(mrim_purple_statuses[i].title), TRUE, mrim_purple_statuses[i].user_settable, FALSE,
-			"message", _("Message"), purple_value_new(PURPLE_TYPE_STRING), NULL);
+		type = purple_status_type_new_with_attrs(mrim_purple_statuses[i].primative, mrim_purple_statuses[i].id, _(mrim_purple_statuses[i].title), TRUE, mrim_purple_statuses[i].user_settable, FALSE, "message", _("Message"), purple_value_new(PURPLE_TYPE_STRING), NULL);
 		status_list = g_list_append(status_list, type);
 	}
 	type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE,	PURPLE_MOOD_NAME, _("Mood Name"), purple_value_new( PURPLE_TYPE_STRING ), PURPLE_MOOD_COMMENT, _("Mood Comment"), purple_value_new(PURPLE_TYPE_STRING), NULL);
@@ -1008,37 +967,6 @@ GList* mrim_status_types( PurpleAccount* account )
 	
 	return status_list;
 }
-
-/* guint32 purple_status_to_mrim_status(PurpleStatus *status)
-{
-	purple_debug_info("mrim","[%s]\n",__func__);
-	g_return_val_if_fail(status != NULL, 0);
-	if (purple_status_type_get_primitive(purple_status_get_type(status)) == PURPLE_STATUS_MOOD)
-		return STATUS_USER_DEFINED;
-
-	PurpleStatusPrimitive primitive = purple_status_type_get_primitive(purple_status_get_type(status));
-	unsigned int i;
-	for ( i = 0; i < STATUSES_COUNT ; i++ )
-		if ( mrim_statuses[i].primative == primitive )				/* status found! */
-			/* return mrim_statuses[i].mrim_status;
-
-	return STATUS_UNDETERMINATED;
-} */
-
-
-/* const char* mrim_status_to_prpl_status( guint32 status )
-{
-	purple_debug_info("mrim","[%s] 0x%X\n",__func__, status);
-	unsigned int	i;
-
-	// TODO X-Status
-	for ( i = 0; i < STATUSES_COUNT ; i++ )
-		if ( ( mrim_statuses[i].mrim_status == status ) ||  // full status match
-			 ( mrim_statuses[i].mrim_status & status ))     // partial status match.
-			return mrim_statuses[i].id;
-		
-	return "status_online";
-} */
 
 void free_mrim_status(mrim_status *status) {
 	if (status) {
@@ -1103,9 +1031,6 @@ void make_mrim_status(mrim_status *s, guint32 status, gchar *uri, gchar *title, 
 	} else {
 		s->display_string = g_strdup(_(mrim_purple_statuses[status_index].title));
 	}
-	/* char *s2 = g_strdup_printf("%s (%s)", s->display_string, mrim_purple_statuses[status_index].id);
-	g_free(s->display_string);
-	s->display_string = s2; */
 }
 
 void make_mrim_status_from_purple(mrim_status *s, PurpleStatus *status) {
@@ -1164,72 +1089,8 @@ static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
 	gchar *prpl_status_id = purple_status_get_id(status);
 	purple_debug_info("mrim", "[%s] setting %s's status to <%s, id %s>\n", __func__, acct->username, purple_status_get_name(status), prpl_status_id);
 
-	// статус под кнопкой статуса в основном окне пиджина
-	/* gchar * status_desc = purple_markup_strip_html( purple_status_get_attr_string( status, "message" ) );
-	if (status_desc)
-	{
-		//FREE(mrim->status_desc)
-		mrim->status_desc = status_desc;
-		purple_debug_info("mrim", "[%s] %s's new status \"message\"=<%s>\n", __func__, acct->username, mrim->status_desc);
-	} else
-	{
-		mrim->status_desc		= NULL;
-	}; */
-
-	/* Handle mood changes */
-	//if (purple_status_type_get_primitive(purple_status_get_type(status)) == PURPLE_STATUS_MOOD)
-	//{
-		//FREE(mrim->status_spec) // А надо?
-		//mrim->status_spec = purple_status_get_attr_string(status, PURPLE_MOOD_NAME);
-		//if (mrim->status_spec)
-		//{
-			//purple_debug_info("mrim", "[%s] %s's mood id =<%s>\n", __func__, acct->username, prpl_status_id);
-			// TODO проверка на существование mood
-			/* gboolean found_mood = FALSE;
-			for (int i=0; i< ARRAY_SIZE(moods)-1; i++)
-			{
-				if ( mrim->status_spec && ( strcmp( moods[i].mood,  mrim->status_spec) ) == 0 )
-				{
-					mrim->status_spec		= moods[i].description;
-					mrim->status_title	= _(moods[i].description);
-					found_mood				= TRUE;
-					break;
-				} else if ( strcmp( moods[i].description,  prpl_status_id) == 0 )
-				{
-					mrim->status_spec		= moods[i].description;
-					mrim->status_title	= _(moods[i].description);
-					found_mood				= TRUE;
-					break;
-				} else
-				{
-					//purple_debug_info("mrim", "[%s] mood not matches %s!\n", __func__, moods[i].description);
-				}
-			}
-			
-			if (!found_mood)
-			{
-				//purple_debug_info("mrim", "[%s] mood not found!\n", __func__);
-				mrim->status_title	= purple_status_get_name(status);
-			}// else
-				//purple_debug_info("mrim", "[%s] mood found: (%s)!\n", __func__, mrim->status_title);
-		
-		}
-		//else
-		//{
-		//	//mrim->status_desc		= NULL;
-		//	mrim->status_spec		= NULL;
-		//	mrim->status_title	= purple_status_get_name(status);
-		//} */
-	//} else
-	//{
-	//	purple_debug_info("mrim", "[%s] %s has not a primitive mood now.\n", __func__, acct->username);
-	//}
-
-	//purple_debug_info("mrim", "[%s] (status) %s is now  <%s, %s, %s>\n", __func__, acct->username, mrim->status_spec, mrim->status_title, mrim->status_desc);
-
 	make_mrim_status_from_purple(&mrim->status, status);
 	package *pack = new_package(mrim->seq, MRIM_CS_CHANGE_STATUS);
-	//add_ul(purple_status_to_mrim_status(status), pack);
 	add_ul(mrim->status.code, pack);
 	add_LPS(mrim->status.uri, pack);	// spec
 	add_LPS(mrim->status.title, pack); // status title
@@ -1240,21 +1101,7 @@ static void mrim_set_status(PurpleAccount *acct, PurpleStatus *status)
 
 char *mrim_status_text(PurpleBuddy *buddy) {
 	mrim_buddy *mb = buddy->proto_data;
-	/* PurplePresence *presence = purple_buddy_get_presence(buddy);
-	PurpleStatus *status = purple_presence_get_active_status(presence); */
 	if (mb) {
-		/* if (mb->status_title && mb->status_desc) {
-			return g_strdup_printf("%s - %s", mb->status_title, mb->status_desc);
-		} else if (mb->status_title) {
-			return g_strdup(mb->status_title);
-		} else if (mb->status_desc) {
-			gchar *presence_name = purple_status_get_name(status);
-			if (!presence_name)
-				presence_name = g_strdup("Undefined");
-			gchar *result = g_strdup_printf("%s - %s", presence_name, mb->status_desc);
-			FREE(presence_name)
-			return result;
-		} */
 		return g_strdup(mb->status.display_string);
 	}
 	return NULL;
@@ -1268,38 +1115,6 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 
 	PurpleBuddy *buddy = purple_find_buddy(mrim->account, email);
 	g_return_if_fail(buddy != NULL);
-	
-	/* gchar *prpl_status		= mrim_status_to_prpl_status(status);
-	if (uri)
-	{
-		// TODO: Implement some more appropriate moods processing!!
-		purple_debug_info("mrim", "[%s] %s user mood %s (%s; %s).\n", __func__, email, uri, desc, title);
-		/* gchar *status_comment	= NULL; //Формируется значение, но нигде не используется
-		if (title && desc)
-		{
-			status_comment = g_strdup_printf("%s - %s", title, desc);
-		} else if (title)
-		{
-			status_comment = g_strdup_printf("%s", title);
-		} else if (desc)
-		{
-			status_comment = g_strdup_printf("(%s)", desc);
-		} else
-		{
-			status_comment = g_strdup_printf("\"%s\"", uri);
-		} */
-		//purple_prpl_got_user_status(mrim->account, email, (prpl_status) ? prpl_status : "status_online" /* TODO */, NULL);
-		/*purple_prpl_got_user_status(mrim->gc->account, email, "mood",
-				PURPLE_MOOD_NAME, uri,
-				PURPLE_MOOD_COMMENT, desc,
-				NULL);
-	}
-	else
-	{
-		purple_debug_info("mrim", "[%s] %s user mood-free: %s (%s; %s) / %s.\n", __func__, email, uri, desc, title, prpl_status);
-		purple_prpl_got_user_status_deactive(mrim->gc->account, email, "mood");
-		purple_prpl_got_user_status(mrim->gc->account, email, prpl_status, (desc && desc[0]) ? desc : NULL , NULL);
-	}*/
 	
 	if (buddy && buddy->proto_data)
 	{
@@ -1315,14 +1130,6 @@ void set_user_status(mrim_data *mrim, gchar *email, guint32 status, gchar *uri, 
 		}
 		
 		make_mrim_status(&mb->status, status, uri, title, desc);
-		
-		/* FREE(mb->status_title);
-		FREE(mb->status_desc);
-		FREE(mb->status_uri);
-		
-		mb->status_title	= mrim_str_non_empty(title);
-		mb->status_desc	= mrim_str_non_empty(desc);
-		mb->status_uri		= mrim_str_non_empty(uri); */
 		
 		purple_prpl_got_user_status(mrim->account, email, mb->status.purple_status, NULL);
 		if (mb->status.mood) {
@@ -1401,10 +1208,6 @@ void mrim_prpl_login(PurpleAccount *account)
 	mrim->web_key = NULL;
 	mrim->error_count = 0;
 	mrim->ProxyConnectHandle = NULL;
-	/* mrim->status			= purple_status_to_mrim_status(purple_presence_get_active_status(account->presence));
-	mrim->status_spec		= NULL;
-	mrim->status_title	= NULL;
-	mrim->status_desc		= NULL; */
 	make_mrim_status_from_purple(&mrim->status, purple_presence_get_active_status(account->presence));
 	  
 	mrim->server = g_strdup(purple_account_get_string(account, "balancer_host", MRIM_MAIL_RU));
@@ -1544,11 +1347,8 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 											add_LPS(mrim->username, pack_ack);
 											add_LPS(mrim->password, pack_ack);
 											add_ul(mrim->status.code, pack_ack);
-											//add_LPS("status_online", pack_ack); // TODO
 											add_LPS(mrim->status.uri, pack_ack);
-											//add_LPS("Neutral", pack_ack); // TODO
 											add_LPS(_(mrim->status.title), pack_ack);
-											//add_LPS("Neutral-all", pack_ack); // TODO
 											add_LPS(mrim->status.desc, pack_ack);
 											add_ul(COM_SUPPORT /*FEATURES*/, pack_ack); // see mrim.h
 											add_LPS(mrim->user_agent, pack_ack);
@@ -2143,10 +1943,10 @@ static void mrim_prpl_init(PurplePlugin *plugin)
 	mrim_user_agent = g_strdup_printf("client=\"mrim-prpl\" version=\"%s/%s\" ui=\"%s %s\"", purple_version, DISPLAY_VERSION, ui_name, ui_version);
 	{
 		unsigned int i;
-		moods = g_new0(PurpleMood, MRIM_PURPLE_MOOD_COUNT);
+		moods = g_new0(PurpleMood, MRIM_PURPLE_MOOD_COUNT + 1);
 		for (i = 0; i < MRIM_PURPLE_MOOD_COUNT; i++) {
-			moods[i].mood = mrim_purple_moods[i].mood ? mrim_purple_moods[i].mood : "";
-			moods[i].description = _(mrim_purple_moods[i].title) ? _(mrim_purple_moods[i].title) : "";
+			moods[i].mood = mrim_purple_moods[i].mood;
+			moods[i].description = _(mrim_purple_moods[i].title);
 		}
 	}
 	

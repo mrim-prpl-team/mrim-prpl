@@ -79,23 +79,6 @@
 static PurplePlugin *_mrim_plugin = NULL;
 
 /* statuses (reference: libpurple/status.h) */
-static struct status
-{
-	PurpleStatusPrimitive primative;
-	guint32	mrim_status;
-	const char*	id;
-	const char*	name;
-	gboolean user_settable;
-	gboolean independent;
-} mrim_statuses[] = {
-	/*	primative,					mrim_status,				id,				name(i18n)			user_settable 		independent  			 */
-	{	PURPLE_STATUS_AVAILABLE,	STATUS_ONLINE,			"status_online",			N_("Available"),		TRUE,				FALSE},	/* 0 */
-	{	PURPLE_STATUS_INVISIBLE,	STATUS_FLAG_INVISIBLE,	"invisible",		N_("Invisible"),		TRUE,				FALSE},	/* 1 */
-	{	PURPLE_STATUS_OFFLINE,		STATUS_OFFLINE,			"offline",			N_("Offline"),			TRUE,				FALSE},	/* 2 */
-	{	PURPLE_STATUS_AWAY,			STATUS_AWAY,			"status_away",				N_("Away"), 			TRUE,				FALSE},	/* 3 */
-	{   PURPLE_STATUS_MOOD,			STATUS_USER_DEFINED,	"mood",				N_("mood"),				TRUE,				FALSE}  /* 4 */
-//	{	PURPLE_STATUS_UNSET,		STATUS_UNDETERMINATED,	"UNDETERMINATED",	"UNDETERMINATED",	TRUE,				FALSE}
-};
 
 static struct mrim_purple_status {
 	PurpleStatusPrimitive primative;
@@ -105,9 +88,8 @@ static struct mrim_purple_status {
 	const char* title;
 	gboolean user_settable;
 } mrim_purple_statuses[] = {
-	{ PURPLE_STATUS_OFFLINE, STATUS_OFFLINE, NULL, "offline", N_("Offline"), FALSE},
+	{ PURPLE_STATUS_OFFLINE, STATUS_OFFLINE, NULL, "offline", N_("Offline"), FALSE },
 	{ PURPLE_STATUS_AVAILABLE, STATUS_ONLINE, "status_1", "status_online", N_("Available"), TRUE },
-	//{ PURPLE_STATUS_AVAILABLE, STATUS_USER_DEFINED, "status_chat", "status_chat", N_("Ready to chat"), TRUE },
 	{ PURPLE_STATUS_AWAY, STATUS_AWAY, "status_2", "status_away", "Away", TRUE },
 	{ PURPLE_STATUS_UNAVAILABLE, STATUS_USER_DEFINED, "status_dnd", "status_unavailable", N_("Unavailable"), TRUE },
 	{ PURPLE_STATUS_INVISIBLE, STATUS_FLAG_INVISIBLE, "status_3", "invisible", N_("Invisible"), TRUE }
@@ -120,10 +102,11 @@ static struct mrim_purple_mood {
 	const char *mood;
 	const char *title;
 } mrim_purple_moods[] = {
-	{ "status_chat", "meeting", N_("Ready to chat") }, /* TODO: SegFault */
+	{ "status_chat", "meeting", N_("Ready to chat") },
 	{ "status_4", "sick", N_("Sick") },
 	{ "status_6", "plate", N_("Plate") },
 	{ "status_8", "restroom", N_("Restroom") },
+	{ "status_14", "tongue", N_("Tongue") },
 	{ "status_15", "bathing", N_("Bathing") },
 	{ "status_16", "console", N_("Playing") },
 	{ "status_17", "cigarette", N_("Smoking") },
