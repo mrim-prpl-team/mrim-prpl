@@ -1322,7 +1322,7 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 		if (purple_input_get_error(mrim->fd, &err) != 0)
 			purple_connection_error_reason (gc,	PURPLE_CONNECTION_ERROR_NETWORK_ERROR, _("Input Error"));
 
-		mrim->error_count+=1; // TODO should we detect disconnects using fd?
+		mrim->error_count++; // TODO should we detect disconnects using fd?
 		if (mrim->error_count > MRIM_MAX_ERROR_COUNT)
 		{
 			purple_debug_info("mrim", "Bad package\n");
@@ -1331,6 +1331,8 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 			//purple_account_disconnect(gc->account);
 		}
 		return;
+	} else {
+		mrim->error_count = 0;
 	}
 
 	mrim_packet_header_t *header = pack->header;
