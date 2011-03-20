@@ -1186,7 +1186,7 @@ void set_user_status_by_mb(mrim_data *mrim, mrim_buddy *mb)
 /******************************************
  *              LOGIN
  ******************************************/
-void mrim_prpl_login(PurpleAccount *account)
+static void mrim_prpl_login(PurpleAccount *account)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
 	g_return_if_fail(account != NULL);
@@ -1331,8 +1331,6 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 			//purple_account_disconnect(gc->account);
 		}
 		return;
-	} else {
-		mrim->error_count = 0;
 	}
 
 	mrim_packet_header_t *header = pack->header;
@@ -1701,7 +1699,7 @@ gboolean mrim_keep_alive(gpointer data)
 	return TRUE; // Further KAP sending.
 }
 
-void mrim_prpl_close(PurpleConnection *gc)
+static void mrim_prpl_close(PurpleConnection *gc)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
 	g_return_if_fail(gc != NULL);
@@ -1752,12 +1750,12 @@ void mrim_prpl_close(PurpleConnection *gc)
 }
 
 
-const char *mrim_list_icon(PurpleAccount *account, PurpleBuddy *buddy)
+static const char *mrim_list_icon(PurpleAccount *account, PurpleBuddy *buddy)
 {
 	return "mrim";
 }
 
-gboolean mrim_can_receive_file(PurpleConnection *gc,const char *who) 
+static gboolean mrim_can_receive_file(PurpleConnection *gc,const char *who) 
 {
 #ifdef FT
 	return TRUE;
@@ -1766,11 +1764,11 @@ gboolean mrim_can_receive_file(PurpleConnection *gc,const char *who)
 #endif
 }
 PurpleMood *mrim_get_moods(PurpleAccount *account)
-{	
+{
 	return moods;
 }
 /* mrim support offline messages */
-gboolean mrim_offline_message(const PurpleBuddy *buddy) 
+static gboolean mrim_offline_message(const PurpleBuddy *buddy) 
 {
 	return TRUE;
 }
@@ -1784,7 +1782,7 @@ const char *mrim_list_emblem(PurpleBuddy *b)
 			return "not-authorized";
 	return NULL;
 }
-void mrim_prpl_destroy(PurplePlugin *plugin) 
+static void mrim_prpl_destroy(PurplePlugin *plugin) 
 {
 	// TODO Should we remove 'action'-s?
 	g_free(mrim_user_agent);
@@ -1794,12 +1792,12 @@ void mrim_prpl_destroy(PurplePlugin *plugin)
 /******************************************
  *              SMS COMMAND
  ******************************************/
-gboolean mrim_load_plugin(PurplePlugin *plugin)
+static gboolean mrim_load_plugin(PurplePlugin *plugin)
 {
 	return TRUE;
 }
 
-gboolean mrim_unload_plugin(PurplePlugin *plugin)
+static gboolean mrim_unload_plugin(PurplePlugin *plugin)
 {
 	return TRUE;
 }
@@ -1819,7 +1817,7 @@ static PurplePluginProtocolInfo prpl_info =
       10000,                           /* max_filesize */
       PURPLE_ICON_SCALE_DISPLAY,       /* scale_rules */
   },
-  mrim_list_icon,                      /* list_icon */
+  mrim_list_icon,                      /** list_icon **/
   mrim_list_emblem,                    /* list_emblem */
   mrim_status_text,			                       /* status_text */
   mrim_tooltip_text,                   /* tooltip_text */
@@ -1827,8 +1825,8 @@ static PurplePluginProtocolInfo prpl_info =
   mrim_user_actions,	               /* blist_node_menu */
   mrim_chat_info,                  	   /* chat_info */
   mrim_chat_info_defaults,   		   /* chat_info_defaults */
-  mrim_prpl_login,                     /* login */
-  mrim_prpl_close,                     /* close */
+  mrim_prpl_login,                     /** login */
+  mrim_prpl_close,                     /** close */
   mrim_send_im,      	               /* send_im */
   NULL,			                       /* set_info */
   mrim_send_typing,               	   /* send_typing */

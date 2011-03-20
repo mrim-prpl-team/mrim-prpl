@@ -38,7 +38,7 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 		guint32 flags = read_UL(pack);//  & 0x00FFFFFF;
 		gchar *name = read_LPS(pack); // groups (UTF16)
 		mg_add(flags, name, i, mrim);
-		//FREE(name)
+		FREE(name)
 		cl_skeep(g_mask + 2, pack);
 	}
 
@@ -310,12 +310,12 @@ void mg_add(guint32 flags, gchar *name, guint id, mrim_data *mrim)
 		purple_debug_info("mrim", "[%s] Group <%s> REMOVED\n", __func__, name);
 	if (flags & CONTACT_FLAG_SHADOW)
 	{
-		purple_debug_info("mrim", "[%s] Group <%s> SHADOW\n", __func__ ,name);
-			return;
+		purple_debug_info("mrim", "[%s] Group <%s> SHADOW. skip it\n", __func__ ,name);
+		return;
 	}
 	mrim_group *mg = g_new0(mrim_group, 1);
 	mg->flag = flags;
-	mg->name = name;
+	mg->name = g_strdup(name);
 	mg->id = id;
 	PurpleGroup *gr = purple_find_group(mg->name);
 	if (gr == NULL)

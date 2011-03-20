@@ -275,7 +275,7 @@ static mrim_packet_header_t *read_header(mrim_data *mrim)
 	ret = recv(mrim->fd, header, sizeof(mrim_packet_header_t), RECV_FLAGS);
 
 	if (ret == 0)
-		purple_debug_info("mrim","[%s] TODO disconnect detect", __func__);
+		purple_debug_info("mrim","[%s] TODO disconnect detect\n", __func__);
 	if (ret < sizeof(mrim_packet_header_t))
 	{
 		g_free(header);
