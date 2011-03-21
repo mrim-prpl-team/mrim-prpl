@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-21 16:40+0300\n"
+"POT-Creation-Date: 2011-03-22 00:45+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Janus.Kobain.Stamp <Janus.Kobain.Stamp@gmail.com>\n"
 "Language-Team: mrim-prpl\n"
@@ -583,6 +583,10 @@ msgstr "Приглашение в чат"
 msgid "Available"
 msgstr "Доступен"
 
+#: mrim.h:93
+msgid "Away"
+msgstr "Отошёл"
+
 #: mrim.h:94
 msgid "Unavailable"
 msgstr "Недоступен"
@@ -651,66 +655,70 @@ msgstr "Рыдаю"
 msgid "Angry"
 msgstr "Рассерженный"
 
-#: mrim.h:135
+#: mrim.h:120
+msgid "In love"
+msgstr ""
+
+#: mrim.h:136
 #, c-format
 msgid "Agent@Mail.Ru for Win/PC, ver. %s, build %s"
 msgstr "Агент@Mail.Ru для Windows, версия %s, сборка %s"
 
-#: mrim.h:136
+#: mrim.h:137
 #, c-format
 msgid "Agent@Mail.Ru for Win/PC, ver. %s"
 msgstr "Агент@Mail.Ru для Windows, версия %s"
 
-#: mrim.h:137
+#: mrim.h:138
 #, c-format
 msgid "Java phone Agent@Mail.Ru, ver. %s"
 msgstr "Агент@Mail.Ru для Java, версия %s"
 
-#: mrim.h:138
 #: mrim.h:139
+#: mrim.h:140
 msgid "Web-Agent@Mail.Ru"
 msgstr "Веб-Агент@Mail.Ru"
 
-#: mrim.h:140
+#: mrim.h:141
 #, c-format
 msgid "Agent@Mail.Ru for Android, ver. %s, build %s"
 msgstr "Агент@Mail.Ru для Android, версия %s, сборка %s"
 
-#: mrim.h:141
+#: mrim.h:142
 #, c-format
 msgid "Agent@Mail.Ru for Symbian, ver. %s, build %s"
 msgstr "Агент@Mail.Ru для Symbian, версия %s, сборка %s"
 
-#: mrim.h:142
+#: mrim.h:143
 #, c-format
 msgid "QIP 2010, ver. %s, build %s"
 msgstr "QIP 2010, версия %s, сборка %s"
 
-#: mrim.h:143
+#: mrim.h:144
 #, c-format
 msgid "QIP Infium, ver. %s, build %s"
 msgstr "QIP infium, версия %s, сборка %s"
 
-#: mrim.h:144
+#: mrim.h:145
 #, c-format
 msgid "Pidgin and Ostin's mrim-prpl plugin, ver. %s, build %s"
 msgstr "Плагин для Pidgin от Ostin, версия %s, сборка %s"
 
-#: mrim.h:145
+#: mrim.h:146
 #, c-format
 msgid "mrim-prpl (libpurple %s) ver. %s, %s"
 msgstr "mrim-prpl (libpurple %s) версии %s, %s"
 
-#: mrim.h:146
+#: mrim.h:147
 #, c-format
 msgid "Agent@Mail.Ru for GNU/Linux, ver. %s, rev. %s"
 msgstr "Агент@Mail.Ru для GNU/Linux, версия %s, ревизия %s"
 
-#: mrim.h:147
+#: mrim.h:148
 msgid "Pidgin and Ostin's mrim-prpl plugin"
 msgstr "Плагин для Pidgin от Ostin"
 
-#: mrim.h:148
+#: mrim.h:149
 msgid "Purple plugin by lemax1@mail.ru"
 msgstr "Плагин для Purple от lemax1@mail.ru"
 
@@ -780,8 +788,6 @@ msgstr "Телефон"
 
 #~ msgid "Not available"
 #~ msgstr "Недоступен"
-#~ msgid "Away"
-#~ msgstr "Отошёл"
 #~ msgid "mood"
 #~ msgstr "Настроение"
 #~ msgid "status_online"

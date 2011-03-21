@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27-rc\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-21 16:40+0300\n"
+"POT-Creation-Date: 2011-03-22 00:45+0300\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Reslayer <Reslayer@ya.ru>\n"
+"Last-Translator: Janus.Kobain.Stamp <Janus.Kobain.Stamp@gmail.com>\n"
 "Language-Team: mrim-prpl\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -14,192 +14,175 @@ msgstr ""
 "X-Poedit-Country: BELARUS\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: gettext;gettext_noop;_;N_\n"
-"X-Poedit-Basepath: /home/reslayer/dev/pidgin/mrim-prpl/svn/trunk/\n"
+"X-Poedit-Basepath: /home/ubuntu/dev/mrim-prpl/svn/trunk/\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: dev/mrim-prpl/mrim-prpl-testing/package.c:84
-#: dev/mrim-prpl/svn/trunk/package.c:84
+#: package.c:84
 msgid "Encoding error: can't convert UTF8 into CP1251"
 msgstr "Памылка кадоўкі: не магу пераўтварыць з UTF8 в CP1251"
 
-#: dev/mrim-prpl/mrim-prpl-testing/package.c:354
-#: dev/mrim-prpl/svn/trunk/package.c:355
+#: package.c:355
 msgid "Read Error!"
 msgstr "Памылка чытання!"
 
-#: dev/mrim-prpl/mrim-prpl-testing/package.c:359
-#: dev/mrim-prpl/svn/trunk/package.c:360
+#: package.c:360
 msgid "Peer closed connection"
 msgstr "Cервер разарваў злучэнне."
 
-#: dev/mrim-prpl/mrim-prpl-testing/filetransfer.c:98
-#: dev/mrim-prpl/svn/trunk/filetransfer.c:99
+#: filetransfer.c:99
 msgid "The file you are trying to send is too large!"
 msgstr "Файл, яки адпрауляецца Вами, занадта вялики."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:168
-#: dev/mrim-prpl/svn/trunk/mrim.c:192
+#: mrim.c:192
 #, c-format
 msgid "%s is offline."
 msgstr "Субяседник %s не у сециве. "
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:169
-#: dev/mrim-prpl/svn/trunk/mrim.c:193
+#: mrim.c:193
 msgid "UserInfo"
 msgstr "Дэталі кантакту"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:169
-#: dev/mrim-prpl/svn/trunk/mrim.c:193
+#: mrim.c:193
 msgid "UserInfo is not available."
 msgstr "Інфармацыя пра кантакт недаступная."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:175
-#: dev/mrim-prpl/svn/trunk/mrim.c:199
+#: mrim.c:199
 msgid "UserInfo is not available for conferences and phones."
 msgstr "Інфармацыя пра чаты і тэлефоны недаступная."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:265
-#: dev/mrim-prpl/svn/trunk/mrim.c:290
+#: mrim.c:290
 msgid "Nick"
 msgstr "Псеуданим"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:267
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:374
-#: dev/mrim-prpl/svn/trunk/mrim.c:292
-#: dev/mrim-prpl/svn/trunk/mrim.c:383
+#: mrim.c:292
+#: mrim.c:383
 msgid "Name"
 msgstr "Имя"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:269
-#: dev/mrim-prpl/svn/trunk/mrim.c:294
+#: mrim.c:294
+#: cl.h:37
 msgid "LastName"
 msgstr "Прозвишча"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:271
-#: dev/mrim-prpl/svn/trunk/mrim.c:296
+#: mrim.c:296
 msgid "Gender"
 msgstr "Пол"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:272
-#: dev/mrim-prpl/svn/trunk/mrim.c:297
+#: mrim.c:297
 msgid "No matter"
 msgstr "Без розницы"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:273
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:984
-#: dev/mrim-prpl/svn/trunk/mrim.c:298
-#: dev/mrim-prpl/svn/trunk/cl.c:984
+#: mrim.c:298
+#: cl.c:984
 msgid "Male"
 msgstr "Мужчына"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:274
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:984
-#: dev/mrim-prpl/svn/trunk/mrim.c:299
-#: dev/mrim-prpl/svn/trunk/cl.c:984
+#: mrim.c:299
+#: cl.c:984
 msgid "Female"
 msgstr "Жанчына"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:281
-#: dev/mrim-prpl/svn/trunk/mrim.c:306
+#: mrim.c:306
 msgid "Age from"
 msgstr "Узрост ад"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:283
-#: dev/mrim-prpl/svn/trunk/mrim.c:308
+#: mrim.c:308
 msgid "Age up to"
 msgstr "Узрост да"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:287
-#: dev/mrim-prpl/svn/trunk/mrim.c:312
+#: mrim.c:312
 msgid "Online"
 msgstr "Даступны"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:292
-#: dev/mrim-prpl/svn/trunk/mrim.c:317
+#: mrim.c:317
 msgid "Buddies search"
 msgstr "Пошук кантактау"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:293
-#: dev/mrim-prpl/svn/trunk/mrim.c:318
+#: mrim.c:318
 msgid "_Search!"
 msgstr "_Шукаць!"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:294
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:548
-#: dev/mrim-prpl/svn/trunk/mrim.c:319
-#: dev/mrim-prpl/svn/trunk/mrim.c:558
+#: mrim.c:319
+#: mrim.c:558
 msgid "_Cancel!"
 msgstr "А_дмяниць!"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:331
-#: dev/mrim-prpl/svn/trunk/mrim.c:340
+#: mrim.c:340
 msgid "[web] Set User Info"
 msgstr "Усталяваць карыстацкую інфармацыю (у сециве)..."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:334
-#: dev/mrim-prpl/svn/trunk/mrim.c:343
+#: mrim.c:343
 msgid "[web] Set User avatar"
 msgstr "Усталяваць карыстацкі малюначак (у сециве)..."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:337
-#: dev/mrim-prpl/svn/trunk/mrim.c:346
+#: mrim.c:346
 msgid "Search for buddies"
 msgstr "Шукаць карыстальникау…"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:393
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:410
-#: dev/mrim-prpl/svn/trunk/mrim.c:416
-#: dev/mrim-prpl/svn/trunk/mrim.c:420
-msgid "Contact details"
-msgstr "Падрабязнасці пра суразмоўцу"
+#: mrim.c:352
+#: mrim.c:903
+msgid "[web] MY_WORLD"
+msgstr ""
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:399
-#: dev/mrim-prpl/svn/trunk/mrim.c:400
+#: mrim.c:355
+#: mrim.c:905
+msgid "[web] MY_PHOTO"
+msgstr ""
+
+#: mrim.c:358
+#: mrim.c:907
+msgid "[web] MY_VIDEO"
+msgstr ""
+
+#: mrim.c:361
+#: mrim.c:909
+msgid "[web] MY_BLOG"
+msgstr ""
+
+#: mrim.c:395
+msgid "Status"
+msgstr ""
+
+#: mrim.c:400
 msgid "Phone numbers"
 msgstr "Нумары тэлефонау"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:402
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:405
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1024
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1027
-#: dev/mrim-prpl/svn/trunk/mrim.c:403
-#: dev/mrim-prpl/svn/trunk/mrim.c:407
-#: dev/mrim-prpl/svn/trunk/cl.c:1024
-#: dev/mrim-prpl/svn/trunk/cl.c:1027
+#: mrim.c:403
+#: mrim.c:407
+#: cl.c:1024
+#: cl.c:1027
 msgid "User agent"
 msgstr ""
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:405
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1027
-#: dev/mrim-prpl/svn/trunk/mrim.c:407
-#: dev/mrim-prpl/svn/trunk/cl.c:1027
+#: mrim.c:407
+#: cl.c:1027
 msgid "Hidden"
 msgstr ""
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:410
-#: dev/mrim-prpl/svn/trunk/mrim.c:420
+#: mrim.c:416
+#: mrim.c:420
+msgid "Contact details"
+msgstr "Падрабязнасці пра суразмоўцу"
+
+#: mrim.c:420
+#: mrim.h:91
 msgid "Offline"
 msgstr "Не у сециве"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:537
-#: dev/mrim-prpl/svn/trunk/mrim.c:547
+#: mrim.c:547
 msgid "Choose phone number"
 msgstr "Абярыце нумар"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:543
-#: dev/mrim-prpl/svn/trunk/mrim.c:553
+#: mrim.c:553
 msgid "SMS message text"
 msgstr "Тэкст SMS-паведамлення"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:546
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:623
-#: dev/mrim-prpl/svn/trunk/mrim.c:556
-#: dev/mrim-prpl/svn/trunk/mrim.c:633
+#: mrim.c:556
+#: mrim.c:633
 msgid "Send SMS"
 msgstr "Адправіць SMS"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:546
-#: dev/mrim-prpl/svn/trunk/mrim.c:556
+#: mrim.c:556
 msgid ""
 "SMS message should contain not\n"
 "more than 135 symbols in latin\n"
@@ -209,817 +192,603 @@ msgstr ""
 "больш 135-ти знакаў у лацінцы\n"
 "ці 35 -х знакаў у кірыліцы."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:547
-#: dev/mrim-prpl/svn/trunk/mrim.c:557
+#: mrim.c:557
 msgid "_Send"
 msgstr "_Адправиць"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:572
-#: dev/mrim-prpl/svn/trunk/mrim.c:582
+#: mrim.c:582
 #, c-format
 msgid "Symbols: %d"
 msgstr ""
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:642
-#: dev/mrim-prpl/svn/trunk/mrim.c:652
+#: mrim.c:652
 msgid "Phone:"
 msgstr "Тэлефон:"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:657
-#: dev/mrim-prpl/svn/trunk/mrim.c:667
+#: mrim.c:667
 msgid "Translit"
 msgstr ""
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:743
-#: dev/mrim-prpl/svn/trunk/mrim.c:753
+#: mrim.c:753
 msgid "_Main number"
 msgstr "А_сноуны нумар"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:745
-#: dev/mrim-prpl/svn/trunk/mrim.c:755
+#: mrim.c:755
 msgid "S_econd number"
 msgstr "_Други нумар"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:747
-#: dev/mrim-prpl/svn/trunk/mrim.c:757
+#: mrim.c:757
 msgid "_Third number"
 msgstr "Т_рэци нумар"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:752
-#: dev/mrim-prpl/svn/trunk/mrim.c:761
+#: mrim.c:761
 msgid "Phone numbers editor"
 msgstr "Рэдактар нумароў тэлефонаў"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:752
-#: dev/mrim-prpl/svn/trunk/mrim.c:761
+#: mrim.c:761
 msgid "Specify numbers as shown: +71234567890"
 msgstr "Нумар паказваецца ў выглядзе: +71234567890"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:753
-#: dev/mrim-prpl/svn/trunk/mrim.c:762
+#: mrim.c:762
 msgid "_Ok"
 msgstr "_АК"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:754
-#: dev/mrim-prpl/svn/trunk/mrim.c:763
+#: mrim.c:763
 msgid "_Cancel"
 msgstr "А_дмяниць"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:847
-#: dev/mrim-prpl/svn/trunk/mrim.c:865
+#: mrim.c:865
 msgid "(Re-)request authorization"
 msgstr "(Паўторна) Запытаць аўтарызацыю"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:858
-#: dev/mrim-prpl/svn/trunk/mrim.c:875
+#: mrim.c:875
 msgid "Send an SMS... (GTK)"
 msgstr "Адпраўка SMS... (GTK)"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:863
-#: dev/mrim-prpl/svn/trunk/mrim.c:880
+#: mrim.c:880
 msgid "Send an SMS..."
 msgstr "Адпраўка SMS..."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:866
-#: dev/mrim-prpl/svn/trunk/mrim.c:883
+#: mrim.c:883
 msgid "Edit phone numbers..."
 msgstr "Кіраваць нумары тэлефонаў..."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:871
-#: dev/mrim-prpl/svn/trunk/mrim.c:888
+#: mrim.c:888
 msgid "Remove from 'Invisible to' list"
 msgstr "Выдаліць са спісу тых, якія не бачаць"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:871
-#: dev/mrim-prpl/svn/trunk/mrim.c:888
+#: mrim.c:888
 msgid "Add to 'Invisible to' list"
 msgstr "Дадаць у спіс тых, якія не бачаць"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:875
-#: dev/mrim-prpl/svn/trunk/mrim.c:892
+#: mrim.c:892
 msgid "Remove from 'Visible to' list"
 msgstr "Выдаліць са спісу тых, якія бачаць"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:875
-#: dev/mrim-prpl/svn/trunk/mrim.c:892
+#: mrim.c:892
 msgid "Add to 'Visible to' list"
 msgstr "Дадаць у спіс тых, якія бачаць"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:879
-#: dev/mrim-prpl/svn/trunk/mrim.c:896
+#: mrim.c:896
 msgid "Visibility settings"
 msgstr "Налады бачнасці"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:935
-#: dev/mrim-prpl/svn/trunk/mrim.c:963
-#, fuzzy
-msgid "Mood Name"
-msgstr "Имя"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:935
-#: dev/mrim-prpl/svn/trunk/mrim.c:963
-#, fuzzy
-msgid "Mood Comment"
-msgstr "Имя"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1164
-#: dev/mrim-prpl/svn/trunk/mrim.c:1258
-msgid "Unable to create TCP-connection"
-msgstr "Не атрымоўваецца ўсталяваць TCP-злучэнне"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1180
-#: dev/mrim-prpl/svn/trunk/mrim.c:1274
-#, c-format
-msgid "Unable to connect: %s"
-msgstr "Не магу злучыцца: %s"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1193
-#: dev/mrim-prpl/svn/trunk/mrim.c:1287
-msgid "Connecting"
-msgstr "Злучаюся"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1199
-#: dev/mrim-prpl/svn/trunk/mrim.c:1293
-msgid "Unable to write to socket."
-msgstr "Не атрымоўваецца запіс у сокет."
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1220
-#: dev/mrim-prpl/svn/trunk/mrim.c:1314
-msgid "Disconnected by user action?"
-msgstr "Злучэнне перапынена карыстачом?"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1229
-#: dev/mrim-prpl/svn/trunk/mrim.c:1323
-msgid "Input Error"
-msgstr "Памылка ўводу"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1235
-#: dev/mrim-prpl/svn/trunk/mrim.c:1329
-msgid "Bad Package"
-msgstr "Збойны пакет (BP)."
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1261
-#: dev/mrim-prpl/svn/trunk/mrim.c:1355
-msgid "ru"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1270
-#: dev/mrim-prpl/svn/trunk/mrim.c:1364
-msgid "Ping Error"
-msgstr "Памылка пінгу"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1290
-#: dev/mrim-prpl/svn/trunk/mrim.c:1384
-#, c-format
-msgid "Disconnected. Reason: %s"
-msgstr "Адключана. Чыннік: %s"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1358
-#: dev/mrim-prpl/svn/trunk/mrim.c:1452
-msgid "Logged in from another location."
-msgstr "Выкананы ўваход у сетку з іншага месца."
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1360
-#: dev/mrim-prpl/svn/trunk/mrim.c:1454
-msgid "Server broke connection."
-msgstr "Сервер разарваў злучэнне."
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1373
-#: dev/mrim-prpl/svn/trunk/mrim.c:1467
-msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
-msgstr "Памылка пінгу ў MRIM_CS_CONNECTION_PARAMS"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1842
-#: dev/mrim-prpl/svn/trunk/mrim.c:1953
-msgid "Server"
-msgstr "Сервер"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1844
-#: dev/mrim-prpl/svn/trunk/mrim.c:1955
-msgid "Port"
-msgstr "Порт"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1846
-#: dev/mrim-prpl/svn/trunk/mrim.c:1957
-msgid "Load userpics"
-msgstr "Загружаць фота суразмоўцаў"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:258
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:714
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:763
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:842
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1168
-#: dev/mrim-prpl/svn/trunk/cl.c:258
-#: dev/mrim-prpl/svn/trunk/cl.c:714
-#: dev/mrim-prpl/svn/trunk/cl.c:763
-#: dev/mrim-prpl/svn/trunk/cl.c:842
-#: dev/mrim-prpl/svn/trunk/cl.c:1168
-msgid "Encountered an error while working on contact list!"
-msgstr "Памылка пры працы са спісам кантактаў!"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:258
-#: dev/mrim-prpl/svn/trunk/cl.c:258
-msgid "Group not found."
-msgstr "Група не знойдзена."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:401
-#: dev/mrim-prpl/svn/trunk/cl.c:401
-#, c-format
-msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and '-'."
-msgstr "Не магу дадаць суразмоўцу \"%s\" з-за няслушнага імя карыстача. Імя карыстача павінна быць існым паштовым адрасам (у даменах @mail.ru, @bk.ru, @list.ru, @inbox.ru, @corp.mail.ru) ці існым тэлефонным нумарам, якія ўключаюць знакі \"+\", \"-\", знакі прабелу і што складаюцца толькі з лічбаў. "
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:402
-#: dev/mrim-prpl/svn/trunk/cl.c:402
-msgid "Unable to Add"
-msgstr "Не атрымоўваецца дадаць"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:469
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:497
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1181
-#: dev/mrim-prpl/svn/trunk/cl.c:469
-#: dev/mrim-prpl/svn/trunk/cl.c:497
-#: dev/mrim-prpl/svn/trunk/cl.c:1181
-msgid "Hello. Add me to your buddies please."
-msgstr "Дзень добры. Калі ласка, дадайце мяне ў спіс Вашых суразмоўцаў."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:714
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:763
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:842
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:881
-#: dev/mrim-prpl/svn/trunk/cl.c:714
-#: dev/mrim-prpl/svn/trunk/cl.c:763
-#: dev/mrim-prpl/svn/trunk/cl.c:842
-#: dev/mrim-prpl/svn/trunk/cl.c:881
-msgid "Did you ever do this operation? (mpq == NULL)"
-msgstr "Такая аперацыя ажыццяўлялася? (mpq == NULL)"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:808
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:811
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:814
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:817
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:487
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:517
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:518
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:519
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:520
-#: dev/mrim-prpl/svn/trunk/cl.c:808
-#: dev/mrim-prpl/svn/trunk/cl.c:811
-#: dev/mrim-prpl/svn/trunk/cl.c:814
-#: dev/mrim-prpl/svn/trunk/cl.c:817
-#: dev/mrim-prpl/svn/trunk/message.c:469
-#: dev/mrim-prpl/svn/trunk/message.c:474
-#: dev/mrim-prpl/svn/trunk/message.c:517
-#: dev/mrim-prpl/svn/trunk/message.c:518
-#: dev/mrim-prpl/svn/trunk/message.c:519
-#: dev/mrim-prpl/svn/trunk/message.c:520
-msgid "SMS"
-msgstr "SMS"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:808
-#: dev/mrim-prpl/svn/trunk/cl.c:808
-msgid "SMS delivered successfully."
-msgstr "SMS-паведамленне дастаўлена паспяхова."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:811
-#: dev/mrim-prpl/svn/trunk/cl.c:811
-msgid "SMS service is not available."
-msgstr "Служба дастаўкі SMS недаступная."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:814
-#: dev/mrim-prpl/svn/trunk/cl.c:814
-msgid "Wrong SMS parameters."
-msgstr "Няслушныя параметры SMS."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:817
-#: dev/mrim-prpl/svn/trunk/cl.c:817
-msgid "Something went wrong!"
-msgstr "Штосьці пайшло не так!"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:881
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:887
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:890
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:893
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:896
-#: dev/mrim-prpl/svn/trunk/cl.c:881
-#: dev/mrim-prpl/svn/trunk/cl.c:887
-#: dev/mrim-prpl/svn/trunk/cl.c:890
-#: dev/mrim-prpl/svn/trunk/cl.c:893
-#: dev/mrim-prpl/svn/trunk/cl.c:896
-msgid "Encountered an error while working on user details!"
-msgstr "Памылка пры працы з анкетай!"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:887
-#: dev/mrim-prpl/svn/trunk/cl.c:887
-msgid "User not found."
-msgstr "Карыстач не знойдзены."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:890
-#: dev/mrim-prpl/svn/trunk/cl.c:890
-msgid "DBERR error. Please try later."
-msgstr "Памылка DBERR. Паспрабуйце паўтарыць пазней."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:893
-#: dev/mrim-prpl/svn/trunk/cl.c:893
-msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:896
-#: dev/mrim-prpl/svn/trunk/cl.c:896
-msgid "unknown error"
-msgstr "Невядомая памылка."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:918
-#: dev/mrim-prpl/svn/trunk/cl.c:918
-msgid "email"
-msgstr "Адрас"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:977
-#: dev/mrim-prpl/svn/trunk/cl.c:977
-msgid "Sex"
-msgstr "Пол"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:991
-#: dev/mrim-prpl/svn/trunk/cl.c:991
-msgid "Zodiac"
-msgstr "Знак задыяку"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1078
-#: dev/mrim-prpl/svn/trunk/cl.c:1078
-msgid "Search results"
-msgstr "Выники пошука"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1159
-#: dev/mrim-prpl/svn/trunk/cl.c:1159
-msgid "Invalid data provided."
-msgstr "Прадстаўлены некарэктныя данныя."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1160
-#: dev/mrim-prpl/svn/trunk/cl.c:1160
-msgid "Internal error encountered while processing request."
-msgstr "Унутраная памылка пры апрацоўцы запыту."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1161
-#: dev/mrim-prpl/svn/trunk/cl.c:1161
-msgid "No such user as you added."
-msgstr "Дадаванага карыстача не існуе."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1162
-#: dev/mrim-prpl/svn/trunk/cl.c:1162
-msgid "Invalid user name."
-msgstr "Няслушнае імя карыстача."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1163
-#: dev/mrim-prpl/svn/trunk/cl.c:1163
-msgid "Buddy/group cannot be added."
-msgstr "Кантакт/група не могуць быць дададзены."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1164
-#: dev/mrim-prpl/svn/trunk/cl.c:1164
-msgid "Max groups allowed count exceedeed."
-msgstr "Перавышаны дапушчальны лік груп."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:378
-#: dev/mrim-prpl/svn/trunk/message.c:373
-msgid "is not typing"
-msgstr "не набірае паведамленне."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:379
-#: dev/mrim-prpl/svn/trunk/message.c:374
-msgid "is typing"
-msgstr "набірае паведамленне..."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:380
-#: dev/mrim-prpl/svn/trunk/message.c:375
-msgid "stopped typing momentarily"
-msgstr "больш не набірае паведамленне."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:381
-#: dev/mrim-prpl/svn/trunk/message.c:376
-msgid "unknown typing state"
-msgstr "невядома, ці піша."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:441
-#: dev/mrim-prpl/svn/trunk/message.c:423
-msgid "Message successfully delivered."
-msgstr "Паведамленне паспяхова дастаўлена."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:444
-#: dev/mrim-prpl/svn/trunk/message.c:426
-msgid "Internal error encountered."
-msgstr "Унутраная памылка."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:447
-#: dev/mrim-prpl/svn/trunk/message.c:429
-msgid "Recipient does not exist."
-msgstr "Атрымальнік не існуе."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:450
-#: dev/mrim-prpl/svn/trunk/message.c:432
-msgid "Recipient is offline. Message can not be stored in his mailbox."
-msgstr "Атрымальнік не ў сеткі. Паведамленне не можа быць захавана ў яго паштовай скрыні."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:453
-#: dev/mrim-prpl/svn/trunk/message.c:435
-msgid "Message size exceeds maximal length allowed."
-msgstr "Памер паведамлення перавышае дапушчальны."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:456
-#: dev/mrim-prpl/svn/trunk/message.c:438
-msgid "Recipient does not support offline messages."
-msgstr "Атрымальнік не падтрымлівае прыём афлайн-паведамленняў."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:459
-#: dev/mrim-prpl/svn/trunk/message.c:441
-msgid "User does not accept offline flash animation"
-msgstr "Карыстач не прымае ў афлайн flash-анімацыю."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:462
-#: dev/mrim-prpl/svn/trunk/message.c:444
-msgid "Unknown status"
-msgstr "Невядомы статут."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:487
-#: dev/mrim-prpl/svn/trunk/message.c:469
-msgid "Message is too short."
-msgstr "Занадта кароткае паведамленне."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:517
-#: dev/mrim-prpl/svn/trunk/message.c:517
-msgid "SMS service is not available"
-msgstr "Служба дастаўкі SMS недаступная."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:518
-#: dev/mrim-prpl/svn/trunk/message.c:518
-msgid "SMS message sent."
-msgstr "SMS-паведамленне адпраўлена."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:519
-#: dev/mrim-prpl/svn/trunk/message.c:519
-msgid "Wrong SMS settings."
-msgstr "Няслушныя налады SMS."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:520
-#: dev/mrim-prpl/svn/trunk/message.c:520
-msgid "Achtung!"
-msgstr "Ахтунг!"
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:520
-#: dev/mrim-prpl/svn/trunk/message.c:520
-msgid "Anyone here?? !"
-msgstr "Хто тут?? !"
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:583
-#: dev/mrim-prpl/svn/trunk/message.c:583
-msgid "has rejected your invitation to join the chat room"
-msgstr "адпрэчвае Ваша запрашэнне ў чат"
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:626
-#: dev/mrim-prpl/svn/trunk/message.c:626
-msgid "Chat invitation"
-msgstr "Запрашэнне ў чат"
-
-#: dev/mrim-prpl/svn/trunk/mrim.c:352
-#: dev/mrim-prpl/svn/trunk/mrim.c:903
-msgid "[web] MY_WORLD"
-msgstr ""
-
-#: dev/mrim-prpl/svn/trunk/mrim.c:355
-#: dev/mrim-prpl/svn/trunk/mrim.c:905
-msgid "[web] MY_PHOTO"
-msgstr ""
-
-#: dev/mrim-prpl/svn/trunk/mrim.c:358
-#: dev/mrim-prpl/svn/trunk/mrim.c:907
-msgid "[web] MY_VIDEO"
-msgstr ""
-
-#: dev/mrim-prpl/svn/trunk/mrim.c:361
-#: dev/mrim-prpl/svn/trunk/mrim.c:909
-msgid "[web] MY_BLOG"
-msgstr ""
-
-#: dev/mrim-prpl/svn/trunk/mrim.c:395
-msgid "Status"
-msgstr ""
-
-#: dev/mrim-prpl/svn/trunk/mrim.c:911
+#: mrim.c:911
 msgid "My world"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.c:960
+#: mrim.c:960
 #, fuzzy
 msgid "Message"
 msgstr "Тэкст SMS-паведамлення"
 
-#: dev/mrim-prpl/svn/trunk/mrim.c:1959
+#: mrim.c:963
+#, fuzzy
+msgid "Mood Name"
+msgstr "Имя"
+
+#: mrim.c:963
+#, fuzzy
+msgid "Mood Comment"
+msgstr "Имя"
+
+#: mrim.c:1258
+msgid "Unable to create TCP-connection"
+msgstr "Не атрымоўваецца ўсталяваць TCP-злучэнне"
+
+#: mrim.c:1274
+#, c-format
+msgid "Unable to connect: %s"
+msgstr "Не магу злучыцца: %s"
+
+#: mrim.c:1287
+msgid "Connecting"
+msgstr "Злучаюся"
+
+#: mrim.c:1293
+msgid "Unable to write to socket."
+msgstr "Не атрымоўваецца запіс у сокет."
+
+#: mrim.c:1314
+msgid "Disconnected by user action?"
+msgstr "Злучэнне перапынена карыстачом?"
+
+#: mrim.c:1323
+msgid "Input Error"
+msgstr "Памылка ўводу"
+
+#: mrim.c:1329
+msgid "Bad Package"
+msgstr "Збойны пакет (BP)."
+
+#: mrim.c:1355
+msgid "ru"
+msgstr ""
+
+#: mrim.c:1364
+msgid "Ping Error"
+msgstr "Памылка пінгу"
+
+#: mrim.c:1384
+#, c-format
+msgid "Disconnected. Reason: %s"
+msgstr "Адключана. Чыннік: %s"
+
+#: mrim.c:1452
+msgid "Logged in from another location."
+msgstr "Выкананы ўваход у сетку з іншага месца."
+
+#: mrim.c:1454
+msgid "Server broke connection."
+msgstr "Сервер разарваў злучэнне."
+
+#: mrim.c:1467
+msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
+msgstr "Памылка пінгу ў MRIM_CS_CONNECTION_PARAMS"
+
+#: mrim.c:1953
+msgid "Server"
+msgstr "Сервер"
+
+#: mrim.c:1955
+msgid "Port"
+msgstr "Порт"
+
+#: mrim.c:1957
+msgid "Load userpics"
+msgstr "Загружаць фота суразмоўцаў"
+
+#: mrim.c:1959
 msgid "Use custom user agent string"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.c:1961
+#: mrim.c:1961
 msgid "Custom user agent"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/message.c:474
+#: cl.c:258
+#: cl.c:714
+#: cl.c:763
+#: cl.c:842
+#: cl.c:1168
+msgid "Encountered an error while working on contact list!"
+msgstr "Памылка пры працы са спісам кантактаў!"
+
+#: cl.c:258
+msgid "Group not found."
+msgstr "Група не знойдзена."
+
+#: cl.c:401
+#, c-format
+msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and '-'."
+msgstr "Не магу дадаць суразмоўцу \"%s\" з-за няслушнага імя карыстача. Імя карыстача павінна быць існым паштовым адрасам (у даменах @mail.ru, @bk.ru, @list.ru, @inbox.ru, @corp.mail.ru) ці існым тэлефонным нумарам, якія ўключаюць знакі \"+\", \"-\", знакі прабелу і што складаюцца толькі з лічбаў. "
+
+#: cl.c:402
+msgid "Unable to Add"
+msgstr "Не атрымоўваецца дадаць"
+
+#: cl.c:469
+#: cl.c:497
+#: cl.c:1181
+msgid "Hello. Add me to your buddies please."
+msgstr "Дзень добры. Калі ласка, дадайце мяне ў спіс Вашых суразмоўцаў."
+
+#: cl.c:714
+#: cl.c:763
+#: cl.c:842
+#: cl.c:881
+msgid "Did you ever do this operation? (mpq == NULL)"
+msgstr "Такая аперацыя ажыццяўлялася? (mpq == NULL)"
+
+#: cl.c:808
+#: cl.c:811
+#: cl.c:814
+#: cl.c:817
+#: message.c:469
+#: message.c:474
+#: message.c:517
+#: message.c:518
+#: message.c:519
+#: message.c:520
+msgid "SMS"
+msgstr "SMS"
+
+#: cl.c:808
+msgid "SMS delivered successfully."
+msgstr "SMS-паведамленне дастаўлена паспяхова."
+
+#: cl.c:811
+msgid "SMS service is not available."
+msgstr "Служба дастаўкі SMS недаступная."
+
+#: cl.c:814
+msgid "Wrong SMS parameters."
+msgstr "Няслушныя параметры SMS."
+
+#: cl.c:817
+msgid "Something went wrong!"
+msgstr "Штосьці пайшло не так!"
+
+#: cl.c:881
+#: cl.c:887
+#: cl.c:890
+#: cl.c:893
+#: cl.c:896
+msgid "Encountered an error while working on user details!"
+msgstr "Памылка пры працы з анкетай!"
+
+#: cl.c:887
+msgid "User not found."
+msgstr "Карыстач не знойдзены."
+
+#: cl.c:890
+msgid "DBERR error. Please try later."
+msgstr "Памылка DBERR. Паспрабуйце паўтарыць пазней."
+
+#: cl.c:893
+msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
+msgstr ""
+
+#: cl.c:896
+msgid "unknown error"
+msgstr "Невядомая памылка."
+
+#: cl.c:918
+msgid "email"
+msgstr "Адрас"
+
+#: cl.c:977
+msgid "Sex"
+msgstr "Пол"
+
+#: cl.c:991
+msgid "Zodiac"
+msgstr "Знак задыяку"
+
+#: cl.c:1078
+msgid "Search results"
+msgstr "Выники пошука"
+
+#: cl.c:1159
+msgid "Invalid data provided."
+msgstr "Прадстаўлены некарэктныя данныя."
+
+#: cl.c:1160
+msgid "Internal error encountered while processing request."
+msgstr "Унутраная памылка пры апрацоўцы запыту."
+
+#: cl.c:1161
+msgid "No such user as you added."
+msgstr "Дадаванага карыстача не існуе."
+
+#: cl.c:1162
+msgid "Invalid user name."
+msgstr "Няслушнае імя карыстача."
+
+#: cl.c:1163
+msgid "Buddy/group cannot be added."
+msgstr "Кантакт/група не могуць быць дададзены."
+
+#: cl.c:1164
+msgid "Max groups allowed count exceedeed."
+msgstr "Перавышаны дапушчальны лік груп."
+
+#: message.c:373
+msgid "is not typing"
+msgstr "не набірае паведамленне."
+
+#: message.c:374
+msgid "is typing"
+msgstr "набірае паведамленне..."
+
+#: message.c:375
+msgid "stopped typing momentarily"
+msgstr "больш не набірае паведамленне."
+
+#: message.c:376
+msgid "unknown typing state"
+msgstr "невядома, ці піша."
+
+#: message.c:423
+msgid "Message successfully delivered."
+msgstr "Паведамленне паспяхова дастаўлена."
+
+#: message.c:426
+msgid "Internal error encountered."
+msgstr "Унутраная памылка."
+
+#: message.c:429
+msgid "Recipient does not exist."
+msgstr "Атрымальнік не існуе."
+
+#: message.c:432
+msgid "Recipient is offline. Message can not be stored in his mailbox."
+msgstr "Атрымальнік не ў сеткі. Паведамленне не можа быць захавана ў яго паштовай скрыні."
+
+#: message.c:435
+msgid "Message size exceeds maximal length allowed."
+msgstr "Памер паведамлення перавышае дапушчальны."
+
+#: message.c:438
+msgid "Recipient does not support offline messages."
+msgstr "Атрымальнік не падтрымлівае прыём афлайн-паведамленняў."
+
+#: message.c:441
+msgid "User does not accept offline flash animation"
+msgstr "Карыстач не прымае ў афлайн flash-анімацыю."
+
+#: message.c:444
+msgid "Unknown status"
+msgstr "Невядомы статут."
+
+#: message.c:469
+msgid "Message is too short."
+msgstr "Занадта кароткае паведамленне."
+
+#: message.c:474
 #, fuzzy
 msgid "Message is too long."
 msgstr "Занадта кароткае паведамленне."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:91
+#: message.c:517
+msgid "SMS service is not available"
+msgstr "Служба дастаўкі SMS недаступная."
+
+#: message.c:518
+msgid "SMS message sent."
+msgstr "SMS-паведамленне адпраўлена."
+
+#: message.c:519
+msgid "Wrong SMS settings."
+msgstr "Няслушныя налады SMS."
+
+#: message.c:520
+msgid "Achtung!"
+msgstr "Ахтунг!"
+
+#: message.c:520
+msgid "Anyone here?? !"
+msgstr "Хто тут?? !"
+
+#: message.c:583
+msgid "has rejected your invitation to join the chat room"
+msgstr "адпрэчвае Ваша запрашэнне ў чат"
+
+#: message.c:626
+msgid "Chat invitation"
+msgstr "Запрашэнне ў чат"
+
+#: mrim.h:92
 msgid "Available"
 msgstr "Даступны"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:92
-#, fuzzy
-msgid "invisible"
-msgstr "Нябачны"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:94
+#: mrim.h:93
 msgid "Away"
 msgstr "Адышоў"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:95
-msgid "mood"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:110
-#, c-format
-msgid "Agent@Mail.Ru for Win/PC, ver. %s build %s"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:111
-#, c-format
-msgid "Agent@Mail.Ru for Win/PC, ver. %s"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:112
-#, c-format
-msgid "Java phone Agent@Mail.Ru, ver. %s"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:113
-msgid "Web-Agent@Mail.Ru"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:114
-#, c-format
-msgid "Agent@Mail.Ru for Android, ver. %s build %s"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:115
-#, c-format
-msgid "Agent@Mail.Ru for Symbian, ver. %s build %s"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:116
-#, c-format
-msgid "QIP 2010, ver. %s build %s"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:117
-#, c-format
-msgid "Agent@Mail.Ru for GNU/Linux, ver. %s rev. %s"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:118
-msgid "Pidgin and Ostin's mrim-prpl plugin"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:127
-msgid "status_online"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:128
-msgid "status_away"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:130
-msgid "boleu"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:131
-msgid "doma"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:132
-msgid "em.bmp"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:133
-msgid "gde_ia"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:134
-msgid "gizn_gavno"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:135
-msgid "gotovlu"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:136
-msgid "gulau"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:137
-msgid "ia_inoplanet_razum"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:138
-msgid "ia_krivetko"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:139
-msgid "ia_poteralsa"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:140
-msgid "ia_soshl_asuma"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:141
-msgid "ia_utko"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:142
-msgid "igrau"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:10
-msgid "Aries"
-msgstr "Авен"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:11
-msgid "Taurus"
-msgstr "Цельцау"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:12
-msgid "Gemini"
-msgstr "Близняты"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:13
-msgid "Cancer"
-msgstr "Рак"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:14
-msgid "Leo"
-msgstr "Леу"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:15
-msgid "Virgo"
-msgstr "Панна"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:16
-msgid "Libra"
-msgstr "Шали"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:17
-msgid "Scorpius"
-msgstr "Скарпиён"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:18
-msgid "Sagittarius"
-msgstr "Стралец"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:19
-msgid "Capricornus"
-msgstr "Казярог"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:20
-msgid "Aquaruis"
-msgstr "Вадалиу"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:21
-msgid "Pisces"
-msgstr "Рыбы"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:35
-msgid "Nickname"
-msgstr "Псеўданім"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:36
-msgid "FirstName"
-msgstr "Имя"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:38
-msgid "Birthday"
-msgstr "Дата народжання"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:39
-msgid "Phone"
-msgstr "Тэлефон"
-
-#: dev/mrim-prpl/svn/trunk/mrim.h:94
+#: mrim.h:94
 #, fuzzy
 msgid "Unavailable"
 msgstr "Даступны"
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:95
+#: mrim.h:95
 msgid "Invisible"
 msgstr "Нябачны"
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:105
+#: mrim.h:105
 msgid "Ready to chat"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:106
+#: mrim.h:106
 msgid "Sick"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:107
+#: mrim.h:107
 msgid "Plate"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:108
+#: mrim.h:108
 msgid "Restroom"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:109
+#: mrim.h:109
 msgid "Tongue"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:110
+#: mrim.h:110
 msgid "Bathing"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:111
+#: mrim.h:111
 msgid "Playing"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:112
+#: mrim.h:112
 msgid "Smoking"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:113
+#: mrim.h:113
 msgid "Working"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:114
+#: mrim.h:114
 msgid "Sleeping"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:115
+#: mrim.h:115
 msgid "Happy"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:116
+#: mrim.h:116
 msgid "Wink"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:117
+#: mrim.h:117
 msgid "Sad"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:118
+#: mrim.h:118
 msgid "Crying"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:119
+#: mrim.h:119
 msgid "Angry"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:135
+#: mrim.h:120
+msgid "In love"
+msgstr ""
+
+#: mrim.h:136
 #, c-format
 msgid "Agent@Mail.Ru for Win/PC, ver. %s, build %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:140
+#: mrim.h:137
+#, c-format
+msgid "Agent@Mail.Ru for Win/PC, ver. %s"
+msgstr ""
+
+#: mrim.h:138
+#, c-format
+msgid "Java phone Agent@Mail.Ru, ver. %s"
+msgstr ""
+
+#: mrim.h:139
+#: mrim.h:140
+msgid "Web-Agent@Mail.Ru"
+msgstr ""
+
+#: mrim.h:141
 #, c-format
 msgid "Agent@Mail.Ru for Android, ver. %s, build %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:141
+#: mrim.h:142
 #, c-format
 msgid "Agent@Mail.Ru for Symbian, ver. %s, build %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:142
+#: mrim.h:143
 #, c-format
 msgid "QIP 2010, ver. %s, build %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:143
+#: mrim.h:144
 #, c-format
 msgid "QIP Infium, ver. %s, build %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:144
+#: mrim.h:145
 #, c-format
 msgid "Pidgin and Ostin's mrim-prpl plugin, ver. %s, build %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:145
+#: mrim.h:146
 #, c-format
 msgid "mrim-prpl (libpurple %s) ver. %s, %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:146
+#: mrim.h:147
 #, c-format
 msgid "Agent@Mail.Ru for GNU/Linux, ver. %s, rev. %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:148
+#: mrim.h:148
+msgid "Pidgin and Ostin's mrim-prpl plugin"
+msgstr ""
+
+#: mrim.h:149
 msgid "Purple plugin by lemax1@mail.ru"
 msgstr ""
+
+#: cl.h:10
+msgid "Aries"
+msgstr "Авен"
+
+#: cl.h:11
+msgid "Taurus"
+msgstr "Цельцау"
+
+#: cl.h:12
+msgid "Gemini"
+msgstr "Близняты"
+
+#: cl.h:13
+msgid "Cancer"
+msgstr "Рак"
+
+#: cl.h:14
+msgid "Leo"
+msgstr "Леу"
+
+#: cl.h:15
+msgid "Virgo"
+msgstr "Панна"
+
+#: cl.h:16
+msgid "Libra"
+msgstr "Шали"
+
+#: cl.h:17
+msgid "Scorpius"
+msgstr "Скарпиён"
+
+#: cl.h:18
+msgid "Sagittarius"
+msgstr "Стралец"
+
+#: cl.h:19
+msgid "Capricornus"
+msgstr "Казярог"
+
+#: cl.h:20
+msgid "Aquaruis"
+msgstr "Вадалиу"
+
+#: cl.h:21
+msgid "Pisces"
+msgstr "Рыбы"
+
+#: cl.h:35
+msgid "Nickname"
+msgstr "Псеўданім"
+
+#: cl.h:36
+msgid "FirstName"
+msgstr "Имя"
+
+#: cl.h:38
+msgid "Birthday"
+msgstr "Дата народжання"
+
+#: cl.h:39
+msgid "Phone"
+msgstr "Тэлефон"
+
+#, fuzzy
+#~ msgid "invisible"
+#~ msgstr "Нябачны"
 
 #, fuzzy
 #~ msgid "Not available"

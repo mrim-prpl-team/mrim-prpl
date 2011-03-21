@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-21 16:40+0300\n"
+"POT-Creation-Date: 2011-03-22 00:44+0300\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Reslayer <Reslayer@ya.ru>\n"
+"Last-Translator: Janus.Kobain.Stamp <Janus.Kobain.Stamp@gmail.com>\n"
 "Language-Team: mrim-prpl\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -14,192 +14,175 @@ msgstr ""
 "X-Poedit-Country: POLAND\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: gettext;gettext_noop;_;N_\n"
-"X-Poedit-Basepath: /home/reslayer/dev/pidgin/mrim-prpl/svn/trunk/\n"
+"X-Poedit-Basepath: /home/ubuntu/dev/mrim-prpl/svn/trunk/\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: dev/mrim-prpl/mrim-prpl-testing/package.c:84
-#: dev/mrim-prpl/svn/trunk/package.c:84
+#: package.c:84
 msgid "Encoding error: can't convert UTF8 into CP1251"
 msgstr "Kodowanie błąd: nie można konwertować z UTF 8 do CP1251"
 
-#: dev/mrim-prpl/mrim-prpl-testing/package.c:354
-#: dev/mrim-prpl/svn/trunk/package.c:355
+#: package.c:355
 msgid "Read Error!"
 msgstr "Błąd przy czytaniu!"
 
-#: dev/mrim-prpl/mrim-prpl-testing/package.c:359
-#: dev/mrim-prpl/svn/trunk/package.c:360
+#: package.c:360
 msgid "Peer closed connection"
 msgstr "Serwer odrzucił połączenie."
 
-#: dev/mrim-prpl/mrim-prpl-testing/filetransfer.c:98
-#: dev/mrim-prpl/svn/trunk/filetransfer.c:99
+#: filetransfer.c:99
 msgid "The file you are trying to send is too large!"
 msgstr "Plik, który próbujesz wysłać jest za duże!"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:168
-#: dev/mrim-prpl/svn/trunk/mrim.c:192
+#: mrim.c:192
 #, c-format
 msgid "%s is offline."
 msgstr "Respondent %s nie jest w sieci."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:169
-#: dev/mrim-prpl/svn/trunk/mrim.c:193
+#: mrim.c:193
 msgid "UserInfo"
 msgstr "Info użytkownika"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:169
-#: dev/mrim-prpl/svn/trunk/mrim.c:193
+#: mrim.c:193
 msgid "UserInfo is not available."
 msgstr "Info użytkownika nie jest dostępna."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:175
-#: dev/mrim-prpl/svn/trunk/mrim.c:199
+#: mrim.c:199
 msgid "UserInfo is not available for conferences and phones."
 msgstr "Info użytkownika nie jest dostępna na konferencjach i telefonów."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:265
-#: dev/mrim-prpl/svn/trunk/mrim.c:290
+#: mrim.c:290
 msgid "Nick"
 msgstr "Nick"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:267
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:374
-#: dev/mrim-prpl/svn/trunk/mrim.c:292
-#: dev/mrim-prpl/svn/trunk/mrim.c:383
+#: mrim.c:292
+#: mrim.c:383
 msgid "Name"
 msgstr "Imię"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:269
-#: dev/mrim-prpl/svn/trunk/mrim.c:294
+#: mrim.c:294
+#: cl.h:37
 msgid "LastName"
 msgstr "Nazwisko"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:271
-#: dev/mrim-prpl/svn/trunk/mrim.c:296
+#: mrim.c:296
 msgid "Gender"
 msgstr "Płeć"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:272
-#: dev/mrim-prpl/svn/trunk/mrim.c:297
+#: mrim.c:297
 msgid "No matter"
 msgstr "Nie ważne"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:273
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:984
-#: dev/mrim-prpl/svn/trunk/mrim.c:298
-#: dev/mrim-prpl/svn/trunk/cl.c:984
+#: mrim.c:298
+#: cl.c:984
 msgid "Male"
 msgstr "Mężczyzna"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:274
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:984
-#: dev/mrim-prpl/svn/trunk/mrim.c:299
-#: dev/mrim-prpl/svn/trunk/cl.c:984
+#: mrim.c:299
+#: cl.c:984
 msgid "Female"
 msgstr "Kobieta"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:281
-#: dev/mrim-prpl/svn/trunk/mrim.c:306
+#: mrim.c:306
 msgid "Age from"
 msgstr "Wiek od"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:283
-#: dev/mrim-prpl/svn/trunk/mrim.c:308
+#: mrim.c:308
 msgid "Age up to"
 msgstr "Wiek do"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:287
-#: dev/mrim-prpl/svn/trunk/mrim.c:312
+#: mrim.c:312
 msgid "Online"
 msgstr "Dostępny"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:292
-#: dev/mrim-prpl/svn/trunk/mrim.c:317
+#: mrim.c:317
 msgid "Buddies search"
 msgstr "Wyszukiwanie kontaktów"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:293
-#: dev/mrim-prpl/svn/trunk/mrim.c:318
+#: mrim.c:318
 msgid "_Search!"
 msgstr "_Wyszukiwanie!"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:294
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:548
-#: dev/mrim-prpl/svn/trunk/mrim.c:319
-#: dev/mrim-prpl/svn/trunk/mrim.c:558
+#: mrim.c:319
+#: mrim.c:558
 msgid "_Cancel!"
 msgstr "_Anulować!"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:331
-#: dev/mrim-prpl/svn/trunk/mrim.c:340
+#: mrim.c:340
 msgid "[web] Set User Info"
 msgstr "Ustawić informacji o użytkowniku (w sieci)..."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:334
-#: dev/mrim-prpl/svn/trunk/mrim.c:343
+#: mrim.c:343
 msgid "[web] Set User avatar"
 msgstr "Instalacja avatary (w sieci)..."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:337
-#: dev/mrim-prpl/svn/trunk/mrim.c:346
+#: mrim.c:346
 msgid "Search for buddies"
 msgstr "Wyszukiwanie użytkowników"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:393
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:410
-#: dev/mrim-prpl/svn/trunk/mrim.c:416
-#: dev/mrim-prpl/svn/trunk/mrim.c:420
-msgid "Contact details"
-msgstr "Dane kontaktowe"
+#: mrim.c:352
+#: mrim.c:903
+msgid "[web] MY_WORLD"
+msgstr ""
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:399
-#: dev/mrim-prpl/svn/trunk/mrim.c:400
+#: mrim.c:355
+#: mrim.c:905
+msgid "[web] MY_PHOTO"
+msgstr ""
+
+#: mrim.c:358
+#: mrim.c:907
+msgid "[web] MY_VIDEO"
+msgstr ""
+
+#: mrim.c:361
+#: mrim.c:909
+msgid "[web] MY_BLOG"
+msgstr ""
+
+#: mrim.c:395
+msgid "Status"
+msgstr ""
+
+#: mrim.c:400
 msgid "Phone numbers"
 msgstr "Numery telefonów"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:402
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:405
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1024
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1027
-#: dev/mrim-prpl/svn/trunk/mrim.c:403
-#: dev/mrim-prpl/svn/trunk/mrim.c:407
-#: dev/mrim-prpl/svn/trunk/cl.c:1024
-#: dev/mrim-prpl/svn/trunk/cl.c:1027
+#: mrim.c:403
+#: mrim.c:407
+#: cl.c:1024
+#: cl.c:1027
 msgid "User agent"
 msgstr ""
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:405
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1027
-#: dev/mrim-prpl/svn/trunk/mrim.c:407
-#: dev/mrim-prpl/svn/trunk/cl.c:1027
+#: mrim.c:407
+#: cl.c:1027
 msgid "Hidden"
 msgstr ""
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:410
-#: dev/mrim-prpl/svn/trunk/mrim.c:420
+#: mrim.c:416
+#: mrim.c:420
+msgid "Contact details"
+msgstr "Dane kontaktowe"
+
+#: mrim.c:420
+#: mrim.h:91
 msgid "Offline"
 msgstr "Nieaktywny"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:537
-#: dev/mrim-prpl/svn/trunk/mrim.c:547
+#: mrim.c:547
 msgid "Choose phone number"
 msgstr "Wybierz numer telefonu"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:543
-#: dev/mrim-prpl/svn/trunk/mrim.c:553
+#: mrim.c:553
 msgid "SMS message text"
 msgstr "Tekst wiadomości SMS"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:546
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:623
-#: dev/mrim-prpl/svn/trunk/mrim.c:556
-#: dev/mrim-prpl/svn/trunk/mrim.c:633
+#: mrim.c:556
+#: mrim.c:633
 msgid "Send SMS"
 msgstr "Wysłać SMS"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:546
-#: dev/mrim-prpl/svn/trunk/mrim.c:556
+#: mrim.c:556
 msgid ""
 "SMS message should contain not\n"
 "more than 135 symbols in latin\n"
@@ -209,818 +192,604 @@ msgstr ""
 "ponad 135 symboli latin\n"
 "ani 35 w cyrylicy."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:547
-#: dev/mrim-prpl/svn/trunk/mrim.c:557
+#: mrim.c:557
 msgid "_Send"
 msgstr "_Wysłać"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:572
-#: dev/mrim-prpl/svn/trunk/mrim.c:582
+#: mrim.c:582
 #, c-format
 msgid "Symbols: %d"
 msgstr ""
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:642
-#: dev/mrim-prpl/svn/trunk/mrim.c:652
+#: mrim.c:652
 msgid "Phone:"
 msgstr "Telefon:"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:657
-#: dev/mrim-prpl/svn/trunk/mrim.c:667
+#: mrim.c:667
 msgid "Translit"
 msgstr ""
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:743
-#: dev/mrim-prpl/svn/trunk/mrim.c:753
+#: mrim.c:753
 msgid "_Main number"
 msgstr "_Główne numer"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:745
-#: dev/mrim-prpl/svn/trunk/mrim.c:755
+#: mrim.c:755
 msgid "S_econd number"
 msgstr "_Drugi numer"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:747
-#: dev/mrim-prpl/svn/trunk/mrim.c:757
+#: mrim.c:757
 msgid "_Third number"
 msgstr "_Trzeci numer"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:752
-#: dev/mrim-prpl/svn/trunk/mrim.c:761
+#: mrim.c:761
 msgid "Phone numbers editor"
 msgstr "Redaktor numerów telefonicznych"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:752
-#: dev/mrim-prpl/svn/trunk/mrim.c:761
+#: mrim.c:761
 msgid "Specify numbers as shown: +71234567890"
 msgstr "Określić numery, jak pokazano: +71234567890"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:753
-#: dev/mrim-prpl/svn/trunk/mrim.c:762
+#: mrim.c:762
 msgid "_Ok"
 msgstr "_Ok"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:754
-#: dev/mrim-prpl/svn/trunk/mrim.c:763
+#: mrim.c:763
 msgid "_Cancel"
 msgstr "_Anulowanie"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:847
-#: dev/mrim-prpl/svn/trunk/mrim.c:865
+#: mrim.c:865
 msgid "(Re-)request authorization"
 msgstr "(Re-) żądanie autoryzacji"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:858
-#: dev/mrim-prpl/svn/trunk/mrim.c:875
+#: mrim.c:875
 msgid "Send an SMS... (GTK)"
 msgstr "Wysłać SMS... (GTK)"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:863
-#: dev/mrim-prpl/svn/trunk/mrim.c:880
+#: mrim.c:880
 msgid "Send an SMS..."
 msgstr "Wysłać SMS..."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:866
-#: dev/mrim-prpl/svn/trunk/mrim.c:883
+#: mrim.c:883
 msgid "Edit phone numbers..."
 msgstr "Edytować numery telefonów..."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:871
-#: dev/mrim-prpl/svn/trunk/mrim.c:888
+#: mrim.c:888
 msgid "Remove from 'Invisible to' list"
 msgstr "Usunąć z listy niewidocznych"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:871
-#: dev/mrim-prpl/svn/trunk/mrim.c:888
+#: mrim.c:888
 msgid "Add to 'Invisible to' list"
 msgstr "Dodać do listy niewidocznych"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:875
-#: dev/mrim-prpl/svn/trunk/mrim.c:892
+#: mrim.c:892
 msgid "Remove from 'Visible to' list"
 msgstr "Usunąć z listy widocznych"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:875
-#: dev/mrim-prpl/svn/trunk/mrim.c:892
+#: mrim.c:892
 msgid "Add to 'Visible to' list"
 msgstr "Dodać do listy widocznych"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:879
-#: dev/mrim-prpl/svn/trunk/mrim.c:896
+#: mrim.c:896
 msgid "Visibility settings"
 msgstr "Ustawienia widoczności"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:935
-#: dev/mrim-prpl/svn/trunk/mrim.c:963
-#, fuzzy
-msgid "Mood Name"
-msgstr "Imię"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:935
-#: dev/mrim-prpl/svn/trunk/mrim.c:963
-#, fuzzy
-msgid "Mood Comment"
-msgstr "Imię"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1164
-#: dev/mrim-prpl/svn/trunk/mrim.c:1258
-msgid "Unable to create TCP-connection"
-msgstr "Nie można ustanowić połączenia TCP"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1180
-#: dev/mrim-prpl/svn/trunk/mrim.c:1274
-#, c-format
-msgid "Unable to connect: %s"
-msgstr "Nie można się połączyć: %s"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1193
-#: dev/mrim-prpl/svn/trunk/mrim.c:1287
-msgid "Connecting"
-msgstr "Podłączenie"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1199
-#: dev/mrim-prpl/svn/trunk/mrim.c:1293
-msgid "Unable to write to socket."
-msgstr "Nie można zapisać do gniazda."
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1220
-#: dev/mrim-prpl/svn/trunk/mrim.c:1314
-msgid "Disconnected by user action?"
-msgstr "Rozłączony przez działania użytkownika?"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1229
-#: dev/mrim-prpl/svn/trunk/mrim.c:1323
-msgid "Input Error"
-msgstr "Błąd wejścia"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1235
-#: dev/mrim-prpl/svn/trunk/mrim.c:1329
-msgid "Bad Package"
-msgstr "Złe Pakiet (BP)."
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1261
-#: dev/mrim-prpl/svn/trunk/mrim.c:1355
-msgid "ru"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1270
-#: dev/mrim-prpl/svn/trunk/mrim.c:1364
-msgid "Ping Error"
-msgstr "Nie ping"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1290
-#: dev/mrim-prpl/svn/trunk/mrim.c:1384
-#, c-format
-msgid "Disconnected. Reason: %s"
-msgstr "Wyłączone. Przyczyna: %s"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1358
-#: dev/mrim-prpl/svn/trunk/mrim.c:1452
-msgid "Logged in from another location."
-msgstr "Zalogowano się z innego miejsca."
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1360
-#: dev/mrim-prpl/svn/trunk/mrim.c:1454
-msgid "Server broke connection."
-msgstr "Serwer przerwał połączenie."
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1373
-#: dev/mrim-prpl/svn/trunk/mrim.c:1467
-msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
-msgstr "Ping Błąd w MRIM_CS_CONNECTION_PARAMS"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1842
-#: dev/mrim-prpl/svn/trunk/mrim.c:1953
-msgid "Server"
-msgstr "Serwer"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1844
-#: dev/mrim-prpl/svn/trunk/mrim.c:1955
-msgid "Port"
-msgstr "Port"
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.c:1846
-#: dev/mrim-prpl/svn/trunk/mrim.c:1957
-msgid "Load userpics"
-msgstr "Załaduj zdjęcie kontaktów"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:258
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:714
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:763
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:842
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1168
-#: dev/mrim-prpl/svn/trunk/cl.c:258
-#: dev/mrim-prpl/svn/trunk/cl.c:714
-#: dev/mrim-prpl/svn/trunk/cl.c:763
-#: dev/mrim-prpl/svn/trunk/cl.c:842
-#: dev/mrim-prpl/svn/trunk/cl.c:1168
-msgid "Encountered an error while working on contact list!"
-msgstr "Wystąpił błąd w czasie pracy na liście kontaktów!"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:258
-#: dev/mrim-prpl/svn/trunk/cl.c:258
-msgid "Group not found."
-msgstr "Grupę nie znaleziono."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:401
-#: dev/mrim-prpl/svn/trunk/cl.c:401
-#, c-format
-msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and '-'."
-msgstr "Nie moge dodac użytkownika \"%s\" z powodu nieprawidłowej nazwy użytkownika. Nazwa użytkownika musi być prawdziwy adres e-mail (w domenach @mail.ru, @bk.ru, @list.ru, @inbox.ru, @corp.mail.ru) lub numeru telefonu, który ma znaki \"+\", \"-\", spacji i składające się z cyfr."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:402
-#: dev/mrim-prpl/svn/trunk/cl.c:402
-msgid "Unable to Add"
-msgstr "Nie moge dodać"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:469
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:497
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1181
-#: dev/mrim-prpl/svn/trunk/cl.c:469
-#: dev/mrim-prpl/svn/trunk/cl.c:497
-#: dev/mrim-prpl/svn/trunk/cl.c:1181
-msgid "Hello. Add me to your buddies please."
-msgstr "Witam. Dodaj mnie do swoich kontaktów proszę."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:714
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:763
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:842
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:881
-#: dev/mrim-prpl/svn/trunk/cl.c:714
-#: dev/mrim-prpl/svn/trunk/cl.c:763
-#: dev/mrim-prpl/svn/trunk/cl.c:842
-#: dev/mrim-prpl/svn/trunk/cl.c:881
-msgid "Did you ever do this operation? (mpq == NULL)"
-msgstr "Ta operacja miała miejsce? (mpq == NULL)"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:808
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:811
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:814
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:817
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:487
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:517
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:518
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:519
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:520
-#: dev/mrim-prpl/svn/trunk/cl.c:808
-#: dev/mrim-prpl/svn/trunk/cl.c:811
-#: dev/mrim-prpl/svn/trunk/cl.c:814
-#: dev/mrim-prpl/svn/trunk/cl.c:817
-#: dev/mrim-prpl/svn/trunk/message.c:469
-#: dev/mrim-prpl/svn/trunk/message.c:474
-#: dev/mrim-prpl/svn/trunk/message.c:517
-#: dev/mrim-prpl/svn/trunk/message.c:518
-#: dev/mrim-prpl/svn/trunk/message.c:519
-#: dev/mrim-prpl/svn/trunk/message.c:520
-msgid "SMS"
-msgstr "SMS"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:808
-#: dev/mrim-prpl/svn/trunk/cl.c:808
-msgid "SMS delivered successfully."
-msgstr "SMS wydana."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:811
-#: dev/mrim-prpl/svn/trunk/cl.c:811
-msgid "SMS service is not available."
-msgstr "Błędne ustawienia SMS."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:814
-#: dev/mrim-prpl/svn/trunk/cl.c:814
-msgid "Wrong SMS parameters."
-msgstr "Błędne ustawienia SMS."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:817
-#: dev/mrim-prpl/svn/trunk/cl.c:817
-msgid "Something went wrong!"
-msgstr "Coś poszło nie tak!"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:881
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:887
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:890
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:893
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:896
-#: dev/mrim-prpl/svn/trunk/cl.c:881
-#: dev/mrim-prpl/svn/trunk/cl.c:887
-#: dev/mrim-prpl/svn/trunk/cl.c:890
-#: dev/mrim-prpl/svn/trunk/cl.c:893
-#: dev/mrim-prpl/svn/trunk/cl.c:896
-msgid "Encountered an error while working on user details!"
-msgstr "Błąd przy robocze z formularzem!"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:887
-#: dev/mrim-prpl/svn/trunk/cl.c:887
-msgid "User not found."
-msgstr "Nie znaleziono użytkownika."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:890
-#: dev/mrim-prpl/svn/trunk/cl.c:890
-msgid "DBERR error. Please try later."
-msgstr "Błąd DBERR. Spróbuj ponownie później."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:893
-#: dev/mrim-prpl/svn/trunk/cl.c:893
-msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:896
-#: dev/mrim-prpl/svn/trunk/cl.c:896
-msgid "unknown error"
-msgstr "Nieznany błąd."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:918
-#: dev/mrim-prpl/svn/trunk/cl.c:918
-msgid "email"
-msgstr "Adres"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:977
-#: dev/mrim-prpl/svn/trunk/cl.c:977
-msgid "Sex"
-msgstr "Płeć"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:991
-#: dev/mrim-prpl/svn/trunk/cl.c:991
-msgid "Zodiac"
-msgstr "Znak zodiaku"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1078
-#: dev/mrim-prpl/svn/trunk/cl.c:1078
-msgid "Search results"
-msgstr "Wyniki wyszukiwania"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1159
-#: dev/mrim-prpl/svn/trunk/cl.c:1159
-msgid "Invalid data provided."
-msgstr "Podała nieprawdziwe dane."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1160
-#: dev/mrim-prpl/svn/trunk/cl.c:1160
-msgid "Internal error encountered while processing request."
-msgstr "Błąd wewnętrzny podczas przetwarzania żądania."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1161
-#: dev/mrim-prpl/svn/trunk/cl.c:1161
-msgid "No such user as you added."
-msgstr "Nie ma takiego użytkownika, jak dodał."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1162
-#: dev/mrim-prpl/svn/trunk/cl.c:1162
-msgid "Invalid user name."
-msgstr "Nieprawidłowa nazwa użytkownika."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1163
-#: dev/mrim-prpl/svn/trunk/cl.c:1163
-msgid "Buddy/group cannot be added."
-msgstr "Kontakt/grupy nie mogą być dodawane."
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.c:1164
-#: dev/mrim-prpl/svn/trunk/cl.c:1164
-msgid "Max groups allowed count exceedeed."
-msgstr "Przekroczono liczbę grup."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:378
-#: dev/mrim-prpl/svn/trunk/message.c:373
-msgid "is not typing"
-msgstr "nie pisze wiadomość."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:379
-#: dev/mrim-prpl/svn/trunk/message.c:374
-msgid "is typing"
-msgstr "pisze wiadomość…"
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:380
-#: dev/mrim-prpl/svn/trunk/message.c:375
-msgid "stopped typing momentarily"
-msgstr "nie pisze wiadomość"
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:381
-#: dev/mrim-prpl/svn/trunk/message.c:376
-msgid "unknown typing state"
-msgstr "nieznany czy pisze"
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:441
-#: dev/mrim-prpl/svn/trunk/message.c:423
-msgid "Message successfully delivered."
-msgstr "Wiadomość została dostarczona."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:444
-#: dev/mrim-prpl/svn/trunk/message.c:426
-msgid "Internal error encountered."
-msgstr "Błąd wewnętrzny."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:447
-#: dev/mrim-prpl/svn/trunk/message.c:429
-msgid "Recipient does not exist."
-msgstr "Adresat nie istnieje."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:450
-#: dev/mrim-prpl/svn/trunk/message.c:432
-msgid "Recipient is offline. Message can not be stored in his mailbox."
-msgstr "Adresat nie jest w sieci. Wiadomość nie może być przechowywana w jego e-mail."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:453
-#: dev/mrim-prpl/svn/trunk/message.c:435
-msgid "Message size exceeds maximal length allowed."
-msgstr "Rozmiar wiadomości przekracza maksymalną dopuszczalną długość."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:456
-#: dev/mrim-prpl/svn/trunk/message.c:438
-msgid "Recipient does not support offline messages."
-msgstr "Użytkownik nie obsługuje wiadomości offline."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:459
-#: dev/mrim-prpl/svn/trunk/message.c:441
-msgid "User does not accept offline flash animation"
-msgstr "Użytkownik nie przyjmuje offline animacji flash"
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:462
-#: dev/mrim-prpl/svn/trunk/message.c:444
-msgid "Unknown status"
-msgstr "Status nieznany."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:487
-#: dev/mrim-prpl/svn/trunk/message.c:469
-msgid "Message is too short."
-msgstr "Za krótko wiadomości."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:517
-#: dev/mrim-prpl/svn/trunk/message.c:517
-msgid "SMS service is not available"
-msgstr "Dostawa SMS nie jest dostępna."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:518
-#: dev/mrim-prpl/svn/trunk/message.c:518
-msgid "SMS message sent."
-msgstr "SMS wysłany."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:519
-#: dev/mrim-prpl/svn/trunk/message.c:519
-msgid "Wrong SMS settings."
-msgstr "Złe ustawienia SMS."
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:520
-#: dev/mrim-prpl/svn/trunk/message.c:520
-msgid "Achtung!"
-msgstr "Uwaga!"
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:520
-#: dev/mrim-prpl/svn/trunk/message.c:520
-msgid "Anyone here?? !"
-msgstr "Kto tu jest ??!"
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:583
-#: dev/mrim-prpl/svn/trunk/message.c:583
-msgid "has rejected your invitation to join the chat room"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/message.c:626
-#: dev/mrim-prpl/svn/trunk/message.c:626
-msgid "Chat invitation"
-msgstr ""
-
-#: dev/mrim-prpl/svn/trunk/mrim.c:352
-#: dev/mrim-prpl/svn/trunk/mrim.c:903
-msgid "[web] MY_WORLD"
-msgstr ""
-
-#: dev/mrim-prpl/svn/trunk/mrim.c:355
-#: dev/mrim-prpl/svn/trunk/mrim.c:905
-msgid "[web] MY_PHOTO"
-msgstr ""
-
-#: dev/mrim-prpl/svn/trunk/mrim.c:358
-#: dev/mrim-prpl/svn/trunk/mrim.c:907
-msgid "[web] MY_VIDEO"
-msgstr ""
-
-#: dev/mrim-prpl/svn/trunk/mrim.c:361
-#: dev/mrim-prpl/svn/trunk/mrim.c:909
-msgid "[web] MY_BLOG"
-msgstr ""
-
-#: dev/mrim-prpl/svn/trunk/mrim.c:395
-msgid "Status"
-msgstr ""
-
-#: dev/mrim-prpl/svn/trunk/mrim.c:911
+#: mrim.c:911
 msgid "My world"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.c:960
+#: mrim.c:960
 #, fuzzy
 msgid "Message"
 msgstr "Tekst wiadomości SMS"
 
-#: dev/mrim-prpl/svn/trunk/mrim.c:1959
+#: mrim.c:963
+#, fuzzy
+msgid "Mood Name"
+msgstr "Imię"
+
+#: mrim.c:963
+#, fuzzy
+msgid "Mood Comment"
+msgstr "Imię"
+
+#: mrim.c:1258
+msgid "Unable to create TCP-connection"
+msgstr "Nie można ustanowić połączenia TCP"
+
+#: mrim.c:1274
+#, c-format
+msgid "Unable to connect: %s"
+msgstr "Nie można się połączyć: %s"
+
+#: mrim.c:1287
+msgid "Connecting"
+msgstr "Podłączenie"
+
+#: mrim.c:1293
+msgid "Unable to write to socket."
+msgstr "Nie można zapisać do gniazda."
+
+#: mrim.c:1314
+msgid "Disconnected by user action?"
+msgstr "Rozłączony przez działania użytkownika?"
+
+#: mrim.c:1323
+msgid "Input Error"
+msgstr "Błąd wejścia"
+
+#: mrim.c:1329
+msgid "Bad Package"
+msgstr "Złe Pakiet (BP)."
+
+#: mrim.c:1355
+msgid "ru"
+msgstr ""
+
+#: mrim.c:1364
+msgid "Ping Error"
+msgstr "Nie ping"
+
+#: mrim.c:1384
+#, c-format
+msgid "Disconnected. Reason: %s"
+msgstr "Wyłączone. Przyczyna: %s"
+
+#: mrim.c:1452
+msgid "Logged in from another location."
+msgstr "Zalogowano się z innego miejsca."
+
+#: mrim.c:1454
+msgid "Server broke connection."
+msgstr "Serwer przerwał połączenie."
+
+#: mrim.c:1467
+msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
+msgstr "Ping Błąd w MRIM_CS_CONNECTION_PARAMS"
+
+#: mrim.c:1953
+msgid "Server"
+msgstr "Serwer"
+
+#: mrim.c:1955
+msgid "Port"
+msgstr "Port"
+
+#: mrim.c:1957
+msgid "Load userpics"
+msgstr "Załaduj zdjęcie kontaktów"
+
+#: mrim.c:1959
 msgid "Use custom user agent string"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.c:1961
+#: mrim.c:1961
 msgid "Custom user agent"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/message.c:474
+#: cl.c:258
+#: cl.c:714
+#: cl.c:763
+#: cl.c:842
+#: cl.c:1168
+msgid "Encountered an error while working on contact list!"
+msgstr "Wystąpił błąd w czasie pracy na liście kontaktów!"
+
+#: cl.c:258
+msgid "Group not found."
+msgstr "Grupę nie znaleziono."
+
+#: cl.c:401
+#, c-format
+msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and '-'."
+msgstr "Nie moge dodac użytkownika \"%s\" z powodu nieprawidłowej nazwy użytkownika. Nazwa użytkownika musi być prawdziwy adres e-mail (w domenach @mail.ru, @bk.ru, @list.ru, @inbox.ru, @corp.mail.ru) lub numeru telefonu, który ma znaki \"+\", \"-\", spacji i składające się z cyfr."
+
+#: cl.c:402
+msgid "Unable to Add"
+msgstr "Nie moge dodać"
+
+#: cl.c:469
+#: cl.c:497
+#: cl.c:1181
+msgid "Hello. Add me to your buddies please."
+msgstr "Witam. Dodaj mnie do swoich kontaktów proszę."
+
+#: cl.c:714
+#: cl.c:763
+#: cl.c:842
+#: cl.c:881
+msgid "Did you ever do this operation? (mpq == NULL)"
+msgstr "Ta operacja miała miejsce? (mpq == NULL)"
+
+#: cl.c:808
+#: cl.c:811
+#: cl.c:814
+#: cl.c:817
+#: message.c:469
+#: message.c:474
+#: message.c:517
+#: message.c:518
+#: message.c:519
+#: message.c:520
+msgid "SMS"
+msgstr "SMS"
+
+#: cl.c:808
+msgid "SMS delivered successfully."
+msgstr "SMS wydana."
+
+#: cl.c:811
+msgid "SMS service is not available."
+msgstr "Błędne ustawienia SMS."
+
+#: cl.c:814
+msgid "Wrong SMS parameters."
+msgstr "Błędne ustawienia SMS."
+
+#: cl.c:817
+msgid "Something went wrong!"
+msgstr "Coś poszło nie tak!"
+
+#: cl.c:881
+#: cl.c:887
+#: cl.c:890
+#: cl.c:893
+#: cl.c:896
+msgid "Encountered an error while working on user details!"
+msgstr "Błąd przy robocze z formularzem!"
+
+#: cl.c:887
+msgid "User not found."
+msgstr "Nie znaleziono użytkownika."
+
+#: cl.c:890
+msgid "DBERR error. Please try later."
+msgstr "Błąd DBERR. Spróbuj ponownie później."
+
+#: cl.c:893
+msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
+msgstr ""
+
+#: cl.c:896
+msgid "unknown error"
+msgstr "Nieznany błąd."
+
+#: cl.c:918
+msgid "email"
+msgstr "Adres"
+
+#: cl.c:977
+msgid "Sex"
+msgstr "Płeć"
+
+#: cl.c:991
+msgid "Zodiac"
+msgstr "Znak zodiaku"
+
+#: cl.c:1078
+msgid "Search results"
+msgstr "Wyniki wyszukiwania"
+
+#: cl.c:1159
+msgid "Invalid data provided."
+msgstr "Podała nieprawdziwe dane."
+
+#: cl.c:1160
+msgid "Internal error encountered while processing request."
+msgstr "Błąd wewnętrzny podczas przetwarzania żądania."
+
+#: cl.c:1161
+msgid "No such user as you added."
+msgstr "Nie ma takiego użytkownika, jak dodał."
+
+#: cl.c:1162
+msgid "Invalid user name."
+msgstr "Nieprawidłowa nazwa użytkownika."
+
+#: cl.c:1163
+msgid "Buddy/group cannot be added."
+msgstr "Kontakt/grupy nie mogą być dodawane."
+
+#: cl.c:1164
+msgid "Max groups allowed count exceedeed."
+msgstr "Przekroczono liczbę grup."
+
+#: message.c:373
+msgid "is not typing"
+msgstr "nie pisze wiadomość."
+
+#: message.c:374
+msgid "is typing"
+msgstr "pisze wiadomość…"
+
+#: message.c:375
+msgid "stopped typing momentarily"
+msgstr "nie pisze wiadomość"
+
+#: message.c:376
+msgid "unknown typing state"
+msgstr "nieznany czy pisze"
+
+#: message.c:423
+msgid "Message successfully delivered."
+msgstr "Wiadomość została dostarczona."
+
+#: message.c:426
+msgid "Internal error encountered."
+msgstr "Błąd wewnętrzny."
+
+#: message.c:429
+msgid "Recipient does not exist."
+msgstr "Adresat nie istnieje."
+
+#: message.c:432
+msgid "Recipient is offline. Message can not be stored in his mailbox."
+msgstr "Adresat nie jest w sieci. Wiadomość nie może być przechowywana w jego e-mail."
+
+#: message.c:435
+msgid "Message size exceeds maximal length allowed."
+msgstr "Rozmiar wiadomości przekracza maksymalną dopuszczalną długość."
+
+#: message.c:438
+msgid "Recipient does not support offline messages."
+msgstr "Użytkownik nie obsługuje wiadomości offline."
+
+#: message.c:441
+msgid "User does not accept offline flash animation"
+msgstr "Użytkownik nie przyjmuje offline animacji flash"
+
+#: message.c:444
+msgid "Unknown status"
+msgstr "Status nieznany."
+
+#: message.c:469
+msgid "Message is too short."
+msgstr "Za krótko wiadomości."
+
+#: message.c:474
 #, fuzzy
 msgid "Message is too long."
 msgstr "Za krótko wiadomości."
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:91
+#: message.c:517
+msgid "SMS service is not available"
+msgstr "Dostawa SMS nie jest dostępna."
+
+#: message.c:518
+msgid "SMS message sent."
+msgstr "SMS wysłany."
+
+#: message.c:519
+msgid "Wrong SMS settings."
+msgstr "Złe ustawienia SMS."
+
+#: message.c:520
+msgid "Achtung!"
+msgstr "Uwaga!"
+
+#: message.c:520
+msgid "Anyone here?? !"
+msgstr "Kto tu jest ??!"
+
+#: message.c:583
+msgid "has rejected your invitation to join the chat room"
+msgstr ""
+
+#: message.c:626
+msgid "Chat invitation"
+msgstr ""
+
+#: mrim.h:92
 msgid "Available"
 msgstr "Dostępny"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:92
-#, fuzzy
-msgid "invisible"
-msgstr "Niewidoczny"
-
 # What??
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:94
+#: mrim.h:93
 msgid "Away"
 msgstr "Away"
 
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:95
-msgid "mood"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:110
-#, c-format
-msgid "Agent@Mail.Ru for Win/PC, ver. %s build %s"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:111
-#, c-format
-msgid "Agent@Mail.Ru for Win/PC, ver. %s"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:112
-#, c-format
-msgid "Java phone Agent@Mail.Ru, ver. %s"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:113
-msgid "Web-Agent@Mail.Ru"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:114
-#, c-format
-msgid "Agent@Mail.Ru for Android, ver. %s build %s"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:115
-#, c-format
-msgid "Agent@Mail.Ru for Symbian, ver. %s build %s"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:116
-#, c-format
-msgid "QIP 2010, ver. %s build %s"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:117
-#, c-format
-msgid "Agent@Mail.Ru for GNU/Linux, ver. %s rev. %s"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:118
-msgid "Pidgin and Ostin's mrim-prpl plugin"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:127
-msgid "status_online"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:128
-msgid "status_away"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:130
-msgid "boleu"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:131
-msgid "doma"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:132
-msgid "em.bmp"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:133
-msgid "gde_ia"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:134
-msgid "gizn_gavno"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:135
-msgid "gotovlu"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:136
-msgid "gulau"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:137
-msgid "ia_inoplanet_razum"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:138
-msgid "ia_krivetko"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:139
-msgid "ia_poteralsa"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:140
-msgid "ia_soshl_asuma"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:141
-msgid "ia_utko"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/mrim.h:142
-msgid "igrau"
-msgstr ""
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:10
-msgid "Aries"
-msgstr "Baran"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:11
-msgid "Taurus"
-msgstr "Byk"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:12
-msgid "Gemini"
-msgstr "Bliźnięta"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:13
-msgid "Cancer"
-msgstr "Rak"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:14
-msgid "Leo"
-msgstr "Lew"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:15
-msgid "Virgo"
-msgstr "Panna"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:16
-msgid "Libra"
-msgstr "Waga"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:17
-msgid "Scorpius"
-msgstr "Skorpion"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:18
-msgid "Sagittarius"
-msgstr "Strzelec"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:19
-msgid "Capricornus"
-msgstr "Koziorożec"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:20
-msgid "Aquaruis"
-msgstr "Aquarius"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:21
-msgid "Pisces"
-msgstr "Ryby"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:35
-msgid "Nickname"
-msgstr "Nick"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:36
-msgid "FirstName"
-msgstr "Imię"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:38
-msgid "Birthday"
-msgstr "Data urodzenia"
-
-#: dev/mrim-prpl/mrim-prpl-testing/cl.h:39
-msgid "Phone"
-msgstr "Telefon"
-
-#: dev/mrim-prpl/svn/trunk/mrim.h:94
+#: mrim.h:94
 #, fuzzy
 msgid "Unavailable"
 msgstr "Dostępny"
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:95
+#: mrim.h:95
 msgid "Invisible"
 msgstr "Niewidoczny"
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:105
+#: mrim.h:105
 msgid "Ready to chat"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:106
+#: mrim.h:106
 msgid "Sick"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:107
+#: mrim.h:107
 msgid "Plate"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:108
+#: mrim.h:108
 msgid "Restroom"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:109
+#: mrim.h:109
 msgid "Tongue"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:110
+#: mrim.h:110
 msgid "Bathing"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:111
+#: mrim.h:111
 msgid "Playing"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:112
+#: mrim.h:112
 msgid "Smoking"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:113
+#: mrim.h:113
 msgid "Working"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:114
+#: mrim.h:114
 msgid "Sleeping"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:115
+#: mrim.h:115
 msgid "Happy"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:116
+#: mrim.h:116
 msgid "Wink"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:117
+#: mrim.h:117
 msgid "Sad"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:118
+#: mrim.h:118
 msgid "Crying"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:119
+#: mrim.h:119
 msgid "Angry"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:135
+#: mrim.h:120
+msgid "In love"
+msgstr ""
+
+#: mrim.h:136
 #, c-format
 msgid "Agent@Mail.Ru for Win/PC, ver. %s, build %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:140
+#: mrim.h:137
+#, c-format
+msgid "Agent@Mail.Ru for Win/PC, ver. %s"
+msgstr ""
+
+#: mrim.h:138
+#, c-format
+msgid "Java phone Agent@Mail.Ru, ver. %s"
+msgstr ""
+
+#: mrim.h:139
+#: mrim.h:140
+msgid "Web-Agent@Mail.Ru"
+msgstr ""
+
+#: mrim.h:141
 #, c-format
 msgid "Agent@Mail.Ru for Android, ver. %s, build %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:141
+#: mrim.h:142
 #, c-format
 msgid "Agent@Mail.Ru for Symbian, ver. %s, build %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:142
+#: mrim.h:143
 #, c-format
 msgid "QIP 2010, ver. %s, build %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:143
+#: mrim.h:144
 #, c-format
 msgid "QIP Infium, ver. %s, build %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:144
+#: mrim.h:145
 #, c-format
 msgid "Pidgin and Ostin's mrim-prpl plugin, ver. %s, build %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:145
+#: mrim.h:146
 #, c-format
 msgid "mrim-prpl (libpurple %s) ver. %s, %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:146
+#: mrim.h:147
 #, c-format
 msgid "Agent@Mail.Ru for GNU/Linux, ver. %s, rev. %s"
 msgstr ""
 
-#: dev/mrim-prpl/svn/trunk/mrim.h:148
+#: mrim.h:148
+msgid "Pidgin and Ostin's mrim-prpl plugin"
+msgstr ""
+
+#: mrim.h:149
 msgid "Purple plugin by lemax1@mail.ru"
 msgstr ""
+
+#: cl.h:10
+msgid "Aries"
+msgstr "Baran"
+
+#: cl.h:11
+msgid "Taurus"
+msgstr "Byk"
+
+#: cl.h:12
+msgid "Gemini"
+msgstr "Bliźnięta"
+
+#: cl.h:13
+msgid "Cancer"
+msgstr "Rak"
+
+#: cl.h:14
+msgid "Leo"
+msgstr "Lew"
+
+#: cl.h:15
+msgid "Virgo"
+msgstr "Panna"
+
+#: cl.h:16
+msgid "Libra"
+msgstr "Waga"
+
+#: cl.h:17
+msgid "Scorpius"
+msgstr "Skorpion"
+
+#: cl.h:18
+msgid "Sagittarius"
+msgstr "Strzelec"
+
+#: cl.h:19
+msgid "Capricornus"
+msgstr "Koziorożec"
+
+#: cl.h:20
+msgid "Aquaruis"
+msgstr "Aquarius"
+
+#: cl.h:21
+msgid "Pisces"
+msgstr "Ryby"
+
+#: cl.h:35
+msgid "Nickname"
+msgstr "Nick"
+
+#: cl.h:36
+msgid "FirstName"
+msgstr "Imię"
+
+#: cl.h:38
+msgid "Birthday"
+msgstr "Data urodzenia"
+
+#: cl.h:39
+msgid "Phone"
+msgstr "Telefon"
+
+#, fuzzy
+#~ msgid "invisible"
+#~ msgstr "Niewidoczny"
 
 #, fuzzy
 #~ msgid "Not available"
