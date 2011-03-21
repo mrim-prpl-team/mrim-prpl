@@ -649,5 +649,8 @@ sBlogStatusSender = lpsBlogStatusSender.ToStringW();
         // DWORD data
 
 
+#define MRIM_MICROBLOG_NEW_RECORD 0x1064
+#define MRIM_MICROBLOG_RECORD 0x1063
+
 #endif // MRIM_PROTO_H
 

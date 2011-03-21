@@ -161,9 +161,14 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 	gchar *status_desc	= read_LPS(pack);
 	read_UL(pack);
 	mb->user_agent		= read_LPS(pack);
+	read_UL(pack);
+	read_UL(pack);
+	read_UL(pack);
+	
+	mb->microblog = read_UTF16LE(pack);
 	
 	// sssusuuusssss
-	cl_skeep(mask+12, pack);
+	cl_skeep(mask+12+4, pack);
 	
 	mb->status.display_string = NULL;
 	mb->status.uri = NULL;

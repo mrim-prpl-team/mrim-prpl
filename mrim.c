@@ -395,6 +395,11 @@ static void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gb
 				purple_notify_user_info_add_pair(info, _("Status"), g_strdup(mb->status.display_string));
 			}
 			
+			//Microblog
+			if (mb->microblog) {
+				purple_notify_user_info_add_pair(info, _("Microblog"), g_strdup(mb->microblog));
+			}
+			
 			// Phones info:
 			if (mb->phones && mb->phones[0])
 				purple_notify_user_info_add_pair(info, _("Phone numbers"), mrim_phones_to_string(mb->phones));
@@ -960,7 +965,7 @@ GList* mrim_status_types( PurpleAccount* account )
 		type = purple_status_type_new_with_attrs(mrim_purple_statuses[i].primative, mrim_purple_statuses[i].id, _(mrim_purple_statuses[i].title), TRUE, mrim_purple_statuses[i].user_settable, FALSE, "message", _("Message"), purple_value_new(PURPLE_TYPE_STRING), NULL);
 		status_list = g_list_append(status_list, type);
 	}
-	type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, TRUE,	PURPLE_MOOD_NAME, _("Mood Name"), purple_value_new( PURPLE_TYPE_STRING ), PURPLE_MOOD_COMMENT, _("Mood Comment"), purple_value_new(PURPLE_TYPE_STRING), NULL);
+	type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, FALSE, PURPLE_MOOD_NAME, _("Mood Name"), purple_value_new( PURPLE_TYPE_STRING ), PURPLE_MOOD_COMMENT, _("Mood Comment"), purple_value_new(PURPLE_TYPE_STRING), NULL);
 	status_list = g_list_append(status_list, type);
 	//type = purple_status_type_new_full(PURPLE_STATUS_MOBILE, MRIM_STATUS_ID_MOBILE, NULL, FALSE, FALSE, TRUE);
 	//status_list = g_list_append(status_list, type);
@@ -1181,6 +1186,21 @@ void set_user_status_by_mb(mrim_data *mrim, mrim_buddy *mb)
 	if (mb->flags & CONTACT_FLAG_PHONE)
 		purple_prpl_got_user_status(account, mb->addr, "online", NULL);
 
+}
+
+/******************************************
+ *              MICROBLOG
+ ******************************************/
+ 
+void set_buddy_microblog(mrim_data *mrim, gchar *email, gchar *microblog) {
+	g_return_if_fail(mrim != NULL);
+	PurpleBuddy *buddy = purple_find_buddy(mrim->account, email);
+	g_return_if_fail(buddy != NULL);
+	mrim_buddy *mb = buddy->proto_data;
+	if (mb) {
+		FREE(mb->microblog)
+		mb->microblog = g_strdup(microblog);
+	}
 }
 
 /******************************************
@@ -1640,6 +1660,19 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									mrim_anketa_info(mrim, pack);
 									break;
 									}
+		case MRIM_MICROBLOG_RECORD:
+			{
+				purple_debug_info("mrim", "MRIM_MICROBLOG_RECORD\n");
+				read_UL(pack); /* Ненужное поле */
+				gchar *email = read_LPS(pack);
+				read_UL(pack); read_UL(pack); read_UL(pack); /* 12 ненужных байт */
+				gchar *microblog = read_LPS(pack);
+				read_UL(pack); /* Ещё одно ненужное поле */
+				set_buddy_microblog(mrim, email, microblog);
+				g_free(email);
+				g_free(microblog);
+				break;
+			}
 		default :	{
 						purple_debug_info("mrim","Not recognized pack received! Type=<%i> len=<%i>\n",(int) header->msg, (int)header->dlen);
 						//mrim_packet_dump(pack);

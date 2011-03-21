@@ -245,7 +245,8 @@ static struct
 #define	ARRAY_SIZE(x) ( sizeof(x) / sizeof(x[0]) )
 
 #define FEATURES (FEATURE_FLAG_WAKEUP | FEATURE_FLAG_BASE_SMILES)
-#define COM_SUPPORT 0x03FF
+//#define COM_SUPPORT 0x03FF
+#define COM_SUPPORT 0xFFFFFFFF
 
 typedef struct
 {
@@ -294,6 +295,7 @@ typedef struct
 	//gchar *status_title;
 	//gchar *status_desc;
 	mrim_status status;
+	gchar *microblog;
 }mrim_buddy;
 
 typedef struct {
