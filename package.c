@@ -433,11 +433,12 @@ gchar *read_UTF16LE(package *pack)
 	if (str == NULL)
 		return NULL;
 		
-	return str;
+	//return str;
 
 	// TODO read_UTF16LE
 	// ИЗМЕНЯЕМ КОДИРОВКУ
-	gchar *string = g_convert(str, -1, "UTF8", "UTF-16LE", NULL, NULL, NULL);
+	//gchar *string = g_convert(str, -1, "UTF8", "UTF16", NULL, NULL, NULL);
+	gchar *string = g_utf16_to_utf8(str, -1, NULL, NULL, NULL);
 	g_free(str);
 #ifdef DEBUG
 	purple_debug_info( "mrim", "Считал UTF-16LE строку! <%s>\n",string);
