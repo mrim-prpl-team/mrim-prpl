@@ -582,7 +582,7 @@ void update_sms_char_counter(GObject *object, sms_dialog_params *params) {
 	FREE(original_text);
 	g_free(params->sms_text);
 	params->sms_text = new_text;
-	size_t count = strlen(new_text);
+	size_t count = g_utf8_strlen(new_text, -1);
 	gchar buf[64];
 	g_sprintf(&buf, _("Symbols: %d"), count);
 	gtk_label_set_text(params->char_counter, buf);
@@ -694,6 +694,8 @@ void blist_sms_menu_item_gtk(PurpleBlistNode *node, gpointer userdata) {
 	g_signal_connect(translit, "toggled", update_sms_char_counter, params);
 	g_signal_connect(dialog, "response", sms_dialog_response, params);
 	g_signal_connect(edit_phones_button, "clicked", sms_dialog_edit_phones, params);
+	/* Пока выключим транслит */
+	gtk_widget_set_sensitive(translit, FALSE);
 	/* Отображаем диалог */
 	gtk_widget_show_all(dialog);
 	/* Делаем активным окном окно ввода сообщения */
