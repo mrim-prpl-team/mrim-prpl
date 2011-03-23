@@ -395,10 +395,11 @@ gchar *read_rawLPS(package *pack)
 	
 	if ((pack->cur+len) <= (pack->buf+pack->len))
 	{
-		gchar *str = g_new(gchar,len+1);
+		gchar *str = g_new(gchar,len+2);
 		g_memmove(str, pack->cur, len);
 		pack->cur += len;
 		str[len]='\0';
+		str[len + 1]='\0';
 		return str;
 	}	
 	else
