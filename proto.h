@@ -467,7 +467,11 @@ typedef struct mrim_packet_header_t
 	// s - xstatus_desc UNICODE
 	// u - com_support (future flags). example: 0x3FF or -1
 	// s - user_agent (formated string) ANSI
-	//  uuusssss
+	// u - ???
+	// u - ???
+	// u - ???
+	// s - microblog
+	//  ssss
 	#define CONTACT_INTFLAG_NOT_AUTHORIZED	0x0001
 
 /*
