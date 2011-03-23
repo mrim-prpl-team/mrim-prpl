@@ -1024,9 +1024,14 @@ void mrim_anketa_info(mrim_data *mrim, package *pack)
 			if (buddy)
 			{
 				mrim_buddy *mb = buddy->proto_data;
-				if (mb && mb->user_agent)
+				if (mb)
 				{
-					purple_notify_user_info_add_pair(info, _("User agent"), _(mrim_get_ua_alias(mb->user_agent)) );
+					if (mb->user_agent) {
+						purple_notify_user_info_add_pair(info, _("User agent"), _(mrim_get_ua_alias(mb->user_agent)) );
+					}
+					if (mb->microblog) {
+						purple_notify_user_info_add_pair(info, _("Microblog"), mb->microblog);
+					}
 				} else
 				{
 					purple_notify_user_info_add_pair(info, _("User agent"), _("Hidden") );
