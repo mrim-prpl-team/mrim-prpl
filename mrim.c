@@ -88,7 +88,7 @@ gboolean string_is_match(gchar *string, gchar *pattern)
 
 gboolean is_valid_email(gchar *email)
 {
-	return string_is_match(email, "([[:alnum:]]+[[:alnum:]\\-\\.\\_]+)@(mail.ru|list.ru|inbox.ru|bk.ru|corp.mail.ru)");
+	return string_is_match(email, "([[:alnum:]\\_]+[[:alnum:]\\-\\.\\_]+)@(mail.ru|list.ru|inbox.ru|bk.ru|corp.mail.ru)");
 }
 
 gboolean is_valid_chat(gchar *chat)
