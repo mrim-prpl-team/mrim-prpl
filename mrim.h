@@ -38,42 +38,24 @@
 
 // read/write
 #include <errno.h>
-#include <stdarg.h>
 #include <stdio.h>
-#include <string.h> // g_memmove
-#include <unistd.h> // функции Read/Write
 
 // libpurple
-#include "account.h"
 #include "accountopt.h"
-#include "blist.h"
-#include "buddyicon.h"
-#include "cipher.h"
-#include "cmds.h"
 #include "conversation.h"
-#include "connection.h"
 #include "core.h"
 #include "debug.h"
 #include "dnsquery.h"
 #include "dnssrv.h"
-#include "debug.h"
 #include "network.h"
-#include "notify.h"
-#include "plugin.h"
-#include "privacy.h"
 #include "proxy.h"
-#include "prpl.h"
 #include "request.h"
-#include "status.h"
 #include "util.h"
 #include "version.h"
 
 //mrim
 #include "proto.h"
 #include <sys/types.h>
-
-// gtk+
-#include <gtk/gtk.h>
 
 
 static PurplePlugin *_mrim_plugin = NULL;
@@ -227,11 +209,9 @@ static struct
 
 
 #define MRIM_STATUS_ID_MOBILE "mobile"
-#define STATUSES_COUNT 4
-
 #define MRIM_MAX_ERROR_COUNT 30
 
-#define MRIM_PRPL_ID "prpl-ostin-mrim" // какой purple-id теперь?
+#define MRIM_PRPL_ID "prpl-ostin-mrim"
 #define MRIM "mrim"
 // DISPLAY_VERSION in config.h
 #define MRIM_MAIL_RU "mrim.mail.ru"
@@ -245,7 +225,6 @@ static struct
 #define	ARRAY_SIZE(x) ( sizeof(x) / sizeof(x[0]) )
 
 #define FEATURES (FEATURE_FLAG_WAKEUP | FEATURE_FLAG_BASE_SMILES)
-//#define COM_SUPPORT 0x03FF
 #define COM_SUPPORT 0xFFFFFFFF
 
 typedef struct
@@ -281,7 +260,8 @@ typedef struct
 	PurpleBuddy *buddy;
 	gchar *addr;
 	gchar *alias;
-	gchar **phones;
+	gchar **phones; // массив телефонов. Если телефонов нет - phones = NULL
+					// Телефоны хранятся без "+", в corrected и cleared форме.
 	guint32 group_id;
 	guint32 id;
 	gboolean authorized;
@@ -303,11 +283,6 @@ typedef struct {
 	PurpleAccount *account;
 	char *username;
 	char *password;
-
-	//guint32 status;		  // status в формате Маил.Агента
-	//gchar *status_spec;   // status_51
-	//gchar *status_title;  // белка (или любое другое короткое название, на выбор пользователя)
-	//gchar *status_desc;   // тут комментарий к статусу
 
 	gchar *server;        // IP сервера
 	int port;             // port на сервере
@@ -481,13 +456,18 @@ static const gchar *links[]=
 
 };
 
+gchar *mrim_user_agent;
+PurpleMood *moods;
+
+
+PurpleBuddy *mrim_phone_get_parent_buddy(mrim_data *mrim, gchar *phone);
+
+
 const char* mrim_status_to_prpl_status(guint32 status);
 void set_user_status_by_mb(mrim_data *mrim, mrim_buddy *mb);
+void make_mrim_status(mrim_status *s, guint32 status, gchar *uri, gchar *title, gchar *desc);
 
-gchar* mrim_message_offline_get_attr(const gchar* attr,void* input);
-gboolean ua_matches(const gchar *string, const gchar *pattern, ua_data *result);
-gchar* mrim_get_ua_alias(const gchar* ua);
-time_t mrim_str_to_time(const gchar* str);
+
 void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond);
 void mrim_connect_cb(gpointer data, gint source, const gchar *error_message);
 void mrim_balancer_cb(PurpleUtilFetchUrlData *url_data, gpointer user_data, const gchar *url_text, gsize len, const gchar *error_message);
@@ -495,15 +475,11 @@ gboolean mrim_keep_alive(gpointer data);
 
 void notify_emails(void *gc, gchar* webkey, guint32 count);
 
+void blist_edit_phones_menu_item(PurpleBlistNode *node, gpointer userdata);
+gchar* mrim_get_ua_alias(const gchar* ua);
+
 void blist_search(PurpleConnection *gc, PurpleRequestFields *fields);
 
-void clean_string(gchar *email);
-gchar *clear_phone(gchar *phone);
-gboolean is_valid_email(gchar *email);
-gboolean is_valid_phone(gchar *phone);
-gboolean is_valid_chat(gchar *chat);
-#define is_valid_buddy_name(name) (is_valid_phone(name) || is_valid_email(name))
-PurpleBuddy *mrim_phone_get_parent_buddy(mrim_data *mrim, gchar *phone);
 
 #if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION <= 5
 	void purple_connection_set_protocol_data(PurpleConnection *connection, void *proto_data);
@@ -511,20 +487,4 @@ PurpleBuddy *mrim_phone_get_parent_buddy(mrim_data *mrim, gchar *phone);
 	gpointer purple_buddy_get_protocol_data(const PurpleBuddy *buddy);
 	void purple_buddy_set_protocol_data(PurpleBuddy *buddy, gpointer data);
 #endif
-
-typedef struct {
-	PurpleBuddy *buddy;
-	mrim_data *mrim;
-	mrim_buddy *mb;
-	GtkDialog *dialog;
-	GtkTextView *message_text;
-	GtkCheckButton *translit;
-	GtkLabel *char_counter;
-	GtkComboBox *phone;
-	gchar *sms_text;
-} sms_dialog_params;
-
-gchar *mrim_user_agent;
-PurpleMood *moods;
-
 #endif

@@ -25,6 +25,8 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 	guint32 g_number = read_UL(pack);// Groups count
 	gchar *g_mask = read_LPS(pack); // Group mask
 	gchar *c_mask = read_LPS(pack); // Contact mask
+	if (!mrim_str_non_empty(c_mask))
+		return;
 
 	purple_debug_info("mrim", "Group number <%u>, Group mask <%s>, Contact mask <%s>\n", g_number, g_mask, c_mask);
 
@@ -66,6 +68,7 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 		{
 			// TODO assign id
 			purple_debug_info("mrim", "[%s] <%s> is CHAT\n", __func__, mb->addr);
+#ifdef CHATS
 			PurpleChat *old_pc = purple_blist_find_chat(account, mb->addr);
 			if (! old_pc)
 				;
@@ -78,6 +81,12 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 				//purple_blist_alias_chat(pc, mb->alias);
 				purple_debug_info("mrim", "[%s] <%s> !exsist\n", __func__, mb->addr);
 			}
+#else
+			{
+				free_buddy_proto_data(mb);
+				mb = NULL;
+			}
+#endif
 			continue;
 		}
 
@@ -146,7 +155,9 @@ void mrim_cl_load(PurpleConnection *gc, mrim_data *mrim, package *pack)
 
 static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 {
-	mrim_buddy *mb = g_new(mrim_buddy, 1);
+	int len = strnlen(mask, 16);
+
+	mrim_buddy *mb = g_new0(mrim_buddy, 1);
 	// Read fields
 	mb->flags = read_UL(pack); // Flag.
 	guint32 gr_id = mb->group_id = read_UL(pack); // Group ID
@@ -156,20 +167,31 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 	guint32 status = read_UL(pack); // Status.
 	gchar *phones = read_LPS(pack); // Phone number.
 
-	gchar *status_uri		= read_LPS(pack);
+	gchar *status_uri	= read_LPS(pack);
 	gchar *status_title	= read_LPS(pack);
 	gchar *status_desc	= read_LPS(pack);
-	read_UL(pack);
-	mb->user_agent		= read_LPS(pack);
-	read_UL(pack);
-	read_UL(pack);
-	read_UL(pack);
+	if (len >= 12)
+	{
+		read_UL(pack);// 11
+		mb->user_agent	= read_LPS(pack); // 12
+
+		if (len >= 16)
+		{
+			read_UL(pack);
+			read_UL(pack);
+			read_UL(pack);
+			mb->microblog = read_UTF16LE(pack);
+		}
+
+	}
 	
-	mb->microblog = read_UTF16LE(pack);
-	
-	// sssusuuusssss
 	cl_skeep(mask+12+4, pack);
 	
+	if (mb->addr == NULL)
+	{
+		g_free(mb);
+		return NULL;
+	}
 	mb->status.display_string = NULL;
 	mb->status.uri = NULL;
 	mb->status.title = NULL;
@@ -180,7 +202,7 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 	if (mb->flags & CONTACT_FLAG_MULTICHAT)
 		mb->type = CHAT;
 	else mb->type = BUDDY;
-	//else if (mb->flags & ) // TODO
+
 	if (gr_id > MRIM_MAX_GROUPS)
 		mb->group_id = MRIM_DEFAULT_GROUP_ID;
 
@@ -192,7 +214,7 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 		int i = 0;
 		while (phones_splited[i])
 		{
-			mb->phones[i] = g_strdup_printf("+%s",phones_splited[i]);
+			mb->phones[i] = g_strdup(phones_splited[i]);
 			i++;
 		}
 		g_strfreev(phones_splited);
@@ -209,22 +231,21 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 		mb->authorized = TRUE;
 		//mb->status = STATUS_ONLINE;
 	}
-/*	if (strcmp(mb->addr, "phone") == 0) // TODO Think of it.
+	/*
+	if (strncmp(mb->addr, "phone", 6) == 0) // TODO Think of it.
 	{
 		purple_debug_info("mrim","[%s] rename phone buddy to %s\n",__func__, mb->phones[0]);
 		g_free(mb->addr);
 		mb->addr = g_strdup(mb->phones[0]);
 		mb->status = STATUS_ONLINE;
 		mb->flags |= CONTACT_FLAG_PHONE;
+		mb->type = PHONE;
 	}
 */
 	if (! mb->authorized)
 		make_mrim_status(&mb->status, STATUS_OFFLINE, "", "", "");
 
-	if (mb->addr == NULL)
-		return NULL;
-	else
-		return mb;
+	return mb;
 }
 
 /******************************************
@@ -334,7 +355,6 @@ void mg_add(guint32 flags, gchar *name, guint id, mrim_data *mrim)
 // Look for group by its id:
 PurpleGroup *get_mrim_group_by_id(mrim_data *mrim, guint32 id)
 {
-//	purple_debug_info("mrim","[%s]\n",__func__);
 	mrim_group *mg =  g_hash_table_lookup(mrim->mg, GUINT_TO_POINTER(id));
 	g_return_val_if_fail(mg != NULL, NULL);
 	if (mg->gr)
@@ -545,26 +565,27 @@ void mrim_remove_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *gr
 }
 
 
-void free_buddy_proto_data(PurpleBuddy *buddy)
+void free_buddy_proto_data(mrim_buddy *mb)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
-	g_return_if_fail(buddy != NULL);
-	g_return_if_fail(buddy->proto_data != NULL);
-
-	return ;// TODO
-	mrim_buddy *mb = (mrim_buddy *) (buddy->proto_data);
-	if (mb->phones)
-		g_strfreev(mb->phones);
-	FREE(mb->addr)
-	FREE(mb->alias)
+	g_return_if_fail(mb != NULL);
+//	if (mb->phones)
+//		for (int i=0; i<4 ; i++)
+//			g_free(mb->phones[i]);
+//	FREE(mb->addr)
+//	FREE(mb->alias)
+//	FREE(mb->ips);
+//	FREE(mb->user_agent);
+//	FREE(mb->microblog);
+//	FREE(mb);
 }
 
 void free_buddy(PurpleBuddy *buddy)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
 	g_return_if_fail(buddy != NULL);
-	//free_buddy_proto_data(buddy);
-	//FREE(buddy)
+	free_buddy_proto_data(buddy->proto_data);
+//	g_free(buddy);
 }
 /** save/store buddy's alias on server list/roster */
 void mrim_alias_buddy(PurpleConnection *gc, const char *who, const char *alias)

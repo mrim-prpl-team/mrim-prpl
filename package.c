@@ -433,12 +433,7 @@ gchar *read_UTF16LE(package *pack)
 	gchar *str = read_rawLPS(pack);
 	if (str == NULL)
 		return NULL;
-		
-	//return str;
 
-	// TODO read_UTF16LE
-	// ИЗМЕНЯЕМ КОДИРОВКУ
-	//gchar *string = g_convert(str, -1, "UTF8", "UTF16", NULL, NULL, NULL);
 	gchar *string = g_utf16_to_utf8(str, -1, NULL, NULL, NULL);
 	g_free(str);
 #ifdef DEBUG
@@ -573,30 +568,4 @@ void read_base64(package *pack, gboolean gziped, gchar *fmt, ...)
 	va_end(ap);
 	return;
 }
-
-
-void mrim_packet_dump(package *pack)
-{
-	mrim_packet_header_t *header = pack->header;
-	purple_debug_info("mrim","proto: %u\n", header->proto);
-	purple_debug_info("mrim","seq:   %u\n", header->seq);
-	purple_debug_info("mrim","msg:   %u\n", header->msg);
-	purple_debug_info("mrim","dlen:  %u\n", header->dlen);
-	purple_debug_info("mrim","fport: %u\n", header->fromport);
-	purple_debug_info("mrim","from:  %u\n", header->proto);
-/*
-	char *ptr = pack->buf;
-	char *str = g_new0(char, 80);
-	int len=0;
-	while (len < pack->len)
-	{
-		for (; len < pack->len ; ptr++, len++)
-			g_
-		purple_debug_info("mrim","%s\n")
-	}
-*/
-}
-
-
-
 

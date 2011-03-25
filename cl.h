@@ -3,6 +3,7 @@
  #include "mrim.h"
  #include "proto.h"
  #include "package.h"
+ #include "mrim-util.h"
  
  #define MRIM_NO_GROUP 12345
 
@@ -56,7 +57,7 @@ void mrim_remove_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *gr
 void mrim_alias_buddy(PurpleConnection *gc, const char *who, const char *alias);
 void mrim_move_buddy(PurpleConnection *gc, const char *who, const char *old_group, const char *new_group);
 void free_buddy(PurpleBuddy *buddy);
-void free_buddy_proto_data(PurpleBuddy *buddy);
+void free_buddy_proto_data(mrim_buddy *mb);
 
 //	Userpics
 void mrim_fetch_avatar(PurpleBuddy *buddy);

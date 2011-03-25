@@ -24,4 +24,7 @@
  */ 
 //#define ZLIB
 
+#define GTK
+//#define CHATS
+
 #endif

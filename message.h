@@ -14,6 +14,7 @@ void mrim_sms_ack(mrim_data *mrim ,package *pack);
 void mrim_message_offline(PurpleConnection *gc, char* message);
 void mrim_read_im(mrim_data *mrim, package *pack);
 
+#ifdef CHATS
 GList *mrim_chat_info(PurpleConnection *gc);
 GHashTable *mrim_chat_info_defaults(PurpleConnection *gc, const char *chat_name);
 void mrim_chat_join(PurpleConnection *gc, GHashTable *components);
@@ -30,6 +31,7 @@ void mirm_set_chat_topic(PurpleConnection *gc, int id, const char *topic);
 //void(* 	roomlist_expand_category )(PurpleRoomlist *list, PurpleRoomlistRoom *category)
 //char *(* 	roomlist_room_serialize )(PurpleRoomlistRoom *room)
 //PurpleMood *(* 	get_moods )(PurpleAccount *account)
+#endif
 
 void mrim_message_status(package *pack);
 

@@ -3,6 +3,9 @@
  #include "proto.h"
  #include "mrim.h"
  #include <stdarg.h>           /* для va_ макросов */
+ #include <string.h> // g_memmove
+ #include <unistd.h> // функции Read/Write
+
 
 #define PACK_MAX_LEN 65536
 #define CHUNK 16384
@@ -40,6 +43,4 @@ gchar *read_Z(package *pack);
 void read_base64(package *pack, gboolean gziped, gchar *fmt, ...);
 
 void free_package(package *pack);
-
-void mrim_packet_dump(package *pack);
 #endif

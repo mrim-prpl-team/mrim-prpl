@@ -6,6 +6,7 @@
 /******************************************
  *           *Offline messages.*
  ******************************************/
+static gchar* mrim_message_offline_get_attr(const gchar* attr,void* input);
 // Offline message reading...
 void mrim_message_offline(PurpleConnection *gc, char* message)
 {
@@ -84,7 +85,7 @@ void mrim_message_offline(PurpleConnection *gc, char* message)
 	FREE(draft_message);
 }
 
-gchar* mrim_message_offline_get_attr(const gchar* attr,void* input)
+static gchar* mrim_message_offline_get_attr(const gchar* attr,void* input)
 {
     char* retVal = NULL;
 	GRegex *regex;
@@ -123,45 +124,6 @@ gchar* mrim_message_offline_get_attr(const gchar* attr,void* input)
 	g_match_info_free(match_info);
 	g_regex_unref(regex);
 	return retVal;
-}
-
-
-time_t mrim_str_to_time(const gchar* str)
-{	// TODO: Determine whether we need to transit from GMT-shift to UTC-shift
-	// and implement such transition.
-    int year=0,month=0,day=0,hour=0,min=0,sec=0;
-    gchar month_str[4];
-    int ret;
-    if(str==NULL)
-    {
-        purple_debug_error("mrim","DATE sscanf error: str=NULL\n");
-        return 0;
-    }
-    ret=sscanf(str,"%*03s, %i %03s %i %i:%i:%i",&day,month_str,&year,&hour,&min,&sec);
-    if(ret!=6)
-    {
-        purple_debug_error("mrim","DATE sscanf error: str=%s\n",str);
-        return 0;
-    }
-    if(g_strcmp0(month_str,"Jan")==0)      month=1;
-    else if(g_strcmp0(month_str,"Feb")==0) month=2;
-    else if(g_strcmp0(month_str,"Mar")==0) month=3;
-    else if(g_strcmp0(month_str,"Apr")==0) month=4;
-    else if(g_strcmp0(month_str,"May")==0) month=5;
-    else if(g_strcmp0(month_str,"Jun")==0) month=6;
-    else if(g_strcmp0(month_str,"Jul")==0) month=7;
-    else if(g_strcmp0(month_str,"Aug")==0) month=8;
-    else if(g_strcmp0(month_str,"Sep")==0) month=9;
-    else if(g_strcmp0(month_str,"Oct")==0) month=10;
-    else if(g_strcmp0(month_str,"Nov")==0) month=11;
-    else if(g_strcmp0(month_str,"Dec")==0) month=12;
-    else
-    {
-        purple_debug_error("mrim","DATE month error: str=%s\n",str);
-        return 0;
-    }
-    purple_debug_info("mrim","DATE parsed: str=%s\n%u %u %u %u:%u:%u\n",str,day,month,year,hour,min,sec);
-    return purple_time_build(year,month,day,hour,min,sec);
 }
 /******************************************
  *           *Normal messages.*
@@ -206,6 +168,7 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 	//if (flag & MESSAGE_FLAG_MULTICHAT) // WTF?? WHY IT DOES'NT WORK???
 	if (is_valid_chat(from))
 	{
+#ifdef CHATS
 		purple_debug_info("mrim", "[%s] it is CHAT!\n",__func__);
 		if (flag & MESSAGE_FLAG_AUTHORIZE)
 		{
@@ -234,7 +197,7 @@ void mrim_read_im(mrim_data *mrim, package *pack)
 			serv_got_chat_in(gc, id, split[1], PURPLE_MESSAGE_RECV, split[2], time(NULL));
 			g_strfreev(split);
 		}
-
+#endif
 		return;
 	}
 
@@ -348,13 +311,6 @@ int mrim_send_im(PurpleConnection *gc, const char *to, const char *message, Purp
 		add_LPS(mpq->message.to, pack);
 		add_LPS(mpq->message.message, pack);
 		add_LPS(" ", pack);
-		//add_base64(pack, TRUE, "usuu", 2, rtf, 4, 0x00FFFFFF); // TODO NEXT RELEASE
-		/*
-		 * packStream << quint32(2);
-		 * packStream << rtf;
-		 * packStream << quint32(4);
-		 * packStream << quint32(0x00FFFFFF);
-		 */
 		res = send_package(pack, mrim);
 	}
 
@@ -527,6 +483,7 @@ void mrim_sms_ack(mrim_data *mrim ,package *pack)
 /******************************************
  *                Chats
  ******************************************/
+#ifdef CHATS
 GList *mrim_chat_info(PurpleConnection *gc)
 {
 	purple_debug_info("mrim", "%s\n", __func__);
@@ -820,3 +777,4 @@ static void irc_roomlist_cancel(PurpleRoomlist *list)
 }
 
 */
+#endif
