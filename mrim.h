@@ -121,6 +121,7 @@ static struct
 	{"webagent",				N_("Web-Agent@Mail.Ru"),													"client=\"(webagent)\" name=\"(jmp)\" title=\"(Web Agent)\""},
 	{"webagent",				N_("Web-Agent@Mail.Ru"),													"client=\"(webagent)\""},
 	{"android",					N_("Agent@Mail.Ru for Android, ver. %s, build %s"),				"client=\"(android)\" version=\"([0-9\\.]+) \\(build ([0-9]+)\\)\" desc=\"Android Agent\""},
+	{"android",					N_("Agent@Mail.Ru for Android, ver. %s"),				"client=\"(android)\" version=\"([0-9\\.]+)\" desc=\"Android Agent\""},
 	{"sagent",					N_("Agent@Mail.Ru for Symbian, ver. %s, build %s"),				"client=\"(sagent)\" version=\"([0-9\\.]+)\" build=\"([0-9]+)\""},
 	{"QIP 2010",				N_("QIP 2010, ver. %s, build %s"),										"client=\"(QIP 2010)\" version=\"([0-9\\.]+)\" build=\"([0-9]+)\""},
 	{"QIP Infium",				N_("QIP Infium, ver. %s, build %s"),									"client=\"(QIP Infium)\" version=\"([0-9\\.]+)\" build=\"([0-9]+)\""},
