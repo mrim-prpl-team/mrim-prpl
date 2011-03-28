@@ -28,7 +28,7 @@ GTK_CFLAGS = $(shell pkg-config --libs --cflags gtk+-2.0)
 all:compile i18n
 	strip -s libmrim.so
 compile:
-	${CC} ${CFLAGS} ${PURPLE_CFLAGS} ${GTK_CFLAGS} ${LDFLAGS} message.c cl.c package.c mrim.c filetransfer.c mrim-util.c -o libmrim.so
+	${CC} ${CFLAGS}                 ${PURPLE_CFLAGS} ${GTK_CFLAGS} ${LDFLAGS} message.c cl.c package.c mrim.c filetransfer.c mrim-util.c mrim-gtk+.c -o libmrim.so
 debug:
 	make clean
 	${CC} ${CFLAGS} ${DEBUG_CFLAGS} ${PURPLE_CFLAGS} ${GTK_CFLAGS} ${LDFLAGS} message.c cl.c package.c mrim.c filetransfer.c mrim-util.c mrim-gtk+.c -o libmrim.so

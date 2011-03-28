@@ -22,7 +22,6 @@
 //#endif
 // cURL
 
-
 /******************************************
  *			   Output
  ******************************************/
@@ -206,7 +205,7 @@ void add_base64(package *pack, gboolean gziped, gchar *fmt, ...)
 
 	}
 	/* кодируем */
-	gchar *encoded = purple_base64_encode((guchar*)buf, len); // TODO аккуратнее со знаковостью
+	gchar *encoded = purple_base64_encode((guchar*)buf, len);
 	guint32 encoded_len = strlen(encoded);
 	/* добавляем в пакет */
 	add_ul(encoded_len, pack);
@@ -224,10 +223,8 @@ void free_package(package *pack)
 {
 	if (pack != NULL)
 	{
-		if (pack->header != NULL)
-			g_free(pack->header);
-		if (pack->buf != NULL)
-			g_free(pack->buf);
+		g_free(pack->header);
+		g_free(pack->buf);
 		g_free(pack);
 	}
 }
@@ -239,10 +236,15 @@ gboolean send_package(package *pack, mrim_data *mrim)
 
 	// подправляем длину
 	pack->header->dlen = pack->len;	
+	guint32 total_len = pack->len + sizeof(mrim_packet_header_t);
 	
-	ssize_t ret1 = send (mrim->fd, pack->header, sizeof(mrim_packet_header_t), 0);
-	ssize_t ret2 = send (mrim->fd, pack->buf, pack->len, 0);
-	if ( (ret1 < sizeof(mrim_packet_header_t)) || (ret2 < (pack->len)) )
+	char *send_buf = g_new(char, total_len);
+	g_memmove(send_buf, pack->header, sizeof(mrim_packet_header_t));
+	g_memmove(send_buf + sizeof(mrim_packet_header_t), pack->buf, pack->len);
+	ssize_t ret = send (mrim->fd, send_buf, total_len, 0);
+	g_free(send_buf);
+
+	if ( (ret < total_len))
 	{
 		purple_debug_info("mrim", "[%s] error\n", __func__);
 		free_package(pack);
@@ -254,7 +256,7 @@ gboolean send_package(package *pack, mrim_data *mrim)
 		purple_input_remove(gc->inpa); // больше не принимаем пакеты
 		gc->inpa = 0;
 		purple_connection_error_reason (gc,	PURPLE_CONNECTION_ERROR_NETWORK_ERROR, "[send_package] error");
-		purple_connection_set_state(gc, PURPLE_DISCONNECTED);
+		//purple_connection_set_state(gc, PURPLE_DISCONNECTED);
 		return FALSE;
 	}
 	purple_debug_info("mrim", "Отправил пакет len=<%li>\n", pack->len + sizeof(mrim_packet_header_t));
@@ -273,9 +275,8 @@ static mrim_packet_header_t *read_header(mrim_data *mrim)
 	ssize_t ret=0;
 
 	ret = recv(mrim->fd, header, sizeof(mrim_packet_header_t), RECV_FLAGS);
+	mrim->wants_to_die = (ret == 0);
 
-	if (ret == 0)
-		purple_debug_info("mrim","[%s] TODO disconnect detect\n", __func__);
 	if (ret < sizeof(mrim_packet_header_t))
 	{
 		g_free(header);
@@ -358,7 +359,8 @@ package *read_package(mrim_data *mrim)
 	if (ret == 0)
 	{
 		purple_connection_error(mrim->gc, _("Peer closed connection") );
-		purple_debug_info("mrim","[%s] TODO disconnect detect\n", __func__); // TODO
+		purple_debug_info("mrim","[%s] TODO disconnect detect\n", __func__);
+		mrim->wants_to_die = TRUE;
 		return NULL;
 	}
 	return NULL;
@@ -446,7 +448,7 @@ gchar *read_Z(package *pack)
 {
 	if (pack == NULL)
 		return NULL;
-	// ПЕРЕПИСАТЬ!! ЭТО ВСЕГО ЛИШЬ ЗАГЛУШКА! (TODO)
+	// А оно вообще где-то используется?
 	gchar *str = "заглушка";
 	purple_debug_info( "mrim", "read_Z: надо переписать функцию!\n");
 	return str;
@@ -482,7 +484,7 @@ void read_base64(package *pack, gboolean gziped, gchar *fmt, ...)
 	if ((pack->cur) <= (pack->buf+pack->len))
 	{
 		// декодируем
-		decoded = purple_base64_decode(pack->cur,  &decoded_len); // TODO аккуратнее со знаковостью
+		decoded = purple_base64_decode(pack->cur,  &decoded_len);
 		#ifdef DEBUG
 		purple_debug_info("mrim", "[%s] decoded_len=<%li>\n",__func__, decoded_len);
 		int i=0;

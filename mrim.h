@@ -288,9 +288,10 @@ typedef struct {
 	gchar *server;        // IP сервера
 	int port;             // port на сервере
 	int fd;               // дескриптор сокета
-	guint32 seq;           // номер текущего пакета
+	guint32 seq;          // номер текущего пакета
 	gpointer inp_package; // буфер для чтения
 	int error_count;      // количество подряд идущих ошибок чтения пакетов
+	gboolean wants_to_die;// TRUE, если соединение разорвано
 
 	guint keep_alive_handle;
 	guint32 kap_count;

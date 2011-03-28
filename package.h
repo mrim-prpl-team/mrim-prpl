@@ -6,6 +6,10 @@
  #include <string.h> // g_memmove
  #include <unistd.h> // функции Read/Write
 
+/* manual: http://www.unixwiz.net/techtips/gnu-c-attributes.html */
+#ifndef __GNUC__
+#  define  __attribute__(x)  /*NOTHING*/
+#endif
 
 #define PACK_MAX_LEN 65536
 #define CHUNK 16384
@@ -30,7 +34,7 @@ void add_ul(guint32 ul, package *pack);
 void add_LPS(gchar *string, package *pack);
 void add_raw(char *new_data, int len, package *pack);
 void add_RTF(gchar *string, package *pack);
-void add_base64(package *pack, gboolean gziped, gchar *fmt, ...);
+void add_base64(package *pack, gboolean gziped, gchar *fmt, ...)  __attribute__((format(printf,3,4)));
 
 gboolean send_package(package *pack, mrim_data *mrim);
 
@@ -40,7 +44,7 @@ gchar *read_rawLPS(package *pack);
 gchar *read_LPS(package *pack);
 gchar *read_UTF16LE(package *pack);
 gchar *read_Z(package *pack);
-void read_base64(package *pack, gboolean gziped, gchar *fmt, ...);
+void read_base64(package *pack, gboolean gziped, gchar *fmt, ...)  __attribute__((format(printf,3,4)));
 
 void free_package(package *pack);
 #endif

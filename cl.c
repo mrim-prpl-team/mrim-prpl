@@ -182,7 +182,6 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 			read_UL(pack);
 			mb->microblog = read_UTF16LE(pack);
 		}
-
 	}
 	
 	cl_skeep(mask+12+4, pack);
@@ -192,6 +191,7 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 		g_free(mb);
 		return NULL;
 	}
+	// STATUS
 	mb->status.display_string = NULL;
 	mb->status.uri = NULL;
 	mb->status.title = NULL;
@@ -199,9 +199,13 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 	mb->status.purple_status = NULL;
 	make_mrim_status(&mb->status, status, status_uri, status_title, status_desc);
 
+	// BUDDY TYPE
 	if (mb->flags & CONTACT_FLAG_MULTICHAT)
 		mb->type = CHAT;
-	else mb->type = BUDDY;
+	else if (mb->flags & CONTACT_FLAG_PHONE)
+		mb->type = PHONE;
+	else
+		mb->type = BUDDY;
 
 	if (gr_id > MRIM_MAX_GROUPS)
 		mb->group_id = MRIM_DEFAULT_GROUP_ID;
@@ -223,25 +227,14 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 	mb->authorized = !(mb->s_flags & CONTACT_INTFLAG_NOT_AUTHORIZED);
 
 	// Rename phone contacts.
-	if ( mb && (mb->flags & CONTACT_FLAG_PHONE) )
+	if (mb->flags & CONTACT_FLAG_PHONE)
 	{
 		purple_debug_info("mrim","[%s] rename phone buddy\n",__func__);
 		FREE(mb->addr)
 		mb->addr = g_strdup(mb->phones[0]);
 		mb->authorized = TRUE;
-		//mb->status = STATUS_ONLINE;
 	}
-	/*
-	if (strncmp(mb->addr, "phone", 6) == 0) // TODO Think of it.
-	{
-		purple_debug_info("mrim","[%s] rename phone buddy to %s\n",__func__, mb->phones[0]);
-		g_free(mb->addr);
-		mb->addr = g_strdup(mb->phones[0]);
-		mb->status = STATUS_ONLINE;
-		mb->flags |= CONTACT_FLAG_PHONE;
-		mb->type = PHONE;
-	}
-*/
+
 	if (! mb->authorized)
 		make_mrim_status(&mb->status, STATUS_OFFLINE, "", "", "");
 

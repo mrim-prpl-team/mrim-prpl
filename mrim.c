@@ -757,9 +757,10 @@ GList* mrim_status_types( PurpleAccount* account )
 	}
 	type = purple_status_type_new_with_attrs(PURPLE_STATUS_MOOD, "mood", NULL, FALSE, TRUE, FALSE, PURPLE_MOOD_NAME, _("Mood Name"), purple_value_new( PURPLE_TYPE_STRING ), PURPLE_MOOD_COMMENT, _("Mood Comment"), purple_value_new(PURPLE_TYPE_STRING), NULL);
 	status_list = g_list_append(status_list, type);
-	//type = purple_status_type_new_full(PURPLE_STATUS_MOBILE, MRIM_STATUS_ID_MOBILE, NULL, FALSE, FALSE, TRUE);
-	//status_list = g_list_append(status_list, type);
 	
+	type = purple_status_type_new_full(PURPLE_STATUS_MOBILE, MRIM_STATUS_ID_MOBILE, NULL, FALSE, FALSE, TRUE);
+	status_list = g_list_append(status_list, type);
+
 	return status_list;
 }
 
@@ -972,8 +973,11 @@ void set_user_status_by_mb(mrim_data *mrim, mrim_buddy *mb)
 	else
 		purple_prpl_got_user_status_deactive(mrim->account, mb->addr, MRIM_STATUS_ID_MOBILE); */
 
-	if (mb->flags & CONTACT_FLAG_PHONE)
+	if (mb->type == PHONE)
+	{
 		purple_prpl_got_user_status(account, mb->addr, "online", NULL);
+		purple_prpl_got_user_status(account, mb->addr, MRIM_STATUS_ID_MOBILE, NULL);
+	}
 
 }
 
@@ -1017,6 +1021,7 @@ static void mrim_prpl_login(PurpleAccount *account)
 	mrim->web_key = NULL;
 	mrim->error_count = 0;
 	mrim->ProxyConnectHandle = NULL;
+	mrim->wants_to_die = FALSE;
 	make_mrim_status_from_purple(&mrim->status, purple_presence_get_active_status(account->presence));
 	  
 	mrim->server = g_strdup(purple_account_get_string(account, "balancer_host", MRIM_MAIL_RU));
@@ -1131,7 +1136,10 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 		if (purple_input_get_error(mrim->fd, &err) != 0)
 			purple_connection_error_reason (gc,	PURPLE_CONNECTION_ERROR_NETWORK_ERROR, _("Input Error"));
 
-		mrim->error_count++; // TODO should we detect disconnects using fd?
+		if (mrim->wants_to_die) // TODO может быть лучше использовать gc->wants_to_die?
+			mrim->error_count = MRIM_MAX_ERROR_COUNT;
+
+		mrim->error_count++;
 		if (mrim->error_count > MRIM_MAX_ERROR_COUNT)
 		{
 			purple_debug_info("mrim", "Bad package\n");
