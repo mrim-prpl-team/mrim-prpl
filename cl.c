@@ -169,7 +169,7 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 
 	gchar *status_uri	= read_LPS(pack);
 	gchar *status_title	= read_LPS(pack);
-	gchar *status_desc	= read_LPS(pack);
+	gchar *status_desc	= purple_markup_escape_text(read_LPS(pack), -1);
 	if (len >= 12)
 	{
 		read_UL(pack);// 11

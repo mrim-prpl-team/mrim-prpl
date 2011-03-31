@@ -818,12 +818,12 @@ void make_mrim_status(mrim_status *s, guint32 status, gchar *uri, gchar *title, 
 		}
 	}
 	s->purple_status = mrim_purple_statuses[status_index].id;
-	if (title && desc) {
-		s->display_string = g_strdup_printf("%s - %s", title, desc);
-	} else if (title) {
-		s->display_string = g_strdup(title);
-	} else if (desc) {
-		s->display_string = g_strdup_printf("%s - %s", _(mrim_purple_statuses[status_index].title), desc);
+	if (s->title && s->desc) {
+		s->display_string = g_strdup_printf("%s - %s", s->title, s->desc);
+	} else if (s->title) {
+		s->display_string = g_strdup(s->title);
+	} else if (s->desc) {
+		s->display_string = g_strdup_printf("%s - %s", _(mrim_purple_statuses[status_index].title), s->desc);
 	} else {
 		s->display_string = g_strdup(_(mrim_purple_statuses[status_index].title));
 	}
@@ -958,7 +958,7 @@ void set_user_status_by_mb(mrim_data *mrim, mrim_buddy *mb)
 		if (mb->status.mood) {
 			purple_prpl_got_user_status(mrim->gc->account, mb->addr, "mood",
 				PURPLE_MOOD_NAME, mb->status.mood,
-				PURPLE_MOOD_COMMENT, mb->status.desc,
+				PURPLE_MOOD_COMMENT, purple_markup_escape_text(mb->status.desc, -1),
 				NULL);
 		} else {
 			purple_prpl_got_user_status_deactive(mrim->gc->account, mb->addr, "mood");
@@ -1234,7 +1234,7 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 									{
 										uri = read_LPS(pack);  // "status_22"
 										title = read_LPS(pack); // "Работаю"
-										desc = read_LPS(pack); // "Работаю не покладая рук"
+										desc = purple_markup_escape_text(read_LPS(pack), -1); // "Работаю не покладая рук"
 									}
 									gchar *user = read_LPS(pack); //user
 									read_UL(pack);
