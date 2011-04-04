@@ -544,17 +544,17 @@ void mrim_remove_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *gr
 	purple_debug_info("mrim", "[%s]\n",__func__);
 	mrim_data *mrim = gc->proto_data;
 	mrim_buddy *mb = buddy->proto_data;
-	g_return_if_fail(mb != NULL); // TODO Put buddy back to buddy list??
+	g_return_if_fail(mb != NULL);
 	
 	mrim_pq *mpq = g_new0(mrim_pq, 1);
 	mpq->type = REMOVE_BUDDY;
 	mpq->seq = mrim->seq;
-	mpq->remove_buddy.buddy = buddy;
 	g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq), mpq);
 
-	mb->flags |= CONTACT_FLAG_REMOVED;
+	mb->flags |= CONTACT_FLAG_REMOVED  | CONTACT_FLAG_SHADOW; // TODO check it
 	mrim_pkt_modify_buddy(mrim, buddy, mpq->seq);
 	purple_debug_info("mrim", "[%s]removing %s from %s's buddy list. id=<%u> group_id=<%u>\n",__func__,buddy->name, gc->account->username, mb->id, mb->group_id);
+	// далее libpurple вызовет free_buddy
 }
 
 
@@ -562,15 +562,16 @@ void free_buddy_proto_data(mrim_buddy *mb)
 {
 	purple_debug_info("mrim","[%s]\n",__func__);
 	g_return_if_fail(mb != NULL);
-//	if (mb->phones)
-//		for (int i=0; i<4 ; i++)
-//			g_free(mb->phones[i]);
-//	FREE(mb->addr)
-//	FREE(mb->alias)
-//	FREE(mb->ips);
-//	FREE(mb->user_agent);
-//	FREE(mb->microblog);
-//	FREE(mb);
+	if (mb->phones)
+		for (int i=0; i<4 ; i++) // TODO
+			g_free(mb->phones[i]);
+	g_free(mb->phones);
+	FREE(mb->addr)
+	FREE(mb->alias)
+	FREE(mb->ips);
+	FREE(mb->user_agent);
+	FREE(mb->microblog);
+	FREE(mb);
 }
 
 void free_buddy(PurpleBuddy *buddy)
@@ -578,7 +579,6 @@ void free_buddy(PurpleBuddy *buddy)
 	purple_debug_info("mrim","[%s]\n",__func__);
 	g_return_if_fail(buddy != NULL);
 	free_buddy_proto_data(buddy->proto_data);
-//	g_free(buddy);
 }
 /** save/store buddy's alias on server list/roster */
 void mrim_alias_buddy(PurpleConnection *gc, const char *who, const char *alias)
@@ -796,8 +796,6 @@ void mrim_modify_contact_ack(mrim_data *mrim ,package *pack)
 			break;
 		case REMOVE_BUDDY:
 			purple_debug_info("mrim","[%s] REMOVE_BUDDY\n", __func__);
-			// TODO remove buddy?
-			free_buddy(mpq->remove_buddy.buddy);
 			break;
 		case MODIFY_BUDDY:
 			purple_debug_info("mrim","[%s] MODIFY_BUDDY\n", __func__);

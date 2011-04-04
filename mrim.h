@@ -376,7 +376,6 @@ typedef struct
 		}remove_group;
 		struct
 		{
-			PurpleBuddy *buddy;
 		}remove_buddy;
 		struct
 		{
