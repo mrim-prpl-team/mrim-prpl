@@ -1347,7 +1347,7 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 
 										if (strcmp(param, "MESSAGES.TOTAL") == 0 )
 										{
-
+											mrim->total_mails = atoi(value);
 										}
 										else if (strcmp(param, "MESSAGES.UNREAD") == 0)
 										{
@@ -1357,6 +1357,8 @@ void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 											mpq->seq = mrim->seq;
 											mpq->new_emails.count = mrim->mails;
 											g_hash_table_insert(mrim->pq, GUINT_TO_POINTER(mpq->seq), mpq);
+											package *pack_ack = new_package(mpq->seq, MRIM_CS_GET_MPOP_SESSION);
+											send_package(pack_ack, mrim);
 										}
 										else if (strcmp(param, "micblog.status.text")==0)
 										{
@@ -1558,15 +1560,17 @@ static void mrim_prpl_close(PurpleConnection *gc)
 		close(mrim->fd);
 	mrim->fd = -1;
 
-	FREE(mrim->server)
-	FREE(mrim->inp_package)
-	FREE(mrim->web_key)
-	FREE(mrim->url)
-	FREE(mrim->user_agent)
+	g_free(mrim->server);
+	g_free(mrim->inp_package);
+	g_free(mrim->web_key);
+	g_free(mrim->url);
+	g_free(mrim->user_agent);
+	g_free(mrim->username);
+	g_free(mrim->password);
 
 	g_hash_table_remove_all(mrim->mg);
 	g_hash_table_remove_all(mrim->pq);
-	FREE(mrim)
+	g_free(mrim);
 	purple_connection_set_protocol_data(gc, NULL);
 
 	// TODO stop SMS & phone_edit & ... pq

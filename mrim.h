@@ -299,7 +299,8 @@ typedef struct {
 	PurpleProxyConnectData *ProxyConnectHandle;
 
 	// Почта
-	guint32 mails;         // количество писем
+	guint32 mails;         // количество непрочитанных писем
+	guint32 total_mails;   // общее количество писем
 	gchar *web_key;        // ключ веб-авторизации
 	gchar *url;            // url
 	// PQ
