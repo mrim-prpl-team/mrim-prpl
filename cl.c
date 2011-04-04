@@ -745,9 +745,6 @@ void mrim_add_contact_ack(mrim_data *mrim ,package *pack)
 				PurpleBuddy *buddy = mpq->add_buddy.buddy;
 				mrim_buddy *mb = buddy->proto_data;
 				mb->id = id;
-				// TODO bug 22
-				if (is_valid_email(buddy->name))
-					send_package_authorize(mrim, buddy->name, (gchar *)(mrim->username));
 			}
 			else
 			{	// Added to not existing group.
