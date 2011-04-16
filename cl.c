@@ -180,7 +180,9 @@ static mrim_buddy *new_mrim_buddy(package *pack, gchar *mask)
 			read_UL(pack);
 			read_UL(pack);
 			read_UL(pack);
-			mb->microblog = read_UTF16LE(pack);
+			gchar *tmp = read_UTF16LE(pack);
+			mb->microblog = purple_markup_escape_text(tmp, -1);
+			g_free(tmp);
 		}
 	}
 	
