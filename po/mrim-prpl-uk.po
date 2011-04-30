@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-28 21:07+0300\n"
+"POT-Creation-Date: 2011-04-30 22:50+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
@@ -74,12 +74,12 @@ msgid "No matter"
 msgstr "Без різниці"
 
 #: mrim.c:224
-#: cl.c:1003
+#: cl.c:1000
 msgid "Male"
 msgstr "Чоловiк"
 
 #: mrim.c:225
-#: cl.c:1003
+#: cl.c:1000
 msgid "Female"
 msgstr "Жiнка"
 
@@ -145,7 +145,7 @@ msgid "Status"
 msgstr ""
 
 #: mrim.c:326
-#: cl.c:1047
+#: cl.c:1044
 msgid "Microblog"
 msgstr ""
 
@@ -155,13 +155,13 @@ msgstr "Номери телефонів"
 
 #: mrim.c:334
 #: mrim.c:338
-#: cl.c:1044
-#: cl.c:1051
+#: cl.c:1041
+#: cl.c:1048
 msgid "User agent"
 msgstr ""
 
 #: mrim.c:338
-#: cl.c:1051
+#: cl.c:1048
 msgid "Hidden"
 msgstr ""
 
@@ -340,64 +340,64 @@ msgstr "Сервер розірвав з'єднання."
 msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
 msgstr "Помилка пингу в MRIM_CS_CONNECTION_PARAMS"
 
-#: mrim.c:1802
+#: mrim.c:1806
 msgid "Server"
 msgstr "Сервер"
 
-#: mrim.c:1804
+#: mrim.c:1808
 msgid "Port"
 msgstr "Порт"
 
-#: mrim.c:1806
+#: mrim.c:1810
 msgid "Load userpics"
 msgstr "Завантажити фото співрозмовников"
 
-#: mrim.c:1808
+#: mrim.c:1812
 msgid "Use custom user agent string"
 msgstr ""
 
-#: mrim.c:1810
+#: mrim.c:1814
 msgid "Custom user agent"
 msgstr ""
 
-#: cl.c:277
-#: cl.c:733
-#: cl.c:782
-#: cl.c:861
-#: cl.c:1192
+#: cl.c:279
+#: cl.c:735
+#: cl.c:781
+#: cl.c:858
+#: cl.c:1189
 msgid "Encountered an error while working on contact list!"
 msgstr "Помилка при роботі з переліком контактів!"
 
-#: cl.c:277
+#: cl.c:279
 msgid "Group not found."
 msgstr "Група не знайдена."
 
-#: cl.c:419
+#: cl.c:421
 #, c-format
 msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and '-'."
 msgstr "Не можу додати співрозмовника \"%s\" з-за невірного имені користувача. Ім'я користувача повинно бути існуючою поштовою адресою (в доменах @mail.ru, @bk.ru, @list.ru, @inbox.ru, @corp.mail.ru) або існуючим телефонним номером, який включає знаки \"+\", \"-\", символи пробелу і складається лише з цифр."
 
-#: cl.c:420
+#: cl.c:422
 msgid "Unable to Add"
 msgstr "Не вдається додати"
 
-#: cl.c:487
-#: cl.c:515
-#: cl.c:1205
+#: cl.c:489
+#: cl.c:517
+#: cl.c:1202
 msgid "Hello. Add me to your buddies please."
 msgstr "Доброго дня! Будь-ласка, додайте мене до переліку Ваших співрозмовників."
 
-#: cl.c:733
-#: cl.c:782
-#: cl.c:861
-#: cl.c:900
+#: cl.c:735
+#: cl.c:781
+#: cl.c:858
+#: cl.c:897
 msgid "Did you ever do this operation? (mpq == NULL)"
 msgstr "Така операція здійснювалась?"
 
+#: cl.c:824
 #: cl.c:827
 #: cl.c:830
 #: cl.c:833
-#: cl.c:836
 #: message.c:425
 #: message.c:430
 #: message.c:473
@@ -407,83 +407,83 @@ msgstr "Така операція здійснювалась?"
 msgid "SMS"
 msgstr ""
 
-#: cl.c:827
+#: cl.c:824
 msgid "SMS delivered successfully."
 msgstr "SMS-повідомлення доставлено успішно."
 
-#: cl.c:830
+#: cl.c:827
 msgid "SMS service is not available."
 msgstr "Служба доставки SMS недоступна."
 
-#: cl.c:833
+#: cl.c:830
 msgid "Wrong SMS parameters."
 msgstr "Невірні параметри SMS."
 
-#: cl.c:836
+#: cl.c:833
 msgid "Something went wrong!"
 msgstr "З невідомої причини стався збій!"
 
-#: cl.c:900
+#: cl.c:897
+#: cl.c:903
 #: cl.c:906
 #: cl.c:909
 #: cl.c:912
-#: cl.c:915
 msgid "Encountered an error while working on user details!"
 msgstr "Помилка при роботi з анкетою!"
 
-#: cl.c:906
+#: cl.c:903
 msgid "User not found."
 msgstr "Користувач не знайдений."
 
-#: cl.c:909
+#: cl.c:906
 msgid "DBERR error. Please try later."
 msgstr "Помилка DBERR. Спробуйте повторити пізніше."
 
-#: cl.c:912
+#: cl.c:909
 msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
 msgstr ""
 
-#: cl.c:915
+#: cl.c:912
 msgid "unknown error"
 msgstr "Невідома помилка."
 
-#: cl.c:937
+#: cl.c:934
 msgid "email"
 msgstr "Адреса"
 
-#: cl.c:996
+#: cl.c:993
 msgid "Sex"
 msgstr "Стать"
 
-#: cl.c:1010
+#: cl.c:1007
 msgid "Zodiac"
 msgstr "Знак зодіаку"
 
-#: cl.c:1102
+#: cl.c:1099
 msgid "Search results"
 msgstr "Результат пошуку."
 
-#: cl.c:1183
+#: cl.c:1180
 msgid "Invalid data provided."
 msgstr "Ведені некоректні дані."
 
-#: cl.c:1184
+#: cl.c:1181
 msgid "Internal error encountered while processing request."
 msgstr "Внутрішня помилка при обробці запиту."
 
-#: cl.c:1185
+#: cl.c:1182
 msgid "No such user as you added."
 msgstr "Такого користувача не існує."
 
-#: cl.c:1186
+#: cl.c:1183
 msgid "Invalid user name."
 msgstr "Невірне ім'я користувача."
 
-#: cl.c:1187
+#: cl.c:1184
 msgid "Buddy/group cannot be added."
 msgstr "Контакт / група не може бути додана."
 
-#: cl.c:1188
+#: cl.c:1185
 msgid "Max groups allowed count exceedeed."
 msgstr "Перевищене допустиме число груп."
 

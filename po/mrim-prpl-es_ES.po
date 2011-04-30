@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl 0.1.27\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-28 21:07+0300\n"
+"POT-Creation-Date: 2011-04-30 22:50+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl team\n"
@@ -73,12 +73,12 @@ msgid "No matter"
 msgstr "Ükskõik"
 
 #: mrim.c:224
-#: cl.c:1003
+#: cl.c:1000
 msgid "Male"
 msgstr "Mees"
 
 #: mrim.c:225
-#: cl.c:1003
+#: cl.c:1000
 msgid "Female"
 msgstr "Naine"
 
@@ -144,7 +144,7 @@ msgid "Status"
 msgstr ""
 
 #: mrim.c:326
-#: cl.c:1047
+#: cl.c:1044
 msgid "Microblog"
 msgstr ""
 
@@ -154,13 +154,13 @@ msgstr "Telefoninumbrid"
 
 #: mrim.c:334
 #: mrim.c:338
-#: cl.c:1044
-#: cl.c:1051
+#: cl.c:1041
+#: cl.c:1048
 msgid "User agent"
 msgstr ""
 
 #: mrim.c:338
-#: cl.c:1051
+#: cl.c:1048
 msgid "Hidden"
 msgstr "Varjatud"
 
@@ -337,64 +337,64 @@ msgstr "Server katkestas ühendust."
 msgid "Ping Error in MRIM_CS_CONNECTION_PARAMS"
 msgstr "Pingi viga MRIM_CS_CONNECTION_PARAMS"
 
-#: mrim.c:1802
+#: mrim.c:1806
 msgid "Server"
 msgstr "Server"
 
-#: mrim.c:1804
+#: mrim.c:1808
 msgid "Port"
 msgstr "Port"
 
-#: mrim.c:1806
+#: mrim.c:1810
 msgid "Load userpics"
 msgstr "Laadida vestluskaaslaste fotosid"
 
-#: mrim.c:1808
+#: mrim.c:1812
 msgid "Use custom user agent string"
 msgstr ""
 
-#: mrim.c:1810
+#: mrim.c:1814
 msgid "Custom user agent"
 msgstr ""
 
-#: cl.c:277
-#: cl.c:733
-#: cl.c:782
-#: cl.c:861
-#: cl.c:1192
+#: cl.c:279
+#: cl.c:735
+#: cl.c:781
+#: cl.c:858
+#: cl.c:1189
 msgid "Encountered an error while working on contact list!"
 msgstr "Kontaktidega opereerimisel tekkis viga!"
 
-#: cl.c:277
+#: cl.c:279
 msgid "Group not found."
 msgstr "See grupp ei leitud."
 
-#: cl.c:419
+#: cl.c:421
 #, c-format
 msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and '-'."
 msgstr "Ei ole võimalik vestluskaaslast lisata \"%s\" kasutaja nimi ebaõigsuse tõttu. Kasutaja nimi peaks olema eksisteerivaks e-mailiks (domeenides @mail.ru, @bk.ru, @list.ru, @inbox.ru, @corp.mail.ru) või eksisteerivaks telefoninumbriks,mis sisaldab märke \"+\", \"-\", tühiku sümboleid ning sisaldab ainult numbreid."
 
-#: cl.c:420
+#: cl.c:422
 msgid "Unable to Add"
 msgstr "Ei ole võimalik lisata"
 
-#: cl.c:487
-#: cl.c:515
-#: cl.c:1205
+#: cl.c:489
+#: cl.c:517
+#: cl.c:1202
 msgid "Hello. Add me to your buddies please."
 msgstr "Tervist. Palun, lisage mind Teie vestluskaaslaste nimikirja."
 
-#: cl.c:733
-#: cl.c:782
-#: cl.c:861
-#: cl.c:900
+#: cl.c:735
+#: cl.c:781
+#: cl.c:858
+#: cl.c:897
 msgid "Did you ever do this operation? (mpq == NULL)"
 msgstr "Kas Te juba teostasite seda operatsiooni? (mpq == NULL)"
 
+#: cl.c:824
 #: cl.c:827
 #: cl.c:830
 #: cl.c:833
-#: cl.c:836
 #: message.c:425
 #: message.c:430
 #: message.c:473
@@ -404,83 +404,83 @@ msgstr "Kas Te juba teostasite seda operatsiooni? (mpq == NULL)"
 msgid "SMS"
 msgstr "SMS"
 
-#: cl.c:827
+#: cl.c:824
 msgid "SMS delivered successfully."
 msgstr "Sõnum on edukalt saadetud."
 
-#: cl.c:830
+#: cl.c:827
 msgid "SMS service is not available."
 msgstr "Sõnumi kohaletoimetamise teenus on kättesaamatu."
 
-#: cl.c:833
+#: cl.c:830
 msgid "Wrong SMS parameters."
 msgstr "Sõnumi parametrid on valed."
 
-#: cl.c:836
+#: cl.c:833
 msgid "Something went wrong!"
 msgstr "Midagi läks valesti!"
 
-#: cl.c:900
+#: cl.c:897
+#: cl.c:903
 #: cl.c:906
 #: cl.c:909
 #: cl.c:912
-#: cl.c:915
 msgid "Encountered an error while working on user details!"
 msgstr "Kohtas viga ankeedi täitmisel!"
 
-#: cl.c:906
+#: cl.c:903
 msgid "User not found."
 msgstr "Kasutaja ei ole leitud."
 
-#: cl.c:909
+#: cl.c:906
 msgid "DBERR error. Please try later."
 msgstr "DBERR viga. Palun proovige uuesti."
 
-#: cl.c:912
+#: cl.c:909
 msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
 msgstr "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
 
-#: cl.c:915
+#: cl.c:912
 msgid "unknown error"
 msgstr "Tundmatu viga"
 
-#: cl.c:937
+#: cl.c:934
 msgid "email"
 msgstr "Aadress"
 
-#: cl.c:996
+#: cl.c:993
 msgid "Sex"
 msgstr "Sugu"
 
-#: cl.c:1010
+#: cl.c:1007
 msgid "Zodiac"
 msgstr "Sodiaagimärk"
 
-#: cl.c:1102
+#: cl.c:1099
 msgid "Search results"
 msgstr "Otsingu tulemused"
 
-#: cl.c:1183
+#: cl.c:1180
 msgid "Invalid data provided."
 msgstr "Sisestatud andmed on ebakorrektsed."
 
-#: cl.c:1184
+#: cl.c:1181
 msgid "Internal error encountered while processing request."
 msgstr "On tekkinud sisemise viga päringu töötluse ajal."
 
-#: cl.c:1185
+#: cl.c:1182
 msgid "No such user as you added."
 msgstr "Sisestatud kasutaja nimi ei ole olemas."
 
-#: cl.c:1186
+#: cl.c:1183
 msgid "Invalid user name."
 msgstr "Kasutaja nimi on vale."
 
-#: cl.c:1187
+#: cl.c:1184
 msgid "Buddy/group cannot be added."
 msgstr "Ei saa lisata kasutaja/gruppi."
 
-#: cl.c:1188
+#: cl.c:1185
 msgid "Max groups allowed count exceedeed."
 msgstr "Gruppide lubatud arv on ületatud."
 
