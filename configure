@@ -10,14 +10,15 @@ echo -e " #define DISPLAY_VERSION \"0.1.27\"" >> $CF
 
 echo -e " /* Options:\n DEBUG - print more debug info\n FT - filetransfer support (Not implemented)\n CHATS - add mrim-chats support(In development)\n GTK - add GTK+ forms\n Win32*/\n" >> $CF
 
-for x in $@
-do
-  case x in
-    --debug) echo "#define DEBUG" >> $CF
+for x in $@ ; do
+  case $x in
+    '--debug') echo "#define DEBUG" >> $CF
 	;;
-	--gtk) echo "#define GTK" >> $CF
+	'--gtk') echo "#define GTK" >> $CF
 	;;
-	--chats) echo "#define CHATS" >> $CF
+	'--chats') echo "#define CHATS" >> $CF
+	;;
+	'--ft') echo "#define FT" >> $CF
 	;;
 	*) echo $x
 	;;

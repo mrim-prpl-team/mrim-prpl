@@ -1,4 +1,4 @@
-trunk (06/03/2011) (r141)
+trunk (04/04/2011) (r232)
 	Core
 		? Fix bad package
 		i18n: ru_RU (rc), uk (draft), be_BY (draft), maby other languages
@@ -7,8 +7,7 @@ trunk (06/03/2011) (r141)
 		Fir 12-numbered phones
 		Fix group search(regression)
 		UserAgent
-		Chat-contacts support(draft)
-		X-Status(draft)
+		X-Status
 	UI
 		Gtk+ SMS_send form
 		MyWorld Integration
