@@ -1,0 +1,27 @@
+#!/bin/sh
+
+CONFIG="config.h"
+
+echo -en "#ifndef MRIM_CONFIG_H\n#define MRIM_CONFIG_H\n\n" > $CONFIG
+
+echo -en "#define BUILD_NUMBER \"" >> $CONFIG
+echo -en `svn info | grep Revision | sed "s/Revision: /r/g"` >> $CONFIG
+echo -en "\"\n\n" >> $CONFIG
+
+for option in $@; do
+	case $option in
+		--gtk)
+			echo -en "#define ENABLE_GTK\n" >> $CONFIG
+			;;
+		--help)
+			echo "mrim-prpl configure script"
+			echo "Usage: ./configure.sh [options]"
+			echo "Options:"
+			echo "    --help - display this text"
+			echo "    --gtk - enable GTK+ interface in plugin"
+			;;
+	esac
+done
+
+echo -e "\n#endif" >> $CONFIG
+
