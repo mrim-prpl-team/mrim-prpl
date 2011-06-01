@@ -450,7 +450,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 					MrimNotifyMailData *data = g_new0(MrimNotifyMailData, 1);
 					data->count = mrim->mail_count;
 					data->from = mrim_package_read_LPSA(pack);
-					data->subject = mrim_package_read_LPSW(pack);
+					data->subject = mrim_package_read_LPSA(pack);
 					purple_debug_info("mrim-prpl",
 						"[%s] MRIM_CS_NEW_MAIL: Mail count is %i, from is %s, subject is %s\n",
 						__func__, mrim->mail_count, data->from, data->subject);
