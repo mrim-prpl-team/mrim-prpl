@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-21 00:10+0400\n"
+"POT-Creation-Date: 2011-06-03 12:41+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,7 +66,7 @@ msgstr ""
 msgid "_Send"
 msgstr ""
 
-#: cl.c:673 cl.c:723 mrim.c:605 mrim.c:648
+#: cl.c:673 cl.c:723 mrim.c:606 mrim.c:649
 msgid "_Cancel"
 msgstr ""
 
@@ -106,19 +106,19 @@ msgstr ""
 msgid "Edit phone numbers..."
 msgstr ""
 
-#: cl.c:783 mrim.c:661
+#: cl.c:783 mrim.c:662
 msgid "MyWorld@Mail.ru"
 msgstr ""
 
-#: cl.c:786 mrim.c:664
+#: cl.c:786 mrim.c:665
 msgid "Photo@Mail.ru"
 msgstr ""
 
-#: cl.c:789 mrim.c:667
+#: cl.c:789 mrim.c:668
 msgid "Video@Mail.ru"
 msgstr ""
 
-#: cl.c:792 mrim.c:670
+#: cl.c:792 mrim.c:671
 msgid "Blogs@Mail.ru"
 msgstr ""
 
@@ -162,11 +162,11 @@ msgstr ""
 msgid "unknown error"
 msgstr ""
 
-#: cl.c:886 mrim.c:587
+#: cl.c:886 mrim.c:588
 msgid "Male"
 msgstr ""
 
-#: cl.c:886 mrim.c:588
+#: cl.c:886 mrim.c:589
 msgid "Female"
 msgstr ""
 
@@ -174,11 +174,11 @@ msgstr ""
 msgid "E-mail"
 msgstr ""
 
-#: cl.c:920 cl.c:1017
+#: cl.c:920 cl.c:1020
 msgid "User agent"
 msgstr ""
 
-#: cl.c:924 cl.c:1021 mrim.c:646
+#: cl.c:924 cl.c:1024 mrim.c:647
 msgid "Microblog"
 msgstr ""
 
@@ -196,6 +196,10 @@ msgstr ""
 
 #: cl.c:1013
 msgid "Status"
+msgstr ""
+
+#: cl.c:1016
+msgid "Listening"
 msgstr ""
 
 #: message.c:267 message.c:270 message.c:273 message.c:276
@@ -222,112 +226,116 @@ msgstr ""
 msgid "Anyone here?? !"
 msgstr ""
 
-#: mrim.c:74 mrim.c:145 mrim.c:172 mrim.c:258
+#: mrim.c:75 mrim.c:146 mrim.c:173 mrim.c:259
 msgid "Connecting"
 msgstr ""
 
-#: mrim.c:148
+#: mrim.c:149
 msgid "Unable to create TCP-connection"
 msgstr ""
 
-#: mrim.c:175
+#: mrim.c:176
 msgid "Unable to write to socket."
 msgstr ""
 
-#: mrim.c:179
+#: mrim.c:180
 #, c-format
 msgid "Unable to connect: %s"
 msgstr ""
 
-#: mrim.c:291
+#: mrim.c:292
 msgid "Logged in from another location."
 msgstr ""
 
-#: mrim.c:293
+#: mrim.c:294
 msgid "Server broke connection."
 msgstr ""
 
-#: mrim.c:479
+#: mrim.c:480
 msgid "Input Error"
 msgstr ""
 
-#: mrim.c:484
+#: mrim.c:485
 msgid "Bad Package"
 msgstr ""
 
-#: mrim.c:579 cl.h:94
+#: mrim.c:580 cl.h:95
 msgid "Nickname"
 msgstr ""
 
-#: mrim.c:581 cl.h:95
+#: mrim.c:582 cl.h:96
 msgid "FirstName"
 msgstr ""
 
-#: mrim.c:583 cl.h:96
+#: mrim.c:584 cl.h:97
 msgid "LastName"
 msgstr ""
 
-#: mrim.c:585 cl.h:97
+#: mrim.c:586 cl.h:98
 msgid "Sex"
 msgstr ""
 
-#: mrim.c:586
+#: mrim.c:587
 msgid "No matter"
 msgstr ""
 
-#: mrim.c:595
+#: mrim.c:596
 msgid "Age from"
 msgstr ""
 
-#: mrim.c:597
+#: mrim.c:598
 msgid "Age up to"
 msgstr ""
 
-#: mrim.c:601
+#: mrim.c:602
 msgid "Online"
 msgstr ""
 
-#: mrim.c:603
+#: mrim.c:604
 msgid "Buddies search"
 msgstr ""
 
-#: mrim.c:604
+#: mrim.c:605
 msgid "_Search"
 msgstr ""
 
-#: mrim.c:644
+#: mrim.c:645
 msgid "Micropost"
 msgstr ""
 
-#: mrim.c:647
+#: mrim.c:648
 msgid "_Post"
 msgstr ""
 
-#: mrim.c:656
+#: mrim.c:657
 msgid "Post microblog record..."
 msgstr ""
 
-#: mrim.c:658
+#: mrim.c:659
 msgid "Search for buddies..."
 msgstr ""
 
-#: mrim.c:840
+#: mrim.c:841
 msgid "Server"
 msgstr ""
 
-#: mrim.c:842
+#: mrim.c:843
 msgid "Port"
 msgstr ""
 
-#: mrim.c:844
+#: mrim.c:845
 msgid "Load userpics"
 msgstr ""
 
-#: mrim.c:846
+#: mrim.c:847
+msgid "Micropost notify"
+msgstr ""
+
+#: mrim.c:849
 msgid "Use custom user agent string"
 msgstr ""
 
-#: mrim.c:848
+#: mrim.c:851
 msgid "Custom user agent"
 msgstr ""
 
@@ -359,7 +367,7 @@ msgstr ""
 msgid "Tune album"
 msgstr ""
 
-#: statuses.c:166 statuses.c:167 statuses.c:168
+#: statuses.c:167 statuses.c:168 statuses.c:169
 msgid "Unknown"
 msgstr ""
 
@@ -388,144 +396,144 @@ msgstr ""
 msgid "%s (version %s)"
 msgstr ""
 
-#: cl.h:79
+#: cl.h:80
 msgid "Aries"
 msgstr ""
 
-#: cl.h:80
+#: cl.h:81
 msgid "Taurus"
 msgstr ""
 
-#: cl.h:81
+#: cl.h:82
 msgid "Gemini"
 msgstr ""
 
-#: cl.h:82
+#: cl.h:83
 msgid "Cancer"
 msgstr ""
 
-#: cl.h:83
+#: cl.h:84
 msgid "Leo"
 msgstr ""
 
-#: cl.h:84
+#: cl.h:85
 msgid "Virgo"
 msgstr ""
 
-#: cl.h:85
+#: cl.h:86
 msgid "Libra"
 msgstr ""
 
-#: cl.h:86
+#: cl.h:87
 msgid "Scorpius"
 msgstr ""
 
-#: cl.h:87
+#: cl.h:88
 msgid "Sagittarius"
 msgstr ""
 
-#: cl.h:88
+#: cl.h:89
 msgid "Capricornus"
 msgstr ""
 
-#: cl.h:89
+#: cl.h:90
 msgid "Aquarius"
 msgstr ""
 
-#: cl.h:90
+#: cl.h:91
 msgid "Pisces"
 msgstr ""
 
-#: cl.h:98
+#: cl.h:99
 msgid "Birthday"
 msgstr ""
 
-#: cl.h:99
+#: cl.h:100
 msgid "Location"
 msgstr ""
 
-#: cl.h:100
+#: cl.h:101
 msgid "Zodiac"
 msgstr ""
 
-#: cl.h:101
+#: cl.h:102
 msgid "Phone"
 msgstr ""
 
-#: cl.h:102
+#: cl.h:103
 msgid "status_uri"
 msgstr ""
 
-#: cl.h:103
+#: cl.h:104
 msgid "status_title"
 msgstr ""
 
-#: cl.h:104
+#: cl.h:105
 msgid "status_desc"
 msgstr ""
 
-#: cl.h:105
+#: cl.h:106
 msgid "ua_features"
 msgstr ""
 
-#: mrim.h:99
+#: mrim.h:100
 msgid "Mail.ru Agent for Windows"
 msgstr ""
 
-#: mrim.h:100
+#: mrim.h:101
 msgid "Mail.ru Agent for Java"
 msgstr ""
 
-#: mrim.h:101
+#: mrim.h:102
 msgid "Mail.ru Agent for Android"
 msgstr ""
 
-#: mrim.h:102
+#: mrim.h:103
 msgid "Web-Agent@Mail.ru"
 msgstr ""
 
-#: mrim.h:103
+#: mrim.h:104
 msgid "Mail.ru Agent for Symbian"
 msgstr ""
 
-#: mrim.h:104
+#: mrim.h:105
 msgid "Mail.ru Agent for iPhone"
 msgstr ""
 
-#: mrim.h:105
+#: mrim.h:106
 msgid "QIP 2010"
 msgstr ""
 
-#: mrim.h:106
+#: mrim.h:107
 msgid "QIP Infium"
 msgstr ""
 
-#: mrim.h:107
+#: mrim.h:108
 msgid "mrim-prpl"
 msgstr ""
 
-#: mrim.h:108
+#: mrim.h:109
 msgid "libpurple plugin by lemax1@mail.ru"
 msgstr ""
 
 #: statuses.h:28
-msgid "Offline"
-msgstr ""
-
-#: statuses.h:29
 msgid "Available"
 msgstr ""
 
-#: statuses.h:30
+#: statuses.h:29
 msgid "Away"
 msgstr ""
 
-#: statuses.h:31
+#: statuses.h:30
 msgid "Unavailable"
 msgstr ""
 
-#: statuses.h:32
+#: statuses.h:31
 msgid "Invisible"
+msgstr ""
+
+#: statuses.h:32
+msgid "Offline"
 msgstr ""
 
 #: statuses.h:42
@@ -590,4 +598,8 @@ msgstr ""
 
 #: statuses.h:57
 msgid "In love"
+msgstr ""
+
+#: statuses.h:58
+msgid "Music"
 msgstr ""

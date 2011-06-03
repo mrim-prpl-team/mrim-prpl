@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.2.0-underbush-outcreeper\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-21 00:10+0400\n"
+"POT-Creation-Date: 2011-06-03 12:41+0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
@@ -42,9 +42,8 @@ msgid "Symbols: %d"
 msgstr "Символы: %d"
 
 #: cl.c:572 cl.c:672
-#, fuzzy
 msgid "Send SMS"
-msgstr "Отправить SMS..."
+msgstr "Отправить SMS"
 
 #: cl.c:591
 msgid "Phone:"
@@ -76,7 +75,7 @@ msgstr ""
 msgid "_Send"
 msgstr "_Отправить"
 
-#: cl.c:673 cl.c:723 mrim.c:605 mrim.c:648
+#: cl.c:673 cl.c:723 mrim.c:606 mrim.c:649
 msgid "_Cancel"
 msgstr "О_тмена"
 
@@ -116,19 +115,19 @@ msgstr "Отправить SMS..."
 msgid "Edit phone numbers..."
 msgstr "Редактировать номера"
 
-#: cl.c:783 mrim.c:661
+#: cl.c:783 mrim.c:662
 msgid "MyWorld@Mail.ru"
 msgstr "МойМир@Mail.Ru"
 
-#: cl.c:786 mrim.c:664
+#: cl.c:786 mrim.c:665
 msgid "Photo@Mail.ru"
 msgstr "Фото@Mail.Ru"
 
-#: cl.c:789 mrim.c:667
+#: cl.c:789 mrim.c:668
 msgid "Video@Mail.ru"
 msgstr "Видео@Mail.Ru"
 
-#: cl.c:792 mrim.c:670
+#: cl.c:792 mrim.c:671
 msgid "Blogs@Mail.ru"
 msgstr "Блоги@Mail.Ru"
 
@@ -172,11 +171,11 @@ msgstr ""
 msgid "unknown error"
 msgstr "неизвестная ошибка"
 
-#: cl.c:886 mrim.c:587
+#: cl.c:886 mrim.c:588
 msgid "Male"
 msgstr "Мужской"
 
-#: cl.c:886 mrim.c:588
+#: cl.c:886 mrim.c:589
 msgid "Female"
 msgstr "Женский"
 
@@ -184,11 +183,11 @@ msgstr "Женский"
 msgid "E-mail"
 msgstr "E-mail"
 
-#: cl.c:920 cl.c:1017
+#: cl.c:920 cl.c:1020
 msgid "User agent"
 msgstr "Клиент"
 
-#: cl.c:924 cl.c:1021 mrim.c:646
+#: cl.c:924 cl.c:1024 mrim.c:647
 msgid "Microblog"
 msgstr "Микроблог"
 
@@ -207,6 +206,10 @@ msgstr "Имя"
 #: cl.c:1013
 msgid "Status"
 msgstr "Состояние"
+
+#: cl.c:1016
+msgid "Listening"
+msgstr "Слушаю"
 
 #: message.c:267 message.c:270 message.c:273 message.c:276
 msgid "SMS"
@@ -232,112 +235,116 @@ msgstr "Ахтунг!"
 msgid "Anyone here?? !"
 msgstr "Кто здесь?? !"
 
-#: mrim.c:74 mrim.c:145 mrim.c:172 mrim.c:258
+#: mrim.c:75 mrim.c:146 mrim.c:173 mrim.c:259
 msgid "Connecting"
 msgstr "Соединение"
 
-#: mrim.c:148
+#: mrim.c:149
 msgid "Unable to create TCP-connection"
 msgstr "Не могу создать TCP-соединение"
 
-#: mrim.c:175
+#: mrim.c:176
 msgid "Unable to write to socket."
 msgstr "Не могу записать в сокет."
 
-#: mrim.c:179
+#: mrim.c:180
 #, c-format
 msgid "Unable to connect: %s"
 msgstr "Не могу соединиться: %s"
 
-#: mrim.c:291
+#: mrim.c:292
 msgid "Logged in from another location."
 msgstr "Выполнен вход из другого места."
 
-#: mrim.c:293
+#: mrim.c:294
 msgid "Server broke connection."
 msgstr "Сервер разорвал соединение."
 
-#: mrim.c:479
+#: mrim.c:480
 msgid "Input Error"
 msgstr "Ошибка ввода"
 
-#: mrim.c:484
+#: mrim.c:485
 msgid "Bad Package"
 msgstr "Сбойный пакет (BP)"
 
-#: mrim.c:579 cl.h:94
+#: mrim.c:580 cl.h:95
 msgid "Nickname"
 msgstr "Псевдоним"
 
-#: mrim.c:581 cl.h:95
+#: mrim.c:582 cl.h:96
 msgid "FirstName"
 msgstr "Имя"
 
-#: mrim.c:583 cl.h:96
+#: mrim.c:584 cl.h:97
 msgid "LastName"
 msgstr "Фамилия"
 
-#: mrim.c:585 cl.h:97
+#: mrim.c:586 cl.h:98
 msgid "Sex"
 msgstr "Пол"
 
-#: mrim.c:586
+#: mrim.c:587
 msgid "No matter"
 msgstr "Не важно"
 
-#: mrim.c:595
+#: mrim.c:596
 msgid "Age from"
 msgstr "Возраст от"
 
-#: mrim.c:597
+#: mrim.c:598
 msgid "Age up to"
 msgstr "Возраст до"
 
-#: mrim.c:601
+#: mrim.c:602
 msgid "Online"
 msgstr "В сети"
 
-#: mrim.c:603
+#: mrim.c:604
 msgid "Buddies search"
 msgstr "Поиск пользователей"
 
-#: mrim.c:604
+#: mrim.c:605
 msgid "_Search"
 msgstr "_Искать"
 
-#: mrim.c:644
+#: mrim.c:645
 msgid "Micropost"
 msgstr "Микропост"
 
-#: mrim.c:647
+#: mrim.c:648
 msgid "_Post"
 msgstr "_Отправить"
 
-#: mrim.c:656
+#: mrim.c:657
 msgid "Post microblog record..."
 msgstr "Написать запись в микроблог..."
 
-#: mrim.c:658
+#: mrim.c:659
 msgid "Search for buddies..."
 msgstr "Искать пользователей..."
 
-#: mrim.c:840
+#: mrim.c:841
 msgid "Server"
 msgstr "Сервер"
 
-#: mrim.c:842
+#: mrim.c:843
 msgid "Port"
 msgstr "Порт"
 
-#: mrim.c:844
+#: mrim.c:845
 msgid "Load userpics"
 msgstr "Загружать фото контактов"
 
-#: mrim.c:846
+#: mrim.c:847
+msgid "Micropost notify"
+msgstr "Уведомлять о микроблогах"
+
+#: mrim.c:849
 msgid "Use custom user agent string"
 msgstr "Указать описание программы пользователя вручную"
 
-#: mrim.c:848
+#: mrim.c:851
 msgid "Custom user agent"
 msgstr "Строка описания программы пользователя"
 
@@ -369,7 +376,7 @@ msgstr "Название"
 msgid "Tune album"
 msgstr "Альбом"
 
-#: statuses.c:166 statuses.c:167 statuses.c:168
+#: statuses.c:167 statuses.c:168 statuses.c:169
 msgid "Unknown"
 msgstr "Неизвестно"
 
@@ -398,145 +405,145 @@ msgstr "%s (версии %s, сборка %s)"
 msgid "%s (version %s)"
 msgstr "%s (версии %s)"
 
-#: cl.h:79
+#: cl.h:80
 msgid "Aries"
 msgstr "Овен"
 
-#: cl.h:80
+#: cl.h:81
 msgid "Taurus"
 msgstr "Телец"
 
-#: cl.h:81
+#: cl.h:82
 msgid "Gemini"
 msgstr "Близнецы"
 
-#: cl.h:82
+#: cl.h:83
 msgid "Cancer"
 msgstr "Рак"
 
-#: cl.h:83
+#: cl.h:84
 msgid "Leo"
 msgstr "Лев"
 
-#: cl.h:84
+#: cl.h:85
 msgid "Virgo"
 msgstr "Дева"
 
-#: cl.h:85
+#: cl.h:86
 msgid "Libra"
 msgstr "Весы"
 
-#: cl.h:86
+#: cl.h:87
 msgid "Scorpius"
 msgstr "Скорпион"
 
-#: cl.h:87
+#: cl.h:88
 msgid "Sagittarius"
 msgstr "Стрелец"
 
-#: cl.h:88
+#: cl.h:89
 msgid "Capricornus"
 msgstr "Козерог"
 
-#: cl.h:89
+#: cl.h:90
 msgid "Aquarius"
 msgstr "Водолей"
 
-#: cl.h:90
+#: cl.h:91
 msgid "Pisces"
 msgstr "Рыбы"
 
-#: cl.h:98
+#: cl.h:99
 msgid "Birthday"
 msgstr "Дата рождения"
 
-#: cl.h:99
+#: cl.h:100
 msgid "Location"
 msgstr "Местоположение"
 
-#: cl.h:100
+#: cl.h:101
 msgid "Zodiac"
 msgstr "Знак зодиака"
 
-#: cl.h:101
+#: cl.h:102
 msgid "Phone"
 msgstr "Телефон"
 
-#: cl.h:102
+#: cl.h:103
 msgid "status_uri"
 msgstr "Значок состояния"
 
-#: cl.h:103
+#: cl.h:104
 msgid "status_title"
 msgstr "Состояние"
 
-#: cl.h:104
+#: cl.h:105
 msgid "status_desc"
 msgstr "Описание состояния"
 
-#: cl.h:105
+#: cl.h:106
 msgid "ua_features"
 msgstr "Возможности клиента"
 
-#: mrim.h:99
+#: mrim.h:100
 msgid "Mail.ru Agent for Windows"
 msgstr "Mail.ru Агент для Windows"
 
-#: mrim.h:100
+#: mrim.h:101
 msgid "Mail.ru Agent for Java"
 msgstr "Mail.ru Агент для Java"
 
-#: mrim.h:101
+#: mrim.h:102
 msgid "Mail.ru Agent for Android"
 msgstr "Mail.ru Агент для Android"
 
-#: mrim.h:102
+#: mrim.h:103
 msgid "Web-Agent@Mail.ru"
 msgstr "Веб-Агент@Mail.Ru"
 
-#: mrim.h:103
+#: mrim.h:104
 msgid "Mail.ru Agent for Symbian"
 msgstr "Mail.ru Агент для Symbian"
 
-#: mrim.h:104
+#: mrim.h:105
 msgid "Mail.ru Agent for iPhone"
 msgstr "Mail.ru Агент для iPhone"
 
-#: mrim.h:105
+#: mrim.h:106
 msgid "QIP 2010"
 msgstr "QIP 2010"
 
-#: mrim.h:106
+#: mrim.h:107
 msgid "QIP Infium"
 msgstr "QIP Infium"
 
-#: mrim.h:107
+#: mrim.h:108
 msgid "mrim-prpl"
 msgstr "mrim-prpl"
 
-#: mrim.h:108
+#: mrim.h:109
 msgid "libpurple plugin by lemax1@mail.ru"
 msgstr "Плагин для libpurple от lexmax1@mail.ru"
 
 #: statuses.h:28
-msgid "Offline"
-msgstr "Не в сети"
-
-#: statuses.h:29
 msgid "Available"
 msgstr "В сети"
 
-#: statuses.h:30
+#: statuses.h:29
 msgid "Away"
 msgstr "Отошёл"
 
-#: statuses.h:31
+#: statuses.h:30
 msgid "Unavailable"
 msgstr "Недоступен"
 
-#: statuses.h:32
+#: statuses.h:31
 msgid "Invisible"
 msgstr "Невидимый"
+
+#: statuses.h:32
+msgid "Offline"
+msgstr "Не в сети"
 
 #: statuses.h:42
 msgid "Ready to chat"
@@ -601,6 +608,10 @@ msgstr "Зол"
 #: statuses.h:57
 msgid "In love"
 msgstr "Влюблён"
+
+#: statuses.h:58
+msgid "Music"
+msgstr "Музыка"
 
 #~ msgid "Mood Comment"
 #~ msgstr "Пояснение к настроению"
