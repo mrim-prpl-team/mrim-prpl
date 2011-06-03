@@ -54,7 +54,8 @@ static struct {
 	{ "sad", "status_34", N_("Sad") },
 	{ "crying", "status_35", N_("Crying") },
 	{ "angry", "status_37", N_("Angry") },
-	{ "in_love", "status_40", N_("In love") }
+	{ "in_love", "status_40", N_("In love") },
+	{ "music", "status_53", N_("Music") }
 };
 
 #define MRIM_MOOD_COUNT ARRAY_SIZE(mrim_moods)
@@ -69,7 +70,7 @@ void free_mrim_status(MrimStatus *status);
 MrimStatus *make_mrim_status(guint32 id, gchar *uri, gchar *title, gchar *desc);
 MrimStatus *make_mrim_status_from_purple(PurpleStatus *status);
 void update_buddy_status(PurpleBuddy *buddy);
-void set_buddy_microblog(PurpleBuddy *buddy, gchar *microblog);
+void set_buddy_microblog(MrimData *mrim, PurpleBuddy *buddy, gchar *microblog, guint32 flags);
 void generate_mood_list();
 
 #endif

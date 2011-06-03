@@ -67,6 +67,7 @@ struct _MrimData {
 	MrimStatus *status;
 	gchar *microblog;
 	guint mail_count;
+	gboolean micropost_notify;
 };
 
 #define MRIM_MAIL_RU "mrim.mail.ru"

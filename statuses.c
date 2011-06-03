@@ -190,11 +190,21 @@ void update_buddy_status(PurpleBuddy *buddy) {
 	}
 }
 
-void set_buddy_microblog(PurpleBuddy *buddy, gchar *microblog) {
+void set_buddy_microblog(MrimData *mrim, PurpleBuddy *buddy, gchar *microblog, guint32 flags) {
 	MrimBuddy *mb = buddy->proto_data;
 	if (mb) {
-		g_free(mb->microblog);
-		mb->microblog = g_strdup(microblog);
+		if (flags & MRIM_BLOG_STATUS_UPDATE) {
+			g_free(mb->microblog);
+			mb->microblog = g_strdup(microblog);
+		}
+		if (flags & MRIM_BLOG_STATUS_MUSIC) {
+			g_free(mb->listening);
+			mb->listening = g_strdup(microblog);
+		} else {
+			if (mrim->micropost_notify) {
+				serv_got_im(mrim->gc, mb->email, microblog, PURPLE_MESSAGE_WHISPER, time(NULL));
+			}
+		}
 	}
 }
 

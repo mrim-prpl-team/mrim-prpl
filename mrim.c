@@ -55,6 +55,7 @@ static void mrim_login(PurpleAccount *account) {
 	mrim->password = g_strdup(purple_account_get_password(account));
 	
 	mrim->fetch_avatars = purple_account_get_bool(account, "fetch_avatars", TRUE);
+	mrim->micropost_notify = purple_account_get_bool(account, "micropost_notify", TRUE);
 	
 	mrim->balancer_host = g_strdup(purple_account_get_string(account, "balancer_host", MRIM_MAIL_RU));
 	mrim->balancer_port = purple_account_get_int(account, "balancer_port", MRIM_MAIL_RU_PORT);
@@ -374,9 +375,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 						email, microblog);
 					PurpleBuddy *buddy = purple_find_buddy(mrim->account, email);
 					if (buddy) {
-						if (!(flags & MRIM_BLOG_STATUS_MUSIC)) {
-							set_buddy_microblog(buddy, microblog);
-						}
+						set_buddy_microblog(mrim, buddy, microblog, flags);
 					}
 					g_free(email);
 					g_free(microblog);
@@ -844,6 +843,8 @@ static void init_plugin(PurplePlugin *plugin) {
 	option = purple_account_option_int_new(_("Port"), "balancer_port", MRIM_MAIL_RU_PORT);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option);
 	option = purple_account_option_bool_new(_("Load userpics"), "fetch_avatars", TRUE);
+	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option);
+	option = purple_account_option_bool_new(_("Micropost notify"), "micropost_notify", TRUE);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option);
 	option = purple_account_option_bool_new(_("Use custom user agent string"), "use_custom_user_agent", FALSE);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option);

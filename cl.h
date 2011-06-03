@@ -26,6 +26,7 @@ typedef struct {
 	gchar *user_agent;
 	gchar *microblog;
 	gchar **phones;
+	gchar *listening;
 } MrimBuddy;
 
 typedef struct {
