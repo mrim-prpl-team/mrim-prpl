@@ -844,7 +844,7 @@ static void init_plugin(PurplePlugin *plugin) {
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option);
 	option = purple_account_option_bool_new(_("Load userpics"), "fetch_avatars", TRUE);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option);
-	option = purple_account_option_bool_new(_("Micropost notify"), "micropost_notify", TRUE);
+	option = purple_account_option_bool_new(_("Micropost notify"), "micropost_notify", FALSE);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option);
 	option = purple_account_option_bool_new(_("Use custom user agent string"), "use_custom_user_agent", FALSE);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option);
