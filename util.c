@@ -48,6 +48,7 @@ gboolean is_valid_phone(gchar *phone) {
 }
 
 gchar *mrim_get_ua_alias(gchar *ua) {
+	gchar *ua_received = g_strdup(ua);
 	gchar *client_id = NULL;
 	gchar *client_version = NULL;
 	gchar *client_build = NULL;
@@ -98,7 +99,7 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 	} else if (client_id) {
 		alias = g_strdup(client_title);
 	} else {
-		alias = g_strdup(ua);
+		alias = g_strdup(ua_received);
 	}
 	g_free(client_id);
 	g_free(client_version);
