@@ -54,6 +54,7 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 	gchar *client_build = NULL;
 	gchar *client_ui = NULL;
 	gchar *client_title = NULL;
+	gchar *client_protocol = NULL;
 	gchar *alias;
 	GMatchInfo *match_info;
 	GRegex *regex = g_regex_new("([A-Za-z]*)=\"([^\"]*)\"", 0, 0, NULL);
@@ -69,6 +70,10 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 			client_build = g_strdup(value);
 		} else if (g_strcmp0(key, "ui") == 0) {
 			client_ui = g_strdup(value);
+		} else if (g_strcmp0(key, "name") == 0) {
+			client_title = g_strdup(value);
+		} else if (g_strcmp0(key, "protocol") == 0) {
+			client_protocol = g_strdup(value);
 		}
 		g_free(key);
 		g_free(value);
@@ -76,7 +81,7 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 	}
 	g_match_info_free(match_info);
 	g_regex_unref(regex);
-	if (client_id) {
+	if (client_id && !client_title) {
 		guint i;
 		client_title = client_id;
 		for (i = 0; i < ARRAY_SIZE(ua_titles); i++) {
@@ -85,21 +90,26 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 			}
 		}
 	}
-	if (client_id && client_version && client_build && client_ui) {
-		alias = g_strdup_printf(_("%s with %s (version %s, build %s)"),
-			client_ui, client_title, client_version, client_build);
-	} else if (client_id && client_version && client_ui) {
-		alias = g_strdup_printf(_("%s with %s (version %s)"), client_ui, client_title, client_version);
-	} else if (client_id && client_ui) {
-		alias = g_strdup_printf(_("%s with %s"), client_ui, client_title);
-	} else if (client_id && client_version && client_build) {
-		alias = g_strdup_printf(_("%s (version %s, build %s)"), client_title, client_version, client_build);
-	} else if (client_id && client_version) {
-		alias = g_strdup_printf(_("%s (version %s)"), client_title, client_version);
-	} else if (client_id) {
-		alias = g_strdup(client_title);
+	if (client_id) {
+		if (client_version && client_build && client_ui) {
+			alias = g_strdup_printf(_("%s with %s (version %s, build %s)"),
+				client_ui, client_title, client_version, client_build);
+		} else if (client_version && client_ui) {
+			alias = g_strdup_printf(_("%s with %s (version %s)"), client_ui, client_title, client_version);
+		} else if (client_ui) {
+			alias = g_strdup_printf(_("%s with %s"), client_ui, client_title);
+		} else if (client_version && client_build) {
+			alias = g_strdup_printf(_("%s (version %s, build %s)"), client_title, client_version, client_build);
+		} else if (client_version) {
+			alias = g_strdup_printf(_("%s (version %s)"), client_title, client_version);
+		} else {
+			alias = g_strdup(client_title);
+		};
 	} else {
 		alias = g_strdup(ua_received);
+	}
+	if (client_protocol) {
+		alias = g_strdup_printf("%s; protocol v%s", alias, client_protocol);
 	}
 	g_free(client_id);
 	g_free(client_version);
