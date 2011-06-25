@@ -111,7 +111,7 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 			i++;
 		}
 		if (client_protocol) {
-			infos[i] = g_strdup_printf(_("protocol %s"), client_version);
+			infos[i] = g_strdup_printf(_("protocol version %s"), client_version);
 			i++;
 		}
 		info = g_strjoinv(", ", infos);

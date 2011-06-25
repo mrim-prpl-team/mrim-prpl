@@ -3,27 +3,26 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: mrim-prpl_0.2_underbush-outcreeper\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-03 12:41+0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"POT-Creation-Date: 2011-06-26 02:17+0300\n"
+"PO-Revision-Date: 2011-06-26 02:17+0300\n"
+"Last-Translator: Reslayer <Reslayer@ya.ru>\n"
+"Language-Team: \n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: _;N_;gettext;gettext_noop\n"
+"X-Poedit-Basepath: /home/reslayer/dev/pidgin/mrim-prpl/svn/trunk\n"
+"X-Poedit-SearchPath-0: .\n"
 
 #: cl.c:390
 #, c-format
-msgid ""
-"Unable to add the buddy \"%s\" because the username is invalid.  Usernames "
-"must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru "
-"domains), or valid phone number (start with + and contain only numbers, "
-"spaces and '-'."
+msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and '-'."
 msgstr ""
 
 #: cl.c:391
@@ -35,7 +34,8 @@ msgstr ""
 msgid "Symbols: %d"
 msgstr ""
 
-#: cl.c:572 cl.c:672
+#: cl.c:572
+#: cl.c:672
 msgid "Send SMS"
 msgstr ""
 
@@ -66,7 +66,10 @@ msgstr ""
 msgid "_Send"
 msgstr ""
 
-#: cl.c:673 cl.c:723 mrim.c:606 mrim.c:649
+#: cl.c:673
+#: cl.c:723
+#: mrim.c:606
+#: mrim.c:649
 msgid "_Cancel"
 msgstr ""
 
@@ -98,7 +101,8 @@ msgstr ""
 msgid "Request authorization"
 msgstr ""
 
-#: cl.c:770 cl.c:773
+#: cl.c:770
+#: cl.c:773
 msgid "Send an SMS..."
 msgstr ""
 
@@ -106,19 +110,23 @@ msgstr ""
 msgid "Edit phone numbers..."
 msgstr ""
 
-#: cl.c:783 mrim.c:662
+#: cl.c:783
+#: mrim.c:662
 msgid "MyWorld@Mail.ru"
 msgstr ""
 
-#: cl.c:786 mrim.c:665
+#: cl.c:786
+#: mrim.c:665
 msgid "Photo@Mail.ru"
 msgstr ""
 
-#: cl.c:789 mrim.c:668
+#: cl.c:789
+#: mrim.c:668
 msgid "Video@Mail.ru"
 msgstr ""
 
-#: cl.c:792 mrim.c:671
+#: cl.c:792
+#: mrim.c:671
 msgid "Blogs@Mail.ru"
 msgstr ""
 
@@ -142,7 +150,14 @@ msgstr ""
 msgid "Visibility settings"
 msgstr ""
 
-#: cl.c:822 cl.c:823 cl.c:826 cl.c:827 cl.c:830 cl.c:831 cl.c:834 cl.c:835
+#: cl.c:822
+#: cl.c:823
+#: cl.c:826
+#: cl.c:827
+#: cl.c:830
+#: cl.c:831
+#: cl.c:834
+#: cl.c:835
 msgid "Encountered an error while working on user details!"
 msgstr ""
 
@@ -162,23 +177,29 @@ msgstr ""
 msgid "unknown error"
 msgstr ""
 
-#: cl.c:886 mrim.c:588
+#: cl.c:886
+#: mrim.c:588
 msgid "Male"
 msgstr ""
 
-#: cl.c:886 mrim.c:589
+#: cl.c:886
+#: mrim.c:589
 msgid "Female"
 msgstr ""
 
-#: cl.c:908 cl.c:971
+#: cl.c:908
+#: cl.c:971
 msgid "E-mail"
 msgstr ""
 
-#: cl.c:920 cl.c:1020
+#: cl.c:920
+#: cl.c:1020
 msgid "User agent"
 msgstr ""
 
-#: cl.c:924 cl.c:1024 mrim.c:647
+#: cl.c:924
+#: cl.c:1024
+#: mrim.c:647
 msgid "Microblog"
 msgstr ""
 
@@ -202,31 +223,10 @@ msgstr ""
 msgid "Listening"
 msgstr ""
 
-#: message.c:267 message.c:270 message.c:273 message.c:276
-msgid "SMS"
-msgstr ""
-
-#: message.c:267
-msgid "SMS message sent."
-msgstr ""
-
-#: message.c:270
-msgid "SMS service is not available"
-msgstr ""
-
-#: message.c:273
-msgid "Wrong SMS settings."
-msgstr ""
-
-#: message.c:276
-msgid "Achtung!"
-msgstr ""
-
-#: message.c:276
-msgid "Anyone here?? !"
-msgstr ""
-
-#: mrim.c:75 mrim.c:146 mrim.c:173 mrim.c:259
+#: mrim.c:75
+#: mrim.c:146
+#: mrim.c:173
+#: mrim.c:259
 msgid "Connecting"
 msgstr ""
 
@@ -259,19 +259,23 @@ msgstr ""
 msgid "Bad Package"
 msgstr ""
 
-#: mrim.c:580 cl.h:95
+#: mrim.c:580
+#: cl.h:95
 msgid "Nickname"
 msgstr ""
 
-#: mrim.c:582 cl.h:96
+#: mrim.c:582
+#: cl.h:96
 msgid "FirstName"
 msgstr ""
 
-#: mrim.c:584 cl.h:97
+#: mrim.c:584
+#: cl.h:97
 msgid "LastName"
 msgstr ""
 
-#: mrim.c:586 cl.h:98
+#: mrim.c:586
+#: cl.h:98
 msgid "Sex"
 msgstr ""
 
@@ -339,14 +343,6 @@ msgstr ""
 msgid "Custom user agent"
 msgstr ""
 
-#: package.c:95
-msgid "Read Error!"
-msgstr ""
-
-#: package.c:99
-msgid "Peer closed connection"
-msgstr ""
-
 #: statuses.c:11
 msgid "Message"
 msgstr ""
@@ -367,33 +363,65 @@ msgstr ""
 msgid "Tune album"
 msgstr ""
 
-#: statuses.c:167 statuses.c:168 statuses.c:169
+#: statuses.c:167
+#: statuses.c:168
+#: statuses.c:169
 msgid "Unknown"
 msgstr ""
 
-#: util.c:88
+#: util.c:106
 #, c-format
-msgid "%s with %s (version %s, build %s)"
+msgid "version %s"
 msgstr ""
 
-#: util.c:91
+#: util.c:110
 #, c-format
-msgid "%s with %s (version %s)"
+msgid "build %s"
 msgstr ""
 
-#: util.c:93
+#: util.c:114
+#, c-format
+msgid "protocol version %s"
+msgstr ""
+
+#: util.c:122
 #, c-format
 msgid "%s with %s"
 msgstr ""
 
-#: util.c:95
-#, c-format
-msgid "%s (version %s, build %s)"
+#: message.c:267
+#: message.c:270
+#: message.c:273
+#: message.c:276
+msgid "SMS"
 msgstr ""
 
-#: util.c:97
-#, c-format
-msgid "%s (version %s)"
+#: message.c:267
+msgid "SMS message sent."
+msgstr ""
+
+#: message.c:270
+msgid "SMS service is not available"
+msgstr ""
+
+#: message.c:273
+msgid "Wrong SMS settings."
+msgstr ""
+
+#: message.c:276
+msgid "Achtung!"
+msgstr ""
+
+#: message.c:276
+msgid "Anyone here?? !"
+msgstr ""
+
+#: package.c:95
+msgid "Read Error!"
+msgstr ""
+
+#: package.c:99
+msgid "Peer closed connection"
 msgstr ""
 
 #: cl.h:80
@@ -489,30 +517,31 @@ msgid "Mail.ru Agent for Android"
 msgstr ""
 
 #: mrim.h:103
+#: mrim.h:104
 msgid "Web-Agent@Mail.ru"
 msgstr ""
 
-#: mrim.h:104
+#: mrim.h:105
 msgid "Mail.ru Agent for Symbian"
 msgstr ""
 
-#: mrim.h:105
+#: mrim.h:106
 msgid "Mail.ru Agent for iPhone"
 msgstr ""
 
-#: mrim.h:106
+#: mrim.h:107
 msgid "QIP 2010"
 msgstr ""
 
-#: mrim.h:107
+#: mrim.h:108
 msgid "QIP Infium"
 msgstr ""
 
-#: mrim.h:108
+#: mrim.h:109
 msgid "mrim-prpl"
 msgstr ""
 
-#: mrim.h:109
+#: mrim.h:110
 msgid "libpurple plugin by lemax1@mail.ru"
 msgstr ""
 
@@ -604,14 +633,3 @@ msgstr ""
 msgid "Music"
 msgstr ""
 
-msgid "Web Agent"
-msgstr ""
-
-msgid "version %s"
-msgstr ""
-
-msgid "build %s"
-msgstr ""
-
-msgid "protocol %s"
-msgstr ""
