@@ -70,8 +70,8 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 			client_build = g_strdup(value);
 		} else if (g_strcmp0(key, "ui") == 0) {
 			client_ui = g_strdup(value);
-		} else if (g_strcmp0(key, "name") == 0) {
-			client_title = g_strdup(value);
+		} else if (g_strcmp0(key, "title") == 0) {
+			client_title = g_strdup(_(value));
 		} else if (g_strcmp0(key, "protocol") == 0) {
 			client_protocol = g_strdup(value);
 		}

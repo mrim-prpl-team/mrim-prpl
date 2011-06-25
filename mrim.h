@@ -101,6 +101,7 @@ static struct {
 	{"jagent", N_("Mail.ru Agent for Java")},
 	{"android", N_("Mail.ru Agent for Android")},
 	{"webagent", N_("Web-Agent@Mail.ru")},
+	{"jmp", N_("Web-Agent@Mail.ru")},
 	{"sagent", N_("Mail.ru Agent for Symbian")},
 	{"iphoneagent", N_("Mail.ru Agent for iPhone")},
 	{"QIP 2010", N_("QIP 2010")},

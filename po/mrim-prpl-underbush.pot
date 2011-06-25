@@ -603,3 +603,6 @@ msgstr ""
 #: statuses.h:58
 msgid "Music"
 msgstr ""
+
+msgid "Web Agent"
+msgstr ""

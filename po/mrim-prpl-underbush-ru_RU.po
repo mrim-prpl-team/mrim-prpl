@@ -615,3 +615,6 @@ msgstr "Музыка"
 
 #~ msgid "Mood Comment"
 #~ msgstr "Пояснение к настроению"
+
+msgid "Web Agent"
+msgstr "Веб-агент"
