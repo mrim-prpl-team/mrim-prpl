@@ -618,3 +618,12 @@ msgstr "Музыка"
 
 msgid "Web Agent"
 msgstr "Веб-агент"
+
+msgid "version %s"
+msgstr "версия %s"
+
+msgid "build %s"
+msgstr "сборка %s"
+
+msgid "protocol %s"
+msgstr "версия протокола %s"

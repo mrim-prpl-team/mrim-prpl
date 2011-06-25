@@ -606,3 +606,12 @@ msgstr ""
 
 msgid "Web Agent"
 msgstr ""
+
+msgid "version %s"
+msgstr ""
+
+msgid "build %s"
+msgstr ""
+
+msgid "protocol %s"
+msgstr ""

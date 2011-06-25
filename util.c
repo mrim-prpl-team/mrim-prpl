@@ -59,6 +59,7 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 	GMatchInfo *match_info;
 	GRegex *regex = g_regex_new("([A-Za-z]*)=\"([^\"]*)\"", 0, 0, NULL);
 	g_regex_match(regex, ua, 0, &match_info);
+	guint counter = 0;
 	while (g_match_info_matches(match_info)) {
 		gchar *key = g_match_info_fetch(match_info, 1);
 		gchar *value = g_match_info_fetch(match_info, 2);
@@ -66,14 +67,17 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 			client_id = g_strdup(value);
 		} else if (g_strcmp0(key, "version") == 0) {
 			client_version = g_strdup(value);
+			counter++;
 		} else if (g_strcmp0(key, "build") == 0) {
 			client_build = g_strdup(value);
+			counter++;
 		} else if (g_strcmp0(key, "ui") == 0) {
 			client_ui = g_strdup(value);
 		} else if (g_strcmp0(key, "title") == 0) {
 			client_title = g_strdup(_(value));
 		} else if (g_strcmp0(key, "protocol") == 0) {
 			client_protocol = g_strdup(value);
+			counter++;
 		}
 		g_free(key);
 		g_free(value);
@@ -81,38 +85,52 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 	}
 	g_match_info_free(match_info);
 	g_regex_unref(regex);
-	if (client_id && !client_title) {
+	if (client_id) {
 		guint i;
-		client_title = client_id;
 		for (i = 0; i < ARRAY_SIZE(ua_titles); i++) {
 			if (g_strcmp0(client_id, ua_titles[i].id) == 0) {
 				client_title = _(ua_titles[i].title);
 			}
 		}
-	}
-	if (client_id) {
-		if (client_version && client_build && client_ui) {
-			alias = g_strdup_printf(_("%s with %s (version %s, build %s)"),
-				client_ui, client_title, client_version, client_build);
-		} else if (client_version && client_ui) {
-			alias = g_strdup_printf(_("%s with %s (version %s)"), client_ui, client_title, client_version);
-		} else if (client_ui) {
-			alias = g_strdup_printf(_("%s with %s"), client_ui, client_title);
-		} else if (client_version && client_build) {
-			alias = g_strdup_printf(_("%s (version %s, build %s)"), client_title, client_version, client_build);
-		} else if (client_version) {
-			alias = g_strdup_printf(_("%s (version %s)"), client_title, client_version);
-		} else {
-			alias = g_strdup(client_title);
-		};
+		if (!client_title) {
+			client_title = client_id;
+		}
 	} else {
-		alias = g_strdup(ua_received);
+		client_title = ua_received;
 	}
-	if (client_protocol) {
-		gchar *new_alias = g_strdup_printf(_("%s, protocol v%s"), alias, client_protocol);
-		g_free(alias);
-		alias = new_alias;
+	gchar *info = NULL;
+	if (counter) {
+		gchar **infos = g_new0(gchar*, counter + 1);
+		guint i = 0;
+		if (client_version) {
+			infos[i] = g_strdup_printf(_("version %s"), client_version);
+			i++;
+		}
+		if (client_build) {
+			infos[i] = g_strdup_printf(_("build %s"), client_build);
+			i++;
+		}
+		if (client_protocol) {
+			infos[i] = g_strdup_printf(_("protocol %s"), client_version);
+			i++;
+		}
+		info = g_strjoinv(", ", infos);
+		g_strfreev(infos);
 	}
+	gchar *name = NULL;
+	if (client_ui) {
+		name = g_strdup_printf(_("%s with %s"), client_title, client_ui);
+	} else {
+		name = g_strdup(client_title);
+	}
+	if (info) {
+		gchar *new_name = g_strdup_printf("%s (%s)", name, info);
+		g_free(name);
+		name = new_name;
+	}
+	alias = g_strdup(name);
+	g_free(name);
+	g_free(info);
 	g_free(client_id);
 	g_free(client_version);
 	g_free(client_build);
