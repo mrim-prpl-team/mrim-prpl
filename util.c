@@ -109,11 +109,15 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 		alias = g_strdup(ua_received);
 	}
 	if (client_protocol) {
-		alias = g_strdup_printf("%s; protocol v%s", alias, client_protocol);
+		gchar *new_alias = g_strdup_printf(_("%s, protocol v%s"), alias, client_protocol);
+		g_free(alias);
+		alias = new_alias;
 	}
 	g_free(client_id);
 	g_free(client_version);
 	g_free(client_build);
+	g_free(client_protocol);
 	g_free(client_ui);
+	g_free(ua_received);
 	return alias;
 }
