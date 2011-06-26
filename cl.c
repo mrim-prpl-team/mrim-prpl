@@ -3,6 +3,7 @@
 #include "statuses.h"
 #include "cl.h"
 #include "util.h"
+#include "message.h"
 
 /* Contact list */
 
@@ -113,6 +114,7 @@ void mrim_cl_load(MrimPackage *pack, MrimData *mrim) {
 	guint32 group_count = mrim_package_read_UL(pack);
 	gchar *group_mask = mrim_package_read_LPSA(pack);
 	gchar *buddy_mask = mrim_package_read_LPSA(pack);
+	/* GROUPS */
 	purple_debug_info("mrim-prpl", "[%s] Group count = %i, group mask = '%s', contact mask = '%s'\n", __func__, group_count, group_mask, buddy_mask);
 	{
 		guint32 i;
@@ -136,6 +138,8 @@ void mrim_cl_load(MrimPackage *pack, MrimData *mrim) {
 					free_mrim_buddy(mb);
 					continue;
 				}
+				/* CHATS */
+				/* BUDDIES */
 				purple_debug_info("mrim-prpl", "[%s] New buddy: email = '%s', nick = '%s', flags = 0x%x, status = '%s', UA = '%s', microblog = '%s'\n",
 					__func__, mb->email, mb->alias, mb->flags, mb->status->purple_id, mb->user_agent, mb->microblog);
 				PurpleGroup *group = get_mrim_group(mrim, mb->group_id)->group;
@@ -162,6 +166,7 @@ void mrim_cl_load(MrimPackage *pack, MrimData *mrim) {
 		}
 	}
 	g_free(buddy_mask);
+	/* Purge all obsolete buddies. */
 	{
 		GSList *buddies = purple_find_buddies(mrim->gc->account, NULL);
 		GSList *first = buddies;

@@ -10,13 +10,19 @@ ifndef POPRJ
 POPRJ=${PODIR}${PRJID}
 endif
 
-ifndef CFLAGS
-CFLAGS=`pkg-config purple gtk+-2.0 --cflags` -fPIC -DPIC
+ifndef LIBDIR
+LIBDIR=lib
 endif
 
-ifndef LDFLAGS
-LDFLAGS=`pkg-config purple gtk+-2.0 --libs` -shared -ggdb -fPIC -DPIC
+ifndef FULL_LIBDIR
+FULL_LIBDIR=/usr/${LIBDIR}
 endif
+
+CFLAGS+=`pkg-config purple gtk+-2.0 --cflags` -fPIC -DPIC -std=c99
+#CFLAGS+=-Wall -Wextra -Wconversion -Wsign-conversion -Winit-self -Wunreachable-code --pedantic  -Wstrict-aliasing
+#CFLAGS+= -g -ggdb
+
+LDFLAGS+=`pkg-config purple gtk+-2.0 --libs` -shared -ggdb -fPIC -DPIC
 
 all: compile i18n
 clean:
@@ -24,14 +30,17 @@ clean:
 	rm -f *.o
 	rm -f ${PODIR}*.mo
 install:
-	install -Dm0755 mrim.so /usr/lib/purple-2/mrim.so
+	install -Dm0755 mrim.so  ${DESTDIR}/${FULL_LIBDIR}/purple-2/mrim.so
 	install -Dm0644 pixmaps/mrim16.png  ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/16/mrim.png
 	install -Dm0644 pixmaps/mrim22.png  ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/22/mrim.png
 	install -Dm0644 pixmaps/mrim48.png  ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/48/mrim.png
 	install -Dm0644 ${POPRJ}-ru_RU.mo ${DESTDIR}/usr/share/locale/ru/LC_MESSAGES/${PRJID}.mo
 	install -Dm0644 ${POPRJ}-ru_RU.mo ${DESTDIR}/usr/share/locale/ru_RU/LC_MESSAGES/${PRJID}.mo
 uninstall:
-	rm -f /usr/lib/purple-2/mrim.so
+	rm -f ${DESTDIR}/${FULL_LIBDIR}/purple-2/mrim.so
+	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/16/mrim.png
+	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/22/mrim.png
+	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/48/mrim.png
 compile: mrim.o package.o statuses.o cl.o message.o util.o
 	gcc ${LDFLAGS} -o mrim.so mrim.o package.o statuses.o cl.o message.o util.o
 mrim.o: mrim.c mrim.h statuses.h cl.h message.h package.h config.h

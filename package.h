@@ -3,6 +3,11 @@
 
 #include "mrim.h"
 
+/* manual: http://www.unixwiz.net/techtips/gnu-c-attributes.html */
+#ifndef __GNUC__
+#  define  __attribute__(x)  /*NOTHING*/
+#endif
+
 typedef struct {
 	mrim_packet_header_t *header;
 	gchar *data;
@@ -28,5 +33,6 @@ void mrim_package_add_UL(MrimPackage *pack, guint32 value);
 void mrim_package_add_LPSA(MrimPackage *pack, gchar *string);
 void mrim_package_add_LPSW(MrimPackage *pack, gchar *string);
 void mrim_package_add_UIDL(MrimPackage *pack, gchar *uidl);
+void mrim_package_add_base64(MrimPackage *pack, gchar *fmt, ...) __attribute__((format(printf,2,3)));
 
 #endif

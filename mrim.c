@@ -4,6 +4,8 @@
 #include "message.h"
 #include "package.h"
 
+static gboolean mrim_keep_alive(gpointer data);
+
 /* Plugin loading and unloading */
 
 static void build_default_user_agent() {
@@ -47,7 +49,7 @@ static void mrim_login(PurpleAccount *account) {
 		PURPLE_CONNECTION_SUPPORT_MOODS | PURPLE_CONNECTION_SUPPORT_MOOD_MESSAGES;
 	
 	MrimData *mrim = g_new0(MrimData, 1);
-	mrim->account = account;;
+	mrim->account = account;
 	mrim->gc = gc;
 	gc->proto_data = mrim;
 	
@@ -786,22 +788,25 @@ static PurplePluginProtocolInfo prpl_info = {
 	mrim_send_attention,	/* send_attention */
 	NULL,			/* get_attention_types */
 	#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >=5
-		sizeof(PurplePluginProtocolInfo),	/* struct_size */
+		sizeof(PurplePluginProtocolInfo)	/* struct_size */
 	#else
-		(gpointer)sizeof(PurplePluginProtocolInfo),
+		(gpointer)sizeof(PurplePluginProtocolInfo)
 	#endif
-
 	#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >= 5
-		NULL,					/* get_account_text_table */
+		,NULL					/* get_account_text_table */
 	#endif
 	#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >= 6
-		NULL,					/* initiate_media */
-		NULL,					/* get_media_caps */
+		,NULL,					/* initiate_media */
+		NULL					/* get_media_caps */
 	#endif
 	#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >= 7
-		mrim_get_moods,				/* get_moods */
+		,mrim_get_moods,				/* get_moods */
 		NULL,					/* set_public_alias */
 		NULL					/* get_public_alias */
+	#endif
+	#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >= 8
+		,NULL,					/* add_buddy_with_invite */
+		NULL					/* add_buddies_with_invite */
 	#endif
 };
 

@@ -55,7 +55,7 @@ static mrim_packet_header_t *read_header(MrimData *mrim)
 }
 
 MrimPackage *mrim_package_read(MrimData *mrim) {
-	gsize ret = 0;
+	ssize_t ret = 0;
 	if (mrim->inp_package) {
 		MrimPackage *pack = mrim->inp_package;
 		gsize size = pack->data_size - pack->cur;

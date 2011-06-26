@@ -13,7 +13,7 @@
 #define LOCALEDIR "po"
 #include <glib/gi18n-lib.h>
 
-//#include <sys/socket.h>
+#include <sys/socket.h>
 //#include <netinet/in.h> 
 //#include <arpa/inet.h>
 
@@ -58,7 +58,7 @@ struct _MrimData {
 	int fd;
 	guint32 seq;
 	gpointer inp_package;
-	gint keepalive_timeout;
+	guint keepalive_timeout;
 	gint error_count;
 	GHashTable *groups;
 	GHashTable *acks;
@@ -75,6 +75,7 @@ struct _MrimData {
 //#define MRIM_MAIL_RU_PORT 443
 
 #define MRIM_MAX_ERROR_COUNT 16
+#define MRIM_PRPL_ID "prpl-ostin-mrim-experimental"
 
 #define COM_SUPPORT (FEATURE_FLAG_BASE_SMILES | FEATURE_FLAG_WAKEUP)
 
@@ -110,19 +111,8 @@ static struct {
 	{"mrimprpl", N_("libpurple plugin by lemax1@mail.ru")}
 };
 
-static gboolean plugin_load(PurplePlugin *plugin);
-static gboolean plugin_unload(PurplePlugin *plugin);
-static void plugin_destroy(PurplePlugin *plugin);
-
-static void mrim_login(PurpleAccount *account);
-static void mrim_close(PurpleConnection *gc);
-static gboolean mrim_keep_alive(gpointer data);
-
-GList *mrim_prpl_actions(PurplePlugin *plugin, gpointer context);
-
 void mrim_add_ack_cb(MrimData *mrim, guint32 seq, void (*func)(MrimData *, gpointer, MrimPackage *), gpointer data);
 void mrim_open_myworld_url(gchar *user_name, gchar *fmt);
-
 void mrim_post_microblog_record(MrimData *mrim, gchar *message);
 
 PurplePlugin *mrim_plugin;

@@ -89,7 +89,8 @@ typedef struct mrim_packet_header_t
 // LPS to e-mail ANSI
 // LPS message ANSI/UNICODE (see flags)
 // LPS rtf-formatted message (>=1.1) ???
-
+// chats UL 0x4
+// chats UL 0x1
 
 #define MAX_MULTICAST_RECIPIENTS 50
 
@@ -551,6 +552,14 @@ sBlogStatusSender = lpsBlogStatusSender.ToStringW();
 // LPS:          lps_ip_port ???
 // DWORD[4]      Session_id
 
+// [audio/video]
+// LPS email
+// UL тот самый идентификатор
+// 4 или  6
+// 0
+// LPS IP:PORT;IP:PORT - для видео. Для уадио NULL
+// много мусора
+
 #define MRIM_CS_PROXY_HELLO			0x1046
 // DWORD[4]      Session_id
 
@@ -606,36 +615,55 @@ sBlogStatusSender = lpsBlogStatusSender.ToStringW();
 
 
 // Исходящий аудио звонок
-//#define XXX 1059
+#define MRIM_CS_VOIP_CALL				0x1059
 // C->S
 // LPS email (to)
-// UL ? какой-то идентификатор("мусор"). Может время?
-// UL 5
-// UL 3b
+// UL ? тот самый идентификатор
+// UL 5 (6 для видео)
+// UL 3b (4f для видео)
 // UL 4
-// LPS IP:PORT (свои)
+// LPS IP:PORT (свои). Для видео: IP:PORT;IP:PORT
 // UL 0
-// LPS ???
+// LPS ??? - какой-то повторяющийся идентификатор
 // UL 4
 // UL 1
 
-
-//#define XXX2 1060
+#define MRIM_CS_VOIP_CANCEL				0x1060
 // S->C
+	// тот самый идентификатор в заголовке 3-им двойным словом идёт
 // LPS email
-// UL 3
+// UL 3 (0 при отклонении). 7-согласие на видео
 // UL ? тот же самый идентификатор
-// UL 5
-// UL 0
+// UL 5 (6 для видеозвонка)
+// UL 0 (28h при отклонении)
+// 4 0 0
+// LPS ?? строковый id
+// 4 1
 
-//#define XXX3 1049
-// LPS email
+
+//#define XXX3 1049  - входящий запрос на аудиозвонок
+//   LPS email
 // UL ? тот же самый идентификатор
 // LPS IP:PORT;IP:PORT;IP:PORT;
 
-// 1044 - видеозвонок
-// 1045 - отмена
+//#define XXX3 1032
+// LPS email
+// UL ? тот же самый идентификатор
+// LPS 0 (NULL)
+	//#define XXX3 1032  -- дисконнект по инициативе звонящего
+	// UL 0
+	// LPS email
 
+
+
+
+
+// 1034
+// 0 0 0
+// UL тот самый идентификатор
+// ul
+// lps email
+// ul 2
 
 #define MRIM_CS_LOGIN3                          0x1078
 // LPS login
