@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl_0.2_underbush-outcreeper\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-26 02:17+0300\n"
-"PO-Revision-Date: 2011-06-26 02:17+0300\n"
+"POT-Creation-Date: 2011-06-27 04:19+0300\n"
+"PO-Revision-Date: 2011-06-27 04:19+0300\n"
 "Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -20,326 +20,326 @@ msgstr ""
 "X-Poedit-Basepath: /home/reslayer/dev/pidgin/mrim-prpl/svn/trunk\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: cl.c:390
+#: cl.c:395
 #, c-format
 msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and '-'."
 msgstr ""
 
-#: cl.c:391
+#: cl.c:396
 msgid "Unable to Add"
 msgstr ""
 
-#: cl.c:519
+#: cl.c:524
 #, c-format
 msgid "Symbols: %d"
 msgstr ""
 
-#: cl.c:572
-#: cl.c:672
+#: cl.c:577
+#: cl.c:677
 msgid "Send SMS"
 msgstr ""
 
-#: cl.c:591
+#: cl.c:596
 msgid "Phone:"
 msgstr ""
 
-#: cl.c:606
+#: cl.c:611
 msgid "Translit"
 msgstr ""
 
-#: cl.c:665
+#: cl.c:670
 msgid "Choose phone number"
 msgstr ""
 
-#: cl.c:670
+#: cl.c:675
 msgid "SMS message text"
 msgstr ""
 
-#: cl.c:672
+#: cl.c:677
 msgid ""
 "SMS message should contain not\n"
 "more than 135 symbols in latin\n"
 "or 35 in cyrillic."
 msgstr ""
 
-#: cl.c:673
+#: cl.c:678
 msgid "_Send"
 msgstr ""
 
-#: cl.c:673
-#: cl.c:723
-#: mrim.c:606
-#: mrim.c:649
+#: cl.c:678
+#: cl.c:728
+#: mrim.c:608
+#: mrim.c:651
 msgid "_Cancel"
 msgstr ""
 
-#: cl.c:715
+#: cl.c:720
 msgid "_Main number"
 msgstr ""
 
-#: cl.c:717
+#: cl.c:722
 msgid "S_econd number"
 msgstr ""
 
-#: cl.c:719
+#: cl.c:724
 msgid "_Third number"
 msgstr ""
 
-#: cl.c:721
+#: cl.c:726
 msgid "Phone numbers"
 msgstr ""
 
-#: cl.c:721
+#: cl.c:726
 msgid "Specify numbers as shown: +71234567890"
 msgstr ""
 
-#: cl.c:722
+#: cl.c:727
 msgid "_OK"
 msgstr ""
 
-#: cl.c:764
+#: cl.c:769
 msgid "Request authorization"
 msgstr ""
 
-#: cl.c:770
-#: cl.c:773
+#: cl.c:775
+#: cl.c:778
 msgid "Send an SMS..."
 msgstr ""
 
-#: cl.c:779
+#: cl.c:784
 msgid "Edit phone numbers..."
 msgstr ""
 
-#: cl.c:783
-#: mrim.c:662
+#: cl.c:788
+#: mrim.c:664
 msgid "MyWorld@Mail.ru"
 msgstr ""
 
-#: cl.c:786
-#: mrim.c:665
+#: cl.c:791
+#: mrim.c:667
 msgid "Photo@Mail.ru"
 msgstr ""
 
-#: cl.c:789
-#: mrim.c:668
+#: cl.c:794
+#: mrim.c:670
 msgid "Video@Mail.ru"
 msgstr ""
 
-#: cl.c:792
-#: mrim.c:671
+#: cl.c:797
+#: mrim.c:673
 msgid "Blogs@Mail.ru"
 msgstr ""
 
-#: cl.c:799
+#: cl.c:804
 msgid "Remove from 'Visible to' list"
 msgstr ""
 
-#: cl.c:800
+#: cl.c:805
 msgid "Add to 'Visible to' list"
 msgstr ""
 
-#: cl.c:802
+#: cl.c:807
 msgid "Remove from 'Invisible to' list"
 msgstr ""
 
-#: cl.c:803
+#: cl.c:808
 msgid "Add to 'Invisible to' list"
 msgstr ""
 
-#: cl.c:805
+#: cl.c:810
 msgid "Visibility settings"
 msgstr ""
 
-#: cl.c:822
-#: cl.c:823
-#: cl.c:826
 #: cl.c:827
-#: cl.c:830
+#: cl.c:828
 #: cl.c:831
-#: cl.c:834
+#: cl.c:832
 #: cl.c:835
+#: cl.c:836
+#: cl.c:839
+#: cl.c:840
 msgid "Encountered an error while working on user details!"
 msgstr ""
 
-#: cl.c:823
+#: cl.c:828
 msgid "User not found."
 msgstr ""
 
-#: cl.c:827
+#: cl.c:832
 msgid "DBERR error. Please try later."
 msgstr ""
 
-#: cl.c:831
+#: cl.c:836
 msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
 msgstr ""
 
-#: cl.c:835
+#: cl.c:840
 msgid "unknown error"
 msgstr ""
 
-#: cl.c:886
-#: mrim.c:588
+#: cl.c:891
+#: mrim.c:590
 msgid "Male"
 msgstr ""
 
-#: cl.c:886
-#: mrim.c:589
+#: cl.c:891
+#: mrim.c:591
 msgid "Female"
 msgstr ""
 
-#: cl.c:908
-#: cl.c:971
+#: cl.c:913
+#: cl.c:976
 msgid "E-mail"
 msgstr ""
 
-#: cl.c:920
-#: cl.c:1020
+#: cl.c:925
+#: cl.c:1025
 msgid "User agent"
 msgstr ""
 
-#: cl.c:924
-#: cl.c:1024
-#: mrim.c:647
+#: cl.c:929
+#: cl.c:1029
+#: mrim.c:649
 msgid "Microblog"
 msgstr ""
 
-#: cl.c:941
+#: cl.c:946
 msgid "UserInfo is not available for conferences and phones"
 msgstr ""
 
-#: cl.c:998
+#: cl.c:1003
 msgid "Search results"
 msgstr ""
 
-#: cl.c:1008
+#: cl.c:1013
 msgid "Name"
 msgstr ""
 
-#: cl.c:1013
+#: cl.c:1018
 msgid "Status"
 msgstr ""
 
-#: cl.c:1016
+#: cl.c:1021
 msgid "Listening"
 msgstr ""
 
-#: mrim.c:75
-#: mrim.c:146
-#: mrim.c:173
-#: mrim.c:259
+#: mrim.c:77
+#: mrim.c:148
+#: mrim.c:175
+#: mrim.c:261
 msgid "Connecting"
 msgstr ""
 
-#: mrim.c:149
+#: mrim.c:151
 msgid "Unable to create TCP-connection"
 msgstr ""
 
-#: mrim.c:176
+#: mrim.c:178
 msgid "Unable to write to socket."
 msgstr ""
 
-#: mrim.c:180
+#: mrim.c:182
 #, c-format
 msgid "Unable to connect: %s"
 msgstr ""
 
-#: mrim.c:292
+#: mrim.c:294
 msgid "Logged in from another location."
 msgstr ""
 
-#: mrim.c:294
+#: mrim.c:296
 msgid "Server broke connection."
 msgstr ""
 
-#: mrim.c:480
+#: mrim.c:482
 msgid "Input Error"
 msgstr ""
 
-#: mrim.c:485
+#: mrim.c:487
 msgid "Bad Package"
 msgstr ""
 
-#: mrim.c:580
+#: mrim.c:582
 #: cl.h:95
 msgid "Nickname"
 msgstr ""
 
-#: mrim.c:582
+#: mrim.c:584
 #: cl.h:96
 msgid "FirstName"
 msgstr ""
 
-#: mrim.c:584
+#: mrim.c:586
 #: cl.h:97
 msgid "LastName"
 msgstr ""
 
-#: mrim.c:586
+#: mrim.c:588
 #: cl.h:98
 msgid "Sex"
 msgstr ""
 
-#: mrim.c:587
+#: mrim.c:589
 msgid "No matter"
 msgstr ""
 
-#: mrim.c:596
+#: mrim.c:598
 msgid "Age from"
 msgstr ""
 
-#: mrim.c:598
+#: mrim.c:600
 msgid "Age up to"
 msgstr ""
 
-#: mrim.c:602
+#: mrim.c:604
 msgid "Online"
 msgstr ""
 
-#: mrim.c:604
+#: mrim.c:606
 msgid "Buddies search"
 msgstr ""
 
-#: mrim.c:605
+#: mrim.c:607
 msgid "_Search"
 msgstr ""
 
-#: mrim.c:645
+#: mrim.c:647
 msgid "Micropost"
 msgstr ""
 
-#: mrim.c:648
+#: mrim.c:650
 msgid "_Post"
 msgstr ""
 
-#: mrim.c:657
+#: mrim.c:659
 msgid "Post microblog record..."
 msgstr ""
 
-#: mrim.c:659
+#: mrim.c:661
 msgid "Search for buddies..."
 msgstr ""
 
-#: mrim.c:841
+#: mrim.c:846
 msgid "Server"
 msgstr ""
 
-#: mrim.c:843
+#: mrim.c:848
 msgid "Port"
 msgstr ""
 
-#: mrim.c:845
+#: mrim.c:850
 msgid "Load userpics"
 msgstr ""
 
-#: mrim.c:847
+#: mrim.c:852
 msgid "Micropost notify"
 msgstr ""
 
-#: mrim.c:849
+#: mrim.c:854
 msgid "Use custom user agent string"
 msgstr ""
 
-#: mrim.c:851
+#: mrim.c:856
 msgid "Custom user agent"
 msgstr ""
 
@@ -369,22 +369,22 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: util.c:106
+#: util.c:125
 #, c-format
 msgid "version %s"
 msgstr ""
 
-#: util.c:110
+#: util.c:129
 #, c-format
 msgid "build %s"
 msgstr ""
 
-#: util.c:114
+#: util.c:133
 #, c-format
 msgid "protocol version %s"
 msgstr ""
 
-#: util.c:122
+#: util.c:141
 #, c-format
 msgid "%s with %s"
 msgstr ""
@@ -504,44 +504,44 @@ msgstr ""
 msgid "ua_features"
 msgstr ""
 
-#: mrim.h:100
+#: mrim.h:101
 msgid "Mail.ru Agent for Windows"
 msgstr ""
 
-#: mrim.h:101
+#: mrim.h:102
 msgid "Mail.ru Agent for Java"
 msgstr ""
 
-#: mrim.h:102
+#: mrim.h:103
 msgid "Mail.ru Agent for Android"
 msgstr ""
 
-#: mrim.h:103
 #: mrim.h:104
+#: mrim.h:105
 msgid "Web-Agent@Mail.ru"
 msgstr ""
 
-#: mrim.h:105
+#: mrim.h:106
 msgid "Mail.ru Agent for Symbian"
 msgstr ""
 
-#: mrim.h:106
+#: mrim.h:107
 msgid "Mail.ru Agent for iPhone"
 msgstr ""
 
-#: mrim.h:107
+#: mrim.h:108
 msgid "QIP 2010"
 msgstr ""
 
-#: mrim.h:108
+#: mrim.h:109
 msgid "QIP Infium"
 msgstr ""
 
-#: mrim.h:109
+#: mrim.h:110
 msgid "mrim-prpl"
 msgstr ""
 
-#: mrim.h:110
+#: mrim.h:111
 msgid "libpurple plugin by lemax1@mail.ru"
 msgstr ""
 

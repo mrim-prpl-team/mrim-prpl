@@ -54,10 +54,11 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 	gchar *client_build = NULL;
 	gchar *client_ui = NULL;
 	gchar *client_title = NULL;
+	gchar *client_name = NULL;
 	gchar *client_protocol = NULL;
 	gchar *alias;
 	GMatchInfo *match_info;
-	GRegex *regex = g_regex_new("([A-Za-z]*)=\"([^\"]*)\"", 0, 0, NULL);
+	GRegex *regex = g_regex_new("([A-Za-z]*)=\"([^\"]*?)\"", 0, 0, NULL);
 	g_regex_match(regex, ua, 0, &match_info);
 	guint counter = 0;
 	while (g_match_info_matches(match_info)) {
@@ -73,6 +74,8 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 			counter++;
 		} else if (g_strcmp0(key, "ui") == 0) {
 			client_ui = g_strdup(value);
+		} else if (g_strcmp0(key, "name") == 0) {
+			client_name = g_strdup(_(value));
 		} else if (g_strcmp0(key, "title") == 0) {
 			client_title = g_strdup(_(value));
 		} else if (g_strcmp0(key, "protocol") == 0) {
@@ -85,18 +88,30 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 	}
 	g_match_info_free(match_info);
 	g_regex_unref(regex);
-	if (client_id) {
+	if (client_name) {
+		gchar *new_title = g_strdup(client_name);
+		g_free(client_title);
+		client_title = new_title;
+	} else if (client_id) {
 		guint i;
+		gchar *new_title = NULL;
 		for (i = 0; i < ARRAY_SIZE(ua_titles); i++) {
 			if (g_strcmp0(client_id, ua_titles[i].id) == 0) {
-				client_title = _(ua_titles[i].title);
+				new_title = g_strdup(_(ua_titles[i].title));
+				g_free(client_title);
+				client_title = new_title;
+				break; // Think we should stop it.
 			}
 		}
 		if (!client_title) {
-			client_title = client_id;
+			new_title = g_strdup(_(ua_titles[i].title));
+			g_free(client_title);
+			client_title = new_title;
 		}
 	} else {
-		client_title = ua_received;
+		gchar *new_title = g_strdup(ua_received);
+		g_free(client_title);
+		client_title = new_title;
 	}
 	gchar *info = NULL;
 	if (counter) {
@@ -111,7 +126,7 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 			i++;
 		}
 		if (client_protocol) {
-			infos[i] = g_strdup_printf(_("protocol version %s"), client_version);
+			infos[i] = g_strdup_printf(_("protocol version %s"), client_protocol);
 			i++;
 		}
 		info = g_strjoinv(", ", infos);
@@ -134,6 +149,8 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 	g_free(client_id);
 	g_free(client_version);
 	g_free(client_build);
+	g_free(client_name);
+	g_free(client_title);
 	g_free(client_protocol);
 	g_free(client_ui);
 	g_free(ua_received);
