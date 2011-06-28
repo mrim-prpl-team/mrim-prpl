@@ -88,7 +88,7 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 	}
 	g_match_info_free(match_info);
 	g_regex_unref(regex);
-	if (client_name) {
+	if (client_name && client_id && (g_strcmp0(client_id, MRIM_MAGENT_ID) == 0) ) {
 		gchar *new_title = g_strdup(client_name);
 		g_free(client_title);
 		client_title = new_title;

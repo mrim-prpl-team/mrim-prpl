@@ -94,11 +94,13 @@ typedef struct {
 	gchar *subject;
 } MrimNotifyMailData;
 
+#define MRIM_MAGENT_ID "magent"
+
 static struct {
 	gchar *id;
 	gchar *title;
 } ua_titles[] = {
-	{"magent", N_("Mail.ru Agent for Windows")},
+	{MRIM_MAGENT_ID, N_("Mail.ru Agent for Windows")},
 	{"jagent", N_("Mail.ru Agent for Java")},
 	{"android", N_("Mail.ru Agent for Android")},
 	{"webagent", N_("Web-Agent@Mail.ru")},
