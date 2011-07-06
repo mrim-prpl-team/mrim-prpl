@@ -1018,7 +1018,7 @@ void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gboolean 
 			purple_notify_user_info_add_pair(info, _("Status"), mb->status->display_str);
 		}
 		if (mb->listening) {
-			purple_notify_user_info_add_pair(info, _("Listening"), mb->status->display_str);
+			purple_notify_user_info_add_pair(info, _("Listening"), mb->listening);
 		}
 		if (mb->user_agent) {
 			gchar *tmp = mrim_get_ua_alias(mb->user_agent);
