@@ -158,15 +158,19 @@ MrimStatus *make_mrim_status_from_purple(PurpleStatus *status) {
 	} else {
 		s->id = mrim_statuses[status_index].code;
 		s->uri = g_strdup(mrim_statuses[status_index].uri);
-		if (!s->title) {
+		if (s->title) {
+			s->id = STATUS_USER_DEFINED;
+		} else {
 			s->title = g_strdup(_(mrim_statuses[status_index].title));
 		}
 	}
 	if (s->purple_tune_title || s->purple_tune_album || s->purple_tune_artist) {
-		s->desc = g_strdup_printf("%s - %s - %s",
-			(s->purple_tune_artist && s->purple_tune_artist[0]) ? s->purple_tune_artist : _("Unknown"),
-			(s->purple_tune_album && s->purple_tune_album[0]) ? s->purple_tune_album : _("Unknown"),
-			(s->purple_tune_title && s->purple_tune_title[0]) ? s->purple_tune_title : _("Unknown"));
+		gchar *parts[4] = {NULL, NULL, NULL, NULL};
+		guint i = 0;
+		if (s->purple_tune_artist && s->purple_tune_artist[0]) parts[i++] = s->purple_tune_artist;
+		if (s->purple_tune_album && s->purple_tune_album[0]) parts[i++] = s->purple_tune_album;
+		if (s->purple_tune_title && s->purple_tune_album[0]) parts[i++] = s->purple_tune_title;
+		s->desc = g_strjoinv(" - ", parts);
 	} else {
 		s->desc = NULL;
 	}

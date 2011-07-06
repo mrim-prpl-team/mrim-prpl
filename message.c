@@ -131,6 +131,8 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 	gchar *from = NULL;
 	gchar *date_str = NULL;
 	gchar *boundary = NULL;
+	gchar *charset = NULL;
+	gchar *encoding = NULL;
 	guint32 flags = 0;
 	while (g_match_info_matches(match_info)) {
 		gchar *key = g_match_info_fetch(match_info, 1);
@@ -141,81 +143,56 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 		} else if (g_strcmp0(key, "Date") == 0) {
 			date_str = g_strdup(value);
 		} else if (g_strcmp0(key, "Content-Type") == 0) {
-			boundary = (gchar*)(g_strrstr(value, "boundary=") + strlen("boundary="));
-			boundary = g_strdup_printf("--%s\r\n", boundary);
+			gchar *tmp = g_strrstr(value, "boundary=");
+			if (tmp) {
+				boundary = (gchar*)(tmp + strlen("boundary="));
+				boundary = g_strdup_printf("--%s\r\n", boundary);
+			}
 		} else if (g_strcmp0(key, "X-Mrim-flags") == 0) {
 			sscanf(value, "%x", &flags);
-		}
-		g_free(key);
-		g_free(value);
-		g_match_info_next(match_info, NULL);
-	}
-	g_match_info_free(match_info);
-/*	{
-		gchar **message_attrs = g_strsplit(message_header, "\r\n", 0);
-		gchar **attr = message_attrs;
-		while (*attr) {
-			gchar **split = g_strsplit(*attr, ": ", 2);
-			if (g_strcmp0(split[0], "From") == 0) {
-				from = g_strdup(split[1]);
-			} else if (g_strcmp0(split[0], "Date") == 0) {
-				date_str = g_strdup(split[1]);
-			} else if (g_strcmp0(split[0], "Content-Type") == 0) {
-				boundary = (gchar*)(g_strrstr(split[1], "boundary=") + strlen("boundary="));
-				boundary = g_strdup_printf("--%s\r\n", boundary);
-			} else if (g_strcmp0(split[0], "X-MRIM-Flags") == 0) {
-				sscanf(split[1], "%x", &flags);
-			}
-			g_strfreev(split);
-			attr++;
-		}
-		g_strfreev(message_attrs);
-	} */
-	g_free(message_header);
-	gchar **message_split = g_strsplit(message_body, boundary, 0);
-	g_free(message_body);
-	g_free(boundary);
-	{
-		gchar **split = g_strsplit(message_split[1], "\n\r\n", 2);
-		message_header = split[0];
-		message_body = split[1];
-		g_free(split);
-	}
-	g_strfreev(message_split);
-	gchar *charset = NULL;
-	gchar *encoding = NULL;
-	regex = g_regex_new("([A-Za-z\\-\\_]+):\\s(.+?)\\R", G_REGEX_MULTILINE | G_REGEX_DOTALL, 0, NULL);
-	g_regex_match(regex, message_header, 0, &match_info);
-	while (g_match_info_matches(match_info)) {
-		gchar *key = g_match_info_fetch(match_info, 1);
-		gchar *value = g_match_info_fetch(match_info, 2);
-		purple_debug_info("mrim-prpl", "[%s] '%s' == '%s'\n", __func__, key, value);
-		if (g_strcmp0(key, "Content-Transfer-Encoding") == 0) {
+		} else if (g_strcmp0(key, "Content-Transfer-Encoding") == 0) {
 			encoding = g_strdup(value);
 		} else if (g_strcmp0(key, "Content-Type") == 0) {
-			charset = g_strdup((gchar*)(g_strrstr(value, "charset=") + strlen("charset="))); 
+			gchar *tmp = g_strrstr(value, "charset=");
+			if (tmp) {
+				charset = g_strdup((gchar*)(tmp + strlen("charset="))); 
+			}
 		}
 		g_free(key);
 		g_free(value);
 		g_match_info_next(match_info, NULL);
 	}
 	g_match_info_free(match_info);
-/*	{
-		gchar **message_attrs = g_strsplit(message_header, "\r\n", 0);
-		gchar **attr = message_attrs;
-		while (*attr) {
-			gchar **split = g_strsplit(*attr, ": ", 2);
-			if (g_strcmp0(split[0], "Content-Type") == 0) {
-				charset = g_strdup((gchar*)(g_strrstr(split[1], "charset=") + strlen("charset=")));
-			} else if (g_strcmp0(split[0], "Content-Transfer-Encoding") == 0) {
-				encoding = g_strdup(split[1]);
-			}
-			g_strfreev(split);
-			attr++;
-		}
-		g_strfreev(message_attrs);
-	} */
 	g_free(message_header);
+	if (boundary) {
+		gchar **message_split = g_strsplit(message_body, boundary, 0);
+		g_free(message_body);
+		g_free(boundary);
+		{
+			gchar **split = g_strsplit(message_split[1], "\n\r\n", 2);
+			message_header = split[0];
+			message_body = split[1];
+			g_free(split);
+		}
+		g_strfreev(message_split);
+		regex = g_regex_new("([A-Za-z\\-\\_]+):\\s(.+?)\\R", G_REGEX_MULTILINE | G_REGEX_DOTALL, 0, NULL);
+		g_regex_match(regex, message_header, 0, &match_info);
+		while (g_match_info_matches(match_info)) {
+			gchar *key = g_match_info_fetch(match_info, 1);
+			gchar *value = g_match_info_fetch(match_info, 2);
+			purple_debug_info("mrim-prpl", "[%s] '%s' == '%s'\n", __func__, key, value);
+			if (g_strcmp0(key, "Content-Transfer-Encoding") == 0) {
+				encoding = g_strdup(value);
+			} else if (g_strcmp0(key, "Content-Type") == 0) {
+				charset = g_strdup((gchar*)(g_strrstr(value, "charset=") + strlen("charset="))); 
+			}
+			g_free(key);
+			g_free(value);
+			g_match_info_next(match_info, NULL);
+		}
+		g_match_info_free(match_info);
+		g_free(message_header);
+	}
 	time_t date = mrim_str_to_time(date_str);
 	g_free(date_str);
 	if (flags & MESSAGE_FLAG_AUTHORIZE) { /* TODO: Show auth message and alias */
