@@ -148,15 +148,14 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 				boundary = (gchar*)(tmp + strlen("boundary="));
 				boundary = g_strdup_printf("--%s\r\n", boundary);
 			}
+			tmp = g_strrstr(value, "charset=");
+			if (tmp) {
+				charset = g_strdup((gchar*)(tmp + strlen("charset="))); 
+			}
 		} else if (g_strcmp0(key, "X-Mrim-flags") == 0) {
 			sscanf(value, "%x", &flags);
 		} else if (g_strcmp0(key, "Content-Transfer-Encoding") == 0) {
 			encoding = g_strdup(value);
-		} else if (g_strcmp0(key, "Content-Type") == 0) {
-			gchar *tmp = g_strrstr(value, "charset=");
-			if (tmp) {
-				charset = g_strdup((gchar*)(tmp + strlen("charset="))); 
-			}
 		}
 		g_free(key);
 		g_free(value);
