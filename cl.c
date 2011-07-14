@@ -575,7 +575,7 @@ void blist_gtk_sms_menu_item(PurpleBlistNode *node, gpointer userdata) {
 
 	/* Диалог */
 	GtkWidget *dialog = gtk_dialog_new_with_buttons(_("Send SMS"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+		GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
 	gtk_window_set_default_size((GtkWindow*)dialog, 320, 240);
 	GtkWidget *content_area = gtk_dialog_get_content_area((GtkDialog*)dialog);
 	GtkWidget *hbox;

@@ -646,3 +646,5 @@ msgstr "Музыка"
 #~ msgid "Mood Comment"
 #~ msgstr "Пояснение к настроению"
 
+msgid "QIP Mobile for Android"
+msgstr "QIP Mobile для Android"

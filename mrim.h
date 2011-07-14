@@ -110,7 +110,8 @@ static struct {
 	{"QIP 2010", N_("QIP 2010")},
 	{"QIP Infium", N_("QIP Infium")},
 	{"mrim-prpl", N_("mrim-prpl")},
-	{"mrimprpl", N_("libpurple plugin by lemax1@mail.ru")}
+	{"mrimprpl", N_("libpurple plugin by lemax1@mail.ru")},
+	{"ru.ibb.im.impl.mra.MraAccount", N_("QIP Mobile for Android")}
 };
 
 void mrim_add_ack_cb(MrimData *mrim, guint32 seq, void (*func)(MrimData *, gpointer, MrimPackage *), gpointer data);
