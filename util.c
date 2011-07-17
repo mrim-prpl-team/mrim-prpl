@@ -134,7 +134,7 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 	}
 	gchar *name = NULL;
 	if (client_ui) {
-		name = g_strdup_printf(_("%s with %s"), client_title, client_ui);
+		name = g_strdup_printf(_("%s with %s"), client_ui, client_title);
 	} else {
 		name = g_strdup(client_title);
 	}
