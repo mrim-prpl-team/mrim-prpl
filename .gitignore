@@ -1,0 +1,5 @@
+*.la
+*.so
+*.lo
+*.a
+help.h
