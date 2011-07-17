@@ -6,7 +6,8 @@ env echo -e -n "#ifndef MRIM_CONFIG_H\n#define MRIM_CONFIG_H\n\n" > $CONFIG
 
 env echo -e -n "#define BUILD_NUMBER \"" >> $CONFIG
 # echo -en `svn info | grep Revision | sed "s/Revision: /r/g"` >> $CONFIG
-env echo -e -n `svn info | grep -m 1 -oE ": [0-9]+$" | sed 's/: /r/g'` >> $CONFIG
+# env echo -e -n `svn info | grep -m 1 -oE ": [0-9]+$" | sed 's/: /r/g'` >> $CONFIG
+env echo -e -n `date +git%Y%m%d` >> $CONFIG
 env echo -e -n "\"\n\n" >> $CONFIG
 
 for option in $@; do

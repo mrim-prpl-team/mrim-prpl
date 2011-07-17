@@ -1,7 +1,7 @@
 #ifndef MRIM_CONFIG_H
 #define MRIM_CONFIG_H
 
-#define BUILD_NUMBER "r327"
+#define BUILD_NUMBER "git20110717"
 
 #define ENABLE_GTK
 
