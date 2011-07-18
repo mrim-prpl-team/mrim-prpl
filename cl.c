@@ -1103,11 +1103,11 @@ void mrim_chat_join(PurpleConnection *gc, GHashTable *components)
 	const char *room = g_hash_table_lookup(components, "room");
 	MrimData *mrim = gc->proto_data;
 
-	//if (purple_find_chat(gc, room)) {
+	if (!purple_find_chat(gc, get_chat_id(room))) {
 		purple_debug_info("mrim-prpl", "[%s] %s is joining chat room %s\n", __func__, username, room);
 
-		serv_got_joined_chat(gc, mrim->chat_id++, room);
-	//}
+		serv_got_joined_chat(gc, get_chat_id(room), room);
+	}
 }
 
 void mrim_reject_chat(PurpleConnection *gc, GHashTable *components)
