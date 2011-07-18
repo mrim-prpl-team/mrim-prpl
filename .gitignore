@@ -6,3 +6,5 @@
 *.mo
 help.h
 config.h
+.project
+.cproject
