@@ -1,7 +1,7 @@
 Mail.ru Aganet protocol plugin for Pidgin (libpurple)
 
-Copyright 2010 Antonov Nikolay <ostinru@gmail.com>
-Copyright 2010 Reslayer <Reslayer@mail.ru>
+Copyright 2010-2011 Antonov Nikolay <ostinru@gmail.com>
+Copyright 2010-2011 Reslayer <Reslayer@mail.ru>
 Copyright 2011 KIV <kiv.apple@gmail.com>
 
 This protocol plugin is based on 
@@ -22,7 +22,7 @@ libpurple.
    GPL v2 или выше
 
 Зависимости:
-   libpurple >=2.4.1
+   libpurple >=2.6.0
    gtk+ >= 2.?
    так же используется gettext, pkg-config
    
@@ -35,21 +35,20 @@ libpurple.
 -----------------------
 Для некоторых дистрибутивов уже есть готовые пакеты:
 1) АльтЛинукс  http://www.sisyphus.ru/en/srpm/Sisyphus/pidgin-plugin-mrim/
-2) debian/ubuntu: http://code.google.com/p/mrim-prpl/downloads/list
-А для gentoo - ebuild: http://code.google.com/p/mrim-prpl/downloads/list
+2) debian/ubuntu, mandriva пакеты можно взять со странички:
+      http://code.google.com/p/mrim-prpl/downloads/list
+А для gentoo - добавить оверлей rion, и установить mrim-prpl
 
 Если пакета под Ваш любимый дистрибутив нет, то можно собрать плагин из
 исходников. Для этого:
-0) Делаем бэкап(резервную копию) папки с настройками пиджина ( ~/.purple 
-   или ~/.config/purple/)
 1) Для сборки и установки из исходников понадобятся заголовочные файлы 
    libpurple. (Как их установить - зависит от Вашего дистрибутива.
    Например, для debian и ubuntu: 
        sudo apt-get build-dep pidgin && apt-get install libpurple-dev
     а для Fedora:
         yum install pidgin-devel
-    В gentoo достаточно установить сам пиджин)
-2) make && sudo make install
+    В gentoo достаточно установить сам пиджин
+2) ./configure --gtk && make && sudo make install
 3) Перезапускаем пиджин
 4) В "Учётные записи" - "Manage Accounts" создаём новое подключение к 
    УЖЕ ИМЕЮЩЕМУСЯ аккаунту на mail.ru(list.ru, bk.ru...) (то есть,
