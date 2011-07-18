@@ -140,4 +140,14 @@ void mrim_authorization_yes(gpointer va_data);
 void mrim_authorization_no(gpointer va_data);
 void mrim_send_authorize(MrimData *mrim, gchar *email, gchar *message);
 
+
+void mrim_chat_join(PurpleConnection *gc, GHashTable *components);
+void mrim_reject_chat(PurpleConnection *gc, GHashTable *components);
+char *mrim_get_chat_name(GHashTable *components);
+void mrim_chat_invite(PurpleConnection *gc, int id, const char *message, const char *who);
+void mrim_chat_leave(PurpleConnection *gc, int id);
+PurpleRoomlist *mrim_roomlist_get_list(PurpleConnection *gc);
+void mrim_roomlist_cancel(PurpleRoomlist *list);
+void mrim_roomlist_expand_category(PurpleRoomlist *list,	PurpleRoomlistRoom *category);
+
 #endif

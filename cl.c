@@ -139,6 +139,27 @@ void mrim_cl_load(MrimPackage *pack, MrimData *mrim) {
 					continue;
 				}
 				/* CHATS */
+				if (mb->flags & CONTACT_FLAG_MULTICHAT) {
+					PurpleGroup *group = get_mrim_group(mrim, mb->group_id)->group;
+					PurpleChat *pc = NULL;
+					PurpleChat *old_pc = purple_blist_find_chat(mrim->account, mb->alias);
+					if (old_pc) {
+						pc = old_pc;
+						purple_debug_info("mrim-prpl", "[%s] update chat: %s \n", __func__, mb->email);
+					} else {
+						purple_debug_info("mrim-prpl", "[%s] New chat: %s \n", __func__, mb->email);
+						GHashTable *defaults = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+						g_hash_table_insert(defaults, "room", g_strdup(mb->email));
+						pc = purple_chat_new(mrim->account, mb->email, defaults);
+
+						purple_blist_add_chat(pc, group, NULL);
+						old_pc = purple_blist_find_chat(mrim->account, mb->email);
+						if (!old_pc)
+							purple_debug_info("mrim-prpl", "ERROR\n");
+					}
+					//purple_blist_alias_chat(pc, mb->alias);
+					continue;
+				}
 				/* BUDDIES */
 				purple_debug_info("mrim-prpl", "[%s] New buddy: email = '%s', nick = '%s', flags = 0x%x, status = '%s', UA = '%s', microblog = '%s'\n",
 					__func__, mb->email, mb->alias, mb->flags, mb->status->purple_id, mb->user_agent, mb->microblog);
@@ -1014,6 +1035,12 @@ void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gboolean 
 	}
 	MrimBuddy *mb = buddy->proto_data;
 	if (mb) {
+		if (mb->flags & CONTACT_FLAG_MULTICHAT) {
+			purple_notify_user_info_add_pair(info, _("Account"), buddy->account);
+			purple_notify_user_info_add_pair(info, _("Room"), mb->email);
+			purple_notify_user_info_add_pair(info, _("Alias"), mb->alias);
+			return;
+		}
 		if (mb->status->id != STATUS_OFFLINE) {
 			purple_notify_user_info_add_pair(info, _("Status"), mb->status->display_str);
 		}
@@ -1067,4 +1094,130 @@ void mrim_send_authorize(MrimData *mrim, gchar *email, gchar *message) { /* TODO
 	mrim_package_add_base64(pack, "uss", 2, mrim->nick, message ? message : " ");
 	mrim_package_add_UL(pack, 0);
 	mrim_package_send(pack, mrim);
+}
+
+/* CHATS */
+void mrim_chat_join(PurpleConnection *gc, GHashTable *components)
+{
+	const char *username = gc->account->username;
+	const char *room = g_hash_table_lookup(components, "room");
+	MrimData *mrim = gc->proto_data;
+
+	//if (purple_find_chat(gc, room)) {
+		purple_debug_info("mrim-prpl", "[%s] %s is joining chat room %s\n", __func__, username, room);
+
+		serv_got_joined_chat(gc, mrim->chat_id++, room);
+	//}
+}
+
+void mrim_reject_chat(PurpleConnection *gc, GHashTable *components)
+{
+	const char *room = g_hash_table_lookup(components, "room");
+	purple_debug_info("mrim-prpl", "[%s] room = %s\n", __func__, room);
+}
+
+char *mrim_get_chat_name(GHashTable *components)
+{
+	purple_debug_info("mrim", "%s\n", __func__);
+	const char *str = g_hash_table_lookup(components, "room");
+	return str;
+}
+
+void mrim_chat_invite(PurpleConnection *gc, int id, const char *message, const char *who)
+{
+	purple_debug_info("mrim", "%s\n", __func__);
+
+	const char *username = gc->account->username;
+	PurpleConversation *conv = purple_find_chat(gc, id);
+	const char *room = conv->name;
+	PurpleAccount *to_acct = purple_accounts_find(who, MRIM_PRPL_ID);
+
+	purple_debug_info("mrim", "%s is inviting %s to join chat room %s\n", username, who, room);
+
+	if (to_acct)
+	{
+		PurpleConversation *to_conv = purple_find_chat(to_acct->gc, id);
+		if (to_conv)
+		{
+			char *tmp = g_strdup_printf("%s is already in chat room %s.", who, room);
+			purple_debug_info("mrim", "%s is already in chat room %s; ignoring invitation from %s\n", who, room, username);
+			purple_notify_info(gc, _("Chat invitation"), _("Chat invitation"), tmp);
+			g_free(tmp);
+		}
+		else
+		{
+			GHashTable *components;
+			components = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+			g_hash_table_replace(components, "room", g_strdup(room));
+			g_hash_table_replace(components, "invited_by", g_strdup(username));
+			serv_got_chat_invite(to_acct->gc, room, username, message, components);
+		}
+	}
+}
+
+void mrim_chat_leave(PurpleConnection *gc, int id)
+{
+	PurpleConversation *conv = purple_find_chat(gc, id);
+	purple_debug_info("mrim", "%s is leaving chat room %s\n", gc->account->username, conv->name);
+}
+
+
+PurpleRoomlist *mrim_roomlist_get_list(PurpleConnection *gc)
+{
+	const char *username = gc->account->username;
+	PurpleRoomlist *roomlist = purple_roomlist_new(gc->account);
+	GList *fields = NULL;
+	PurpleRoomlistField *field;
+	GList *chats;
+	GList *seen_ids = NULL;
+
+	purple_debug_info("mrim", "%s asks for room list; returning:\n", username);
+
+	/* set up the room list */
+	field = purple_roomlist_field_new(PURPLE_ROOMLIST_FIELD_STRING, "room",	"room", TRUE /* hidden */);
+	fields = g_list_append(fields, field);
+
+	field = purple_roomlist_field_new(PURPLE_ROOMLIST_FIELD_INT, "Id", "Id", FALSE);
+	fields = g_list_append(fields, field);
+
+	purple_roomlist_set_fields(roomlist, fields);
+
+	/* add each chat room. the chat ids are cached in seen_ids so that each room
+	 * is only returned once, even if multiple users are in it. */
+	for (chats = purple_get_chats(); chats; chats = g_list_next(chats))
+	{
+		PurpleConversation *conv = (PurpleConversation *) chats->data;
+		PurpleRoomlistRoom *room;
+		const char *name = conv->name;
+		int id = purple_conversation_get_chat_data(conv)->id;
+
+		/* have we already added this room? */
+		if (g_list_find_custom(seen_ids, name, (GCompareFunc) strcmp))
+			continue; /* yes! try the next one. */
+
+		/* This cast is OK because this list is only staying around for the life
+		 * of this function and none of the conversations are being deleted
+		 * in that timespan. */
+		seen_ids = g_list_prepend(seen_ids, (char *) name); /* no, it's new. */
+		purple_debug_info("mrim", "%s (%d), ", name, id);
+
+		room = purple_roomlist_room_new(PURPLE_ROOMLIST_ROOMTYPE_ROOM, name, NULL);
+		purple_roomlist_room_add_field(roomlist, room, name);
+		purple_roomlist_room_add_field(roomlist, room, &id);
+		purple_roomlist_room_add(roomlist, room);
+	}
+
+	g_list_free(seen_ids);
+	//purple_timeout_add(1 /* ms */, nullprpl_finish_get_roomlist, roomlist);
+	return roomlist;
+}
+
+void mrim_roomlist_cancel(PurpleRoomlist *list)
+{
+	purple_debug_info("mrim", "%s asked to cancel room list request\n",	list->account->username);
+}
+
+void mrim_roomlist_expand_category(PurpleRoomlist *list,	PurpleRoomlistRoom *category)
+{
+	purple_debug_info("mrim", "%s asked to expand room list category %s\n", list->account->username, category->name);
 }

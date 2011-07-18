@@ -691,6 +691,30 @@ GList *mrim_prpl_actions(PurplePlugin *plugin, gpointer context) {
 	actions = g_list_append(actions, action);
 	return actions;
 }
+/* Chat config */
+static GList *mrim_chat_info(PurpleConnection *gc)
+{
+	GList *list = NULL;
+	struct proto_chat_entry *pce;
+
+	pce = g_new0(struct proto_chat_entry, 1);
+	pce->label = _("_Room:");
+	pce->identifier = "room";
+	pce->required = TRUE;
+	list = g_list_append(list, pce);
+
+	return list; /* config options GList */
+}
+
+GHashTable *mrim_chat_info_defaults(PurpleConnection *gc, const char *chat_name)
+{
+	purple_debug_info("mrim", "%s\n", __func__);
+
+	GHashTable *defaults;
+	defaults = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+	g_hash_table_insert(defaults, "room", g_strdup(chat_name));
+	return defaults;
+}
 
 /* Some other functions */
 
@@ -748,8 +772,8 @@ static PurplePluginProtocolInfo prpl_info = {
 	mrim_tooltip_text,	/* tooltip_text */
 	mrim_status_types,	/* status_types */
 	mrim_user_actions,	/* user_actions */
-	NULL,			/* chat_info */
-	NULL,			/* chat_info_defaults */
+	mrim_chat_info,		/* chat_info */
+	mrim_chat_info_defaults,/* chat_info_defaults */
 	mrim_login,		/* login */
 	mrim_close,		/* close */
 	mrim_send_im,		/* send_im */
@@ -768,13 +792,13 @@ static PurplePluginProtocolInfo prpl_info = {
 	NULL,			/* rem_permit */
 	NULL,			/* rem_deny */
 	NULL,			/* set_permit_deny */
-	NULL,			/* chat_join */
+	mrim_chat_join,	/* chat_join */
 	NULL,			/* reject_chat */
 	NULL,			/* get_chat_name */
 	NULL,			/* chat_invite */
 	NULL,			/* chat_leave */
 	NULL,			/* whisper */
-	NULL,			/* chat_send */
+	mrim_chat_send,	/* chat_send */
 	NULL,			/* keep_alive */
 	NULL,			/* register_user */
 	NULL,			/* get_cb_info */
@@ -835,7 +859,7 @@ static PurplePluginInfo plugin_info = {
 	0,
 	NULL,
 	PURPLE_PRIORITY_DEFAULT,
-	"prpl-ostin-mrim-experimental",
+	MRIM_PRPL_ID,
 	"Mail.ru Agent (experimental)",
 	DISPLAY_VERSION,
 	"Mail.ru Agent protocol plugin",

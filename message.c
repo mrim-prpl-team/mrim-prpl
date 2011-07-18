@@ -107,6 +107,14 @@ void mrim_receive_im(MrimData *mrim, MrimPackage *pack) {
 		serv_got_typing(mrim->gc, from, 10, PURPLE_TYPING);
 	} else if (flags & MESSAGE_FLAG_ALARM) {
 		serv_got_attention(gc, from, 0);
+	} else if (flags & MESSAGE_FLAG_MULTICHAT) {
+		mrim_package_read_UL(pack);
+		mrim_package_read_UL(pack);
+		char *topic = mrim_package_read_LPSA(pack);
+		char *from_user = mrim_package_read_LPSA(pack);
+		PurpleChat *pc = purple_blist_find_chat(mrim->account, from);
+		int id = 0;
+		serv_got_chat_in(gc, id, from_user, PURPLE_MESSAGE_RECV, message, time(NULL));
 	} else {
 		serv_got_im(mrim->gc, from, message, PURPLE_MESSAGE_RECV, time(NULL));
 	}
@@ -262,4 +270,56 @@ void mrim_send_sms(MrimData *mrim, gchar *phone, gchar *message) {
 	mrim_package_add_LPSW(pack, message);
 	mrim_add_ack_cb(mrim, pack->header->seq, mrim_sms_ack, NULL);
 	mrim_package_send(pack, mrim);
+}
+
+
+/* CHATS */
+void mrim_chat_whisper(PurpleConnection *gc, int id, const char *who, const char *message)
+{
+	purple_debug_info("mrim", "%s\n", __func__);
+	const char *username = gc->account->username;
+	PurpleConversation *conv = purple_find_chat(gc, id);
+	purple_debug_info("mrim", "%s receives whisper from %s in chat room %s: %s\n", username, who, conv->name, message);
+
+	/* receive whisper on recipient's account */
+	serv_got_chat_in(gc, id, who, PURPLE_MESSAGE_RECV | PURPLE_MESSAGE_WHISPER, message, time(NULL));
+}
+
+int mrim_chat_send(PurpleConnection *gc, int id, const char *message, PurpleMessageFlags flags)
+{
+	purple_debug_info("mrim", "%s\n", __func__);
+	MrimData *mrim = gc->proto_data;
+	const char *username = gc->account->username;
+	PurpleConversation *conv = purple_find_chat(gc, id);
+
+	if (conv)
+	{
+		MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_MESSAGE);
+		mrim_package_add_UL(pack, MESSAGE_FLAG_NORECV ); /* flags */
+		mrim_package_add_LPSA(pack, conv->name);
+
+		{
+			gchar *msg = purple_markup_strip_html((gchar*)message);
+			mrim_package_add_LPSW(pack, msg);
+			g_free(msg);
+		}
+		mrim_package_add_LPSA(pack, " "); /* TODO: RTF message */
+
+		//mrim_add_ack_cb(mrim, pack->header->seq, mrim_message_ack, NULL);
+		if (mrim_package_send(pack, mrim)) {
+			return 1;
+		} else {
+			return -E2BIG;
+		}
+	}
+	else
+	{
+		purple_debug_info("mrim-prpl", "tried to send message from %s to chat room #%d: %s\n but couldn't find chat room", username, id, message);
+		return -EINVAL; // todo why not -1?
+	}
+}
+
+void mirm_set_chat_topic(PurpleConnection *gc, int id, const char *topic)
+{
+	purple_debug_info("mrim", "%s\n", __func__);
 }
