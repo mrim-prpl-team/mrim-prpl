@@ -42,6 +42,8 @@ uninstall:
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/16/mrim.png
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/22/mrim.png
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/48/mrim.png
+	rm -fv ${DESTDIR}/usr/share/locale/ru/LC_MESSAGES/${PRJID}.mo
+	rm -fv ${DESTDIR}/usr/share/locale/ru_RU/LC_MESSAGES/${PRJID}.mo
 compile: mrim.o package.o statuses.o cl.o message.o util.o
 	gcc ${LDFLAGS} -o libmrim-underbush.so mrim.o package.o statuses.o cl.o message.o util.o
 mrim.o: mrim.c mrim.h statuses.h cl.h message.h package.h config.h
