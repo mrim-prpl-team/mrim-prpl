@@ -600,10 +600,12 @@ sBlogStatusSender = lpsBlogStatusSender.ToStringW();
 
 
 #define MRIM_CS_MICROBLOG_POST 0x1064
+#define MRIM_MICROBLOG_NEW_RECORD 0x1064
 // ??
 // ul 0x09
 // lps message
 #define MRIM_CS_MICROBLOG_RECV 0x1063
+#define MRIM_MICROBLOG_RECORD 0x1063
 // ???
 
 
@@ -667,7 +669,7 @@ sBlogStatusSender = lpsBlogStatusSender.ToStringW();
 
 #define MRIM_CS_LOGIN3                          0x1078
 // LPS login
-// LPS password
+// LPS password (hash)
 // DWORD ??? = ffffffff
 // LPS version
 // locale

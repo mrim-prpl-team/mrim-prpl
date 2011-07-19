@@ -1,5 +1,10 @@
 *.la
 *.so
 *.lo
+*.o
 *.a
+*.mo
 help.h
+config.h
+.project
+.cproject

@@ -156,3 +156,8 @@ gchar *mrim_get_ua_alias(gchar *ua) {
 	g_free(ua_received);
 	return alias;
 }
+
+int get_chat_id(const char *chatname) {
+	return atoi(chatname);
+	// or just  g_str_hash() from <glib.h>
+}
