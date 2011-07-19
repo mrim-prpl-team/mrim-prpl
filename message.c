@@ -88,7 +88,7 @@ void mrim_receive_im(MrimData *mrim, MrimPackage *pack) {
 		mrim_package_add_UL(pack, msg_id);
 		mrim_package_send(pack, mrim);
 	}
-	purple_debug_info("mrim-prpl", "[%s] Received from '%s' message '%s'\n", __func__, from, text);
+	purple_debug_info("mrim-prpl", "[%s] Received from '%s', flags '%x' message '%s'\n", __func__, from, flags, text);
 #if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >5
 	gchar *message = purple_markup_escape_text (text, -1);
 #else
@@ -111,10 +111,10 @@ void mrim_receive_im(MrimData *mrim, MrimPackage *pack) {
 		mrim_package_read_UL(pack);
 		mrim_package_read_UL(pack);
 		char *topic = mrim_package_read_LPSA(pack);
-		char *from_user = mrim_package_read_LPSA(pack);
-		PurpleChat *pc = purple_blist_find_chat(mrim->account, from);
-		int id = 0;
-		serv_got_chat_in(gc, id, from_user, PURPLE_MESSAGE_RECV, message, time(NULL));
+		g_free(topic);
+		char *from_user = mrim_package_read_LPSW(pack);
+		serv_got_chat_in(gc, get_chat_id(from), from_user, PURPLE_MESSAGE_RECV, message, time(NULL));
+		purple_debug_info("mrim-prpl", "[%s] This is chat! id '%i'\n", __func__, get_chat_id(from));
 	} else {
 		serv_got_im(mrim->gc, from, message, PURPLE_MESSAGE_RECV, time(NULL));
 	}

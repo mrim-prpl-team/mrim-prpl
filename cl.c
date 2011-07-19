@@ -142,7 +142,7 @@ void mrim_cl_load(MrimPackage *pack, MrimData *mrim) {
 				if (mb->flags & CONTACT_FLAG_MULTICHAT) {
 					PurpleGroup *group = get_mrim_group(mrim, mb->group_id)->group;
 					PurpleChat *pc = NULL;
-					PurpleChat *old_pc = purple_blist_find_chat(mrim->account, mb->alias);
+					PurpleChat *old_pc = purple_blist_find_chat(mrim->account, mb->email);
 					if (old_pc) {
 						pc = old_pc;
 						purple_debug_info("mrim-prpl", "[%s] update chat: %s \n", __func__, mb->email);
