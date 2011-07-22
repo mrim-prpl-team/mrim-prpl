@@ -1036,7 +1036,7 @@ void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gboolean 
 	MrimBuddy *mb = buddy->proto_data;
 	if (mb) {
 		if (mb->flags & CONTACT_FLAG_MULTICHAT) {
-			purple_notify_user_info_add_pair(info, _("Account"), buddy->account);
+			purple_notify_user_info_add_pair(info, _("Account"), buddy->account->username);
 			purple_notify_user_info_add_pair(info, _("Room"), mb->email);
 			purple_notify_user_info_add_pair(info, _("Alias"), mb->alias);
 			return;

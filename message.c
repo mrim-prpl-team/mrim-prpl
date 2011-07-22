@@ -305,6 +305,7 @@ int mrim_chat_send(PurpleConnection *gc, int id, const char *message, PurpleMess
 		}
 		mrim_package_add_LPSA(pack, " "); /* TODO: RTF message */
 
+		serv_got_chat_in(gc, id, mrim->user_name, PURPLE_MESSAGE_SEND, message, time(NULL));
 		//mrim_add_ack_cb(mrim, pack->header->seq, mrim_message_ack, NULL);
 		if (mrim_package_send(pack, mrim)) {
 			return 1;
