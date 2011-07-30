@@ -17,7 +17,7 @@ int mrim_send_im(PurpleConnection *gc, const char *to, const char *message, Purp
 		if (!is_valid_phone((gchar*)to)) {
 			purple_debug_info("mrim-prpl", "[%s] Send to buddy '%s' message '%s'\n", __func__, to, message);
 			MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_MESSAGE);
-			mrim_package_add_UL(pack, 0); /* flags */
+			mrim_package_add_UL(pack, MESSAGE_FLAG_v1p16); /* flags */
 			mrim_package_add_LPSA(pack, (gchar*)to);
 			{
 				gchar *msg = purple_markup_strip_html((gchar*)message);
