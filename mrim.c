@@ -287,7 +287,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 					mrim_package_add_LPSA(pack, "ru");
 					mrim_package_add_UL(pack, 0);
 					mrim_package_add_UL(pack, 0);
-					mrim_package_add_LPSA(pack, " ");
+					mrim_package_add_LPSA(pack, "mrim-prpl");
 					mrim_package_send(pack, mrim);
 					break;
 				}
@@ -670,7 +670,7 @@ void mrim_microblog_action(PurplePluginAction *action) {
 	fields = purple_request_fields_new();
 	group = purple_request_field_group_new(NULL);
 	purple_request_fields_add_group(fields, group);
-	field = purple_request_field_string_new("text_box_micropost", _("Micropost"), "", FALSE);
+	field = purple_request_field_string_new("text_box_micropost", _("Micropost"), mrim->microblog, FALSE);
 	purple_request_field_group_add_field(group, field);
 	purple_request_fields(mrim->gc, _("Microblog"), NULL, NULL, fields,
 			_("_Post"), G_CALLBACK(mrim_post_microblog_submit),
