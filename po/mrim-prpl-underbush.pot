@@ -633,3 +633,12 @@ msgstr ""
 msgid "Music"
 msgstr ""
 
+msgid "Invalid login or password"
+msgstr ""
+
+msgid "Access denied"
+msgstr ""
+
+msgid "Service unavailable"
+msgstr ""
+

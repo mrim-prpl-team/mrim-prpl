@@ -648,3 +648,12 @@ msgstr "Музыка"
 
 msgid "QIP Mobile for Android"
 msgstr "QIP Mobile для Android"
+
+msgid "Invalid login or password"
+msgstr "Неверный логин или пароль"
+
+msgid "Access denied"
+msgstr "Доступ запрещён"
+
+msgid "Service unavailable"
+msgstr "Сервис временно недоступен"

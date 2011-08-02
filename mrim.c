@@ -298,6 +298,16 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 			case MRIM_CS_LOGIN_REJ:
 				purple_debug_info("mrim-prpl", "[%s] MRIM_CS_LOGIN_REJ\n", __func__);
 				gchar *reason = mrim_package_read_LPSA(pack);
+				if (g_strcmp0(reason, "Invalid login") == 0) {
+					g_free(reason);
+					reason = g_strdup(_("Invalid login or password"));
+				} else if (g_strcmp0(reason, "Access denied") == 0) {
+					g_free(reason);
+					reason = g_strdup(_("Access denied"));
+				} else if  (g_strcmp0(reason, "Database error") == 0) {
+					g_free(reason);
+					reason = g_strdup(_("Service unavailable"));
+				}
 				purple_connection_error_reason (gc, PURPLE_CONNECTION_ERROR_AUTHENTICATION_FAILED, reason);
 				g_free(reason);
 				break;
