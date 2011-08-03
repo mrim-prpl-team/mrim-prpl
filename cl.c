@@ -1107,6 +1107,15 @@ void mrim_chat_join(PurpleConnection *gc, GHashTable *components)
 		purple_debug_info("mrim-prpl", "[%s] %s is joining chat room %s\n", __func__, username, room);
 
 		serv_got_joined_chat(gc, get_chat_id(room), room);
+		// Get users list
+		MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_MESSAGE);
+		mrim_package_add_UL(pack, MESSAGE_FLAG_MULTICHAT );
+		mrim_package_add_LPSA(pack, room);
+		mrim_package_add_UL(pack, 0);
+		mrim_package_add_UL(pack, 0);
+		mrim_package_add_UL(pack, 4);
+		mrim_package_add_UL(pack, MULTICHAT_GET_MEMBERS);
+		mrim_package_send(pack, mrim);
 	}
 }
 

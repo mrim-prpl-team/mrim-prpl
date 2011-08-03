@@ -113,7 +113,7 @@ typedef struct mrim_packet_header_t
 //  				LPS auth_request_text UNICODE
 //  				[ LPS miltichat_data ] (>= 1.20) - MESSAGE_FLAG_MULTICHAT
 //					UL type
-//  				LPS multichat_name
+//  				LPS multichat_name (topic)
 //  				switch(type) {
 //  					MULTICHAT_MESSAGE {  LPS sender }
 //  					MULTICHAT_MEMBERS {  CLPS members  [ LPS owner ]  }

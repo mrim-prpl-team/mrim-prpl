@@ -67,6 +67,34 @@ gboolean mrim_send_attention(PurpleConnection  *gc, const char *username, guint 
 	return TRUE;
 }
 
+void mrim_receive_im_chat(MrimData *mrim, MrimPackage *pack, guint32 msg_id, guint32 flags, gchar *room, gchar *message)
+{
+	PurpleConnection *gc = mrim->gc;
+	if (flags)
+	{
+		// LPS ??? MULTICHAT DATA = NULL
+		// UL MULTICHAT_GET_MEMBERS
+		// LPS topic
+
+		// UL (CLPS HEADER - just skip it)
+		// UL count
+			// LPS - members
+
+
+
+
+	}
+	gchar *rtf  = mrim_package_read_LPSA(pack); // rtf
+	mrim_package_read_UL(pack);
+	mrim_package_read_UL(pack);
+	char *topic = mrim_package_read_LPSW(pack);
+	char *from_user = mrim_package_read_LPSA(pack);
+	serv_got_chat_in(gc, get_chat_id(room), from_user, PURPLE_MESSAGE_RECV, message, time(NULL));
+	purple_debug_info("mrim-prpl", "[%s] This is chat! id '%i'\n", __func__, get_chat_id(room));
+	g_free(rtf);
+	g_free(topic);
+}
+
 void mrim_receive_im(MrimData *mrim, MrimPackage *pack) {
 	g_return_if_fail(mrim);
 	g_return_if_fail(pack);
@@ -108,13 +136,7 @@ void mrim_receive_im(MrimData *mrim, MrimPackage *pack) {
 	} else if (flags & MESSAGE_FLAG_ALARM) {
 		serv_got_attention(gc, from, 0);
 	} else if (flags & MESSAGE_FLAG_MULTICHAT) {
-		mrim_package_read_UL(pack);
-		mrim_package_read_UL(pack);
-		char *topic = mrim_package_read_LPSA(pack);
-		g_free(topic);
-		char *from_user = mrim_package_read_LPSW(pack);
-		serv_got_chat_in(gc, get_chat_id(from), from_user, PURPLE_MESSAGE_RECV, message, time(NULL));
-		purple_debug_info("mrim-prpl", "[%s] This is chat! id '%i'\n", __func__, get_chat_id(from));
+		mrim_receive_im_chat(mrim, pack, msg_id, flags, from, message);
 	} else {
 		serv_got_im(mrim->gc, from, message, PURPLE_MESSAGE_RECV, time(NULL));
 	}
