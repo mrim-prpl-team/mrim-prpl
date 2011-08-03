@@ -8,7 +8,7 @@
 
 #include <glib.h>
 #define PROTO_VERSION_MAJOR     1
-#define PROTO_VERSION_MINOR     20
+#define PROTO_VERSION_MINOR     22
 #define PROTO_VERSION ((((guint32)(PROTO_VERSION_MAJOR))<<16)|(guint32)(PROTO_VERSION_MINOR))
 
 #define PROTO_MAJOR(p) (((p)&0xFFFF0000)>>16)
@@ -75,7 +75,6 @@ typedef struct mrim_packet_header_t
 	#define MESSAGE_FLAG_v1p16			0x00100000 // для перекодировки юникода
 	#define MESSAGE_FLAG_CP1251			0x00200000
 	#define MESSAGE_FLAG_MULTICHAT  	0x00400000
-	#define MESSAGE_FLAG_CONFERENCE		0x00400000
 	#define MESSAGE_USERFLAGS_MASK      0x000036A8 // Flags that user is allowed to set himself 
 	// ???
 	#define MULTICHAT_MESSAGE  0
@@ -89,8 +88,6 @@ typedef struct mrim_packet_header_t
 // LPS to e-mail ANSI
 // LPS message ANSI/UNICODE (see flags)
 // LPS rtf-formatted message (>=1.1) ???
-// chats UL 0x4
-// chats UL 0x1
 
 #define MAX_MULTICAST_RECIPIENTS 50
 

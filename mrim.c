@@ -18,7 +18,6 @@
 #include "cl.h"
 #include "statuses.h"
 #include "message.h"
-#include "package.h"
 
 static gboolean mrim_keep_alive(gpointer data);
 
@@ -277,7 +276,12 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 					purple_connection_update_progress(gc, _("Connecting"), 4, 5);
 					MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_LOGIN2);
 					mrim_package_add_LPSA(pack, mrim->user_name);
-					mrim_package_add_LPSA(pack, mrim->password);
+					// password
+					char *md5 = md5sum(mrim->password);
+					mrim_package_add_UL(pack, 16); // md5sum len
+					mrim_package_add_raw(pack, md5, 16);
+					free(md5);
+					//mrim_package_add_LPSA(pack, mrim->password);
 					mrim_package_add_UL(pack, mrim->status->id);
 					mrim_package_add_LPSA(pack, mrim->status->uri);
 					mrim_package_add_LPSW(pack, mrim->status->title);

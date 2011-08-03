@@ -1125,14 +1125,14 @@ char *mrim_get_chat_name(GHashTable *components)
 
 void mrim_chat_invite(PurpleConnection *gc, int id, const char *message, const char *who)
 {
-	purple_debug_info("mrim", "%s\n", __func__);
+	purple_debug_info("mrim-prpl", "%s\n", __func__);
 
 	const char *username = gc->account->username;
 	PurpleConversation *conv = purple_find_chat(gc, id);
 	const char *room = conv->name;
 	PurpleAccount *to_acct = purple_accounts_find(who, MRIM_PRPL_ID);
 
-	purple_debug_info("mrim", "%s is inviting %s to join chat room %s\n", username, who, room);
+	purple_debug_info("mrim-prpl", "%s is inviting %s to join chat room %s\n", username, who, room);
 
 	if (to_acct)
 	{
@@ -1158,7 +1158,7 @@ void mrim_chat_invite(PurpleConnection *gc, int id, const char *message, const c
 void mrim_chat_leave(PurpleConnection *gc, int id)
 {
 	PurpleConversation *conv = purple_find_chat(gc, id);
-	purple_debug_info("mrim", "%s is leaving chat room %s\n", gc->account->username, conv->name);
+	purple_debug_info("mrim-prpl", "%s is leaving chat room %s\n", gc->account->username, conv->name);
 }
 
 
@@ -1171,7 +1171,7 @@ PurpleRoomlist *mrim_roomlist_get_list(PurpleConnection *gc)
 	GList *chats;
 	GList *seen_ids = NULL;
 
-	purple_debug_info("mrim", "%s asks for room list; returning:\n", username);
+	purple_debug_info("mrim-prpl", "%s asks for room list; returning:\n", username);
 
 	/* set up the room list */
 	field = purple_roomlist_field_new(PURPLE_ROOMLIST_FIELD_STRING, "room",	"room", TRUE /* hidden */);
@@ -1214,10 +1214,10 @@ PurpleRoomlist *mrim_roomlist_get_list(PurpleConnection *gc)
 
 void mrim_roomlist_cancel(PurpleRoomlist *list)
 {
-	purple_debug_info("mrim", "%s asked to cancel room list request\n",	list->account->username);
+	purple_debug_info("mrim-prpl", "%s asked to cancel room list request\n",	list->account->username);
 }
 
 void mrim_roomlist_expand_category(PurpleRoomlist *list,	PurpleRoomlistRoom *category)
 {
-	purple_debug_info("mrim", "%s asked to expand room list category %s\n", list->account->username, category->name);
+	purple_debug_info("mrim-prpl", "%s asked to expand room list category %s\n", list->account->username, category->name);
 }

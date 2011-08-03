@@ -19,6 +19,7 @@
 
 // libpurple
 #include "accountopt.h"
+#include "cipher.h"
 #include "conversation.h"
 #include "core.h"
 #include "debug.h"
@@ -80,6 +81,7 @@ struct _MrimData {
 #define COM_SUPPORT (FEATURE_FLAG_BASE_SMILES | FEATURE_FLAG_WAKEUP)
 
 #include "package.h"
+#include "mrim-util.h"
 
 typedef struct _MrimAck MrimAck;
 struct _MrimAck {
