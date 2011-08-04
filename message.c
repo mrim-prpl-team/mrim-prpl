@@ -70,21 +70,16 @@ gboolean mrim_send_attention(PurpleConnection  *gc, const char *username, guint 
 void mrim_receive_im_chat(MrimData *mrim, MrimPackage *pack, guint32 msg_id, guint32 flags, gchar *room, gchar *message)
 {
 	PurpleConnection *gc = mrim->gc;
-	if (flags)
-	{
-		// LPS ??? MULTICHAT DATA = NULL
-		// UL MULTICHAT_GET_MEMBERS
-		// LPS topic
-
-		// UL (CLPS HEADER - just skip it)
-		// UL count
-			// LPS - members
-
-
-
-
-	}
 	gchar *rtf  = mrim_package_read_LPSA(pack); // rtf
+
+	// handle chat-specific functions
+	MrimAck *ack = g_hash_table_lookup(mrim->acks, GUINT_TO_POINTER(msg_id));
+	if (ack) {
+		ack->func(mrim, ack->data, pack);
+		g_hash_table_remove(mrim->acks, GUINT_TO_POINTER(msg_id));
+		return;
+	}
+	// just chat message
 	mrim_package_read_UL(pack);
 	mrim_package_read_UL(pack);
 	char *topic = mrim_package_read_LPSW(pack);

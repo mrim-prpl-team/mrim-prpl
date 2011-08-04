@@ -482,8 +482,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 				break;
 			default:
 				{
-					MrimAck *ack = g_hash_table_lookup(mrim->acks,
-						GUINT_TO_POINTER(pack->header->seq));
+					MrimAck *ack = g_hash_table_lookup(mrim->acks, GUINT_TO_POINTER(pack->header->seq));
 					if (ack) {
 						ack->func(mrim, ack->data, pack);
 						g_hash_table_remove(mrim->acks, GUINT_TO_POINTER(pack->header->seq));

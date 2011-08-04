@@ -492,21 +492,34 @@ sBlogStatusSender = lpsBlogStatusSender.ToStringW();
 //old packet cs_login with cs_statistic
 #define MRIM_CS_LOGIN2		0x1038  // C -> S
 // LPS login e-mail ANSI
-// LPS password ANSI
+// LPS password ANSI (PlainText for LOGIN2)
 // DWORD status
 // LPS spec_status_uri ANSI (>=1.14)   "STATUS_ONLINE" "status_17" -курю
 // LPS X_status_title UNICODE (>=1.14)
 // LPS X_status_desc UNICODE (>=1.14)
 // UL com_support (>=1.14) (see MRIM_CS_USER_STATUS)   0x03FF or 0xFFFFFFFF
 // LPS user_agent ANSI (>=1.14) (see MRIM_CS_USER_STATUS) описание клиента в таком формате: client="название" version="версия" build="сборка"
-
-//	???LPS - язык клиента (стандартно - ru)
-
+// LPS - язык клиента (стандартно - ru)
+// ...
 	// + statistic packet data:
 // LPS client description ANSI - строка с кратким описанием клиента (в произвольном формате)
 	#define MAX_CLIENT_DESCRIPTION 1024
 
 
+#define MRIM_CS_LOGIN3      0x1078  // C -> S
+// LPS login
+// LPS password (hash) (>=1.22 md5, 16byte for LOGIN3)
+// DWORD ??? = ffffffff
+// LPS version
+// locale
+// DWORD ??? = 10000000
+// DWORD ??? = 01000000
+// LPS ??? = geo-list
+// LPS version2
+// for ;;
+    // DWORD[2] id_argument
+    // DWORD ??? = 00000002 || 00000001
+    // DWORD data
 
 
 #define MRIM_CS_SMS       	0x1039  // C -> S
@@ -664,20 +677,7 @@ sBlogStatusSender = lpsBlogStatusSender.ToStringW();
 // lps email
 // ul 2
 
-#define MRIM_CS_LOGIN3                          0x1078
-// LPS login
-// LPS password (hash)
-// DWORD ??? = ffffffff
-// LPS version
-// locale
-// DWORD ??? = 10000000
-// DWORD ??? = 01000000
-// LPS ??? = geo-list
-// LPS version2
-// for ;;
-        // DWORD[2] id_argument
-        // DWORD ??? = 00000002 || 00000001
-        // DWORD data
+
 
 #endif // MRIM_PROTO_H
 

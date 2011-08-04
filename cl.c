@@ -1096,11 +1096,39 @@ void mrim_send_authorize(MrimData *mrim, gchar *email, gchar *message) { /* TODO
 	mrim_package_send(pack, mrim);
 }
 
-/* CHATS */
+/*
+ * CHATS
+ */
+
+// handle MULTICHAT_GET_MEMBERS
+void mrim_chat_blist(MrimData *mrim, gpointer data, MrimPackage *pack)
+{
+	purple_debug_info("mrim-prpl", "[%s] room=<%s>\n", __func__, (gchar*) data);
+	PurpleConversation *conv =  purple_find_chat(mrim->gc, get_chat_id(data));
+	PurpleConvChat *chat = PURPLE_CONV_CHAT(conv);
+
+	mrim_package_read_UL(pack); // todo: wtf?? 0x62
+	mrim_package_read_UL(pack); // todoL wtf?? 0x02 == MULTICHAT_MEMBERS
+	gchar *topic = mrim_package_read_LPSW(pack);
+	mrim_package_read_UL(pack); // todoL wtf?? 0x4c
+	// Set Topic
+	purple_conv_chat_set_topic(chat, NULL, topic);
+	///
+	/// Add users
+	int n = mrim_package_read_UL(pack);
+	for (int i = 0; i<n ; i++)
+	{
+		gchar *username = mrim_package_read_LPSA(pack);
+		purple_conv_chat_add_user(chat, username, NULL, PURPLE_CBFLAGS_NONE, TRUE);
+	}
+	g_free(data);
+}
+
+
 void mrim_chat_join(PurpleConnection *gc, GHashTable *components)
 {
 	const char *username = gc->account->username;
-	const char *room = g_hash_table_lookup(components, "room");
+	gchar *room = g_hash_table_lookup(components, "room");
 	MrimData *mrim = gc->proto_data;
 
 	if (!purple_find_chat(gc, get_chat_id(room))) {
@@ -1108,6 +1136,8 @@ void mrim_chat_join(PurpleConnection *gc, GHashTable *components)
 
 		serv_got_joined_chat(gc, get_chat_id(room), room);
 		// Get users list
+		mrim_add_ack_cb(mrim, mrim->seq, mrim_chat_blist, g_strdup(room));
+
 		MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_MESSAGE);
 		mrim_package_add_UL(pack, MESSAGE_FLAG_MULTICHAT );
 		mrim_package_add_LPSA(pack, room);
