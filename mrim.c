@@ -71,6 +71,9 @@ static void mrim_login(PurpleAccount *account) {
 	
 	mrim->user_name = g_strdup(purple_account_get_username(account));
 	mrim->password = g_strdup(purple_account_get_password(account));
+	if (!is_valid_email(mrim->user_name))
+		purple_connection_error_reason(mrim->gc, PURPLE_CONNECTION_ERROR_INVALID_USERNAME,
+				_("Invalid login: username should have been specified as your_email_login@your_mail_ru_domain. I.e.: foobar@mail.ru"));
 	
 	mrim->fetch_avatars = purple_account_get_bool(account, "fetch_avatars", TRUE);
 	mrim->micropost_notify = purple_account_get_bool(account, "micropost_notify", TRUE);
