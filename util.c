@@ -47,7 +47,10 @@ gboolean is_valid_phone(gchar *phone) {
 	return string_is_match(phone, "([+]{0,1}[0-9]{10,12})");
 }
 
-gchar *mrim_get_ua_alias(gchar *ua) {
+gchar *mrim_get_ua_alias(MrimData *mrim, gchar *ua) {
+	if (purple_account_get_bool(mrim->gc->account, "debug_mode", FALSE)) {
+		return g_strdup(ua);
+	}
 	gchar *ua_received = g_strdup(ua);
 	gchar *client_id = NULL;
 	gchar *client_version = NULL;

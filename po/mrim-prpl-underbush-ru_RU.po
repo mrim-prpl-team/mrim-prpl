@@ -657,3 +657,6 @@ msgstr "Доступ запрещён"
 
 msgid "Service unavailable"
 msgstr "Сервис временно недоступен"
+
+msgid "Enable debug mode"
+msgstr "Включить отладочный режим"

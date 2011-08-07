@@ -207,7 +207,7 @@ void set_buddy_microblog(MrimData *mrim, PurpleBuddy *buddy, gchar *microblog, g
 			g_free(mb->listening);
 			mb->listening = g_strdup(microblog);
 		} else {
-			if (mrim->micropost_notify) {
+			if (purple_account_get_bool(mrim->gc->account, "micropost_notify", FALSE)) {
 				serv_got_im(mrim->gc, mb->email, microblog, PURPLE_MESSAGE_WHISPER, time(NULL));
 			}
 		}

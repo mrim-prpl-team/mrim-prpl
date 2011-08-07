@@ -175,7 +175,7 @@ void mrim_cl_load(MrimPackage *pack, MrimData *mrim) {
 				mb->buddy = buddy;
 				mb->id = id;
 				update_buddy_status(buddy);
-				if (mrim->fetch_avatars) {
+				if (purple_account_get_bool(mrim->gc->account, "fetch_avatars", TRUE)) {
 					if (!(mb->flags & CONTACT_FLAG_PHONE)) {
 						mrim_fetch_avatar(buddy);
 					}
@@ -942,7 +942,7 @@ void mrim_get_info_ack(MrimData *mrim, gpointer user_data, MrimPackage *pack) {
 			MrimBuddy *mb = buddy->proto_data;
 			if (mb) {
 				if (mb->user_agent) {
-					gchar *tmp = mrim_get_ua_alias(mb->user_agent);
+					gchar *tmp = mrim_get_ua_alias(mrim, mb->user_agent);
 					purple_notify_user_info_add_pair(info, _("User agent"), tmp);
 					g_free(tmp);
 				}
@@ -1035,8 +1035,9 @@ void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gboolean 
 	}
 	MrimBuddy *mb = buddy->proto_data;
 	if (mb) {
+		MrimData *mrim = mb->mrim;
 		if (mb->flags & CONTACT_FLAG_MULTICHAT) {
-			purple_notify_user_info_add_pair(info, _("Account"), buddy->account);
+			purple_notify_user_info_add_pair(info, _("Account"), mrim->user_name);
 			purple_notify_user_info_add_pair(info, _("Room"), mb->email);
 			purple_notify_user_info_add_pair(info, _("Alias"), mb->alias);
 			return;
@@ -1048,7 +1049,7 @@ void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gboolean 
 			purple_notify_user_info_add_pair(info, _("Listening"), mb->listening);
 		}
 		if (mb->user_agent) {
-			gchar *tmp = mrim_get_ua_alias(mb->user_agent);
+			gchar *tmp = mrim_get_ua_alias(mrim, mb->user_agent);
 			purple_notify_user_info_add_pair(info, _("User agent"), tmp);
 			g_free(tmp);
 		}
@@ -1120,7 +1121,7 @@ char *mrim_get_chat_name(GHashTable *components)
 {
 	purple_debug_info("mrim", "%s\n", __func__);
 	const char *str = g_hash_table_lookup(components, "room");
-	return str;
+	return (char*)str;
 }
 
 void mrim_chat_invite(PurpleConnection *gc, int id, const char *message, const char *who)
