@@ -757,7 +757,7 @@ void mrim_open_myworld_url(gchar *user_name, gchar *fmt) {
 /* Purple plugin structures */
 
 static PurplePluginProtocolInfo prpl_info = { //OPT_PROTO_CHAT_TOPIC
-	OPT_PROTO_MAIL_CHECK |  OPT_PROTO_UNIQUE_CHATNAME, /* options */
+	OPT_PROTO_MAIL_CHECK, /* options */
 	NULL,			/* user_splits */
 	NULL,			/* protocol_options */
 	{			/* icon_spec */
