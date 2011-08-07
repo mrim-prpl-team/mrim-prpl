@@ -185,13 +185,20 @@ void update_buddy_status(PurpleBuddy *buddy) {
 	if (mb) {
 		MrimData *mrim = mb->mrim;	
 		purple_prpl_got_user_status(mrim->gc->account, mb->email, mb->status->purple_id, NULL);
-		if (mb->status->purple_mood) {
+		if (mb->flags & CONTACT_FLAG_PHONE) {
 			purple_prpl_got_user_status(mrim->gc->account, mb->email, "mood",
-				PURPLE_MOOD_NAME, mb->status->purple_mood,
-				PURPLE_MOOD_COMMENT, mb->status->desc,
-				NULL);
+					PURPLE_MOOD_NAME, "mobile",
+					PURPLE_MOOD_COMMENT, _("Mobile phone"),
+					NULL);
 		} else {
-			purple_prpl_got_user_status_deactive(mrim->gc->account, mb->email, "mood");
+			if (mb->status->purple_mood) {
+				purple_prpl_got_user_status(mrim->gc->account, mb->email, "mood",
+					PURPLE_MOOD_NAME, mb->status->purple_mood,
+					PURPLE_MOOD_COMMENT, mb->status->desc,
+					NULL);
+			} else {
+				purple_prpl_got_user_status_deactive(mrim->gc->account, mb->email, "mood");
+			}
 		}
 	}
 }
@@ -207,7 +214,7 @@ void set_buddy_microblog(MrimData *mrim, PurpleBuddy *buddy, gchar *microblog, g
 			g_free(mb->listening);
 			mb->listening = g_strdup(microblog);
 		} else {
-			if (mrim->micropost_notify) {
+			if (purple_account_get_bool(mrim->gc->account, "micropost_notify", FALSE)) {
 				serv_got_im(mrim->gc, mb->email, microblog, PURPLE_MESSAGE_WHISPER, time(NULL));
 			}
 		}

@@ -642,3 +642,6 @@ msgstr ""
 msgid "Service unavailable"
 msgstr ""
 
+msgid "Enable debug mode"
+msgstr ""
+

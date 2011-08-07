@@ -43,18 +43,21 @@ static struct {
 	{ "sick", "status_4", N_("Sick") },
 	{ "plate", "status_6", N_("Plate") },
 	{ "restroom", "status_8", N_("Restroom") },
+	{ "alien", "status_11", N_("Alien") },
 	{ "tongue", "status_14", N_("Tongue") },
 	{ "bathing", "status_15", N_("Bathing") },
 	{ "console", "status_16", N_("Playing") },
 	{ "cigarette", "status_17", N_("Smoking") },
 	{ "working", "status_22", N_("Working") },
 	{ "sleeping", "status_23", N_("Sleeping") },
+	{ "phone", "status_24", N_("Phone") },
 	{ "happy", "status_29", N_("Happy") },
 	{ "wink", "status_30", N_("Wink") },
 	{ "sad", "status_34", N_("Sad") },
 	{ "crying", "status_35", N_("Crying") },
 	{ "angry", "status_37", N_("Angry") },
 	{ "in_love", "status_40", N_("In love") },
+	{ "good", "status_42", N_("Good") },
 	{ "music", "status_53", N_("Music") }
 };
 

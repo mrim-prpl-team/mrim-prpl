@@ -18,17 +18,17 @@
 //#include <arpa/inet.h>
 
 // libpurple
-#include "accountopt.h"
-#include "conversation.h"
-#include "core.h"
-#include "debug.h"
-#include "dnsquery.h"
-#include "dnssrv.h"
-#include "network.h"
-#include "proxy.h"
-#include "request.h"
-#include "util.h"
-#include "version.h"
+#include <accountopt.h>
+#include <conversation.h>
+#include <core.h>
+#include <debug.h>
+#include <dnsquery.h>
+#include <dnssrv.h>
+#include <network.h>
+#include <proxy.h>
+#include <request.h>
+#include <version.h>
+#include <util.h>
 
 #ifdef ENABLE_GTK
 	#include <gtk/gtk.h>
@@ -47,7 +47,6 @@ struct _MrimData {
 	PurpleConnection *gc;
 	gchar *user_name;
 	gchar *password;
-	gboolean fetch_avatars;
 	gchar *user_agent;
 	gchar *balancer_host;
 	guint balancer_port;
@@ -67,8 +66,9 @@ struct _MrimData {
 	MrimStatus *status;
 	gchar *microblog;
 	guint mail_count;
-	gboolean micropost_notify;
 };
+
+#include "util.h"
 
 #define MRIM_MAIL_RU "mrim.mail.ru"
 #define MRIM_MAIL_RU_PORT 2042

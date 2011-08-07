@@ -171,6 +171,12 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 	}
 	g_match_info_free(match_info);
 	g_free(message_header);
+	time_t date = mrim_str_to_time(date_str);
+	g_free(date_str);
+	if (purple_account_get_bool(mrim->gc->account, "debug_mode", FALSE)) { /* FIXME: Memleak */
+		serv_got_im(mrim->gc, from, message_body, PURPLE_MESSAGE_RECV, date);
+		return;
+	}
 	if (boundary) {
 		gchar **message_split = g_strsplit(message_body, boundary, 0);
 		g_free(message_body);
@@ -200,8 +206,6 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 		g_match_info_free(match_info);
 		g_free(message_header);
 	}
-	time_t date = mrim_str_to_time(date_str);
-	g_free(date_str);
 	if (flags & MESSAGE_FLAG_AUTHORIZE) { /* TODO: Show auth message and alias */
 		MrimAuthData *data = g_new0(MrimAuthData, 1);
 		data->mrim = mrim;
@@ -276,7 +280,7 @@ void mrim_send_sms(MrimData *mrim, gchar *phone, gchar *message) {
 /* CHATS */
 void mrim_chat_whisper(PurpleConnection *gc, int id, const char *who, const char *message)
 {
-	purple_debug_info("mrim", "%s\n", __func__);
+	purple_debug_info("mrim", "[%s]\n", __func__);
 	const char *username = gc->account->username;
 	PurpleConversation *conv = purple_find_chat(gc, id);
 	purple_debug_info("mrim", "%s receives whisper from %s in chat room %s: %s\n", username, who, conv->name, message);
@@ -321,5 +325,5 @@ int mrim_chat_send(PurpleConnection *gc, int id, const char *message, PurpleMess
 
 void mirm_set_chat_topic(PurpleConnection *gc, int id, const char *topic)
 {
-	purple_debug_info("mrim", "%s\n", __func__);
+	purple_debug_info("mrim", "[%s]\n", __func__);
 }

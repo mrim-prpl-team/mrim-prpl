@@ -75,9 +75,6 @@ static void mrim_login(PurpleAccount *account) {
 		purple_connection_error_reason(mrim->gc, PURPLE_CONNECTION_ERROR_INVALID_USERNAME,
 				_("Invalid login: username should have been specified as your_email_login@your_mail_ru_domain. I.e.: foobar@mail.ru"));
 	
-	mrim->fetch_avatars = purple_account_get_bool(account, "fetch_avatars", TRUE);
-	mrim->micropost_notify = purple_account_get_bool(account, "micropost_notify", TRUE);
-	
 	mrim->balancer_host = g_strdup(purple_account_get_string(account, "balancer_host", MRIM_MAIL_RU));
 	mrim->balancer_port = purple_account_get_int(account, "balancer_port", MRIM_MAIL_RU_PORT);
 	
@@ -704,6 +701,7 @@ GList *mrim_prpl_actions(PurplePlugin *plugin, gpointer context) {
 	actions = g_list_append(actions, action);
 	return actions;
 }
+
 /* Chat config */
 static GList *mrim_chat_info(PurpleConnection *gc)
 {
@@ -907,6 +905,8 @@ static void init_plugin(PurplePlugin *plugin) {
 	option = purple_account_option_bool_new(_("Use custom user agent string"), "use_custom_user_agent", FALSE);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option);
 	option = purple_account_option_string_new(_("Custom user agent"), "custom_user_agent", mrim_user_agent);
+	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option);
+	option = purple_account_option_bool_new(_("Enable debug mode"), "debug_mode", FALSE);
 	prpl_info.protocol_options = g_list_append(prpl_info.protocol_options, option);
 	mrim_plugin = plugin;
 }
