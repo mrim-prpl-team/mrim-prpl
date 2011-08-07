@@ -114,6 +114,8 @@ MrimStatus *make_mrim_status(guint32 id, gchar *uri, gchar *title, gchar *desc) 
 	} else {
 		status->display_str = g_strdup(_(status->purple_title));
 	}
+	
+	return status;
 }
 
 MrimStatus *make_mrim_status_from_purple(PurpleStatus *status) {
