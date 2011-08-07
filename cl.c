@@ -1117,7 +1117,6 @@ void mrim_chat_blist(MrimData *mrim, gpointer data, MrimPackage *pack)
 		gchar *username = mrim_package_read_LPSA(pack);
 		purple_conv_chat_add_user(chat, username, NULL, PURPLE_CBFLAGS_NONE, TRUE);
 	}
-	g_free(data);
 }
 
 
