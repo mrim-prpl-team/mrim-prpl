@@ -132,37 +132,37 @@ void mrim_cl_load(MrimPackage *pack, MrimData *mrim) {
 		guint32 id = 20;
 		while (pack->cur < pack->data_size) {
 			MrimBuddy *mb = mrim_cl_load_buddy(mrim, pack, buddy_mask);
-			if (mb) {
-				if (mb->flags & CONTACT_FLAG_REMOVED) {
-					purple_debug_info("mrim-prpl", "[%s] Buddy '%s' removed\n", __func__, mb->email);
-					free_mrim_buddy(mb);
-					continue;
-				}
-				/* CHATS */
-				if (mb->flags & CONTACT_FLAG_MULTICHAT) {
-					PurpleGroup *group = get_mrim_group(mrim, mb->group_id)->group;
-					PurpleChat *pc = NULL;
-					PurpleChat *old_pc = purple_blist_find_chat(mrim->account, mb->email);
-					if (old_pc) {
-						pc = old_pc;
-						purple_debug_info("mrim-prpl", "[%s] update chat: %s \n", __func__, mb->email);
-					} else {
-						purple_debug_info("mrim-prpl", "[%s] New chat: %s \n", __func__, mb->email);
-						GHashTable *defaults = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
-						g_hash_table_insert(defaults, "room", g_strdup(mb->email));
-						pc = purple_chat_new(mrim->account, mb->email, defaults);
+			if (!mb)
+				break;
 
-						purple_blist_add_chat(pc, group, NULL);
-						old_pc = purple_blist_find_chat(mrim->account, mb->email);
-						if (!old_pc)
-							purple_debug_info("mrim-prpl", "ERROR\n");
-					}
-					//purple_blist_alias_chat(pc, mb->alias);
-					continue;
+			mb->id = id++;
+
+			if (mb->flags & CONTACT_FLAG_REMOVED) {
+				purple_debug_info("mrim-prpl", "[%s] Buddy '%s' removed\n", __func__, mb->email);
+				free_mrim_buddy(mb);
+				continue;
+			}
+			/* CHATS */
+			if (mb->flags & CONTACT_FLAG_MULTICHAT) {
+				PurpleGroup *group = get_mrim_group(mrim, mb->group_id)->group;
+				PurpleChat *pc = NULL;
+				PurpleChat *old_pc = purple_blist_find_chat(mrim->account, mb->email);
+				if (old_pc) {
+					pc = old_pc;
+					purple_debug_info("mrim-prpl", "[%s] update chat: %s \n", __func__, mb->email);
+				} else {
+					purple_debug_info("mrim-prpl", "[%s] New chat: %s \n", __func__, mb->email);
+					GHashTable *defaults = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+					g_hash_table_insert(defaults, "room", g_strdup(mb->email));
+					pc = purple_chat_new(mrim->account, mb->email, defaults);
+
+					purple_blist_add_chat(pc, group, NULL);
 				}
+				//purple_blist_alias_chat(pc, mb->alias);
+			} else {
 				/* BUDDIES */
 				purple_debug_info("mrim-prpl", "[%s] New buddy: email = '%s', nick = '%s', flags = 0x%x, status = '%s', UA = '%s', microblog = '%s'\n",
-					__func__, mb->email, mb->alias, mb->flags, mb->status->purple_id, mb->user_agent, mb->microblog);
+						__func__, mb->email, mb->alias, mb->flags, mb->status->purple_id, mb->user_agent, mb->microblog);
 				PurpleGroup *group = get_mrim_group(mrim, mb->group_id)->group;
 				PurpleBuddy *buddy = purple_find_buddy(mrim->account, mb->email);
 				if (buddy) {
@@ -173,18 +173,14 @@ void mrim_cl_load(MrimPackage *pack, MrimData *mrim) {
 				}
 				purple_buddy_set_protocol_data(buddy, mb);
 				mb->buddy = buddy;
-				mb->id = id;
 				update_buddy_status(buddy);
 				if (mrim->fetch_avatars) {
 					if (!(mb->flags & CONTACT_FLAG_PHONE)) {
 						mrim_fetch_avatar(buddy);
 					}
 				}
-				id++;
-			} else {
-				break;
 			}
-		}
+		} /* while */
 	}
 	g_free(buddy_mask);
 	/* Purge all obsolete buddies. */
