@@ -1126,6 +1126,34 @@ void mrim_chat_join(PurpleConnection *gc, GHashTable *components)
 	gchar *room = g_hash_table_lookup(components, "room");
 	MrimData *mrim = gc->proto_data;
 
+	PurpleChat *pchat = purple_blist_find_chat(gc->account, room);
+	if (FALSE)//if (pchat = NULL)
+	{
+		// add chat
+		purple_debug_info("mrim-prpl", "[%s] New chat: %s \n", __func__, room);
+		GHashTable *defaults = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+		g_hash_table_insert(defaults, "room", g_strdup(room));
+		PurpleChat *pc = purple_chat_new(mrim->account, room, defaults);
+
+		purple_blist_add_chat(pc, get_mrim_group(mrim, 0)->group, NULL); /* add to "Остальные" */
+
+		MrimPackage *pack = mrim_package_new(mrim->seq, MRIM_CS_ADD_CONTACT);
+		mrim_package_add_UL(pack, CONTACT_FLAG_MULTICHAT);
+		mrim_package_add_UL(pack, 0);
+		mrim_package_add_UL(pack, 0);
+		mrim_package_add_LPSW(pack, "THIS IS TOPIC"); // TODO
+		mrim_package_add_UL(pack, 0);
+		mrim_package_add_UL(pack, 0);
+		mrim_package_add_UL(pack, 0);
+
+		mrim_package_add_UL(pack, 0); // UL 34h 50h 21h
+		mrim_package_add_UL(pack, 0); // UL 30h 1fh
+		// UL count
+		// count штук LPS email
+		mrim_package_send(pack, mrim);
+
+	}
+
 	if (!purple_find_chat(gc, get_chat_id(room))) {
 		purple_debug_info("mrim-prpl", "[%s] %s is joining chat room %s\n", __func__, username, room);
 

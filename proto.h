@@ -238,8 +238,8 @@ typedef struct mrim_packet_header_t
 // UL 0
 // UL 0
 // UL 0
-// UL 34h 50h
-// UL 30h
+// UL 34h 50h 21h
+// UL 30h 1fh
 // UL count
 // count штук LPS email
 /** contact **/

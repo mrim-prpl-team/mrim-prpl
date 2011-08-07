@@ -81,11 +81,39 @@ void mrim_receive_im_chat(MrimData *mrim, MrimPackage *pack, guint32 msg_id, gui
 	}
 	// just chat message
 	mrim_package_read_UL(pack);
-	mrim_package_read_UL(pack);
+	guint32 package_type = mrim_package_read_UL(pack);
 	char *topic = mrim_package_read_LPSW(pack);
 	char *from_user = mrim_package_read_LPSA(pack);
-	serv_got_chat_in(gc, get_chat_id(room), from_user, PURPLE_MESSAGE_RECV, message, time(NULL));
-	purple_debug_info("mrim-prpl", "[%s] This is chat! id '%i'\n", __func__, get_chat_id(room));
+
+	switch (package_type)
+	{
+		case MULTICHAT_MESSAGE:
+			serv_got_chat_in(gc, get_chat_id(room), from_user, PURPLE_MESSAGE_RECV, message, time(NULL));
+			purple_debug_info("mrim-prpl", "[%s] This is chat message! id '%i'\n", __func__, get_chat_id(room));
+			break;
+		case MULTICHAT_ADD_MEMBERS:
+			purple_notify_info(gc, "MULTICHAT_ADD_MEMBERS", room, NULL);
+			break;
+		case MULTICHAT_ATTACHED:
+			purple_notify_info(gc, "MULTICHAT_ATTACHED", room, NULL);
+			break;
+		case MULTICHAT_DETACHED:
+		{
+			PurpleConversation *conv =  purple_find_chat(mrim->gc, get_chat_id(room));
+			PurpleConvChat *chat = PURPLE_CONV_CHAT(conv);
+			purple_conv_chat_remove_user(chat, from_user, NULL);
+			break;
+		}
+		case MULTICHAT_DESTROYED:
+			purple_notify_info(gc, "MULTICHAT_DESTROYED", room, NULL);
+			break;
+		case MULTICHAT_INVITE:
+			purple_notify_info(gc, "MULTICHAT_INVITE", room, NULL);
+			GHashTable *data = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+			g_hash_table_insert(data, "room", g_strdup(room));
+			serv_got_chat_invite(gc, room, from_user, NULL, data);
+			break;
+	}
 	g_free(rtf);
 	g_free(topic);
 }
