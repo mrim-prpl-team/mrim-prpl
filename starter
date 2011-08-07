@@ -1,0 +1,1 @@
+git rm config.h; git stash; git checkout master && git pull && ./configure --gtk --debug --chats && make && gksudo make install
