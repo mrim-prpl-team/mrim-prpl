@@ -89,6 +89,7 @@ static void mrim_login(PurpleAccount *account) {
 	
 	mrim->status = make_mrim_status_from_purple(purple_presence_get_active_status(account->presence));
 	
+	purple_connection_set_display_name(gc, mrim->user_name);
 	purple_connection_update_progress(gc, _("Connecting"), 1, 5);
 	
 	gchar *balancer_addr = g_strdup_printf("%s:%i", mrim->balancer_host, mrim->balancer_port);
