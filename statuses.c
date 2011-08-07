@@ -185,13 +185,20 @@ void update_buddy_status(PurpleBuddy *buddy) {
 	if (mb) {
 		MrimData *mrim = mb->mrim;	
 		purple_prpl_got_user_status(mrim->gc->account, mb->email, mb->status->purple_id, NULL);
-		if (mb->status->purple_mood) {
+		if (mb->flags & CONTACT_FLAG_PHONE) {
 			purple_prpl_got_user_status(mrim->gc->account, mb->email, "mood",
-				PURPLE_MOOD_NAME, mb->status->purple_mood,
-				PURPLE_MOOD_COMMENT, mb->status->desc,
-				NULL);
+					PURPLE_MOOD_NAME, "mobile",
+					PURPLE_MOOD_COMMENT, _("Mobile phone"),
+					NULL);
 		} else {
-			purple_prpl_got_user_status_deactive(mrim->gc->account, mb->email, "mood");
+			if (mb->status->purple_mood) {
+				purple_prpl_got_user_status(mrim->gc->account, mb->email, "mood",
+					PURPLE_MOOD_NAME, mb->status->purple_mood,
+					PURPLE_MOOD_COMMENT, mb->status->desc,
+					NULL);
+			} else {
+				purple_prpl_got_user_status_deactive(mrim->gc->account, mb->email, "mood");
+			}
 		}
 	}
 }
