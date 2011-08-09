@@ -173,9 +173,10 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 	g_free(message_header);
 	time_t date = mrim_str_to_time(date_str);
 	g_free(date_str);
-	if (purple_account_get_bool(mrim->gc->account, "debug_mode", FALSE)) { /* FIXME: Memleak */
-		serv_got_im(mrim->gc, from, message_body, PURPLE_MESSAGE_RECV, date);
-		return;
+	if (purple_account_get_bool(mrim->gc->account, "debug_mode", FALSE)) {
+		//serv_got_im(mrim->gc, from, message_body, PURPLE_MESSAGE_RECV, date);
+		purple_debug_info("mrim-prpl", "[%s] Unparsed offline message:\n%s\n", message);
+		//return;
 	}
 	if (boundary) {
 		gchar **message_split = g_strsplit(message_body, boundary, 0);
