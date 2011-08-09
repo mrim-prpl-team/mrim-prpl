@@ -175,7 +175,7 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 	g_free(date_str);
 	if (purple_account_get_bool(mrim->gc->account, "debug_mode", FALSE)) {
 		//serv_got_im(mrim->gc, from, message_body, PURPLE_MESSAGE_RECV, date);
-		purple_debug_info("mrim-prpl", "[%s] Unparsed offline message:\n%s\n", message);
+		purple_debug_info("mrim-prpl", "[%s] Unparsed offline message:\n%s\n", __func__, message);
 		//return;
 	}
 	if (boundary) {
