@@ -13,6 +13,6 @@ void mrim_send_sms(MrimData *mrim, gchar *phone, gchar *message);
 
 void mrim_chat_whisper(PurpleConnection *gc, int id, const char *who, const char *message);
 int mrim_chat_send(PurpleConnection *gc, int id, const char *message, PurpleMessageFlags flags);
-void mirm_set_chat_topic(PurpleConnection *gc, int id, const char *topic);
+void mrim_set_chat_topic(PurpleConnection *gc, int id, const char *topic);
 
 #endif

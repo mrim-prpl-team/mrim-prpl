@@ -358,7 +358,7 @@ int mrim_chat_send(PurpleConnection *gc, int id, const char *message, PurpleMess
 	return (mrim_package_send(pack, mrim)) ? 1 : -E2BIG;
 }
 
-void mirm_set_chat_topic(PurpleConnection *gc, int id, const char *topic)
+void mrim_set_chat_topic(PurpleConnection *gc, int id, const char *topic)
 {
 	purple_debug_info("mrim", "%s\n", __func__);
 }
