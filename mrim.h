@@ -115,7 +115,7 @@ static struct {
 };
 
 void mrim_add_ack_cb(MrimData *mrim, guint32 seq, void (*func)(MrimData *, gpointer, MrimPackage *), gpointer data);
-void mrim_open_myworld_url(gchar *user_name, gchar *fmt);
+void mrim_open_myworld_url(MrimData *mrim, gchar *user_name, gchar *fmt);
 void mrim_post_microblog_record(MrimData *mrim, gchar *message);
 
 PurplePlugin *mrim_plugin;

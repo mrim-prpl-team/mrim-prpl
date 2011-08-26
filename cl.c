@@ -752,7 +752,10 @@ void blist_edit_phones_menu_item(PurpleBlistNode *node, gpointer userdata) {
 
 void mrim_url_menu_action(PurpleBlistNode *node, gpointer userdata) {
 	PurpleBuddy *buddy = (PurpleBuddy*)node;
-	mrim_open_myworld_url(buddy->name, userdata);
+	PurpleAccount *account = purple_buddy_get_account(buddy);
+	MrimData *mrim = account->gc->proto_data;
+	g_return_if_fail(mrim != NULL);
+	mrim_open_myworld_url(mrim, buddy->name, userdata);
 }
 
 void blist_toggle_visible(PurpleBlistNode *node, gpointer userdata) {
@@ -1043,7 +1046,11 @@ void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gboolean 
 			return;
 		}
 		if (mb->status->id != STATUS_OFFLINE) {
-			purple_notify_user_info_add_pair(info, _("Status"), mb->status->display_str);
+			//if (mb->listening) {
+				purple_notify_user_info_add_pair(info, _("Status"), mb->status->title);
+			//} else {
+			//	purple_notify_user_info_add_pair(info, _("Status"), mb->status->display_str);
+			//}
 		}
 		if (mb->listening) {
 			purple_notify_user_info_add_pair(info, _("Listening"), mb->listening);

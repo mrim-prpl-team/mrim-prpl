@@ -251,6 +251,7 @@ void mrim_mpop_session_ack(MrimData *mrim, gpointer user_data, MrimPackage *pack
 	} else {
 		notify_emails(mrim->gc, mrim->mail_count, webkey);
 	}
+	g_free(webkey);
 }
 
 static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond) {
@@ -639,7 +640,7 @@ void mrim_myworld_action(PurplePluginAction *action) {
 	PurpleConnection *gc = (PurpleConnection*)action->context;
 	MrimData *mrim = gc->proto_data;
 	g_return_if_fail(mrim);
-	mrim_open_myworld_url(mrim->user_name, action->user_data);
+	mrim_open_myworld_url(mrim, mrim->user_name, action->user_data);
 }
 
 void mrim_post_microblog_record(MrimData *mrim, gchar *message) {
@@ -748,7 +749,27 @@ static const char *mrim_list_icon(PurpleAccount *account, PurpleBuddy *buddy) {
 	return "mrim";
 }
 
-void mrim_open_myworld_url(gchar *user_name, gchar *fmt) {
+void mrim_open_myworld_url_ack(MrimData *mrim, gpointer user_data, MrimPackage *pack) {
+	gchar *webkey = NULL;
+	guint status = mrim_package_read_UL(pack);
+	if (status == MRIM_GET_SESSION_SUCCESS) {
+		webkey = mrim_package_read_LPSA(pack);
+		purple_debug_info("mrim-prpl", "[%s] Success. Webkey is '%s'\n", __func__, webkey);
+	} else {
+		purple_debug_info("mrim-prpl", "[%s] Failed. Status is %i\n", __func__, status);
+	}
+	gchar *target_url = (gchar*)purple_url_encode(user_data);
+	gchar *url = g_strdup_printf("http://swa.mail.ru/cgi-bin/auth?Login=%s&agent=%s&page=%s", mrim->user_name, webkey, target_url);
+	purple_debug_info("mrim-prpl", "[%s] Open URL '%s'\n", __func__, url);
+	purple_notify_uri(mrim_plugin, url);
+	g_free(url);
+	g_free(target_url);
+	g_free(webkey);
+}
+
+
+void mrim_open_myworld_url(MrimData *mrim, gchar *user_name, gchar *fmt) {
+	purple_debug_info("mrim-prpl", "[%s] user_name == '%s', fmt == '%s'\n", __func__, user_name, fmt);
 	gchar **split = g_strsplit(user_name, "@", 2);
 	if (split[1]) { /* domain */
 		gsize len = strlen(split[1]);
@@ -758,8 +779,9 @@ void mrim_open_myworld_url(gchar *user_name, gchar *fmt) {
 	}
 	gchar *url = g_strdup_printf(fmt, split[1], split[0]);
 	g_strfreev(split);
-	purple_notify_uri(mrim_plugin, url);
-	g_free(url);
+	MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_GET_MPOP_SESSION);
+	mrim_add_ack_cb(mrim, pack->header->seq, mrim_open_myworld_url_ack, url);
+	mrim_package_send(pack, mrim);
 }
 
 /* Purple plugin structures */

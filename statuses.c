@@ -105,6 +105,10 @@ MrimStatus *make_mrim_status(guint32 id, gchar *uri, gchar *title, gchar *desc) 
 			status->purple_id = g_strdup(mrim_statuses[0].id);
 		}
 	}
+	if (!title) {
+		title = g_strdup(_(status->purple_title));
+		status->title = title;
+	}
 	if (title && desc) {
 		status->display_str = g_strdup_printf("%s - %s", title, desc);
 	} else if (title) {
