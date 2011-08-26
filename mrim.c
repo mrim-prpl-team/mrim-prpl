@@ -760,11 +760,11 @@ void mrim_open_myworld_url_ack(MrimData *mrim, gpointer user_data, MrimPackage *
 	}
 	gchar *target_url = (gchar*)purple_url_encode(user_data);
 	gchar *url = webkey ? g_strdup_printf("http://swa.mail.ru/cgi-bin/auth?Login=%s&agent=%s&page=%s", mrim->user_name, webkey, target_url)
-		: g_strdup(target_url);
+		: g_strdup(user_data);
 	purple_debug_info("mrim-prpl", "[%s] Open URL '%s'\n", __func__, url);
 	purple_notify_uri(mrim_plugin, url);
 	g_free(url);
-	g_free(target_url);
+	//g_free(target_url);
 	g_free(webkey);
 }
 
