@@ -15,7 +15,7 @@ ifndef LIBDIR
 endif
 
 ifndef FULL_LIBDIR
-	FULL_LIBDIR=/usr/${LIBDIR}
+	FULL_LIBDIR=usr/${LIBDIR}
 endif
 
 ifndef CC
@@ -48,6 +48,8 @@ install:
 uninstall:
 	rm -f ${DESTDIR}/${FULL_LIBDIR}/purple-2/libmrim-underbush.so
 	rm -f ${DESTDIR}/${FULL_LIBDIR}/purple-2/mrim.so
+	rm -f ${DESTDIR}/${FULL_LIBDIR}/purple-2/mrim-underbush.so
+	rm -f ${DESTDIR}/${FULL_LIBDIR}/purple-2/libmrim.so
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/16/mrim.png
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/22/mrim.png
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/48/mrim.png
