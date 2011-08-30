@@ -89,11 +89,7 @@ void mrim_receive_im(MrimData *mrim, MrimPackage *pack) {
 		mrim_package_send(pack, mrim);
 	}
 	purple_debug_info("mrim-prpl", "[%s] Received from '%s', flags '%x' message '%s'\n", __func__, from, flags, text);
-#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >5
 	gchar *message = purple_markup_escape_text (text, -1);
-#else
-	gchar *message = g_markup_escape_text(text, -1);
-#endif
 	if (flags & MESSAGE_FLAG_AUTHORIZE) { /* TODO: Auth message and alias show */
 		MrimAuthData *data = g_new0(MrimAuthData, 1);
 		data->mrim = mrim;
@@ -233,11 +229,7 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 			g_free(message_text);
 			message_text = str;
 		}
-#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >5
 		gchar *msg = purple_markup_escape_text(message_text, -1);
-#else
-		gchar *msg = g_markup_escape_text(message_text, -1);
-#endif
 		serv_got_im(mrim->gc, from, msg, PURPLE_MESSAGE_RECV, date);
 		g_free(msg);
 		g_free(message_text);

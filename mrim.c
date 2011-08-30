@@ -861,26 +861,16 @@ static PurplePluginProtocolInfo prpl_info = {
 	NULL,			/* unregister_user */
 	mrim_send_attention,	/* send_attention */
 	NULL,			/* get_attention_types */
-	#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >=5
-		sizeof(PurplePluginProtocolInfo)	/* struct_size */
-	#else
-		(gpointer)sizeof(PurplePluginProtocolInfo)
-	#endif
-	#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >= 5
-		,NULL					/* get_account_text_table */
-	#endif
-	#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >= 6
-		,NULL,					/* initiate_media */
-		NULL					/* get_media_caps */
-	#endif
-	#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >= 7
-		,mrim_get_moods,				/* get_moods */
-		NULL,					/* set_public_alias */
-		NULL					/* get_public_alias */
-	#endif
+	sizeof(PurplePluginProtocolInfo),/* struct_size */
+	NULL,					/* get_account_text_table */
+	NULL,					/* initiate_media */
+	NULL,					/* get_media_caps */
+	mrim_get_moods,				/* get_moods */
+	NULL,					/* set_public_alias */
+	NULL					/* get_public_alias */
 	#if PURPLE_MAJOR_VERSION >= 2 && PURPLE_MINOR_VERSION >= 8
-		,NULL,					/* add_buddy_with_invite */
-		NULL					/* add_buddies_with_invite */
+	,NULL,					/* add_buddy_with_invite */
+	NULL					/* add_buddies_with_invite */
 	#endif
 };
 
