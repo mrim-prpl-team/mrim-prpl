@@ -18,7 +18,6 @@
 #include "cl.h"
 #include "statuses.h"
 #include "message.h"
-#include "package.h"
 
 static gboolean mrim_keep_alive(gpointer data);
 
@@ -90,6 +89,7 @@ static void mrim_login(PurpleAccount *account) {
 	
 	mrim->status = make_mrim_status_from_purple(purple_presence_get_active_status(account->presence));
 	
+	purple_connection_set_display_name(gc, mrim->user_name);
 	purple_connection_update_progress(gc, _("Connecting"), 1, 5);
 	
 	gchar *balancer_addr = g_strdup_printf("%s:%i", mrim->balancer_host, mrim->balancer_port);
@@ -278,7 +278,12 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 					purple_connection_update_progress(gc, _("Connecting"), 4, 5);
 					MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_LOGIN2);
 					mrim_package_add_LPSA(pack, mrim->user_name);
-					mrim_package_add_LPSA(pack, mrim->password);
+					// password
+					char *md5 = md5sum(mrim->password);
+					mrim_package_add_UL(pack, 16); // md5sum len
+					mrim_package_add_raw(pack, md5, 16);
+					free(md5);
+					//mrim_package_add_LPSA(pack, mrim->password);
 					mrim_package_add_UL(pack, mrim->status->id);
 					mrim_package_add_LPSA(pack, mrim->status->uri);
 					mrim_package_add_LPSW(pack, mrim->status->title);
@@ -489,8 +494,7 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 				break;
 			default:
 				{
-					MrimAck *ack = g_hash_table_lookup(mrim->acks,
-						GUINT_TO_POINTER(pack->header->seq));
+					MrimAck *ack = g_hash_table_lookup(mrim->acks, GUINT_TO_POINTER(pack->header->seq));
 					if (ack) {
 						ack->func(mrim, ack->data, pack);
 						g_hash_table_remove(mrim->acks, GUINT_TO_POINTER(pack->header->seq));
@@ -787,8 +791,8 @@ void mrim_open_myworld_url(MrimData *mrim, gchar *user_name, gchar *fmt) {
 
 /* Purple plugin structures */
 
-static PurplePluginProtocolInfo prpl_info = {
-	OPT_PROTO_MAIL_CHECK | OPT_PROTO_CHAT_TOPIC | OPT_PROTO_UNIQUE_CHATNAME, /* options */
+static PurplePluginProtocolInfo prpl_info = { //OPT_PROTO_CHAT_TOPIC
+	OPT_PROTO_MAIL_CHECK, /* options */
 	NULL,			/* user_splits */
 	NULL,			/* protocol_options */
 	{			/* icon_spec */

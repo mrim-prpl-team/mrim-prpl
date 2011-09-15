@@ -18,17 +18,18 @@
 //#include <arpa/inet.h>
 
 // libpurple
-#include <accountopt.h>
-#include <conversation.h>
-#include <core.h>
-#include <debug.h>
-#include <dnsquery.h>
-#include <dnssrv.h>
-#include <network.h>
-#include <proxy.h>
-#include <request.h>
-#include <version.h>
-#include <util.h>
+#include "accountopt.h"
+#include "cipher.h"
+#include "conversation.h"
+#include "core.h"
+#include "debug.h"
+#include "dnsquery.h"
+#include "dnssrv.h"
+#include "network.h"
+#include "proxy.h"
+#include "request.h"
+#include "util.h"
+#include "version.h"
 
 #ifdef ENABLE_GTK
 	#include <gtk/gtk.h>
@@ -80,6 +81,7 @@ struct _MrimData {
 #define COM_SUPPORT (FEATURE_FLAG_BASE_SMILES | FEATURE_FLAG_WAKEUP)
 
 #include "package.h"
+#include "mrim-util.h"
 
 typedef struct _MrimAck MrimAck;
 struct _MrimAck {

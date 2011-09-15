@@ -67,6 +67,57 @@ gboolean mrim_send_attention(PurpleConnection  *gc, const char *username, guint 
 	return TRUE;
 }
 
+void mrim_receive_im_chat(MrimData *mrim, MrimPackage *pack, guint32 msg_id, guint32 flags, gchar *room, gchar *message)
+{
+	PurpleConnection *gc = mrim->gc;
+	gchar *rtf  = mrim_package_read_LPSA(pack); // rtf
+
+	// handle chat-specific functions
+	MrimAck *ack = g_hash_table_lookup(mrim->acks, GUINT_TO_POINTER(msg_id));
+	if (ack) {
+		ack->func(mrim, ack->data, pack);
+		g_hash_table_remove(mrim->acks, GUINT_TO_POINTER(msg_id));
+		return;
+	}
+	// just chat message
+	mrim_package_read_UL(pack);
+	guint32 package_type = mrim_package_read_UL(pack);
+	char *topic = mrim_package_read_LPSW(pack);
+	char *from_user = mrim_package_read_LPSA(pack);
+
+	switch (package_type)
+	{
+		case MULTICHAT_MESSAGE:
+			serv_got_chat_in(gc, get_chat_id(room), from_user, PURPLE_MESSAGE_RECV, message, time(NULL));
+			purple_debug_info("mrim-prpl", "[%s] This is chat message! id '%i'\n", __func__, get_chat_id(room));
+			break;
+		case MULTICHAT_ADD_MEMBERS:
+			purple_notify_info(gc, "MULTICHAT_ADD_MEMBERS", room, NULL);
+			break;
+		case MULTICHAT_ATTACHED:
+			purple_notify_info(gc, "MULTICHAT_ATTACHED", room, NULL);
+			break;
+		case MULTICHAT_DETACHED:
+		{
+			PurpleConversation *conv =  purple_find_chat(mrim->gc, get_chat_id(room));
+			PurpleConvChat *chat = PURPLE_CONV_CHAT(conv);
+			purple_conv_chat_remove_user(chat, from_user, NULL);
+			break;
+		}
+		case MULTICHAT_DESTROYED:
+			purple_notify_info(gc, "MULTICHAT_DESTROYED", room, NULL);
+			break;
+		case MULTICHAT_INVITE:
+			purple_notify_info(gc, "MULTICHAT_INVITE", room, NULL);
+			GHashTable *data = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+			g_hash_table_insert(data, "room", g_strdup(room));
+			serv_got_chat_invite(gc, room, from_user, NULL, data);
+			break;
+	}
+	g_free(rtf);
+	g_free(topic);
+}
+
 void mrim_receive_im(MrimData *mrim, MrimPackage *pack) {
 	g_return_if_fail(mrim);
 	g_return_if_fail(pack);
@@ -76,7 +127,7 @@ void mrim_receive_im(MrimData *mrim, MrimPackage *pack) {
 	guint32 flags = mrim_package_read_UL(pack);
 	gchar *from = mrim_package_read_LPSA(pack);
 	gchar *text;
-	if (flags & 0x200000) {
+	if (flags & MESSAGE_FLAG_CP1251) {
 		text = mrim_package_read_LPSA(pack);
 	} else {
 		text = mrim_package_read_LPSW(pack);
@@ -104,13 +155,7 @@ void mrim_receive_im(MrimData *mrim, MrimPackage *pack) {
 	} else if (flags & MESSAGE_FLAG_ALARM) {
 		serv_got_attention(gc, from, 0);
 	} else if (flags & MESSAGE_FLAG_MULTICHAT) {
-		mrim_package_read_UL(pack);
-		mrim_package_read_UL(pack);
-		char *topic = mrim_package_read_LPSA(pack);
-		g_free(topic);
-		char *from_user = mrim_package_read_LPSW(pack);
-		serv_got_chat_in(gc, get_chat_id(from), from_user, PURPLE_MESSAGE_RECV, message, time(NULL));
-		purple_debug_info("mrim-prpl", "[%s] This is chat! id '%i'\n", __func__, get_chat_id(from));
+		mrim_receive_im_chat(mrim, pack, msg_id, flags, from, message);
 	} else {
 		serv_got_im(mrim->gc, from, message, PURPLE_MESSAGE_RECV, time(NULL));
 	}
@@ -289,34 +334,28 @@ int mrim_chat_send(PurpleConnection *gc, int id, const char *message, PurpleMess
 	const char *username = gc->account->username;
 	PurpleConversation *conv = purple_find_chat(gc, id);
 
-	if (conv)
+	if (conv == NULL)
 	{
-		MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_MESSAGE);
-		mrim_package_add_UL(pack, MESSAGE_FLAG_NORECV ); /* flags */
-		mrim_package_add_LPSA(pack, conv->name);
-
-		{
-			gchar *msg = purple_markup_strip_html((gchar*)message);
-			mrim_package_add_LPSW(pack, msg);
-			g_free(msg);
-		}
-		mrim_package_add_LPSA(pack, " "); /* TODO: RTF message */
-
-		//mrim_add_ack_cb(mrim, pack->header->seq, mrim_message_ack, NULL);
-		if (mrim_package_send(pack, mrim)) {
-			return 1;
-		} else {
-			return -E2BIG;
-		}
-	}
-	else
-	{
-		purple_debug_info("mrim-prpl", "tried to send message from %s to chat room #%d: %s\n but couldn't find chat room", username, id, message);
+		purple_debug_info("mrim-prpl", "tried to send message from %s to chat room %d: %s\n but couldn't find chat room", username, id, message);
 		return -EINVAL; // todo why not -1?
 	}
+
+	MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_MESSAGE);
+	mrim_package_add_UL(pack, MESSAGE_FLAG_NORECV); /* flags */
+	mrim_package_add_LPSA(pack, conv->name);
+
+	gchar *msg = purple_markup_strip_html((gchar*)message);
+	mrim_package_add_LPSW(pack, msg);
+	g_free(msg);
+
+	mrim_package_add_LPSA(pack, " "); /* TODO: RTF message */
+
+	serv_got_chat_in(gc, id, mrim->user_name, PURPLE_MESSAGE_SEND, message, time(NULL));
+	//mrim_add_ack_cb(mrim, pack->header->seq, mrim_message_ack, NULL);
+	return (mrim_package_send(pack, mrim)) ? 1 : -E2BIG;
 }
 
-void mirm_set_chat_topic(PurpleConnection *gc, int id, const char *topic)
+void mrim_set_chat_topic(PurpleConnection *gc, int id, const char *topic)
 {
 	purple_debug_info("mrim", "[%s]\n", __func__);
 }

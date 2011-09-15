@@ -132,37 +132,37 @@ void mrim_cl_load(MrimPackage *pack, MrimData *mrim) {
 		guint32 id = 20;
 		while (pack->cur < pack->data_size) {
 			MrimBuddy *mb = mrim_cl_load_buddy(mrim, pack, buddy_mask);
-			if (mb) {
-				if (mb->flags & CONTACT_FLAG_REMOVED) {
-					purple_debug_info("mrim-prpl", "[%s] Buddy '%s' removed\n", __func__, mb->email);
-					free_mrim_buddy(mb);
-					continue;
-				}
-				/* CHATS */
-				if (mb->flags & CONTACT_FLAG_MULTICHAT) {
-					PurpleGroup *group = get_mrim_group(mrim, mb->group_id)->group;
-					PurpleChat *pc = NULL;
-					PurpleChat *old_pc = purple_blist_find_chat(mrim->account, mb->email);
-					if (old_pc) {
-						pc = old_pc;
-						purple_debug_info("mrim-prpl", "[%s] update chat: %s \n", __func__, mb->email);
-					} else {
-						purple_debug_info("mrim-prpl", "[%s] New chat: %s \n", __func__, mb->email);
-						GHashTable *defaults = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
-						g_hash_table_insert(defaults, "room", g_strdup(mb->email));
-						pc = purple_chat_new(mrim->account, mb->email, defaults);
+			if (!mb)
+				break;
 
-						purple_blist_add_chat(pc, group, NULL);
-						old_pc = purple_blist_find_chat(mrim->account, mb->email);
-						if (!old_pc)
-							purple_debug_info("mrim-prpl", "ERROR\n");
-					}
-					//purple_blist_alias_chat(pc, mb->alias);
-					continue;
+			mb->id = id++;
+
+			if (mb->flags & CONTACT_FLAG_REMOVED) {
+				purple_debug_info("mrim-prpl", "[%s] Buddy '%s' removed\n", __func__, mb->email);
+				free_mrim_buddy(mb);
+				continue;
+			}
+			/* CHATS */
+			if (mb->flags & CONTACT_FLAG_MULTICHAT) {
+				PurpleGroup *group = get_mrim_group(mrim, mb->group_id)->group;
+				PurpleChat *pc = NULL;
+				PurpleChat *old_pc = purple_blist_find_chat(mrim->account, mb->email);
+				if (old_pc) {
+					pc = old_pc;
+					purple_debug_info("mrim-prpl", "[%s] update chat: %s \n", __func__, mb->email);
+				} else {
+					purple_debug_info("mrim-prpl", "[%s] New chat: %s \n", __func__, mb->email);
+					GHashTable *defaults = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+					g_hash_table_insert(defaults, "room", g_strdup(mb->email));
+					pc = purple_chat_new(mrim->account, mb->email, defaults);
+
+					purple_blist_add_chat(pc, group, NULL);
 				}
+				//purple_blist_alias_chat(pc, mb->alias);
+			} else {
 				/* BUDDIES */
 				purple_debug_info("mrim-prpl", "[%s] New buddy: email = '%s', nick = '%s', flags = 0x%x, status = '%s', UA = '%s', microblog = '%s'\n",
-					__func__, mb->email, mb->alias, mb->flags, mb->status->purple_id, mb->user_agent, mb->microblog);
+						__func__, mb->email, mb->alias, mb->flags, mb->status->purple_id, mb->user_agent, mb->microblog);
 				PurpleGroup *group = get_mrim_group(mrim, mb->group_id)->group;
 				PurpleBuddy *buddy = purple_find_buddy(mrim->account, mb->email);
 				if (buddy) {
@@ -173,18 +173,14 @@ void mrim_cl_load(MrimPackage *pack, MrimData *mrim) {
 				}
 				purple_buddy_set_protocol_data(buddy, mb);
 				mb->buddy = buddy;
-				mb->id = id;
 				update_buddy_status(buddy);
 				if (purple_account_get_bool(mrim->gc->account, "fetch_avatars", TRUE)) {
 					if (!(mb->flags & CONTACT_FLAG_PHONE)) {
 						mrim_fetch_avatar(buddy);
 					}
 				}
-				id++;
-			} else {
-				break;
 			}
-		}
+		} /* while */
 	}
 	g_free(buddy_mask);
 	/* Purge all obsolete buddies. */
@@ -1040,7 +1036,7 @@ void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gboolean 
 	if (mb) {
 		MrimData *mrim = mb->mrim;
 		if (mb->flags & CONTACT_FLAG_MULTICHAT) {
-			purple_notify_user_info_add_pair(info, _("Account"), mrim->user_name);
+			purple_notify_user_info_add_pair(info, _("Account"), buddy->account->username);
 			purple_notify_user_info_add_pair(info, _("Room"), mb->email);
 			purple_notify_user_info_add_pair(info, _("Alias"), mb->alias);
 			return;
@@ -1104,17 +1100,83 @@ void mrim_send_authorize(MrimData *mrim, gchar *email, gchar *message) { /* TODO
 	mrim_package_send(pack, mrim);
 }
 
-/* CHATS */
+/*
+ * CHATS
+ */
+
+// handle MULTICHAT_GET_MEMBERS
+void mrim_chat_blist(MrimData *mrim, gpointer data, MrimPackage *pack)
+{
+	purple_debug_info("mrim-prpl", "[%s] room=<%s>\n", __func__, (gchar*) data);
+	PurpleConversation *conv =  purple_find_chat(mrim->gc, get_chat_id(data));
+	PurpleConvChat *chat = PURPLE_CONV_CHAT(conv);
+
+	mrim_package_read_UL(pack); // todo: wtf?? 0x62
+	mrim_package_read_UL(pack); // todoL wtf?? 0x02 == MULTICHAT_MEMBERS
+	gchar *topic = mrim_package_read_LPSW(pack);
+	mrim_package_read_UL(pack); // todoL wtf?? 0x4c
+	// Set Topic
+	purple_conv_chat_set_topic(chat, NULL, topic);
+	///
+	/// Add users
+	int n = mrim_package_read_UL(pack);
+	for (int i = 0; i<n ; i++)
+	{
+		gchar *username = mrim_package_read_LPSA(pack);
+		purple_conv_chat_add_user(chat, username, NULL, PURPLE_CBFLAGS_NONE, TRUE);
+	}
+}
+
+
 void mrim_chat_join(PurpleConnection *gc, GHashTable *components)
 {
 	const char *username = gc->account->username;
-	const char *room = g_hash_table_lookup(components, "room");
+	gchar *room = g_hash_table_lookup(components, "room");
 	MrimData *mrim = gc->proto_data;
+
+	PurpleChat *pchat = purple_blist_find_chat(gc->account, room);
+	if (FALSE)//if (pchat = NULL)
+	{
+		// add chat
+		purple_debug_info("mrim-prpl", "[%s] New chat: %s \n", __func__, room);
+		GHashTable *defaults = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+		g_hash_table_insert(defaults, "room", g_strdup(room));
+		PurpleChat *pc = purple_chat_new(mrim->account, room, defaults);
+
+		purple_blist_add_chat(pc, get_mrim_group(mrim, 0)->group, NULL); /* add to "Остальные" */
+
+		MrimPackage *pack = mrim_package_new(mrim->seq, MRIM_CS_ADD_CONTACT);
+		mrim_package_add_UL(pack, CONTACT_FLAG_MULTICHAT);
+		mrim_package_add_UL(pack, 0);
+		mrim_package_add_UL(pack, 0);
+		mrim_package_add_LPSW(pack, "THIS IS TOPIC"); // TODO
+		mrim_package_add_UL(pack, 0);
+		mrim_package_add_UL(pack, 0);
+		mrim_package_add_UL(pack, 0);
+
+		mrim_package_add_UL(pack, 0); // UL 34h 50h 21h
+		mrim_package_add_UL(pack, 0); // UL 30h 1fh
+		// UL count
+		// count штук LPS email
+		mrim_package_send(pack, mrim);
+
+	}
 
 	if (!purple_find_chat(gc, get_chat_id(room))) {
 		purple_debug_info("mrim-prpl", "[%s] %s is joining chat room %s\n", __func__, username, room);
 
 		serv_got_joined_chat(gc, get_chat_id(room), room);
+		// Get users list
+		mrim_add_ack_cb(mrim, mrim->seq, mrim_chat_blist, g_strdup(room));
+
+		MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_MESSAGE);
+		mrim_package_add_UL(pack, MESSAGE_FLAG_MULTICHAT );
+		mrim_package_add_LPSA(pack, room);
+		mrim_package_add_UL(pack, 0);
+		mrim_package_add_UL(pack, 0);
+		mrim_package_add_UL(pack, 4);
+		mrim_package_add_UL(pack, MULTICHAT_GET_MEMBERS);
+		mrim_package_send(pack, mrim);
 	}
 }
 
@@ -1133,14 +1195,14 @@ char *mrim_get_chat_name(GHashTable *components)
 
 void mrim_chat_invite(PurpleConnection *gc, int id, const char *message, const char *who)
 {
-	purple_debug_info("mrim", "%s\n", __func__);
+	purple_debug_info("mrim-prpl", "%s\n", __func__);
 
 	const char *username = gc->account->username;
 	PurpleConversation *conv = purple_find_chat(gc, id);
 	const char *room = conv->name;
 	PurpleAccount *to_acct = purple_accounts_find(who, MRIM_PRPL_ID);
 
-	purple_debug_info("mrim", "%s is inviting %s to join chat room %s\n", username, who, room);
+	purple_debug_info("mrim-prpl", "%s is inviting %s to join chat room %s\n", username, who, room);
 
 	if (to_acct)
 	{
@@ -1166,66 +1228,5 @@ void mrim_chat_invite(PurpleConnection *gc, int id, const char *message, const c
 void mrim_chat_leave(PurpleConnection *gc, int id)
 {
 	PurpleConversation *conv = purple_find_chat(gc, id);
-	purple_debug_info("mrim", "%s is leaving chat room %s\n", gc->account->username, conv->name);
-}
-
-
-PurpleRoomlist *mrim_roomlist_get_list(PurpleConnection *gc)
-{
-	const char *username = gc->account->username;
-	PurpleRoomlist *roomlist = purple_roomlist_new(gc->account);
-	GList *fields = NULL;
-	PurpleRoomlistField *field;
-	GList *chats;
-	GList *seen_ids = NULL;
-
-	purple_debug_info("mrim", "%s asks for room list; returning:\n", username);
-
-	/* set up the room list */
-	field = purple_roomlist_field_new(PURPLE_ROOMLIST_FIELD_STRING, "room",	"room", TRUE /* hidden */);
-	fields = g_list_append(fields, field);
-
-	field = purple_roomlist_field_new(PURPLE_ROOMLIST_FIELD_INT, "Id", "Id", FALSE);
-	fields = g_list_append(fields, field);
-
-	purple_roomlist_set_fields(roomlist, fields);
-
-	/* add each chat room. the chat ids are cached in seen_ids so that each room
-	 * is only returned once, even if multiple users are in it. */
-	for (chats = purple_get_chats(); chats; chats = g_list_next(chats))
-	{
-		PurpleConversation *conv = (PurpleConversation *) chats->data;
-		PurpleRoomlistRoom *room;
-		const char *name = conv->name;
-		int id = purple_conversation_get_chat_data(conv)->id;
-
-		/* have we already added this room? */
-		if (g_list_find_custom(seen_ids, name, (GCompareFunc) strcmp))
-			continue; /* yes! try the next one. */
-
-		/* This cast is OK because this list is only staying around for the life
-		 * of this function and none of the conversations are being deleted
-		 * in that timespan. */
-		seen_ids = g_list_prepend(seen_ids, (char *) name); /* no, it's new. */
-		purple_debug_info("mrim", "%s (%d), ", name, id);
-
-		room = purple_roomlist_room_new(PURPLE_ROOMLIST_ROOMTYPE_ROOM, name, NULL);
-		purple_roomlist_room_add_field(roomlist, room, name);
-		purple_roomlist_room_add_field(roomlist, room, &id);
-		purple_roomlist_room_add(roomlist, room);
-	}
-
-	g_list_free(seen_ids);
-	//purple_timeout_add(1 /* ms */, nullprpl_finish_get_roomlist, roomlist);
-	return roomlist;
-}
-
-void mrim_roomlist_cancel(PurpleRoomlist *list)
-{
-	purple_debug_info("mrim", "%s asked to cancel room list request\n",	list->account->username);
-}
-
-void mrim_roomlist_expand_category(PurpleRoomlist *list,	PurpleRoomlistRoom *category)
-{
-	purple_debug_info("mrim", "%s asked to expand room list category %s\n", list->account->username, category->name);
+	purple_debug_info("mrim-prpl", "%s is leaving chat room %s\n", gc->account->username, conv->name);
 }

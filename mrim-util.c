@@ -164,3 +164,19 @@ int get_chat_id(const char *chatname) {
 	return atoi(chatname);
 	// or just  g_str_hash() from <glib.h>
 }
+
+gchar *md5sum(gchar *str) {
+	PurpleCipher *cipher;
+	PurpleCipherContext *context;
+	int len = strlen(str);
+	gchar *result = g_new0(gchar, 17); // md5 - это 16 символов
+
+	cipher = purple_ciphers_find_cipher("md5");
+	context = purple_cipher_context_new(cipher, NULL);
+	purple_cipher_context_append(context, str, len);
+	purple_cipher_context_digest(context, 16, result, NULL);
+	purple_cipher_context_destroy(context);
+
+	purple_debug_info("mrim-prpl", "[%s] hash: '%s'\n", __func__, result);
+	return result;
+}

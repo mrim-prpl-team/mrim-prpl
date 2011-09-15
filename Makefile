@@ -55,8 +55,8 @@ uninstall:
 	rm -fv ${DESTDIR}/usr/share/pixmaps/pidgin/protocols/48/mrim.png
 	rm -fv ${DESTDIR}/usr/share/locale/ru/LC_MESSAGES/${PRJID}.mo
 	rm -fv ${DESTDIR}/usr/share/locale/ru_RU/LC_MESSAGES/${PRJID}.mo
-compile: mrim.o package.o statuses.o cl.o message.o util.o
-	${CC} ${LDFLAGS} -o libmrim-underbush.so mrim.o package.o statuses.o cl.o message.o util.o
+compile: mrim.o package.o statuses.o cl.o message.o mrim-util.o
+	${CC} ${LDFLAGS} -o libmrim-underbush.so mrim.o package.o statuses.o cl.o message.o mrim-util.o
 mrim.o: mrim.c mrim.h statuses.h cl.h message.h package.h config.h
 	${CC} -c ${CFLAGS} -o mrim.o mrim.c
 package.o: package.c mrim.h statuses.h cl.h message.h package.h config.h
@@ -67,7 +67,7 @@ cl.o: cl.c mrim.h statuses.h cl.h message.h package.h config.h
 	${CC} -c ${CFLAGS} -fPIC -DPIC -o cl.o cl.c
 message.o: message.c mrim.h statuses.h cl.h message.h package.h config.h
 	${CC} -c ${CFLAGS} -fPIC -DPIC -o message.o message.c
-util.o: util.c util.h mrim.h config.h
-	${CC} -c ${CFLAGS} -fPIC -DPIC -o util.o util.c
+mrim-util.o: mrim-util.c mrim-util.h mrim.h config.h
+	${CC} -c ${CFLAGS} -fPIC -DPIC -o mrim-util.o mrim-util.c
 i18n:
 	msgfmt ${POPRJ}-ru_RU.po --output-file=${POPRJ}-ru_RU.mo
