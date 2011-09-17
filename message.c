@@ -168,6 +168,11 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 	purple_debug_info("mrim-prpl", "[%s] Reading offline message\n", __func__);
 	gchar *message_header;
 	gchar *message_body;
+	if (purple_account_get_bool(mrim->gc->account, "debug_mode", FALSE)) {
+		//serv_got_im(mrim->gc, from, message_body, PURPLE_MESSAGE_RECV, date);
+		purple_debug_info("mrim-prpl", "[%s] Unparsed offline message:\n%s\n", __func__, message);
+		//return;
+	}
 	{
 		GRegex *regex = g_regex_new("(\n|\r){2}", G_REGEX_MULTILINE | G_REGEX_DOTALL, 0, NULL);
 		gchar *message_cleaned = g_regex_replace_literal(regex, message, strlen(message), 0, "\n", 0, NULL);
@@ -176,10 +181,10 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 		message_header = g_strconcat(split[0], "\n", NULL);
 		g_free(split[0]);
 		message_body = split[1];
-		g_free(split[0]);
 		g_free(split);
 		g_free(regex);
 	}
+	purple_debug_info("mrim-prpl", "[%s] Unparsed offline message, gonna parse header:\n", __func__);
 	GRegex *regex = g_regex_new("([A-Za-z\\-\\_]+):\\s(.+?)\\R", G_REGEX_MULTILINE | G_REGEX_DOTALL, 0, NULL);
 	GMatchInfo *match_info;
 	g_regex_match(regex, message_header, 0, &match_info);
@@ -220,11 +225,6 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 	g_free(message_header);
 	time_t date = mrim_str_to_time(date_str);
 	g_free(date_str);
-	if (purple_account_get_bool(mrim->gc->account, "debug_mode", FALSE)) {
-		//serv_got_im(mrim->gc, from, message_body, PURPLE_MESSAGE_RECV, date);
-		purple_debug_info("mrim-prpl", "[%s] Unparsed offline message:\n%s\n", __func__, message);
-		//return;
-	}
 	if (boundary) {
 		purple_debug_info("mrim-prpl", "[%s] Boundary:%s\n", __func__, boundary);
 		gchar **message_split = g_strsplit(message_body, boundary, 0);
