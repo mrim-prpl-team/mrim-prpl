@@ -169,10 +169,16 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 	gchar *message_header;
 	gchar *message_body;
 	{
-		gchar **split = g_strsplit(message, "\n\r\n", 2);
-		message_header = split[0];
+		GRegex *regex = g_regex_new("(\n|\r){2}", G_REGEX_MULTILINE | G_REGEX_DOTALL, 0, NULL);
+		gchar *message_cleaned = g_regex_replace_literal(regex, message, strlen(message), 0, "\n", 0, NULL);
+		gchar **split = g_strsplit(message_cleaned, "\n\n", 2);
+		g_free(message_cleaned);
+		message_header = g_strconcat(split[0], "\n", NULL);
+		g_free(split[0]);
 		message_body = split[1];
+		g_free(split[0]);
 		g_free(split);
+		g_free(regex);
 	}
 	GRegex *regex = g_regex_new("([A-Za-z\\-\\_]+):\\s(.+?)\\R", G_REGEX_MULTILINE | G_REGEX_DOTALL, 0, NULL);
 	GMatchInfo *match_info;
@@ -195,13 +201,13 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 			gchar *tmp = g_strrstr(value, "boundary=");
 			if (tmp) {
 				boundary = (gchar*)(tmp + strlen("boundary="));
-				boundary = g_strdup_printf("--%s\r\n", boundary);
+				boundary = g_strdup_printf("--%s\n", boundary);
 			}
 			tmp = g_strrstr(value, "charset=");
 			if (tmp) {
 				charset = g_strdup((gchar*)(tmp + strlen("charset="))); 
 			}
-		} else if (g_strcmp0(key, "X-Mrim-flags") == 0) {
+		} else if (g_ascii_strncasecmp(key, "X-MRIM-Flags", strlen("X-MRIM-Flags")) == 0) {
 			sscanf(value, "%x", &flags);
 		} else if (g_strcmp0(key, "Content-Transfer-Encoding") == 0) {
 			encoding = g_strdup(value);
@@ -220,12 +226,14 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 		//return;
 	}
 	if (boundary) {
+		purple_debug_info("mrim-prpl", "[%s] Boundary:%s\n", __func__, boundary);
 		gchar **message_split = g_strsplit(message_body, boundary, 0);
 		g_free(message_body);
 		g_free(boundary);
 		{
-			gchar **split = g_strsplit(message_split[1], "\n\r\n", 2);
-			message_header = split[0];
+			gchar **split = g_strsplit(message_split[1], "\n\n", 0);
+			message_header = g_strconcat(split[0], "\n", NULL);
+			g_free(split[0]);
 			message_body = split[1];
 			g_free(split);
 		}
@@ -247,6 +255,8 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 		}
 		g_match_info_free(match_info);
 		g_free(message_header);
+	} else {
+		purple_debug_info("mrim-prpl", "[%s] No boundary!\n", __func__);
 	}
 	if (flags & MESSAGE_FLAG_AUTHORIZE) { /* TODO: Show auth message and alias */
 		MrimAuthData *data = g_new0(MrimAuthData, 1);
