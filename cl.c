@@ -360,7 +360,8 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 		}
 	} else if (is_valid_email(buddy->name) || is_valid_phone(buddy->name)) {
 		purple_debug_info("mrim-prpl", "[%s] Buddy has a valid email or phone '%s'\n", __func__, buddy->name);
-		gint group_id = get_mrim_group_by_name(mrim, group->name)->id;
+		MrimGroup *gr = get_mrim_group_by_name(mrim, group->name);
+		gint group_id = gr ? gr->id : -1;
 		if (group_id == -1) {
 			purple_debug_info("mrim-prpl", "[%s] Group '%s' not exists - creating\n", __func__, group->name);
 			AddContactInfo *info = g_new(AddContactInfo, 1);
