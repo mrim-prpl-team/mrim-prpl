@@ -985,8 +985,8 @@ void mrim_searchresults_add_buddy(PurpleConnection *gc, GList *row, void *user_d
 	MrimData *mrim = user_data;
 	purple_debug_info("mrim","%s", mrim->account->username);
 	if (!purple_find_buddy(mrim->account, g_list_nth_data(row, 0))) {
-        	purple_blist_request_add_buddy(mrim->account,  g_list_nth_data(row, 0), NULL, NULL); // TODO Propose alias automatically.
-        }
+			purple_blist_request_add_buddy(mrim->account,  g_list_nth_data(row, 0), NULL, NULL); // TODO Propose alias automatically.
+		}
 }
 
 void mrim_search_ack(MrimData *mrim, gpointer user_data, MrimPackage *pack) {
@@ -1051,6 +1051,8 @@ void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gboolean 
 		}
 		if (mb->listening) {
 			purple_notify_user_info_add_pair(info, _("Listening"), mb->listening);
+		} else if (mb->status && mb->status->desc) {
+			purple_notify_user_info_add_pair(info, _("Comment"), mb->status->desc);
 		}
 		if (mb->user_agent) {
 			gchar *tmp = mrim_get_ua_alias(mrim, mb->user_agent);
@@ -1061,7 +1063,7 @@ void mrim_tooltip_text(PurpleBuddy *buddy, PurpleNotifyUserInfo *info, gboolean 
 			purple_notify_user_info_add_pair(info, _("Microblog"), mb->microblog);
 		}
 	}
-		
+	purple_debug_info("mrim-prpl","[%s] end.\n",__func__);
 }
 
 /* Authorization */
@@ -1102,8 +1104,8 @@ void mrim_send_authorize(MrimData *mrim, gchar *email, gchar *message) { /* TODO
 }
 
 /*
- * CHATS
- */
+* CHATS
+*/
 
 // handle MULTICHAT_GET_MEMBERS
 void mrim_chat_blist(MrimData *mrim, gpointer data, MrimPackage *pack)
