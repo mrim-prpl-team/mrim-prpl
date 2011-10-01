@@ -410,7 +410,7 @@ void mrim_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group
 		}
 	} else {
 		purple_debug_info("mrim-prpl", "[%s] '%s' is not valid email or phone number!\n", __func__, buddy->name);
-		gchar *msg = g_strdup_printf(_("Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), or valid phone number (start with + and contain only numbers, spaces and \'-\'."), buddy->name);
+		gchar *msg = g_strdup_printf(_("Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), valid ICQ UIN in NNNN@uin.icq format or valid phone number (start with + and contain only numbers, spaces and \'-\'."), buddy->name);
 		purple_notify_error(gc, NULL, _("Unable to Add"), msg);
 		g_free(msg);
 		purple_blist_remove_buddy(buddy);
