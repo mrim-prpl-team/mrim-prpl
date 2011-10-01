@@ -12,6 +12,6 @@ gchar *mrim_get_ua_alias(MrimData *mrim, gchar *ua);
 int get_chat_id(const char *chatname);
 gchar *md5sum(gchar *str);
 
-gchar *translitirate_text(gchar *text);
+gchar *transliterate_text(gchar *text);
 
 #endif

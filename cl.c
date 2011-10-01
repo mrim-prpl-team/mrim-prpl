@@ -530,7 +530,7 @@ void update_sms_char_counter(GObject *object, gpointer user_data) {
 		original_text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
 	}
 	if (gtk_toggle_button_get_active((GtkToggleButton*)params->translit)) {
-		new_text = translitirate_text(original_text);
+		new_text = transliterate_text(original_text);
 	} else {
 		new_text = g_strdup(original_text);
 	}

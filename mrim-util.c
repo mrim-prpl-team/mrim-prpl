@@ -181,7 +181,7 @@ gchar *md5sum(gchar *str) {
 	return result;
 }
 
-gchar *translitirate_text(gchar *text) {
+gchar *transliterate_text(gchar *text) {
 	gchar *new_text = g_strdup(text);
 	gchar *table = _("translit-table");
 	gchar **rules = g_strsplit(table, ",", 0);
