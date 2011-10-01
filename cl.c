@@ -530,8 +530,7 @@ void update_sms_char_counter(GObject *object, gpointer user_data) {
 		original_text = gtk_text_buffer_get_text(buffer, &start, &end, FALSE);
 	}
 	if (gtk_toggle_button_get_active((GtkToggleButton*)params->translit)) {
-		/* TODO: транслитерация сообщения */
-		new_text = g_strdup(original_text); //new_text должен указывать на транслитерированный текст
+		new_text = translitirate_text(original_text);
 	} else {
 		new_text = g_strdup(original_text);
 	}
@@ -651,7 +650,7 @@ void blist_gtk_sms_menu_item(PurpleBlistNode *node, gpointer userdata) {
 	g_signal_connect(G_OBJECT(translit), "toggled", G_CALLBACK(update_sms_char_counter), params);
 	g_signal_connect(G_OBJECT(dialog), "response", G_CALLBACK(sms_dialog_response), params);
 	g_signal_connect(G_OBJECT(edit_phones_button), "clicked", G_CALLBACK(sms_dialog_edit_phones), params);
-	/* Пока выключим транслит */
+	///* Пока выключим транслит */
 	gtk_widget_set_sensitive(translit, FALSE);
 	/* Отображаем диалог */
 	gtk_widget_show_all(dialog);

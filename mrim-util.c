@@ -180,3 +180,9 @@ gchar *md5sum(gchar *str) {
 	purple_debug_info("mrim-prpl", "[%s] hash: '%s'\n", __func__, result);
 	return result;
 }
+
+gchar *translitirate_text(gchar *text) { //TODO
+	gchar *new_text;
+	new_text = g_strdup(text);
+	return new_text;
+}
