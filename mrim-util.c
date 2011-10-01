@@ -181,8 +181,19 @@ gchar *md5sum(gchar *str) {
 	return result;
 }
 
-gchar *translitirate_text(gchar *text) { //TODO
-	gchar *new_text;
-	new_text = g_strdup(text);
+gchar *translitirate_text(gchar *text) {
+	gchar *new_text = g_strdup(text);
+	gchar *table = _("translit-table");
+	gchar **rules = g_strsplit(table, ",", 0);
+	gchar **rule = rules;
+	while (*rule) {
+		gchar **r = g_strsplit(*rule, "=", 2);
+		gchar **parts = g_strsplit(new_text, r[0], 0);
+		g_free(new_text);
+		new_text = g_strjoinv(r[1], parts);
+		g_strfreev(parts);
+		rule++;
+	}
+	g_strfreev(rules);
 	return new_text;
 }
