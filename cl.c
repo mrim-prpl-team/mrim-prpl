@@ -650,10 +650,12 @@ void blist_gtk_sms_menu_item(PurpleBlistNode *node, gpointer userdata) {
 	g_signal_connect(G_OBJECT(translit), "toggled", G_CALLBACK(update_sms_char_counter), params);
 	g_signal_connect(G_OBJECT(dialog), "response", G_CALLBACK(sms_dialog_response), params);
 	g_signal_connect(G_OBJECT(edit_phones_button), "clicked", G_CALLBACK(sms_dialog_edit_phones), params);
-	///* Пока выключим транслит */
-	//gtk_widget_set_sensitive(translit, FALSE);
 	/* Отображаем диалог */
 	gtk_widget_show_all(dialog);
+	/* Если текущая локаль не поддерживает транслитерацию - отключим эту функцию */
+	if (g_strcmp0("translit-table", _("translit-table")) == 0) {
+		gtk_widget_hide(translit);
+	}
 	/* Делаем активным окном окно ввода сообщения */
 	gtk_widget_grab_focus(message_text);
 }
