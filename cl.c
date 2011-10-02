@@ -550,6 +550,7 @@ void sms_dialog_response(GtkDialog *dialog, gint response_id, gpointer user_data
 			{
 				MrimBuddy *mb = params->mb;
 				MrimData *mrim = params->mrim;
+				update_sms_char_counter(NULL, params); //На случай, если после включения транслитерации пользователь уже не изменял текст
 				gchar *text = params->sms_text;
 				gint phone_index = gtk_combo_box_get_active(params->phone);
 				if (phone_index > -1) {
