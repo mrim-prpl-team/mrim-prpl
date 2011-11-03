@@ -934,14 +934,15 @@ MrimSearchResult *mrim_parse_search_result(MrimPackage *pack) {
 	};
 	if (bday_col_index < result->column_count) {
 		guint age_col_index = result->column_count++;
-		MrimSearchResultColumn *old_columns = result->columns;
+		/* MrimSearchResultColumn *old_columns = result->columns;
 		result->columns = g_new0(MrimSearchResultColumn, result->column_count);
 		for (guint col_id = 0; col_id < age_col_index; col_id++) {
 			result->columns[col_id].title		= g_strdup(old_columns[col_id].title);
 			result->columns[col_id].skip		= old_columns[col_id].skip;
 			result->columns[col_id].unicode = old_columns[col_id].unicode;
 			g_free(old_columns[col_id].title);
-		};
+		}; */
+		result->columns = g_renew(MrimSearchResultColumn, result->columns, result->column_count);
 		result->columns[age_col_index].title		= "Age";
 		result->columns[age_col_index].skip			= FALSE;
 		result->columns[age_col_index].unicode	= FALSE;
