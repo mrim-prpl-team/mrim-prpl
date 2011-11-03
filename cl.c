@@ -896,11 +896,11 @@ MrimSearchResult *mrim_parse_search_result(MrimPackage *pack) {
 			result->columns[i].unicode = FALSE;
 		}
 	}
-	guint j;
-	for (i = 0; i < result->row_count; i++) {
+	
+	for (guint i = 0; i < result->row_count; i++) {
 		if (pack->cur >= pack->data_size) break;
 		result->rows[i] = g_new0(gchar*, result->column_count);
-		for (j = 0; j < result->column_count; j++) {
+		for (guint j = 0; j < result->column_count; j++) {
 			if (result->columns[j].unicode) {
 				result->rows[i][j] = mrim_package_read_LPSW(pack);
 			} else {
@@ -922,7 +922,60 @@ MrimSearchResult *mrim_parse_search_result(MrimPackage *pack) {
 				}
 			}
 		}
-	}
+	};
+	// Detecting if search results contain birthday column so we can determine age then:
+	purple_debug_info("mrim-prpl", "[%s] Loking for BDay...\n", __func__);
+	guint bday_col_index = result->column_count;
+	for (guint i = 0; i < result->column_count; i++) {
+		if (g_strcmp0(result->columns[i].title, "Birthday") == 0) {
+			bday_col_index = i;
+			break;
+		};
+	};
+	if (bday_col_index < result->column_count) {
+		guint age_col_index = result->column_count++;
+		MrimSearchResultColumn *old_columns = result->columns;
+		result->columns = g_new0(MrimSearchResultColumn, result->column_count);
+		for (guint col_id = 0; col_id < age_col_index; col_id++) {
+			result->columns[col_id].title		= g_strdup(old_columns[col_id].title);
+			result->columns[col_id].skip		= old_columns[col_id].skip;
+			result->columns[col_id].unicode = old_columns[col_id].unicode;
+			g_free(old_columns[col_id].title);
+		};
+		result->columns[age_col_index].title		= "Age";
+		result->columns[age_col_index].skip			= FALSE;
+		result->columns[age_col_index].unicode	= FALSE;
+		
+		for (guint row_id = 0; row_id < result->row_count; row_id++) {
+			gchar **old_row = result->rows[row_id];
+			if (!old_row) {
+				break;
+			} else {
+				result->rows[row_id] = g_new0(gchar*, result->column_count);
+				for (guint col_id = 0; col_id < age_col_index; col_id++) {
+					result->rows[row_id][col_id] = g_strdup(old_row[col_id]);
+					g_free(old_row[col_id]);
+				}
+				gchar *BDay_Str = g_strdup(result->rows[row_id][bday_col_index]);
+				gchar *buddy_age = g_strdup("0");
+				if ( g_strcmp0(BDay_Str, " ") == 0 ) {
+					g_free(buddy_age);
+					buddy_age = g_strdup(_("Not specified"));
+				} else {
+					int bd_year=0, bd_mon=0, bd_day=0;
+					int ret = sscanf(BDay_Str, "%i-%i-%i", &bd_year, &bd_mon, &bd_day);
+					GDateTime *TimeNow	= g_date_time_new_now_local();
+					GDateTime *LifeTime	= g_date_time_add_full(TimeNow, -bd_year, -bd_mon, -bd_day, 0, 0, 0);
+					g_free(buddy_age);
+					buddy_age	= g_strdup_printf(_("%i years, %i months"), g_date_time_get_year(LifeTime), g_date_time_get_month(LifeTime));
+					g_date_time_unref(TimeNow);
+					g_date_time_unref(LifeTime);
+				}
+				result->rows[row_id][age_col_index] = buddy_age;
+			}
+		}
+	};
+	// Age guessing end. 
 	purple_debug_info("mrim-prpl", "[%s] Search result parsed OK (%i rows)\n", __func__, i);
 	return result;
 }

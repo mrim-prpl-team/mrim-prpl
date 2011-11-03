@@ -44,11 +44,13 @@ static mrim_packet_header_t *read_header(MrimData *mrim)
 	gsize ret = recv(mrim->fd, header, sizeof(mrim_packet_header_t), 0);
 	if (ret < sizeof(mrim_packet_header_t)) {
 		g_free(header);
+		purple_debug_info("mrim-prpl", "[%s] Package header len is %d instead of %d\n", __func__, ret, sizeof(mrim_packet_header_t));
 		return NULL;
 	}
 	if (header->magic == CS_MAGIC) {
 		return header;
 	} else {
+		purple_debug_info("mrim-prpl", "[%s] Package header MAGIC is 0x%x instead of 0x%x\n", __func__, header->magic, CS_MAGIC);
 		g_free(header);
 		return NULL;
 	}

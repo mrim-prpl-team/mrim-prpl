@@ -103,7 +103,8 @@ static const gchar *user_info_fields[] = { //For translation
 	N_("status_uri"),
 	N_("status_title"),
 	N_("status_desc"),
-	N_("ua_features")
+	N_("ua_features"),
+	N_("Age")
 };
 
 void mrim_cl_load(MrimPackage *pack, MrimData *mrim);

@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl_0.2_underbush-outcreeper\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-02 01:55+0300\n"
-"PO-Revision-Date: 2011-10-02 01:55+0300\n"
-"Last-Translator: Reslayer <Reslayer@ya.ru>\n"
+"POT-Creation-Date: 2011-11-03 05:04+0300\n"
+"PO-Revision-Date: 2011-11-03 05:04+0300\n"
+"Last-Translator: J. K. <reslayer@mail.ru>\n"
 "Language-Team: \n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -17,231 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: _;N_;gettext;gettext_noop\n"
-"X-Poedit-Basepath: /home/reslayer/dev/pidgin/mrim-prpl/git/mrim-prpl/\n"
+"X-Poedit-Basepath: /home/ubuntu/dev/pidgin/mrim-prpl/git/mrim-prpl/\n"
 "X-Poedit-SearchPath-0: .\n"
-
-#: cl.c:413
-#, c-format
-msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), valid ICQ UIN in NNNN@uin.icq format or valid phone number (start with + and contain only numbers, spaces and '-'."
-msgstr ""
-
-#: cl.c:414
-msgid "Unable to Add"
-msgstr ""
-
-#: cl.c:541
-#, c-format
-msgid "Symbols: %d"
-msgstr ""
-
-#: cl.c:594
-#: cl.c:694
-msgid "Send SMS"
-msgstr ""
-
-#: cl.c:613
-msgid "Phone:"
-msgstr ""
-
-#: cl.c:628
-msgid "Translit"
-msgstr ""
-
-#: cl.c:687
-msgid "Choose phone number"
-msgstr ""
-
-#: cl.c:692
-msgid "SMS message text"
-msgstr ""
-
-#: cl.c:694
-msgid ""
-"SMS message should contain not\n"
-"more than 135 symbols in latin\n"
-"or 35 in cyrillic."
-msgstr ""
-
-#: cl.c:695
-msgid "_Send"
-msgstr ""
-
-#: cl.c:695
-#: cl.c:745
-#: mrim.c:639
-#: mrim.c:682
-msgid "_Cancel"
-msgstr ""
-
-#: cl.c:737
-msgid "_Main number"
-msgstr ""
-
-#: cl.c:739
-msgid "S_econd number"
-msgstr ""
-
-#: cl.c:741
-msgid "_Third number"
-msgstr ""
-
-#: cl.c:743
-msgid "Phone numbers"
-msgstr ""
-
-#: cl.c:743
-msgid "Specify numbers as shown: +71234567890"
-msgstr ""
-
-#: cl.c:744
-msgid "_OK"
-msgstr ""
-
-#: cl.c:789
-msgid "Request authorization"
-msgstr ""
-
-#: cl.c:795
-#: cl.c:798
-msgid "Send an SMS..."
-msgstr ""
-
-#: cl.c:804
-msgid "Edit phone numbers..."
-msgstr ""
-
-#: cl.c:808
-#: mrim.c:695
-msgid "MyWorld@Mail.ru"
-msgstr ""
-
-#: cl.c:811
-#: mrim.c:698
-msgid "Photo@Mail.ru"
-msgstr ""
-
-#: cl.c:814
-#: mrim.c:701
-msgid "Video@Mail.ru"
-msgstr ""
-
-#: cl.c:817
-#: mrim.c:704
-msgid "Blogs@Mail.ru"
-msgstr ""
-
-#: cl.c:824
-msgid "Remove from 'Visible to' list"
-msgstr ""
-
-#: cl.c:825
-msgid "Add to 'Visible to' list"
-msgstr ""
-
-#: cl.c:827
-msgid "Remove from 'Invisible to' list"
-msgstr ""
-
-#: cl.c:828
-msgid "Add to 'Invisible to' list"
-msgstr ""
-
-#: cl.c:830
-msgid "Visibility settings"
-msgstr ""
-
-#: cl.c:847
-#: cl.c:848
-#: cl.c:851
-#: cl.c:852
-#: cl.c:855
-#: cl.c:856
-#: cl.c:859
-#: cl.c:860
-msgid "Encountered an error while working on user details!"
-msgstr ""
-
-#: cl.c:848
-msgid "User not found."
-msgstr ""
-
-#: cl.c:852
-msgid "DBERR error. Please try later."
-msgstr ""
-
-#: cl.c:856
-msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
-msgstr ""
-
-#: cl.c:860
-msgid "unknown error"
-msgstr ""
-
-#: cl.c:911
-#: mrim.c:621
-msgid "Male"
-msgstr ""
-
-#: cl.c:911
-#: mrim.c:622
-msgid "Female"
-msgstr ""
-
-#: cl.c:933
-#: cl.c:996
-msgid "E-mail"
-msgstr ""
-
-#: cl.c:945
-#: cl.c:1058
-msgid "User agent"
-msgstr ""
-
-#: cl.c:949
-#: cl.c:1062
-#: mrim.c:680
-msgid "Microblog"
-msgstr ""
-
-#: cl.c:966
-msgid "UserInfo is not available for conferences and phones"
-msgstr ""
-
-#: cl.c:1023
-msgid "Search results"
-msgstr ""
-
-#: cl.c:1033
-msgid "Name"
-msgstr ""
-
-#: cl.c:1039
-msgid "Account"
-msgstr ""
-
-#: cl.c:1040
-msgid "Room"
-msgstr ""
-
-#: cl.c:1041
-msgid "Alias"
-msgstr ""
-
-#: cl.c:1046
-msgid "Status"
-msgstr ""
-
-#: cl.c:1052
-msgid "Listening"
-msgstr ""
-
-#: cl.c:1054
-msgid "Comment"
-msgstr ""
-
-#: cl.c:1216
-msgid "Chat invitation"
-msgstr ""
 
 #: message.c:303
 #: message.c:306
@@ -270,6 +47,14 @@ msgstr ""
 msgid "Anyone here?? !"
 msgstr ""
 
+#: package.c:97
+msgid "Read Error!"
+msgstr ""
+
+#: package.c:101
+msgid "Peer closed connection"
+msgstr ""
+
 #: mrim-util.c:124
 #, c-format
 msgid "version %s"
@@ -291,7 +76,255 @@ msgid "%s with %s"
 msgstr ""
 
 #: mrim-util.c:186
+#: cl.c:657
 msgid "translit-table"
+msgstr ""
+
+#: cl.c:413
+#, c-format
+msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), valid ICQ UIN in NNNN@uin.icq format or valid phone number (start with + and contain only numbers, spaces and '-'."
+msgstr ""
+
+#: cl.c:414
+msgid "Unable to Add"
+msgstr ""
+
+#: cl.c:541
+#, c-format
+msgid "Symbols: %d"
+msgstr ""
+
+#: cl.c:595
+#: cl.c:697
+msgid "Send SMS"
+msgstr ""
+
+#: cl.c:614
+msgid "Phone:"
+msgstr ""
+
+#: cl.c:629
+msgid "Translit"
+msgstr ""
+
+#: cl.c:690
+msgid "Choose phone number"
+msgstr ""
+
+#: cl.c:695
+msgid "SMS message text"
+msgstr ""
+
+#: cl.c:697
+msgid ""
+"SMS message should contain not\n"
+"more than 135 symbols in latin\n"
+"or 35 in cyrillic."
+msgstr ""
+
+#: cl.c:698
+msgid "_Send"
+msgstr ""
+
+#: cl.c:698
+#: cl.c:748
+#: mrim.c:639
+#: mrim.c:682
+msgid "_Cancel"
+msgstr ""
+
+#: cl.c:740
+msgid "_Main number"
+msgstr ""
+
+#: cl.c:742
+msgid "S_econd number"
+msgstr ""
+
+#: cl.c:744
+msgid "_Third number"
+msgstr ""
+
+#: cl.c:746
+msgid "Phone numbers"
+msgstr ""
+
+#: cl.c:746
+msgid "Specify numbers as shown: +71234567890"
+msgstr ""
+
+#: cl.c:747
+msgid "_OK"
+msgstr ""
+
+#: cl.c:792
+msgid "Request authorization"
+msgstr ""
+
+#: cl.c:798
+#: cl.c:801
+msgid "Send an SMS..."
+msgstr ""
+
+#: cl.c:807
+msgid "Edit phone numbers..."
+msgstr ""
+
+#: cl.c:811
+#: mrim.c:695
+msgid "MyWorld@Mail.ru"
+msgstr ""
+
+#: cl.c:814
+#: mrim.c:698
+msgid "Photo@Mail.ru"
+msgstr ""
+
+#: cl.c:817
+#: mrim.c:701
+msgid "Video@Mail.ru"
+msgstr ""
+
+#: cl.c:820
+#: mrim.c:704
+msgid "Blogs@Mail.ru"
+msgstr ""
+
+#: cl.c:827
+msgid "Remove from 'Visible to' list"
+msgstr ""
+
+#: cl.c:828
+msgid "Add to 'Visible to' list"
+msgstr ""
+
+#: cl.c:830
+msgid "Remove from 'Invisible to' list"
+msgstr ""
+
+#: cl.c:831
+msgid "Add to 'Invisible to' list"
+msgstr ""
+
+#: cl.c:833
+msgid "Visibility settings"
+msgstr ""
+
+#: cl.c:850
+#: cl.c:851
+#: cl.c:854
+#: cl.c:855
+#: cl.c:858
+#: cl.c:859
+#: cl.c:862
+#: cl.c:863
+msgid "Encountered an error while working on user details!"
+msgstr ""
+
+#: cl.c:851
+msgid "User not found."
+msgstr ""
+
+#: cl.c:855
+msgid "DBERR error. Please try later."
+msgstr ""
+
+#: cl.c:859
+msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
+msgstr ""
+
+#: cl.c:863
+msgid "unknown error"
+msgstr ""
+
+#: cl.c:914
+#: mrim.c:621
+msgid "Male"
+msgstr ""
+
+#: cl.c:914
+#: mrim.c:622
+msgid "Female"
+msgstr ""
+
+#: cl.c:1005
+#: cl.c:1068
+msgid "E-mail"
+msgstr ""
+
+#: cl.c:1017
+#: cl.c:1130
+msgid "User agent"
+msgstr ""
+
+#: cl.c:1021
+#: cl.c:1134
+#: mrim.c:680
+msgid "Microblog"
+msgstr ""
+
+#: cl.c:1038
+msgid "UserInfo is not available for conferences and phones"
+msgstr ""
+
+#: cl.c:1095
+msgid "Search results"
+msgstr ""
+
+#: cl.c:1105
+msgid "Name"
+msgstr ""
+
+#: cl.c:1111
+msgid "Account"
+msgstr ""
+
+#: cl.c:1112
+msgid "Room"
+msgstr ""
+
+#: cl.c:1113
+msgid "Alias"
+msgstr ""
+
+#: cl.c:1118
+msgid "Status"
+msgstr ""
+
+#: cl.c:1124
+msgid "Listening"
+msgstr ""
+
+#: cl.c:1126
+msgid "Comment"
+msgstr ""
+
+#: cl.c:1288
+msgid "Chat invitation"
+msgstr ""
+
+#: statuses.c:11
+msgid "Message"
+msgstr ""
+
+#: statuses.c:14
+msgid "Mood Name"
+msgstr ""
+
+#: statuses.c:16
+msgid "Tune artist"
+msgstr ""
+
+#: statuses.c:16
+msgid "Tune title"
+msgstr ""
+
+#: statuses.c:16
+msgid "Tune album"
+msgstr ""
+
+#: statuses.c:215
+msgid "Mobile phone"
 msgstr ""
 
 #: mrim.c:75
@@ -438,119 +471,6 @@ msgstr ""
 msgid "Enable debug mode"
 msgstr ""
 
-#: package.c:95
-msgid "Read Error!"
-msgstr ""
-
-#: package.c:99
-msgid "Peer closed connection"
-msgstr ""
-
-#: statuses.c:11
-msgid "Message"
-msgstr ""
-
-#: statuses.c:14
-msgid "Mood Name"
-msgstr ""
-
-#: statuses.c:16
-msgid "Tune artist"
-msgstr ""
-
-#: statuses.c:16
-msgid "Tune title"
-msgstr ""
-
-#: statuses.c:16
-msgid "Tune album"
-msgstr ""
-
-#: statuses.c:215
-msgid "Mobile phone"
-msgstr ""
-
-#: cl.h:80
-msgid "Aries"
-msgstr ""
-
-#: cl.h:81
-msgid "Taurus"
-msgstr ""
-
-#: cl.h:82
-msgid "Gemini"
-msgstr ""
-
-#: cl.h:83
-msgid "Cancer"
-msgstr ""
-
-#: cl.h:84
-msgid "Leo"
-msgstr ""
-
-#: cl.h:85
-msgid "Virgo"
-msgstr ""
-
-#: cl.h:86
-msgid "Libra"
-msgstr ""
-
-#: cl.h:87
-msgid "Scorpius"
-msgstr ""
-
-#: cl.h:88
-msgid "Sagittarius"
-msgstr ""
-
-#: cl.h:89
-msgid "Capricornus"
-msgstr ""
-
-#: cl.h:90
-msgid "Aquarius"
-msgstr ""
-
-#: cl.h:91
-msgid "Pisces"
-msgstr ""
-
-#: cl.h:99
-msgid "Birthday"
-msgstr ""
-
-#: cl.h:100
-msgid "Location"
-msgstr ""
-
-#: cl.h:101
-msgid "Zodiac"
-msgstr ""
-
-#: cl.h:102
-#: statuses.h:53
-msgid "Phone"
-msgstr ""
-
-#: cl.h:103
-msgid "status_uri"
-msgstr ""
-
-#: cl.h:104
-msgid "status_title"
-msgstr ""
-
-#: cl.h:105
-msgid "status_desc"
-msgstr ""
-
-#: cl.h:106
-msgid "ua_features"
-msgstr ""
-
 #: mrim.h:105
 msgid "Mail.ru Agent for Windows"
 msgstr ""
@@ -660,6 +580,11 @@ msgstr ""
 msgid "Sleeping"
 msgstr ""
 
+#: statuses.h:53
+#: cl.h:102
+msgid "Phone"
+msgstr ""
+
 #: statuses.h:54
 msgid "Happy"
 msgstr ""
@@ -690,5 +615,81 @@ msgstr ""
 
 #: statuses.h:61
 msgid "Music"
+msgstr ""
+
+#: cl.h:80
+msgid "Aries"
+msgstr ""
+
+#: cl.h:81
+msgid "Taurus"
+msgstr ""
+
+#: cl.h:82
+msgid "Gemini"
+msgstr ""
+
+#: cl.h:83
+msgid "Cancer"
+msgstr ""
+
+#: cl.h:84
+msgid "Leo"
+msgstr ""
+
+#: cl.h:85
+msgid "Virgo"
+msgstr ""
+
+#: cl.h:86
+msgid "Libra"
+msgstr ""
+
+#: cl.h:87
+msgid "Scorpius"
+msgstr ""
+
+#: cl.h:88
+msgid "Sagittarius"
+msgstr ""
+
+#: cl.h:89
+msgid "Capricornus"
+msgstr ""
+
+#: cl.h:90
+msgid "Aquarius"
+msgstr ""
+
+#: cl.h:91
+msgid "Pisces"
+msgstr ""
+
+#: cl.h:99
+msgid "Birthday"
+msgstr ""
+
+#: cl.h:100
+msgid "Location"
+msgstr ""
+
+#: cl.h:101
+msgid "Zodiac"
+msgstr ""
+
+#: cl.h:103
+msgid "status_uri"
+msgstr ""
+
+#: cl.h:104
+msgid "status_title"
+msgstr ""
+
+#: cl.h:105
+msgid "status_desc"
+msgstr ""
+
+#: cl.h:106
+msgid "ua_features"
 msgstr ""
 
