@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl_0.2_underbush-outcreeper\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-03 05:04+0300\n"
-"PO-Revision-Date: 2011-11-03 05:04+0300\n"
+"POT-Creation-Date: 2011-11-03 09:54+0300\n"
+"PO-Revision-Date: 2011-11-03 09:54+0300\n"
 "Last-Translator: J. K. <reslayer@mail.ru>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -247,59 +247,68 @@ msgstr ""
 msgid "Female"
 msgstr ""
 
-#: cl.c:1005
-#: cl.c:1068
+#: cl.c:963
+msgid "Not specified"
+msgstr ""
+
+#: cl.c:974
+#, c-format
+msgid "%i years, %i months"
+msgstr ""
+
+#: cl.c:993
+#: cl.c:1056
 msgid "E-mail"
 msgstr ""
 
-#: cl.c:1017
-#: cl.c:1130
+#: cl.c:1005
+#: cl.c:1118
 msgid "User agent"
 msgstr ""
 
-#: cl.c:1021
-#: cl.c:1134
+#: cl.c:1009
+#: cl.c:1122
 #: mrim.c:680
 msgid "Microblog"
 msgstr ""
 
-#: cl.c:1038
+#: cl.c:1026
 msgid "UserInfo is not available for conferences and phones"
 msgstr ""
 
-#: cl.c:1095
+#: cl.c:1083
 msgid "Search results"
 msgstr ""
 
-#: cl.c:1105
+#: cl.c:1093
 msgid "Name"
 msgstr ""
 
-#: cl.c:1111
+#: cl.c:1099
 msgid "Account"
 msgstr ""
 
-#: cl.c:1112
+#: cl.c:1100
 msgid "Room"
 msgstr ""
 
-#: cl.c:1113
+#: cl.c:1101
 msgid "Alias"
 msgstr ""
 
-#: cl.c:1118
+#: cl.c:1106
 msgid "Status"
 msgstr ""
 
-#: cl.c:1124
+#: cl.c:1112
 msgid "Listening"
 msgstr ""
 
-#: cl.c:1126
+#: cl.c:1114
 msgid "Comment"
 msgstr ""
 
-#: cl.c:1288
+#: cl.c:1276
 msgid "Chat invitation"
 msgstr ""
 
@@ -691,5 +700,9 @@ msgstr ""
 
 #: cl.h:106
 msgid "ua_features"
+msgstr ""
+
+#: cl.h:107
+msgid "Age"
 msgstr ""
 

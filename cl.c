@@ -963,11 +963,15 @@ MrimSearchResult *mrim_parse_search_result(MrimPackage *pack) {
 					buddy_age = g_strdup(_("Not specified"));
 				} else {
 					int bd_year=0, bd_mon=0, bd_day=0;
-					int ret = sscanf(BDay_Str, "%i-%i-%i", &bd_year, &bd_mon, &bd_day);
+					int ret = sscanf(BDay_Str, "%u-%u-%u", &bd_year, &bd_mon, &bd_day);
+					purple_debug_info("mrim-prpl", "[%s] Birthday parsed (ret=%i) is %i-%i-%i.\n", __func__, ret, bd_year, bd_mon, bd_day);
 					GDateTime *TimeNow	= g_date_time_new_now_local();
-					GDateTime *LifeTime	= g_date_time_add_full(TimeNow, -bd_year, -bd_mon, -bd_day, 0, 0, 0);
+					GDateTime *LifeTime;
+					LifeTime	= g_date_time_add_full(TimeNow, -bd_year, -(bd_mon % 12), -bd_day, 0, 0, 0);
 					g_free(buddy_age);
-					buddy_age	= g_strdup_printf(_("%i years, %i months"), g_date_time_get_year(LifeTime), g_date_time_get_month(LifeTime));
+					int full_years	= g_date_time_get_year(LifeTime) + g_date_time_get_month(LifeTime) / 12;
+					int full_months = g_date_time_get_month(LifeTime) % 12;
+					buddy_age	= g_strdup_printf(_("%i years, %i months"), full_years, full_months);
 					g_date_time_unref(TimeNow);
 					g_date_time_unref(LifeTime);
 				}
