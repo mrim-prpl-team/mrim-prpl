@@ -486,8 +486,9 @@ void mrim_move_buddy(PurpleConnection *gc, const char *who, const char *old_grou
 	MrimData *mrim = gc->proto_data;
 	MrimBuddy *mb = buddy->proto_data;
 	g_return_if_fail(mb != NULL);
-	gint group_id = get_mrim_group_by_name(mrim, (gchar*)new_group)->id;
-	if (group_id == -1) {
+	MrimGroup *group_found = get_mrim_group_by_name(mrim, (gchar*)new_group);
+	gint group_id = group_found ? group_found->id : -1;
+	if (!group_found) {
 		purple_debug_info("mrim-prpl", "[%s] Group '%s' not exists - creating\n", __func__, new_group);
 		AddContactInfo *info = g_new(AddContactInfo, 1);
 		info->buddy = buddy;
@@ -498,6 +499,7 @@ void mrim_move_buddy(PurpleConnection *gc, const char *who, const char *old_grou
 		mb->group_id = group_id;
 		mrim_modify_buddy(mrim, buddy);
 	}
+	g_free(group_found);
 }
 
 const char *mrim_normalize(const PurpleAccount *account, const char *who) {

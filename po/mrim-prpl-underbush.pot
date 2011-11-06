@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl_0.2_underbush-outcreeper\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-04 15:13+0300\n"
-"PO-Revision-Date: 2011-11-04 15:13+0300\n"
+"POT-Creation-Date: 2011-11-06 21:08+0300\n"
+"PO-Revision-Date: 2011-11-06 21:08+0300\n"
 "Last-Translator: J. K. <Reslayer@ya.ru>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -97,12 +97,12 @@ msgid "No matter"
 msgstr ""
 
 #: mrim.c:621
-#: cl.c:914
+#: cl.c:916
 msgid "Male"
 msgstr ""
 
 #: mrim.c:622
-#: cl.c:914
+#: cl.c:916
 msgid "Female"
 msgstr ""
 
@@ -128,8 +128,8 @@ msgstr ""
 
 #: mrim.c:639
 #: mrim.c:682
-#: cl.c:698
-#: cl.c:748
+#: cl.c:700
+#: cl.c:750
 msgid "_Cancel"
 msgstr ""
 
@@ -138,8 +138,8 @@ msgid "Micropost"
 msgstr ""
 
 #: mrim.c:680
-#: cl.c:1010
-#: cl.c:1123
+#: cl.c:1012
+#: cl.c:1125
 msgid "Microblog"
 msgstr ""
 
@@ -156,22 +156,22 @@ msgid "Search for buddies..."
 msgstr ""
 
 #: mrim.c:695
-#: cl.c:811
+#: cl.c:813
 msgid "MyWorld@Mail.ru"
 msgstr ""
 
 #: mrim.c:698
-#: cl.c:814
+#: cl.c:816
 msgid "Photo@Mail.ru"
 msgstr ""
 
 #: mrim.c:701
-#: cl.c:817
+#: cl.c:819
 msgid "Video@Mail.ru"
 msgstr ""
 
 #: mrim.c:704
-#: cl.c:820
+#: cl.c:822
 msgid "Blogs@Mail.ru"
 msgstr ""
 
@@ -251,188 +251,188 @@ msgstr ""
 msgid "Unable to Add"
 msgstr ""
 
-#: cl.c:541
+#: cl.c:543
 #, c-format
 msgid "Symbols: %d"
 msgstr ""
 
-#: cl.c:595
-#: cl.c:697
+#: cl.c:597
+#: cl.c:699
 msgid "Send SMS"
 msgstr ""
 
-#: cl.c:614
+#: cl.c:616
 msgid "Phone:"
 msgstr ""
 
-#: cl.c:629
+#: cl.c:631
 msgid "Translit"
 msgstr ""
 
-#: cl.c:657
+#: cl.c:659
 #: mrim-util.c:186
 msgid "translit-table"
 msgstr ""
 
-#: cl.c:690
+#: cl.c:692
 msgid "Choose phone number"
 msgstr ""
 
-#: cl.c:695
+#: cl.c:697
 msgid "SMS message text"
 msgstr ""
 
-#: cl.c:697
+#: cl.c:699
 msgid ""
 "SMS message should contain not\n"
 "more than 135 symbols in latin\n"
 "or 35 in cyrillic."
 msgstr ""
 
-#: cl.c:698
+#: cl.c:700
 msgid "_Send"
 msgstr ""
 
-#: cl.c:740
+#: cl.c:742
 msgid "_Main number"
 msgstr ""
 
-#: cl.c:742
+#: cl.c:744
 msgid "S_econd number"
 msgstr ""
 
-#: cl.c:744
+#: cl.c:746
 msgid "_Third number"
 msgstr ""
 
-#: cl.c:746
+#: cl.c:748
 msgid "Phone numbers"
 msgstr ""
 
-#: cl.c:746
+#: cl.c:748
 msgid "Specify numbers as shown: +71234567890"
 msgstr ""
 
-#: cl.c:747
+#: cl.c:749
 msgid "_OK"
 msgstr ""
 
-#: cl.c:792
+#: cl.c:794
 msgid "Request authorization"
 msgstr ""
 
-#: cl.c:798
-#: cl.c:801
+#: cl.c:800
+#: cl.c:803
 msgid "Send an SMS..."
 msgstr ""
 
-#: cl.c:807
+#: cl.c:809
 msgid "Edit phone numbers..."
 msgstr ""
 
-#: cl.c:827
+#: cl.c:829
 msgid "Remove from 'Visible to' list"
 msgstr ""
 
-#: cl.c:828
+#: cl.c:830
 msgid "Add to 'Visible to' list"
 msgstr ""
 
-#: cl.c:830
+#: cl.c:832
 msgid "Remove from 'Invisible to' list"
 msgstr ""
 
-#: cl.c:831
+#: cl.c:833
 msgid "Add to 'Invisible to' list"
 msgstr ""
 
-#: cl.c:833
+#: cl.c:835
 msgid "Visibility settings"
 msgstr ""
 
-#: cl.c:850
-#: cl.c:851
-#: cl.c:854
-#: cl.c:855
-#: cl.c:858
-#: cl.c:859
-#: cl.c:862
-#: cl.c:863
+#: cl.c:852
+#: cl.c:853
+#: cl.c:856
+#: cl.c:857
+#: cl.c:860
+#: cl.c:861
+#: cl.c:864
+#: cl.c:865
 msgid "Encountered an error while working on user details!"
 msgstr ""
 
-#: cl.c:851
+#: cl.c:853
 msgid "User not found."
 msgstr ""
 
-#: cl.c:855
+#: cl.c:857
 msgid "DBERR error. Please try later."
 msgstr ""
 
-#: cl.c:859
+#: cl.c:861
 msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
 msgstr ""
 
-#: cl.c:863
+#: cl.c:865
 msgid "unknown error"
 msgstr ""
 
-#: cl.c:964
+#: cl.c:966
 msgid "Not specified"
 msgstr ""
 
-#: cl.c:975
+#: cl.c:977
 #, c-format
 msgid "%i years, %i months"
 msgstr ""
 
-#: cl.c:994
-#: cl.c:1057
+#: cl.c:996
+#: cl.c:1059
 msgid "E-mail"
 msgstr ""
 
-#: cl.c:1006
-#: cl.c:1119
+#: cl.c:1008
+#: cl.c:1121
 msgid "User agent"
 msgstr ""
 
-#: cl.c:1027
+#: cl.c:1029
 msgid "UserInfo is not available for conferences and phones"
 msgstr ""
 
-#: cl.c:1084
+#: cl.c:1086
 msgid "Search results"
 msgstr ""
 
-#: cl.c:1094
+#: cl.c:1096
 msgid "Name"
 msgstr ""
 
-#: cl.c:1100
+#: cl.c:1102
 msgid "Account"
 msgstr ""
 
-#: cl.c:1101
+#: cl.c:1103
 msgid "Room"
 msgstr ""
 
-#: cl.c:1102
+#: cl.c:1104
 msgid "Alias"
 msgstr ""
 
-#: cl.c:1107
+#: cl.c:1109
 msgid "Status"
 msgstr ""
 
-#: cl.c:1113
+#: cl.c:1115
 msgid "Listening"
 msgstr ""
 
-#: cl.c:1115
+#: cl.c:1117
 msgid "Comment"
 msgstr ""
 
-#: cl.c:1277
+#: cl.c:1279
 msgid "Chat invitation"
 msgstr ""
 
