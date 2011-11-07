@@ -175,7 +175,7 @@ MrimStatus *make_mrim_status_from_purple(PurpleStatus *status) {
 		guint i = 0;
 		if (s->purple_tune_artist && s->purple_tune_artist[0]) parts[i++] = s->purple_tune_artist;
 		if (s->purple_tune_album && s->purple_tune_album[0]) parts[i++] = s->purple_tune_album;
-		if (s->purple_tune_title && s->purple_tune_album[0]) parts[i++] = s->purple_tune_title;
+		if (s->purple_tune_title && s->purple_tune_title[0]) parts[i++] = s->purple_tune_title;
 		s->desc = g_strjoinv(" - ", parts);
 	} else {
 		s->desc = NULL;
