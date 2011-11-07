@@ -107,7 +107,7 @@ gchar *mrim_get_ua_alias(MrimData *mrim, gchar *ua) {
 			}
 		}
 		if (!client_title) {
-			new_title = g_strdup(_(ua_titles[i].title));
+			new_title = g_strdup(client_id);
 			g_free(client_title);
 			client_title = new_title;
 		}
