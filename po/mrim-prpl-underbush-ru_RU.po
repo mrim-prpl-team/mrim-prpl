@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.2.0-underbush-outcreeper\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-06 21:08+0300\n"
+"POT-Creation-Date: 2011-11-08 22:33+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: J. K. <reslayer@mail.ru>\n"
 "Language-Team: mrim-prpl\n"
@@ -212,30 +212,30 @@ msgstr "Ошибка чтения!"
 msgid "Peer closed connection"
 msgstr "Соединение закрыто другой стороной"
 
-#: message.c:303
-#: message.c:306
-#: message.c:309
-#: message.c:312
+#: message.c:308
+#: message.c:311
+#: message.c:314
+#: message.c:317
 msgid "SMS"
 msgstr "SMS"
 
-#: message.c:303
+#: message.c:308
 msgid "SMS message sent."
 msgstr "SMS-сообщение отправлено"
 
-#: message.c:306
+#: message.c:311
 msgid "SMS service is not available"
 msgstr "Сервис SMS временно недоступен"
 
-#: message.c:309
+#: message.c:314
 msgid "Wrong SMS settings."
 msgstr "Неверные параметры отправки SMS"
 
-#: message.c:312
+#: message.c:317
 msgid "Achtung!"
 msgstr "Ахтунг!"
 
-#: message.c:312
+#: message.c:317
 msgid "Anyone here?? !"
 msgstr "Кто здесь?? !"
 

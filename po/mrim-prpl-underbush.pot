@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl_0.2_underbush-outcreeper\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-06 21:08+0300\n"
-"PO-Revision-Date: 2011-11-06 21:08+0300\n"
+"POT-Creation-Date: 2011-11-08 22:33+0300\n"
+"PO-Revision-Date: 2011-11-08 22:33+0300\n"
 "Last-Translator: J. K. <Reslayer@ya.ru>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -215,30 +215,30 @@ msgstr ""
 msgid "Peer closed connection"
 msgstr ""
 
-#: message.c:303
-#: message.c:306
-#: message.c:309
-#: message.c:312
+#: message.c:308
+#: message.c:311
+#: message.c:314
+#: message.c:317
 msgid "SMS"
 msgstr ""
 
-#: message.c:303
+#: message.c:308
 msgid "SMS message sent."
 msgstr ""
 
-#: message.c:306
+#: message.c:311
 msgid "SMS service is not available"
 msgstr ""
 
-#: message.c:309
+#: message.c:314
 msgid "Wrong SMS settings."
 msgstr ""
 
-#: message.c:312
+#: message.c:317
 msgid "Achtung!"
 msgstr ""
 
-#: message.c:312
+#: message.c:317
 msgid "Anyone here?? !"
 msgstr ""
 

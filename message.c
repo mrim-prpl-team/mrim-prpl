@@ -285,6 +285,11 @@ void mrim_receive_offline_message(MrimData *mrim, gchar *message) {
 			message_text = str;
 		}
 		gchar *msg = purple_markup_escape_text(message_text, -1);
+		if (purple_account_get_bool(mrim->gc->account, "debug_mode", FALSE)) {
+			gchar *dbg_msg = g_strdup_printf("%s {Source='%s'}", msg, message);
+			g_free(msg);
+			msg = dbg_msg;
+		}
 		serv_got_im(mrim->gc, from, msg, PURPLE_MESSAGE_RECV, date);
 		g_free(msg);
 		g_free(message_text);

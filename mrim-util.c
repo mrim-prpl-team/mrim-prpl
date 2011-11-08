@@ -4,7 +4,7 @@
 time_t mrim_str_to_time(const gchar* str) {
 	int year=0, month=0, day=0, hour=0, min=0, sec=0;
 	gchar month_str[4];
-	int ret = sscanf(str, "%*03s, %i %03s %i %i:%i:%i", &day, month_str, &year, &hour, &min, &sec);
+	int ret = sscanf(str, "%*03s, %d %03s %d %d:%d:%d", &day, month_str, &year, &hour, &min, &sec);
 	if(g_strcmp0(month_str, "Jan") == 0) month=1;
 	else if(g_strcmp0(month_str, "Feb") == 0) month=2;
 	else if(g_strcmp0(month_str, "Mar") == 0) month=3;
