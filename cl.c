@@ -967,13 +967,10 @@ MrimSearchResult *mrim_parse_search_result(MrimPackage *pack) {
 					GDate *gCurDate			= g_new0(GDate, 1);
 					g_get_current_time (gTimeReal);
 					g_date_set_time_val (gCurDate, gTimeReal);
-					// purple_debug_info("mrim-prpl", "[%s] Current time is (%s).\n", __func__, TimeNow);
 					g_date_subtract_years (gCurDate, bd_year);
 					g_date_subtract_months (gCurDate, bd_mon % 12);
 					g_date_subtract_days (gCurDate, bd_day);
-					
-					purple_debug_info("mrim-prpl", "[%s] Life time is (%i-%i-%i).\n", __func__, g_date_get_year(gCurDate), g_date_get_month(gCurDate), g_date_get_day(gCurDate));
-					
+					g_free(buddy_age);
 					int full_years	= g_date_get_year(gCurDate);
 					int full_months = g_date_get_month(gCurDate) % 12;
 					if (!full_months) {
@@ -981,7 +978,6 @@ MrimSearchResult *mrim_parse_search_result(MrimPackage *pack) {
 					} else {
 						buddy_age	= g_strdup_printf(_("%i years, %i months"), full_years, full_months);
 					}
-					
 					g_free(gTimeReal);
 					g_free(gCurDate);
 			// End GLib < 2.26
@@ -991,9 +987,13 @@ MrimSearchResult *mrim_parse_search_result(MrimPackage *pack) {
 					GDateTime *LifeTime;
 					LifeTime	= g_date_time_add_full(TimeNow, -bd_year, -bd_mon, -bd_day, 0, 0, 0);
 					g_free(buddy_age);
-					int full_years	= g_date_time_get_year(LifeTime); // + g_date_time_get_month(LifeTime) / 12;;
+					int full_years	= g_date_time_get_year(LifeTime);
 					int full_months = g_date_time_get_month(LifeTime) % 12;
-					buddy_age	= g_strdup_printf(_("%i years, %i months"), full_years, full_months);
+					if (!full_months) {
+						buddy_age	= g_strdup_printf(_("%i full years"), full_years);
+					} else {
+						buddy_age	= g_strdup_printf(_("%i years, %i months"), full_years, full_months);
+					}
 					g_date_time_unref(TimeNow);
 					g_date_time_unref(LifeTime);
 			// End GLib >= 2.26
