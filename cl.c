@@ -973,11 +973,7 @@ MrimSearchResult *mrim_parse_search_result(MrimPackage *pack) {
 					g_free(buddy_age);
 					int full_years	= g_date_get_year(gCurDate);
 					int full_months = g_date_get_month(gCurDate) % 12;
-					if (!full_months) {
-						buddy_age	= g_strdup_printf(_("%i full years"), full_years);
-					} else {
-						buddy_age	= g_strdup_printf(_("%i years, %i months"), full_years, full_months);
-					}
+					
 					g_free(gTimeReal);
 					g_free(gCurDate);
 			// End GLib < 2.26
@@ -989,15 +985,15 @@ MrimSearchResult *mrim_parse_search_result(MrimPackage *pack) {
 					g_free(buddy_age);
 					int full_years	= g_date_time_get_year(LifeTime);
 					int full_months = g_date_time_get_month(LifeTime) % 12;
+					g_date_time_unref(TimeNow);
+					g_date_time_unref(LifeTime);
+			// End GLib >= 2.26
+#endif
 					if (!full_months) {
 						buddy_age	= g_strdup_printf(_("%i full years"), full_years);
 					} else {
 						buddy_age	= g_strdup_printf(_("%i years, %i months"), full_years, full_months);
 					}
-					g_date_time_unref(TimeNow);
-					g_date_time_unref(LifeTime);
-			// End GLib >= 2.26
-#endif
 				}
 				result->rows[row_id][age_col_index] = buddy_age;
 			}
