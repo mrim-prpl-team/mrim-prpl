@@ -936,14 +936,6 @@ MrimSearchResult *mrim_parse_search_result(MrimPackage *pack) {
 	};
 	if (bday_col_index < result->column_count) {
 		guint age_col_index = result->column_count++;
-		/* MrimSearchResultColumn *old_columns = result->columns;
-		result->columns = g_new0(MrimSearchResultColumn, result->column_count);
-		for (guint col_id = 0; col_id < age_col_index; col_id++) {
-			result->columns[col_id].title		= g_strdup(old_columns[col_id].title);
-			result->columns[col_id].skip		= old_columns[col_id].skip;
-			result->columns[col_id].unicode = old_columns[col_id].unicode;
-			g_free(old_columns[col_id].title);
-		}; */
 		result->columns = g_renew(MrimSearchResultColumn, result->columns, result->column_count);
 		result->columns[age_col_index].title		= "Age";
 		result->columns[age_col_index].skip			= FALSE;
@@ -968,15 +960,45 @@ MrimSearchResult *mrim_parse_search_result(MrimPackage *pack) {
 					int bd_year=0, bd_mon=0, bd_day=0;
 					int ret = sscanf(BDay_Str, "%u-%u-%u", &bd_year, &bd_mon, &bd_day);
 					purple_debug_info("mrim-prpl", "[%s] Birthday parsed (ret=%i) is %i-%i-%i.\n", __func__, ret, bd_year, bd_mon, bd_day);
+					
+					
+			// Age calculation for GLib <= 2.24
+					
+					GTimeVal *gTimeReal = g_new0(GTimeVal, 1);
+					GDate *gCurDate			= g_new0(GDate, 1);
+					g_get_current_time (gTimeReal);
+					g_date_set_time_val (gCurDate, gTimeReal);
+					// purple_debug_info("mrim-prpl", "[%s] Current time is (%s).\n", __func__, TimeNow);
+					g_date_subtract_years (gCurDate, bd_year);
+					g_date_subtract_months (gCurDate, bd_mon % 12);
+					g_date_subtract_days (gCurDate, bd_day);
+					
+					purple_debug_info("mrim-prpl", "[%s] Life time is (%i-%i-%i).\n", __func__, g_date_get_year(gCurDate), g_date_get_month(gCurDate), g_date_get_day(gCurDate));
+					
+					int full_years	= g_date_get_year(gCurDate);
+					int full_months = g_date_get_month(gCurDate) % 12;
+					if (!full_months) {
+						buddy_age	= g_strdup_printf(_("%i full years"), full_years);
+					} else {
+						buddy_age	= g_strdup_printf(_("%i years, %i months"), full_years, full_months);
+					}
+					
+					g_free(gTimeReal);
+					g_free(gCurDate);
+			// End GLib <= 2.24
+			
+					/* // Used for GLib >= 2.26
+					
 					GDateTime *TimeNow	= g_date_time_new_now_local();
 					GDateTime *LifeTime;
-					LifeTime	= g_date_time_add_full(TimeNow, -bd_year, -(bd_mon /* % 12 */), -bd_day, 0, 0, 0);
+					LifeTime	= g_date_time_add_full(TimeNow, -bd_year, -bd_mon, -bd_day, 0, 0, 0);
 					g_free(buddy_age);
 					int full_years	= g_date_time_get_year(LifeTime); // + g_date_time_get_month(LifeTime) / 12;;
 					int full_months = g_date_time_get_month(LifeTime) % 12;
 					buddy_age	= g_strdup_printf(_("%i years, %i months"), full_years, full_months);
 					g_date_time_unref(TimeNow);
 					g_date_time_unref(LifeTime);
+					*/
 				}
 				result->rows[row_id][age_col_index] = buddy_age;
 			}
