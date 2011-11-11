@@ -961,9 +961,8 @@ MrimSearchResult *mrim_parse_search_result(MrimPackage *pack) {
 					int ret = sscanf(BDay_Str, "%u-%u-%u", &bd_year, &bd_mon, &bd_day);
 					purple_debug_info("mrim-prpl", "[%s] Birthday parsed (ret=%i) is %i-%i-%i.\n", __func__, ret, bd_year, bd_mon, bd_day);
 					
-					
-			// Age calculation for GLib <= 2.24
-					
+#if GLIB_MINOR_VERSION < 26
+			// Age calculation for GLib <= 2.26
 					GTimeVal *gTimeReal = g_new0(GTimeVal, 1);
 					GDate *gCurDate			= g_new0(GDate, 1);
 					g_get_current_time (gTimeReal);
@@ -985,10 +984,9 @@ MrimSearchResult *mrim_parse_search_result(MrimPackage *pack) {
 					
 					g_free(gTimeReal);
 					g_free(gCurDate);
-			// End GLib <= 2.24
-			
-					/* // Used for GLib >= 2.26
-					
+			// End GLib < 2.26
+#else
+			// Used for GLib >= 2.26
 					GDateTime *TimeNow	= g_date_time_new_now_local();
 					GDateTime *LifeTime;
 					LifeTime	= g_date_time_add_full(TimeNow, -bd_year, -bd_mon, -bd_day, 0, 0, 0);
@@ -998,7 +996,8 @@ MrimSearchResult *mrim_parse_search_result(MrimPackage *pack) {
 					buddy_age	= g_strdup_printf(_("%i years, %i months"), full_years, full_months);
 					g_date_time_unref(TimeNow);
 					g_date_time_unref(LifeTime);
-					*/
+			// End GLib >= 2.26
+#endif
 				}
 				result->rows[row_id][age_col_index] = buddy_age;
 			}
