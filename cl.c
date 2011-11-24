@@ -158,7 +158,7 @@ void mrim_cl_load(MrimPackage *pack, MrimData *mrim) {
 
 					purple_blist_add_chat(pc, group, NULL);
 				}
-				//purple_blist_alias_chat(pc, mb->alias);
+				purple_blist_alias_chat(pc, mb->alias);
 			} else {
 				/* BUDDIES */
 				purple_debug_info("mrim-prpl", "[%s] New buddy: email = '%s', nick = '%s', flags = 0x%x, status = '%s', UA = '%s', microblog = '%s'\n",
