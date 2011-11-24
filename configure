@@ -16,7 +16,7 @@ for option in $@; do
 			;;
 		--help)
 			echo "mrim-prpl configure script"
-			echo "Usage: ./configure.sh [options]"
+			echo "Usage: ./configure [options]"
 			echo "Options:"
 			echo "    --help - display this text"
 			echo "    --gtk - enable GTK+ interface in plugin"
