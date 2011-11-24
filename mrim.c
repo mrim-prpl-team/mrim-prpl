@@ -710,6 +710,7 @@ GList *mrim_prpl_actions(PurplePlugin *plugin, gpointer context) {
 /* Chat config */
 static GList *mrim_chat_info(PurpleConnection *gc)
 {
+	purple_debug_info("mrim-prpl", "[%s]\n", __func__);
 	GList *list = NULL;
 	struct proto_chat_entry *pce;
 
@@ -724,7 +725,7 @@ static GList *mrim_chat_info(PurpleConnection *gc)
 
 GHashTable *mrim_chat_info_defaults(PurpleConnection *gc, const char *chat_name)
 {
-	purple_debug_info("mrim", "%s\n", __func__);
+	purple_debug_info("mrim-prpl", "[%s] chat_name %s\n", __func__, chat_name);
 
 	GHashTable *defaults;
 	defaults = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
