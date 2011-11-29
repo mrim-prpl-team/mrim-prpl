@@ -177,7 +177,7 @@ gchar *md5sum(gchar *str) {
 	purple_cipher_context_digest(context, 16, result, NULL);
 	purple_cipher_context_destroy(context);
 
-	purple_debug_info("mrim-prpl", "[%s] hash: '%s'\n", __func__, result);
+	//purple_debug_info("mrim-prpl", "[%s] hash: '%s'\n", __func__, result);
 	return result;
 }
 
