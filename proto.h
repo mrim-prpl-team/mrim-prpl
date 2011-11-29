@@ -77,14 +77,16 @@ typedef struct mrim_packet_header_t
 	#define MESSAGE_FLAG_MULTICHAT  	0x00400000
 	#define MESSAGE_USERFLAGS_MASK      0x000036A8 // Flags that user is allowed to set himself 
 	// ???
-	#define MULTICHAT_MESSAGE  0
-	#define MULTICHAT_GET_MEMBERS 1
-	#define MULTICHAT_MEMBERS  2
-	#define MULTICHAT_ADD_MEMBERS 3
-	#define MULTICHAT_ATTACHED  4
-	#define MULTICHAT_DETACHED  5
-	#define MULTICHAT_DESTROYED  6
-	#define MULTICHAT_INVITE  7
+	#define MULTICHAT_MESSAGE	 	0 //chat messages (rtf, mults, wakeup, typing notification)
+	#define MULTICHAT_GET_MEMBERS	1 //ask for members list
+	#define MULTICHAT_MEMBERS		2 //list of chat members arrived
+	#define MULTICHAT_ADD_MEMBERS	3 //someone has added some users to chat
+	#define MULTICHAT_ATTACHED		4 //is not sent. should be sent when user adds multichat contact to his contact list
+	#define MULTICHAT_DETACHED		5 //someone has left the chat himself (he was not deleted by another person)
+	#define MULTICHAT_DESTROYED		6 //is sent when the "totalitary" multichat is destroyed
+	#define MULTICHAT_INVITE		7 //someone has invited me to chat
+	#define MULTICHAT_DEL_MEMBERS	8 //someone has deleted some users from chat
+	#define MULTICHAT_TURN_OUT		9 //someone has delete me from chat 
 // LPS to e-mail ANSI
 // LPS message ANSI/UNICODE (see flags)
 // LPS rtf-formatted message (>=1.1) ???
