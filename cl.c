@@ -1194,9 +1194,9 @@ void mrim_chat_blist(MrimData *mrim, gpointer data, MrimPackage *pack)
 	PurpleConvChat *chat = PURPLE_CONV_CHAT(conv);
 
 	mrim_package_read_UL(pack); // todo: wtf?? 0x62
-	mrim_package_read_UL(pack); // todoL wtf?? 0x02 == MULTICHAT_MEMBERS
+	mrim_package_read_UL(pack); // todo: wtf?? 0x02 == MULTICHAT_MEMBERS
 	gchar *topic = mrim_package_read_LPSW(pack);
-	mrim_package_read_UL(pack); // todoL wtf?? 0x4c
+	mrim_package_read_UL(pack); // todo: wtf?? 0x4c
 	// Set Topic
 	purple_conv_chat_set_topic(chat, NULL, topic);
 	///
@@ -1212,12 +1212,19 @@ void mrim_chat_blist(MrimData *mrim, gpointer data, MrimPackage *pack)
 
 void mrim_chat_join(PurpleConnection *gc, GHashTable *components)
 {
-	const char *username = gc->account->username;
 	gchar *room = g_hash_table_lookup(components, "room");
-	MrimData *mrim = gc->proto_data;
+	if (! is_valid_chat(room))
+	{
+		char *buf = g_strdup_printf(_("%s is not a valid room name"), room);
+		purple_notify_error(gc, _("Invalid Room Name"), _("Invalid Room Name"), buf);
+		purple_serv_got_join_chat_failed(gc, components);
+		g_free(buf);
+	}
 
+	const char *username = gc->account->username;
+	MrimData *mrim = gc->proto_data;
 	PurpleChat *pchat = purple_blist_find_chat(gc->account, room);
-	if (FALSE)//if (pchat = NULL)
+	if (pchat == NULL) // TODO
 	{
 		// add chat
 		purple_debug_info("mrim-prpl", "[%s] New chat: %s \n", __func__, room);
@@ -1225,7 +1232,7 @@ void mrim_chat_join(PurpleConnection *gc, GHashTable *components)
 		g_hash_table_insert(defaults, "room", g_strdup(room));
 		PurpleChat *pc = purple_chat_new(mrim->account, room, defaults);
 
-		purple_blist_add_chat(pc, get_mrim_group(mrim, 0)->group, NULL); /* add to "Остальные" */
+		purple_blist_add_chat(pc, get_mrim_group(mrim, 0)->group, NULL);  // add to "Остальные" // TODO // TODO move to ack?
 
 		MrimPackage *pack = mrim_package_new(mrim->seq, MRIM_CS_ADD_CONTACT);
 		mrim_package_add_UL(pack, CONTACT_FLAG_MULTICHAT);
@@ -1275,40 +1282,31 @@ char *mrim_get_chat_name(GHashTable *components)
 	return (char*)str;
 }
 
+
 void mrim_chat_invite(PurpleConnection *gc, int id, const char *message, const char *who)
 {
-	purple_debug_info("mrim-prpl", "%s\n", __func__);
-
-	const char *username = gc->account->username;
+	purple_debug_info("mrim-prpl", "[%s]\n", __func__);
+	MrimData *mrim = gc->proto_data;
 	PurpleConversation *conv = purple_find_chat(gc, id);
 	const char *room = conv->name;
-	PurpleAccount *to_acct = purple_accounts_find(who, MRIM_PRPL_ID);
 
-	purple_debug_info("mrim-prpl", "%s is inviting %s to join chat room %s\n", username, who, room);
+	purple_debug_info("mrim-prpl", "%s is invited to join chat room %s\n", who, room);
 
-	if (to_acct)
-	{
-		PurpleConversation *to_conv = purple_find_chat(to_acct->gc, id);
-		if (to_conv)
-		{
-			char *tmp = g_strdup_printf("%s is already in chat room %s.", who, room);
-			purple_debug_info("mrim", "%s is already in chat room %s; ignoring invitation from %s\n", who, room, username);
-			purple_notify_info(gc, _("Chat invitation"), _("Chat invitation"), tmp);
-			g_free(tmp);
-		}
-		else
-		{
-			GHashTable *components;
-			components = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
-			g_hash_table_replace(components, "room", g_strdup(room));
-			g_hash_table_replace(components, "invited_by", g_strdup(username));
-			serv_got_chat_invite(to_acct->gc, room, username, message, components);
-		}
-	}
+	MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_MESSAGE);
+	mrim_package_add_UL(pack, CONTACT_FLAG_MULTICHAT );
+	mrim_package_add_LPSA(pack, room);
+	mrim_package_add_UL(pack, 0); // message
+	mrim_package_add_UL(pack, 0); // rtf
+	mrim_package_add_UL(pack, 0); // 0x27 ???
+	mrim_package_add_UL(pack, MULTICHAT_ADD_MEMBERS);
+	mrim_package_add_UL(pack, 0); // 0x1f
+	mrim_package_add_UL(pack, 1); // CLPS?
+	mrim_package_add_LPSA(pack, who);
+	mrim_package_send(pack, mrim);
 }
 
 void mrim_chat_leave(PurpleConnection *gc, int id)
 {
 	PurpleConversation *conv = purple_find_chat(gc, id);
-	purple_debug_info("mrim-prpl", "%s is leaving chat room %s\n", gc->account->username, conv->name);
+	purple_debug_info("mrim-prpl", "[%s] %s is leaving chat room %s\n", __func__, gc->account->username, conv->name);
 }

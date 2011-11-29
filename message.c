@@ -333,10 +333,10 @@ void mrim_send_sms(MrimData *mrim, gchar *phone, gchar *message) {
 /* CHATS */
 void mrim_chat_whisper(PurpleConnection *gc, int id, const char *who, const char *message)
 {
-	purple_debug_info("mrim", "[%s]\n", __func__);
+	purple_debug_info("mrim-prpl", "%s\n", __func__);
 	const char *username = gc->account->username;
 	PurpleConversation *conv = purple_find_chat(gc, id);
-	purple_debug_info("mrim", "%s receives whisper from %s in chat room %s: %s\n", username, who, conv->name, message);
+	purple_debug_info("mrim-prpl", "%s receives whisper from %s in chat room %s: %s\n", username, who, conv->name, message);
 
 	/* receive whisper on recipient's account */
 	serv_got_chat_in(gc, id, who, PURPLE_MESSAGE_RECV | PURPLE_MESSAGE_WHISPER, message, time(NULL));
@@ -344,7 +344,7 @@ void mrim_chat_whisper(PurpleConnection *gc, int id, const char *who, const char
 
 int mrim_chat_send(PurpleConnection *gc, int id, const char *message, PurpleMessageFlags flags)
 {
-	purple_debug_info("mrim", "%s\n", __func__);
+	purple_debug_info("mrim-prpl", "%s\n", __func__);
 	MrimData *mrim = gc->proto_data;
 	const char *username = gc->account->username;
 	PurpleConversation *conv = purple_find_chat(gc, id);
@@ -372,5 +372,5 @@ int mrim_chat_send(PurpleConnection *gc, int id, const char *message, PurpleMess
 
 void mrim_set_chat_topic(PurpleConnection *gc, int id, const char *topic)
 {
-	purple_debug_info("mrim", "[%s]\n", __func__);
+	purple_debug_info("mrim-prpl", "%s\n", __func__);
 }
