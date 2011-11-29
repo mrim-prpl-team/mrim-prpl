@@ -834,8 +834,8 @@ static PurplePluginProtocolInfo prpl_info = { //OPT_PROTO_CHAT_TOPIC
 	mrim_chat_join,	/* chat_join */
 	NULL,			/* reject_chat */
 	NULL,			/* get_chat_name */
-	NULL,			/* chat_invite */
-	NULL,			/* chat_leave */
+	mrim_chat_invite,/* chat_invite */
+	mrim_chat_leave,/* chat_leave */
 	NULL,			/* whisper */
 	mrim_chat_send,	/* chat_send */
 	NULL,			/* keep_alive */
