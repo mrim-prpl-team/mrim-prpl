@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mrim-prpl-0.2.0-underbush-outcreeper\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-12 03:32+0300\n"
+"POT-Creation-Date: 2011-11-30 15:31+0300\n"
 "PO-Revision-Date: \n"
-"Last-Translator: J. K. <Reslayer@ya.ru>\n"
+"Last-Translator: Reslayer <Reslayer@ya.ru>\n"
 "Language-Team: mrim-prpl\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -14,8 +14,306 @@ msgstr ""
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-KeywordsList: _;N_;gettext;gettext_noop\n"
-"X-Poedit-Basepath: /home/ubuntu/dev/pidgin/mrim-prpl/git/mrim-prpl/\n"
+"X-Poedit-Basepath: /home/reslayer/dev/pidgin/mrim-prpl/git/mrim-prpl/\n"
 "X-Poedit-SearchPath-0: .\n"
+
+#: cl.c:413
+#, c-format
+msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), valid ICQ UIN in NNNN@uin.icq format or valid phone number (start with + and contain only numbers, spaces and '-'."
+msgstr "Не могу добавить собеседника \"%s\", поскольку имя пользователя неверно. Имя пользователя должно быть действительным адресом электронной почты (в доменах mail.ru, bk.ru, list.ru или corp.mail.ru), либо действительным номером ICQ в формате NNNN@uin.icq, либо допустимым телефонным номером, начинающимся со знака + и содержащим только цифры, пробелы и знаки дефиса."
+
+#: cl.c:414
+msgid "Unable to Add"
+msgstr "Не могу добавить"
+
+#: cl.c:543
+#, c-format
+msgid "Symbols: %d"
+msgstr "Символы: %d"
+
+#: cl.c:597
+#: cl.c:699
+msgid "Send SMS"
+msgstr "Отправить SMS"
+
+#: cl.c:616
+msgid "Phone:"
+msgstr "Телефон:"
+
+#: cl.c:631
+msgid "Translit"
+msgstr "Транслит"
+
+#: cl.c:659
+#: mrim-util.c:186
+msgid "translit-table"
+msgstr "а=a,б=b,в=v,г=g,д=d,е=e,ж=zh,з=z,и=i,й=i',к=k,л=l,м=m,н=n,о=o,п=p,р=r,с=s,т=t,у=u,ф=f,х=h,ц=ts,ч=ch,ш=sh,щ=sch,ъ=',ы=y,ь=',э=e,ю=u,я=ya,А=A,Б=B,В=V,Г=G,Д=D,Е=E,Ж=Zh,З=Z,И=I,Й=I',К=K,Л=L,М=M,Н=N,О=O,П=P,Р=R,С=S,Т=T,У=U,Ф=F,Х=H,Ц=Ts,Ч=Ch,Ш=Sh,Щ=Sch,Ъ=',Ы=Y,Ь=',Э=E,Ю=U,Я=Ya"
+
+#: cl.c:692
+msgid "Choose phone number"
+msgstr "Номера телефонов"
+
+#: cl.c:697
+msgid "SMS message text"
+msgstr "Сообщение"
+
+#: cl.c:699
+msgid ""
+"SMS message should contain not\n"
+"more than 135 symbols in latin\n"
+"or 35 in cyrillic."
+msgstr ""
+"Сообщение SMS должно содержать\n"
+"не более 135 символов латиницы,\n"
+"либо 35 символов кириллицы."
+
+#: cl.c:700
+msgid "_Send"
+msgstr "_Отправить"
+
+#: cl.c:700
+#: cl.c:750
+#: mrim.c:639
+#: mrim.c:682
+msgid "_Cancel"
+msgstr "О_тмена"
+
+#: cl.c:742
+msgid "_Main number"
+msgstr "Осно_вной номер"
+
+#: cl.c:744
+msgid "S_econd number"
+msgstr "_Второй номер"
+
+#: cl.c:746
+msgid "_Third number"
+msgstr "Т_ретий номер"
+
+#: cl.c:748
+msgid "Phone numbers"
+msgstr "Номера телефонов"
+
+#: cl.c:748
+msgid "Specify numbers as shown: +71234567890"
+msgstr "Указывайте номера по образцу: +71234567890"
+
+#: cl.c:749
+msgid "_OK"
+msgstr "_Ок"
+
+#: cl.c:794
+msgid "Request authorization"
+msgstr "Запрос авторизации"
+
+#: cl.c:800
+#: cl.c:803
+msgid "Send an SMS..."
+msgstr "Отправить SMS..."
+
+#: cl.c:809
+msgid "Edit phone numbers..."
+msgstr "Редактировать номера..."
+
+#: cl.c:813
+#: mrim.c:695
+msgid "MyWorld@Mail.ru"
+msgstr "Мой Мир@Mail.Ru"
+
+#: cl.c:816
+#: mrim.c:698
+msgid "Photo@Mail.ru"
+msgstr "Фото@Mail.Ru"
+
+#: cl.c:819
+#: mrim.c:701
+msgid "Video@Mail.ru"
+msgstr "Видео@Mail.Ru"
+
+#: cl.c:822
+#: mrim.c:704
+msgid "Blogs@Mail.ru"
+msgstr "Блоги@Mail.Ru"
+
+#: cl.c:829
+msgid "Remove from 'Visible to' list"
+msgstr "Удалить из списка всегда видящих"
+
+#: cl.c:830
+msgid "Add to 'Visible to' list"
+msgstr "Добавить в список всегда видящих"
+
+#: cl.c:832
+msgid "Remove from 'Invisible to' list"
+msgstr "Удалить из списка всегда невидящих"
+
+#: cl.c:833
+msgid "Add to 'Invisible to' list"
+msgstr "Добавить в список всегда невидящих"
+
+#: cl.c:835
+msgid "Visibility settings"
+msgstr "Настройки видимости"
+
+#: cl.c:852
+#: cl.c:853
+#: cl.c:856
+#: cl.c:857
+#: cl.c:860
+#: cl.c:861
+#: cl.c:864
+#: cl.c:865
+msgid "Encountered an error while working on user details!"
+msgstr "Неизвестная ошибка во время работы с анкетой!"
+
+#: cl.c:853
+msgid "User not found."
+msgstr "Пользователь не найден"
+
+#: cl.c:857
+msgid "DBERR error. Please try later."
+msgstr "Ошибка базы данных. Пожалуйста, попробуйте позднее."
+
+#: cl.c:861
+#, fuzzy
+msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
+msgstr "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
+
+#: cl.c:865
+msgid "unknown error"
+msgstr "неизвестная ошибка"
+
+#: cl.c:916
+#: mrim.c:621
+msgid "Male"
+msgstr "Мужской"
+
+#: cl.c:916
+#: mrim.c:622
+msgid "Female"
+msgstr "Женский"
+
+#: cl.c:958
+msgid "Not specified"
+msgstr "Не указан"
+
+#: cl.c:993
+#, c-format
+msgid "%i full years"
+msgstr "%i полных лет"
+
+#: cl.c:995
+#, c-format
+msgid "%i years, %i months"
+msgstr "%i лет, %i месяцев"
+
+#: cl.c:1013
+#: cl.c:1076
+msgid "E-mail"
+msgstr "E-mail"
+
+#: cl.c:1025
+#: cl.c:1138
+msgid "User agent"
+msgstr "Клиент"
+
+#: cl.c:1029
+#: cl.c:1142
+#: mrim.c:680
+msgid "Microblog"
+msgstr "Микроблог"
+
+#: cl.c:1046
+msgid "UserInfo is not available for conferences and phones"
+msgstr "Анкета не доступна для чатов и телефонов"
+
+#: cl.c:1103
+msgid "Search results"
+msgstr "Результаты поиска"
+
+#: cl.c:1113
+msgid "Name"
+msgstr "Имя"
+
+#: cl.c:1119
+msgid "Account"
+msgstr "Учётная запись"
+
+#: cl.c:1120
+msgid "Room"
+msgstr "Комната"
+
+#: cl.c:1121
+msgid "Alias"
+msgstr "Псевдоним"
+
+#: cl.c:1126
+msgid "Status"
+msgstr "Состояние"
+
+#: cl.c:1132
+msgid "Listening"
+msgstr "Слушаю"
+
+#: cl.c:1134
+msgid "Comment"
+msgstr "Комментарий"
+
+#: cl.c:1218
+#, c-format
+msgid "%s is not a valid room name"
+msgstr "Недопустимое имя конференции: \"%s\""
+
+#: cl.c:1219
+msgid "Invalid Room Name"
+msgstr "Недопустимое имя конференции"
+
+#: message.c:308
+#: message.c:311
+#: message.c:314
+#: message.c:317
+msgid "SMS"
+msgstr "SMS"
+
+#: message.c:308
+msgid "SMS message sent."
+msgstr "SMS-сообщение отправлено"
+
+#: message.c:311
+msgid "SMS service is not available"
+msgstr "Сервис SMS временно недоступен"
+
+#: message.c:314
+msgid "Wrong SMS settings."
+msgstr "Неверные параметры отправки SMS"
+
+#: message.c:317
+msgid "Achtung!"
+msgstr "Ахтунг!"
+
+#: message.c:317
+msgid "Anyone here?? !"
+msgstr "Кто здесь?? !"
+
+#: mrim-util.c:124
+#, c-format
+msgid "version %s"
+msgstr "версия %s"
+
+#: mrim-util.c:128
+#, c-format
+msgid "build %s"
+msgstr "сборка %s"
+
+#: mrim-util.c:132
+#, c-format
+msgid "protocol version %s"
+msgstr "версия протокола %s"
+
+#: mrim-util.c:140
+#, c-format
+msgid "%s with %s"
+msgstr "%s с %s"
 
 #: mrim.c:75
 msgid "Invalid login: username should have been specified as your_email_login@your_mail_ru_domain. I.e.: foobar@mail.ru"
@@ -93,16 +391,6 @@ msgstr "Пол"
 msgid "No matter"
 msgstr "Не важно"
 
-#: mrim.c:621
-#: cl.c:916
-msgid "Male"
-msgstr "Мужской"
-
-#: mrim.c:622
-#: cl.c:916
-msgid "Female"
-msgstr "Женский"
-
 #: mrim.c:629
 msgid "Age from"
 msgstr "Возраст от"
@@ -123,22 +411,9 @@ msgstr "Поиск пользователей"
 msgid "_Search"
 msgstr "_Искать"
 
-#: mrim.c:639
-#: mrim.c:682
-#: cl.c:700
-#: cl.c:750
-msgid "_Cancel"
-msgstr "О_тмена"
-
 #: mrim.c:678
 msgid "Micropost"
 msgstr "Микропост"
-
-#: mrim.c:680
-#: cl.c:1029
-#: cl.c:1142
-msgid "Microblog"
-msgstr "Микроблог"
 
 #: mrim.c:681
 msgid "_Post"
@@ -152,55 +427,35 @@ msgstr "Написать запись в микроблог..."
 msgid "Search for buddies..."
 msgstr "Искать пользователей..."
 
-#: mrim.c:695
-#: cl.c:813
-msgid "MyWorld@Mail.ru"
-msgstr "Мой Мир@Mail.Ru"
-
-#: mrim.c:698
-#: cl.c:816
-msgid "Photo@Mail.ru"
-msgstr "Фото@Mail.Ru"
-
-#: mrim.c:701
-#: cl.c:819
-msgid "Video@Mail.ru"
-msgstr "Видео@Mail.Ru"
-
-#: mrim.c:704
-#: cl.c:822
-msgid "Blogs@Mail.ru"
-msgstr "Блоги@Mail.Ru"
-
-#: mrim.c:717
+#: mrim.c:718
 msgid "_Room:"
 msgstr "_Комната:"
 
-#: mrim.c:914
+#: mrim.c:915
 msgid "Server"
 msgstr "Сервер"
 
-#: mrim.c:916
+#: mrim.c:917
 msgid "Port"
 msgstr "Порт"
 
-#: mrim.c:918
+#: mrim.c:919
 msgid "Load userpics"
 msgstr "Загружать фото контактов"
 
-#: mrim.c:920
+#: mrim.c:921
 msgid "Micropost notify"
 msgstr "Уведомлять о микроблогах"
 
-#: mrim.c:922
+#: mrim.c:923
 msgid "Use custom user agent string"
 msgstr "Указать описание программы пользователя вручную"
 
-#: mrim.c:924
+#: mrim.c:925
 msgid "Custom user agent"
 msgstr "Строка описания программы пользователя"
 
-#: mrim.c:926
+#: mrim.c:927
 msgid "Enable debug mode"
 msgstr "Включить отладочный режим"
 
@@ -211,256 +466,6 @@ msgstr "Ошибка чтения!"
 #: package.c:101
 msgid "Peer closed connection"
 msgstr "Соединение закрыто другой стороной"
-
-#: message.c:308
-#: message.c:311
-#: message.c:314
-#: message.c:317
-msgid "SMS"
-msgstr "SMS"
-
-#: message.c:308
-msgid "SMS message sent."
-msgstr "SMS-сообщение отправлено"
-
-#: message.c:311
-msgid "SMS service is not available"
-msgstr "Сервис SMS временно недоступен"
-
-#: message.c:314
-msgid "Wrong SMS settings."
-msgstr "Неверные параметры отправки SMS"
-
-#: message.c:317
-msgid "Achtung!"
-msgstr "Ахтунг!"
-
-#: message.c:317
-msgid "Anyone here?? !"
-msgstr "Кто здесь?? !"
-
-#: cl.c:413
-#, c-format
-msgid "Unable to add the buddy \"%s\" because the username is invalid.  Usernames must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru domains), valid ICQ UIN in NNNN@uin.icq format or valid phone number (start with + and contain only numbers, spaces and '-'."
-msgstr "Не могу добавить собеседника \"%s\", поскольку имя пользователя неверно. Имя пользователя должно быть действительным адресом электронной почты (в доменах mail.ru, bk.ru, list.ru или corp.mail.ru), либо действительным номером ICQ в формате NNNN@uin.icq, либо допустимым телефонным номером, начинающимся со знака + и содержащим только цифры, пробелы и знаки дефиса."
-
-#: cl.c:414
-msgid "Unable to Add"
-msgstr "Не могу добавить"
-
-#: cl.c:543
-#, c-format
-msgid "Symbols: %d"
-msgstr "Символы: %d"
-
-#: cl.c:597
-#: cl.c:699
-msgid "Send SMS"
-msgstr "Отправить SMS"
-
-#: cl.c:616
-msgid "Phone:"
-msgstr "Телефон:"
-
-#: cl.c:631
-msgid "Translit"
-msgstr "Транслит"
-
-#: cl.c:659
-#: mrim-util.c:186
-msgid "translit-table"
-msgstr "а=a,б=b,в=v,г=g,д=d,е=e,ж=zh,з=z,и=i,й=i',к=k,л=l,м=m,н=n,о=o,п=p,р=r,с=s,т=t,у=u,ф=f,х=h,ц=ts,ч=ch,ш=sh,щ=sch,ъ=',ы=y,ь=',э=e,ю=u,я=ya,А=A,Б=B,В=V,Г=G,Д=D,Е=E,Ж=Zh,З=Z,И=I,Й=I',К=K,Л=L,М=M,Н=N,О=O,П=P,Р=R,С=S,Т=T,У=U,Ф=F,Х=H,Ц=Ts,Ч=Ch,Ш=Sh,Щ=Sch,Ъ=',Ы=Y,Ь=',Э=E,Ю=U,Я=Ya"
-
-#: cl.c:692
-msgid "Choose phone number"
-msgstr "Номера телефонов"
-
-#: cl.c:697
-msgid "SMS message text"
-msgstr "Сообщение"
-
-#: cl.c:699
-msgid ""
-"SMS message should contain not\n"
-"more than 135 symbols in latin\n"
-"or 35 in cyrillic."
-msgstr ""
-"Сообщение SMS должно содержать\n"
-"не более 135 символов латиницы,\n"
-"либо 35 символов кириллицы."
-
-#: cl.c:700
-msgid "_Send"
-msgstr "_Отправить"
-
-#: cl.c:742
-msgid "_Main number"
-msgstr "Осно_вной номер"
-
-#: cl.c:744
-msgid "S_econd number"
-msgstr "_Второй номер"
-
-#: cl.c:746
-msgid "_Third number"
-msgstr "Т_ретий номер"
-
-#: cl.c:748
-msgid "Phone numbers"
-msgstr "Номера телефонов"
-
-#: cl.c:748
-msgid "Specify numbers as shown: +71234567890"
-msgstr "Указывайте номера по образцу: +71234567890"
-
-#: cl.c:749
-msgid "_OK"
-msgstr "_Ок"
-
-#: cl.c:794
-msgid "Request authorization"
-msgstr "Запрос авторизации"
-
-#: cl.c:800
-#: cl.c:803
-msgid "Send an SMS..."
-msgstr "Отправить SMS..."
-
-#: cl.c:809
-msgid "Edit phone numbers..."
-msgstr "Редактировать номера..."
-
-#: cl.c:829
-msgid "Remove from 'Visible to' list"
-msgstr "Удалить из списка всегда видящих"
-
-#: cl.c:830
-msgid "Add to 'Visible to' list"
-msgstr "Добавить в список всегда видящих"
-
-#: cl.c:832
-msgid "Remove from 'Invisible to' list"
-msgstr "Удалить из списка всегда невидящих"
-
-#: cl.c:833
-msgid "Add to 'Invisible to' list"
-msgstr "Добавить в список всегда невидящих"
-
-#: cl.c:835
-msgid "Visibility settings"
-msgstr "Настройки видимости"
-
-#: cl.c:852
-#: cl.c:853
-#: cl.c:856
-#: cl.c:857
-#: cl.c:860
-#: cl.c:861
-#: cl.c:864
-#: cl.c:865
-msgid "Encountered an error while working on user details!"
-msgstr "Неизвестная ошибка во время работы с анкетой!"
-
-#: cl.c:853
-msgid "User not found."
-msgstr "Пользователь не найден"
-
-#: cl.c:857
-msgid "DBERR error. Please try later."
-msgstr "Ошибка базы данных. Пожалуйста, попробуйте позднее."
-
-#: cl.c:861
-#, fuzzy
-msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
-msgstr "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
-
-#: cl.c:865
-msgid "unknown error"
-msgstr "неизвестная ошибка"
-
-#: cl.c:958
-msgid "Not specified"
-msgstr "Не указан"
-
-#: cl.c:993
-#, c-format
-msgid "%i full years"
-msgstr "%i полных лет"
-
-#: cl.c:995
-#, c-format
-msgid "%i years, %i months"
-msgstr "%i лет, %i месяцев"
-
-#: cl.c:1013
-#: cl.c:1076
-msgid "E-mail"
-msgstr "E-mail"
-
-#: cl.c:1025
-#: cl.c:1138
-msgid "User agent"
-msgstr "Клиент"
-
-#: cl.c:1046
-msgid "UserInfo is not available for conferences and phones"
-msgstr "Анкета не доступна для чатов и телефонов"
-
-#: cl.c:1103
-msgid "Search results"
-msgstr "Результаты поиска"
-
-#: cl.c:1113
-msgid "Name"
-msgstr "Имя"
-
-#: cl.c:1119
-msgid "Account"
-msgstr "Учётная запись"
-
-#: cl.c:1120
-msgid "Room"
-msgstr "Комната"
-
-#: cl.c:1121
-msgid "Alias"
-msgstr "Псевдоним"
-
-#: cl.c:1126
-msgid "Status"
-msgstr "Состояние"
-
-#: cl.c:1132
-msgid "Listening"
-msgstr "Слушаю"
-
-#: cl.c:1134
-msgid "Comment"
-msgstr "Комментарий"
-
-#: cl.c:1296
-msgid "Chat invitation"
-msgstr "Приглашение в чат"
-
-#: mrim-util.c:124
-#, c-format
-msgid "version %s"
-msgstr "версия %s"
-
-#: mrim-util.c:128
-#, c-format
-msgid "build %s"
-msgstr "сборка %s"
-
-#: mrim-util.c:132
-#, c-format
-msgid "protocol version %s"
-msgstr "версия протокола %s"
-
-#: mrim-util.c:140
-#, c-format
-msgid "%s with %s"
-msgstr "%s с %s"
 
 #: statuses.c:11
 msgid "Message"
@@ -485,6 +490,91 @@ msgstr "Альбом"
 #: statuses.c:215
 msgid "Mobile phone"
 msgstr "Номер мобильного"
+
+#: cl.h:80
+msgid "Aries"
+msgstr "Овен"
+
+#: cl.h:81
+msgid "Taurus"
+msgstr "Телец"
+
+#: cl.h:82
+msgid "Gemini"
+msgstr "Близнецы"
+
+#: cl.h:83
+msgid "Cancer"
+msgstr "Рак"
+
+#: cl.h:84
+msgid "Leo"
+msgstr "Лев"
+
+#: cl.h:85
+msgid "Virgo"
+msgstr "Дева"
+
+#: cl.h:86
+msgid "Libra"
+msgstr "Весы"
+
+#: cl.h:87
+msgid "Scorpius"
+msgstr "Скорпион"
+
+#: cl.h:88
+msgid "Sagittarius"
+msgstr "Стрелец"
+
+#: cl.h:89
+msgid "Capricornus"
+msgstr "Козерог"
+
+#: cl.h:90
+msgid "Aquarius"
+msgstr "Водолей"
+
+#: cl.h:91
+msgid "Pisces"
+msgstr "Рыбы"
+
+#: cl.h:99
+msgid "Birthday"
+msgstr "Дата рождения"
+
+#: cl.h:100
+msgid "Location"
+msgstr "Местоположение"
+
+#: cl.h:101
+msgid "Zodiac"
+msgstr "Знак зодиака"
+
+#: cl.h:102
+#: statuses.h:53
+msgid "Phone"
+msgstr "Телефон"
+
+#: cl.h:103
+msgid "status_uri"
+msgstr "Значок состояния"
+
+#: cl.h:104
+msgid "status_title"
+msgstr "Состояние"
+
+#: cl.h:105
+msgid "status_desc"
+msgstr "Описание состояния"
+
+#: cl.h:106
+msgid "ua_features"
+msgstr "Возможности клиента"
+
+#: cl.h:107
+msgid "Age"
+msgstr "Возраст"
 
 #: mrim.h:105
 msgid "Mail.ru Agent for Windows"
@@ -595,11 +685,6 @@ msgstr "Работаю"
 msgid "Sleeping"
 msgstr "Дремлю"
 
-#: statuses.h:53
-#: cl.h:102
-msgid "Phone"
-msgstr "Телефон"
-
 #: statuses.h:54
 msgid "Happy"
 msgstr "Счастлив"
@@ -632,85 +717,8 @@ msgstr "Хорошо"
 msgid "Music"
 msgstr "Музыка"
 
-#: cl.h:80
-msgid "Aries"
-msgstr "Овен"
-
-#: cl.h:81
-msgid "Taurus"
-msgstr "Телец"
-
-#: cl.h:82
-msgid "Gemini"
-msgstr "Близнецы"
-
-#: cl.h:83
-msgid "Cancer"
-msgstr "Рак"
-
-#: cl.h:84
-msgid "Leo"
-msgstr "Лев"
-
-#: cl.h:85
-msgid "Virgo"
-msgstr "Дева"
-
-#: cl.h:86
-msgid "Libra"
-msgstr "Весы"
-
-#: cl.h:87
-msgid "Scorpius"
-msgstr "Скорпион"
-
-#: cl.h:88
-msgid "Sagittarius"
-msgstr "Стрелец"
-
-#: cl.h:89
-msgid "Capricornus"
-msgstr "Козерог"
-
-#: cl.h:90
-msgid "Aquarius"
-msgstr "Водолей"
-
-#: cl.h:91
-msgid "Pisces"
-msgstr "Рыбы"
-
-#: cl.h:99
-msgid "Birthday"
-msgstr "Дата рождения"
-
-#: cl.h:100
-msgid "Location"
-msgstr "Местоположение"
-
-#: cl.h:101
-msgid "Zodiac"
-msgstr "Знак зодиака"
-
-#: cl.h:103
-msgid "status_uri"
-msgstr "Значок состояния"
-
-#: cl.h:104
-msgid "status_title"
-msgstr "Состояние"
-
-#: cl.h:105
-msgid "status_desc"
-msgstr "Описание состояния"
-
-#: cl.h:106
-msgid "ua_features"
-msgstr "Возможности клиента"
-
-#: cl.h:107
-msgid "Age"
-msgstr "Возраст"
+#~ msgid "Chat invitation"
+#~ msgstr "Приглашение в чат"
 
 #~ msgid "Unknown"
 #~ msgstr "Неизвестно"
