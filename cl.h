@@ -27,6 +27,7 @@ typedef struct {
 	gchar *microblog;
 	gchar **phones;
 	gchar *listening;
+	guint32 com_support;
 } MrimBuddy;
 
 typedef struct {

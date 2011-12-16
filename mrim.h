@@ -62,11 +62,37 @@ struct _MrimData {
 	gint error_count;
 	GHashTable *groups;
 	GHashTable *acks;
+	GHashTable *transfers;
 	gboolean use_gtk;
 	gchar *nick;
 	MrimStatus *status;
 	gchar *microblog;
 	guint mail_count;
+};
+
+typedef struct _MrimFile MrimFile;
+
+struct _MrimFile {
+	gchar *name;
+	guint32 size;
+};
+
+typedef struct _MrimFT MrimFT;
+
+struct _MrimFT {
+	MrimData *mrim;
+	gchar *user_name;
+	guint32 id;
+	gchar *remote_ip;
+	MrimFile *files;
+	guint count;
+	guint current;
+	PurpleProxyConnectData *proxy_conn;
+	gint conn;
+	void *inpa;
+	PurpleXfer *xfer;
+	gboolean proxy_connecting;
+	MrimData *fake_mrim;
 };
 
 #include "util.h"
@@ -78,7 +104,11 @@ struct _MrimData {
 #define MRIM_MAX_ERROR_COUNT 16
 #define MRIM_PRPL_ID "prpl-ostin-mrim-experimental"
 
-#define COM_SUPPORT (FEATURE_FLAG_BASE_SMILES | FEATURE_FLAG_WAKEUP)
+#ifdef ENABLE_FILES
+	#define COM_SUPPORT (FEATURE_FLAG_BASE_SMILES | FEATURE_FLAG_WAKEUP | FEATURE_FLAG_FILE_TRANSFER)
+#else
+	#define COM_SUPPORT (FEATURE_FLAG_BASE_SMILES | FEATURE_FLAG_WAKEUP)
+#endif
 
 #include "package.h"
 #include "mrim-util.h"

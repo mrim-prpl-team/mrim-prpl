@@ -18,6 +18,8 @@
 #include "cl.h"
 #include "statuses.h"
 #include "message.h"
+#include "stdbool.h"
+#include "sys/stat.h"
 
 static gboolean mrim_keep_alive(gpointer data);
 
@@ -86,6 +88,7 @@ static void mrim_login(PurpleAccount *account) {
 	
 	mrim->groups = g_hash_table_new_full(NULL,NULL, NULL, (GDestroyNotify)free_mrim_group);
 	mrim->acks = g_hash_table_new_full(NULL, NULL, NULL, (GDestroyNotify)free_mrim_ack);
+	mrim->transfers = g_hash_table_new_full(NULL, NULL, NULL, (GDestroyNotify)free);
 	
 	mrim->status = make_mrim_status_from_purple(purple_presence_get_active_status(account->presence));
 	
@@ -254,6 +257,118 @@ void mrim_mpop_session_ack(MrimData *mrim, gpointer user_data, MrimPackage *pack
 	g_free(webkey);
 }
 
+#ifdef ENABLE_FILES
+
+void mrim_xfer_connected(MrimFT *ft) {
+	purple_debug_info("mrim-prpl", "[%s] Connected!\n", __func__);
+}
+
+void mrim_xfer_connect_cb(gpointer data, gint source, const gchar *error_message) {
+	purple_debug_info("mrim-prpl", "[%s]\n", __func__);
+
+	MrimFT *ft = data;
+	ft->proxy_conn = false;
+	
+	if (source >= 0) {
+		ft->conn = source;
+		mrim_xfer_connected(ft);
+	} else {
+		//TODO: Connect with proxy
+	}
+}
+
+void mrim_process_xfer(MrimFT *ft) {
+	if (ft->current < ft->count) {
+		/* PurpleXfer *xfer = purple_xfer_new(ft->mrim->gc->account, PURPLE_XFER_RECEIVE, ft->user_name);
+		purple_xfer_set_filename(xfer, ft->files[ft->current].name);
+		purple_xfer_set_size(xfer, ft->files[ft->current].size);
+		purple_xfer_request(xfer); */
+		//MrimPackage *pack = mrim_package_new(, );
+		gchar **parts = g_strsplit(ft->remote_ip, ":", 2);
+		//ft->proxy_conn = purple_proxy_connect(ft->mrim->gc, ft->mrim->account, parts[0], parts[1], mrim_xfer_connect_cb, ft);
+	} else {
+		g_free(ft->user_name);
+		g_free(ft->remote_ip);
+		guint i;
+		for (i = 0; i < ft->count; i++) {
+			g_free(ft->files[i].name);
+		}
+		g_free(ft->files);
+		g_free(ft);
+	}
+}
+
+void mrim_ft_send_input_cb(gpointer data, gint source, PurpleInputCondition cond) {
+	purple_debug_info("mrim-prpl", "[%s]\n", __func__);
+	g_return_if_fail(source >= 0);
+	MrimFT *ft = data;
+	if (ft->proxy_connecting) {
+		MrimPackage *pack = mrim_package_read(ft->fake_mrim);
+		if ((!pack) || (pack->header->msg != MRIM_CS_PROXY_HELLO_ACK)) {
+			//Что-то пошло не так... надо уходить отсюда...
+			purple_debug_info("mrim-prpl", "[%s] Something went wrong... This is FAIL!\n", __func__);
+			purple_input_remove(ft->inpa);
+			close(ft->conn);
+			purple_xfer_unref(ft->xfer);
+		} else {
+			mrim_package_free(pack);
+			purple_debug_info("mrim-prpl", "[%s] MRIM_CS_PROXY_HELLO_ACK received!\b", __func__);
+		}
+		g_free(ft->fake_mrim);
+		ft->fake_mrim = NULL;
+		ft->proxy_connecting = FALSE;
+		gchar *buffer = g_strdup_printf("MRA_FT_HELLO %s", ft->mrim->user_name);
+		if (send(ft->conn, buffer, strlen(buffer) + 1, 0) >= (strlen(buffer) + 1)) {
+			purple_debug_info("mrim-prpl", "[%s] '%s' sent!\n", __func__, buffer);
+		} else {
+			purple_debug_info("mrim-prpl", "[%s] Failed to send MRA_FT_HELLO!\n", __func__);
+			purple_xfer_unref(ft->xfer);
+		}
+		g_free(buffer);
+	} else {
+		gchar *buffer = NULL;
+		guint i = 0;
+		do {
+			buffer = realloc(buffer, i + 1);
+			recv(ft->conn, &buffer[i], sizeof(gchar), 0);
+			i++;
+		} while (buffer[i]);
+		purple_debug_info("mrim-prpl", "[%s] Received string: %s\n", __func__, buffer);
+	}
+}
+
+void mrim_send_xfer_connect_cb(gpointer data, gint source, const gchar *error_message) {
+	purple_debug_info("mrim-prpl", "[%s]\n", __func__);
+	MrimFT *ft = data;
+	ft->proxy_conn = NULL;
+	if (source >= 0) {
+		purple_debug_info("mrim-prpl", "[%s] Connected!\n", __func__);
+		ft->conn = source;
+		ft->proxy_connecting = TRUE;
+		MrimData *mrim = g_new0(MrimData, 1);
+		mrim->fd = source;
+		ft->fake_mrim = mrim;
+		MrimPackage *pack = mrim_package_new(0, MRIM_CS_PROXY_HELLO);
+		pack->header->proto = 0x00010009;
+		mrim_package_add_UL(pack, ft->id);
+		mrim_package_add_UL(pack, ft->id);
+		mrim_package_add_UL(pack, ft->id);
+		mrim_package_add_UL(pack, ft->id);
+		if (mrim_package_send(pack, mrim))
+			ft->inpa = purple_input_add(ft->conn, PURPLE_INPUT_READ, mrim_ft_send_input_cb, ft);
+			purple_debug_info("mrim-prpl", "[%s] MRIM_CS_PROXY_HELLO sent!\n", __func__);
+		} else {
+			purple_debug_info("mrim-prpl", "[%s] Failed to send MRIM_CS_PROXY_HELLO!\n", __func__);
+			purple_xfer_unref(ft->xfer);
+		}
+	} else {
+		purple_debug_info("mrim-prpl", "[%s] Fail!\n", __func__);
+		purple_xfer_unref(ft->xfer);
+	}
+}
+
+#endif
+
 static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond) {
 	purple_debug_info("mrim-prpl", "[%s]\n", __func__);
 	
@@ -372,18 +487,19 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 					gchar *desc = purple_markup_escape_text(tmp, -1);
 					g_free(tmp);
 					gchar *email = mrim_package_read_LPSA(pack);
-					mrim_package_read_UL(pack);
+					guint32 com_support = mrim_package_read_UL(pack);
 					gchar *user_agent = mrim_package_read_LPSA(pack);
 					PurpleBuddy *buddy = purple_find_buddy(mrim->account, email);
 					if (buddy && buddy->proto_data) {
 						MrimBuddy *mb = buddy->proto_data;
 						g_free(mb->user_agent);
 						mb->user_agent = user_agent;
+						mb->com_support = com_support;
 						free_mrim_status(mb->status);
 						mb->status = make_mrim_status(id, uri, title, desc);
 						update_buddy_status(buddy);
-						purple_debug_info("mrim-prpl", "[%s] MRIM_CS_USER_STATUS: email = '%s', status = '%s'\n", __func__, email,
-							mb->status->purple_id);
+						purple_debug_info("mrim-prpl", "[%s] MRIM_CS_USER_STATUS: email = '%s', status = '%s'\n", __func__,
+							email, mb->status->purple_id);
 					} else {
 						purple_debug_info("mrim-prpl", "[%s] MRIM_CS_USER_STATUS: Unknown email '%s'!\n", __func__, email);
 						g_free(uri);
@@ -492,6 +608,126 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 					mrim_package_send(pack, mrim);
 				}
 				break;
+#ifdef ENABLE_FILES
+			case MRIM_CS_FILE_TRANSFER: {
+				gchar *user_name = mrim_package_read_LPSA(pack);
+				guint32 wtf = mrim_package_read_UL(pack); //Unknown field
+				guint32 file_size = mrim_package_read_UL(pack);
+				guint32 id = mrim_package_read_UL(pack);
+				gchar *file_list = mrim_package_read_LPSA(pack);
+				guint32 wtf2 = mrim_package_read_UL(pack); //Unknown field
+				gchar *remote_ip = mrim_package_read_LPSA(pack);
+				MrimFile *files = NULL;
+				guint file_count;
+				{
+					gchar **parts = g_strsplit(file_list, ";", 0);
+					guint i = 0;
+					while (parts[i * 2] && parts[i * 2 + 1]) {
+						gchar *file_name = g_strdup(parts[i * 2]);
+						guint32 f_size = atoi(parts[i * 2 + 1]);
+						files = realloc(files, (i + 1) * sizeof(MrimFile));
+						files[i].name = file_name;
+						files[i].size = f_size;
+						i++;
+					}
+					file_count = i;
+					g_strfreev(parts);
+				}
+				purple_debug_info("mrim-prpl", "[%s] MRIM_CS_FILE_TRANSFER: user_name = '%s', file_size = '%u', file_count = '%u'\n",
+					__func__, user_name, file_size, file_count);
+				g_free(file_list);
+				MrimFT *ft = g_new0(MrimFT, 1);
+				ft->mrim = mrim;
+				ft->user_name = user_name;
+				ft->id = id;
+				ft->remote_ip = remote_ip;
+				ft->files = files;
+				ft->count = file_count;
+				mrim_process_xfer(ft);
+				break; }
+			case MRIM_CS_FILE_TRANSFER_ACK:
+				{
+					guint32 status = mrim_package_read_UL(pack);
+					gchar *user_name = mrim_package_read_LPSA(pack);
+					guint32 id = mrim_package_read_UL(pack);
+					gchar *remote_addr = mrim_package_read_LPSA(pack);
+					purple_debug_info("mrim-prpl", "[%s] MRIM_CS_FILE_TRANSFER_ACK: status = %u, user_name = '%s', remote_addr = '%s'\n", __func__, status, user_name, remote_addr);
+					PurpleXfer *xfer = g_hash_table_lookup(mrim->transfers, GUINT_TO_POINTER(id));
+					if (xfer) {
+						if ((status == FILE_TRANSFER_STATUS_OK) || (status == FILE_TRANSFER_MIRROR)) {
+							MrimFT *ft = xfer->data;
+							purple_debug_info("mrim-prpl", "[%s] User accepted files!\n", __func__);
+							//Допустим белого IP у нас нет и запросим зеркальный прокси TODO
+							MrimPackage *ack = mrim_package_new(mrim->seq++, MRIM_CS_PROXY);
+							mrim_package_add_LPSA(ack, user_name);
+							mrim_package_add_UL(ack, id);
+							mrim_package_add_UL(ack, MRIM_PROXY_TYPE_FILES);
+							gchar *file_list = g_strdup_printf("%s;%u;", ft->files[0].name, ft->files[0].size);
+							mrim_package_add_LPSA(ack, file_list);
+							mrim_package_add_UL(ack, 0); // Много-
+							mrim_package_add_UL(ack, 0); // много
+							mrim_package_add_UL(ack, 0); // не
+							mrim_package_add_UL(ack, 0); // нужных
+							mrim_package_add_UL(ack, 0); // полей
+							mrim_package_add_UL(ack, 4 + 4 + strlen(file_list) * 2); //Длина последующиъ данных
+							// Судя по всему далее идёт повтор пакета, но в UTF16
+							mrim_package_add_UL(ack, MRIM_PROXY_TYPE_FILES);
+							mrim_package_add_LPSW(ack, file_list);
+							mrim_package_add_UL(ack, 4); // Неизвестное поле
+							mrim_package_add_UL(ack, 1); // Ещё одно неизвестно поле... Имеет смысл узнать, что это...
+							mrim_package_send(ack, mrim);
+							
+						} else {
+							purple_debug_info("mrim-prpl", "[%s] Transfer cancelled!\n", __func__);
+							purple_xfer_unref(xfer);
+						}
+					}
+					g_free(user_name);
+					g_free(remote_addr);
+					break;
+				}
+			case MRIM_CS_PROXY_ACK:
+				{
+					guint status = mrim_package_read_UL(pack);
+					gchar *user_name = mrim_package_read_LPSA(pack);
+					guint32 id = mrim_package_read_UL(pack);
+					guint32 data_type = mrim_package_read_UL(pack);
+					gchar *file_list = mrim_package_read_LPSA(pack);
+					gchar *remote_ip = mrim_package_read_LPSA(pack);
+					// В пакете есть ещё и другие поля, но они нам не нужны
+					if (data_type != MRIM_PROXY_TYPE_FILES) break;
+					PurpleXfer *xfer = g_hash_table_lookup(mrim->transfers, GUINT_TO_POINTER(id));
+					if (xfer) {
+						if (status == PROXY_STATUS_OK) {
+							MrimFT *ft = xfer->data;
+							purple_debug_info("mrim-prpl", "[%s] Proxy accepted! Address list = '%s'\n", __func__, remote_ip);
+							gchar **addrs = g_strsplit(remote_ip, ";", 0);
+							gchar **addr = addrs;
+							gchar *ip = NULL;
+							guint16 port;
+							while (*addr) {
+								gchar **parts = g_strsplit(*addr, ":", 2);
+								ip = g_strdup(parts[0]);
+								port = atoi(parts[1]);
+								g_strfreev(parts);
+								if (port != 443) { // Мы не умеем SSL
+									break;
+								} else {
+									g_free(ip);
+								}
+								addr++;
+							}
+							g_strfreev(addrs);
+							purple_debug_info("mrim-prpl", "[%s] Proxy host = '%s', port = %u\n", __func__, ip, port);
+							ft->proxy_conn = purple_proxy_connect(mrim->gc, mrim->account, ip, port, mrim_send_xfer_connect_cb, ft);
+						} else {
+							purple_debug_info("mrim-prpl", "[%s] Proxy request failed!\n", __func__);
+							purple_xfer_unref(xfer);
+						}
+					}
+					break;
+				}
+#endif
 			default:
 				{
 					MrimAck *ack = g_hash_table_lookup(mrim->acks, GUINT_TO_POINTER(pack->header->seq));
@@ -790,6 +1026,88 @@ void mrim_open_myworld_url(MrimData *mrim, gchar *user_name, gchar *fmt) {
 	mrim_package_send(pack, mrim);
 }
 
+#ifdef ENABLE_FILES
+
+void mrim_xfer_init(PurpleXfer *xfer) {
+	gchar *file_name = purple_xfer_get_local_filename(xfer);
+	purple_debug_info("mim-prpl", "[%s] Sending file '%s'\n", __func__, file_name);
+	MrimFT *mrim_ft = xfer->data;
+	mrim_ft->xfer = xfer;
+	mrim_ft->count = 1;
+	mrim_ft->files = g_new0(MrimFT, 1);
+	mrim_ft->files[0].name = file_name;
+	{
+		GRand *rnd = g_rand_new();
+		mrim_ft->id = g_rand_int(rnd);
+		g_rand_free(rnd);
+	}
+	{
+		struct stat st;
+		stat(file_name, &st);
+		mrim_ft->files[0].size = st.st_size;
+	}
+	MrimData *mrim = mrim_ft->mrim;
+	MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_FILE_TRANSFER);
+	mrim_package_add_LPSA(pack, mrim_ft->user_name);
+	mrim_package_add_UL(pack, mrim_ft->id);
+	mrim_package_add_UL(pack, mrim_ft->files[0].size);
+	gchar *file_list = g_strdup_printf("%s;%u;", mrim_ft->files[0].name, mrim_ft->files[0].size);
+	gchar *my_ip = "1.2.3.4:1234;"; // Заведомо некорректное значение, чтобы клиент обломался и пошёл использовать зеркальный прокси TODO
+	mrim_package_add_UL(pack, 4 + strlen(file_list) + 4 + 4 + strlen(my_ip));
+	mrim_package_add_LPSA(pack, file_list);
+	mrim_package_add_UL(pack, 0);
+	mrim_package_add_LPSA(pack, my_ip);
+	//mrim_add_ack_cb(mrim, pack->header->seq, mrim_xfer_ack, xfer);
+	g_hash_table_insert(mrim->transfers, GUINT_TO_POINTER(mrim_ft->id), xfer);
+	mrim_package_send(pack, mrim);
+}
+
+
+void mrim_xfer_cancel(PurpleXfer *xfer) {
+	purple_debug_info("mim-prpl", "[%s]\n", __func__);
+	MrimFT *ft = xfer->data;
+	if (ft) {
+		g_hash_table_remove(ft->mrim->transfers, GUINT_TO_POINTER(ft->id));
+	}
+}
+
+gboolean mrim_can_send_file(PurpleConnection *gc, const char *who) {
+	MrimData *mrim = gc->proto_data;
+	g_return_if_fail(mrim != NULL);
+	PurpleBuddy *buddy = purple_find_buddy(mrim->account, who);
+	MrimBuddy *mb = buddy ? buddy->proto_data : NULL;
+	if (mb) {
+		return (mb->com_support & FEATURE_FLAG_FILE_TRANSFER);
+	} else {
+		return FALSE;
+	}
+}
+
+PurpleXfer *mrim_new_xfer(PurpleConnection *gc, const char *who) {
+	purple_debug_info("mim-prpl", "[%s]\n", __func__);
+	PurpleXfer *xfer;
+	xfer = purple_xfer_new(gc->account, PURPLE_XFER_SEND, who);
+	g_return_val_if_fail(xfer != NULL, NULL);
+	MrimFT *data = g_new0(MrimFT, 1);
+	xfer->data = data;
+	data->mrim = gc->proto_data;
+	data->user_name = g_strdup(who);
+	purple_xfer_set_init_fnc(xfer, mrim_xfer_init);
+	purple_xfer_set_cancel_send_fnc(xfer, mrim_xfer_cancel);
+	return xfer;
+}
+
+void mrim_send_file(PurpleConnection *gc, const char *who, const char *file) {
+	PurpleXfer *xfer = mrim_new_xfer(gc, who);
+	if (file) {
+		purple_xfer_request_accepted(xfer, file);
+	} else {
+		purple_xfer_request(xfer);
+	}
+}
+
+#endif
+
 /* Purple plugin structures */
 
 static PurplePluginProtocolInfo prpl_info = { //OPT_PROTO_CHAT_TOPIC
@@ -856,9 +1174,13 @@ static PurplePluginProtocolInfo prpl_info = { //OPT_PROTO_CHAT_TOPIC
 	NULL,			/* roomlist_get_list */
 	NULL,			/* roomlist_cancel */
 	NULL,			/* roomlist_expand_category */
-	NULL,			/* can_receive_file */
-	NULL,			/* send_file */
-	NULL,			/* new_xfer */
+#ifdef ENABLE_FILES
+	mrim_can_send_file,	/* can_receive_file */
+	mrim_send_file,		/* send_file */
+	mrim_new_xfer,		/* new_xfer */
+#else
+	NULL, NULL, NULL,
+#endif
 	mrim_offline_message,	/* mrim_offline_message */
 	NULL,			/* whiteboard_prpl_ops */
 	NULL,			/* send_raw */

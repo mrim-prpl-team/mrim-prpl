@@ -5,4 +5,6 @@
 
 #define ENABLE_GTK
 
+#define ENABLE_FILES
+
 #endif

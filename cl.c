@@ -62,7 +62,7 @@ static MrimBuddy *mrim_cl_load_buddy(MrimData *mrim, MrimPackage *pack, gchar *m
 			mb->status = make_mrim_status(status_id, status_uri, status_title, status_desc);
 		}
 	}
-	mrim_package_read_UL(pack);
+	mb->com_support = mrim_package_read_UL(pack);
 	mb->user_agent = mrim_package_read_LPSA(pack);
 	mrim_package_read_UL(pack);
 	mrim_package_read_UL(pack);

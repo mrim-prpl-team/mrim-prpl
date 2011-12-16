@@ -14,12 +14,15 @@ for option in $@; do
 		--gtk)
 			env echo -e -n "#define ENABLE_GTK\n" >> $CONFIG
 			;;
+		--files)
+			env echo -e -n "#define ENABLE_FILES\n" >> $CONFIG
 		--help)
 			echo "mrim-prpl configure script"
 			echo "Usage: ./configure [options]"
 			echo "Options:"
 			echo "    --help - display this text"
 			echo "    --gtk - enable GTK+ interface in plugin"
+			echo "    --files - enable file transfer support"
 			;;
 	esac
 done

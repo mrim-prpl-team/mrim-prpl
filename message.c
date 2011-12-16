@@ -17,7 +17,7 @@ int mrim_send_im(PurpleConnection *gc, const char *to, const char *message, Purp
 		if (!is_valid_phone((gchar*)to)) {
 			purple_debug_info("mrim-prpl", "[%s] Send to buddy '%s' message '%s'\n", __func__, to, message);
 			MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_MESSAGE);
-			mrim_package_add_UL(pack, MESSAGE_FLAG_v1p16); /* flags */
+			mrim_package_add_UL(pack, 0); /* flags */
 			mrim_package_add_LPSA(pack, (gchar*)to);
 			{
 				gchar *msg = purple_markup_strip_html((gchar*)message);
@@ -85,6 +85,9 @@ void mrim_receive_im_chat(MrimData *mrim, MrimPackage *pack, guint32 msg_id, gui
 	char *topic = mrim_package_read_LPSW(pack);
 	char *from_user = mrim_package_read_LPSA(pack);
 
+	PurpleConversation *conv =  purple_find_chat(mrim->gc, get_chat_id(room));
+	PurpleConvChat *chat = PURPLE_CONV_CHAT(conv);
+
 	switch (package_type)
 	{
 		case MULTICHAT_MESSAGE:
@@ -93,25 +96,33 @@ void mrim_receive_im_chat(MrimData *mrim, MrimPackage *pack, guint32 msg_id, gui
 			break;
 		case MULTICHAT_ADD_MEMBERS:
 			purple_notify_info(gc, "MULTICHAT_ADD_MEMBERS", room, NULL);
+			purple_conv_chat_add_user(chat, from_user, message, PURPLE_CBFLAGS_NONE, TRUE);
 			break;
 		case MULTICHAT_ATTACHED:
 			purple_notify_info(gc, "MULTICHAT_ATTACHED", room, NULL);
 			break;
 		case MULTICHAT_DETACHED:
 		{
-			PurpleConversation *conv =  purple_find_chat(mrim->gc, get_chat_id(room));
-			PurpleConvChat *chat = PURPLE_CONV_CHAT(conv);
 			purple_conv_chat_remove_user(chat, from_user, NULL);
 			break;
 		}
-		case MULTICHAT_DESTROYED:
-			purple_notify_info(gc, "MULTICHAT_DESTROYED", room, NULL);
-			break;
 		case MULTICHAT_INVITE:
 			purple_notify_info(gc, "MULTICHAT_INVITE", room, NULL);
 			GHashTable *data = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
 			g_hash_table_insert(data, "room", g_strdup(room));
 			serv_got_chat_invite(gc, room, from_user, NULL, data);
+			break;
+		case MULTICHAT_DESTROYED:
+			purple_notify_info(gc, "MULTICHAT_DESTROYED", room, NULL);
+			purple_conv_chat_remove_user(chat, from_user, message);
+			break;
+		case MULTICHAT_DEL_MEMBERS:
+			purple_notify_info(gc, "MULTICHAT_DEL_MEMBERS", room, NULL);
+			purple_conv_chat_remove_user(chat, from_user, message);
+			break;
+		case MULTICHAT_TURN_OUT:
+			purple_notify_info(gc, "MULTICHAT_TURN_OUT", room, NULL);
+			// TODO: left from chat
 			break;
 	}
 	g_free(rtf);
@@ -366,7 +377,7 @@ int mrim_chat_send(PurpleConnection *gc, int id, const char *message, PurpleMess
 	mrim_package_add_LPSA(pack, " "); /* TODO: RTF message */
 
 	serv_got_chat_in(gc, id, mrim->user_name, PURPLE_MESSAGE_SEND, message, time(NULL));
-	//mrim_add_ack_cb(mrim, pack->header->seq, mrim_message_ack, NULL);
+	mrim_add_ack_cb(mrim, pack->header->seq, mrim_message_ack, NULL);
 	return (mrim_package_send(pack, mrim)) ? 1 : -E2BIG;
 }
 
