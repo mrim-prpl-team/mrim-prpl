@@ -356,7 +356,7 @@ void mrim_send_xfer_connect_cb(gpointer data, gint source, const gchar *error_me
 		mrim_package_add_UL(pack, ft->id);
 		mrim_package_add_UL(pack, ft->id);
 		mrim_package_add_UL(pack, ft->id);
-		if (mrim_package_send(pack, mrim))
+		if (mrim_package_send(pack, mrim)) {
 			ft->inpa = purple_input_add(ft->conn, PURPLE_INPUT_READ, mrim_ft_send_input_cb, ft);
 			purple_debug_info("mrim-prpl", "[%s] MRIM_CS_PROXY_HELLO sent!\n", __func__);
 		} else {

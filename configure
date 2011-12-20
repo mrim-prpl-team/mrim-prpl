@@ -16,6 +16,7 @@ for option in $@; do
 			;;
 		--files)
 			env echo -e -n "#define ENABLE_FILES\n" >> $CONFIG
+			;;
 		--help)
 			echo "mrim-prpl configure script"
 			echo "Usage: ./configure [options]"
