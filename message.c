@@ -75,7 +75,7 @@ gboolean mrim_send_attention(PurpleConnection  *gc, const char *username, guint 
 	purple_debug_info("mrim-prpl", "[%s] Send attention to '%s'\n", __func__, username);
 	MrimData *mrim = gc->proto_data;
 	MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_MESSAGE);
-	mrim_package_add_UL(pack, MESSAGE_FLAG_ALARM | MESSAGE_FLAG_RTF);
+	mrim_package_add_UL(pack, MESSAGE_FLAG_ALARM /* | MESSAGE_FLAG_RTF */);
 	mrim_package_add_LPSA(pack, (gchar*)username);
 	mrim_package_add_LPSW(pack, "*WAKEUP*");
 	mrim_package_add_LPSA(pack, " ");
