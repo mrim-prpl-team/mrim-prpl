@@ -73,16 +73,28 @@ struct _MrimData {
 typedef struct _MrimFile MrimFile;
 
 struct _MrimFile {
+	// gchar *full_name;
 	gchar *name;
 	guint32 size;
+};
+
+
+enum MrimFTState
+{	
+	//mrim packages
+	WAITING_FOR_HELLO_ACK,
+	// plaintext
+	WAITING_FOR_FT_HELLO,
+	WAITING_FOR_FT_GET
 };
 
 typedef struct _MrimFT MrimFT;
 
 struct _MrimFT {
 	MrimData *mrim;
-	gchar *user_name;
+	gchar *user_name; // please, document this field.
 	guint32 id;
+	guint32 proxy_id[4];
 	gchar *remote_ip;
 	MrimFile *files;
 	guint count;
@@ -91,7 +103,7 @@ struct _MrimFT {
 	gint conn;
 	void *inpa;
 	PurpleXfer *xfer;
-	gboolean proxy_connecting;
+	int state;
 	MrimData *fake_mrim;
 };
 

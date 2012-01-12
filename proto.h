@@ -340,9 +340,37 @@ typedef struct mrim_packet_header_t
 // LPS mpop session ???
 
 
+
+
+/* from myagent-im (Alexander Volkov: volkov0aa@gmail.com)
+Conception of transferring file:
+
+Sender - host, which will be transfer file(s) to Receiver
+Receiver - host, which will be receive file(s) from Sender
+
+Client - host, which will be send connect() to Server
+Server - host, which will be listen for connect() from Client
+
+It's important not to confuse Sender/Receiver with Server/Client, because Sender can be both Server and Client, depending of situation, such and Receiver
+
+Steps:
+1. Sender sends signal MRIM_CS_FILE_TRANSFER
+2. Receiver try to connect to Sender. Here Receiver will be Client, Sender will be Server
+2a. If Receiver connected to Sender, file(s) will be transferred. See pp 8-10.
+3. If Receiver can't connect to Sender, Receiver become the Server and Sender become the Client, than Sender try to connect to Receiver.
+3a. If Sender connected to Receiver, file(s) will be transferred. See pp 8-10.
+4. If Sender can't connect to Receiver, Sender send MRIM_CS_PROXY with ip-adresses and ports of proxy. If ip and ports are empty, than one of MRIM-Servers will be proxy.
+5. Receiver gets MRIM_CS_PROXY with ip and port of proxy and answer with MRIM_CS_PROXY_ACK to Sender.
+6. Both Receiver and Server independently of each other try to connect to proxy with MRIM_CS_PROXY_HELLO by sending this packet directly to proxy, not to MRIM-server.
+7. If Receiver and Sender get MRIM_CS_PROXY_HELLO_ACK, Receiver become the Client and Sender become the Server, file(s) will be transferred. See pp 8-10.
+8. Client sends string "MRA_FT_HELLO receiver@mail.ru", where receiver@mail.ru - Receiver's mail-address.
+9. When Server gets "MRA_FT_HELLO receiver@mail.ru", it sends "MRA_FT_HELLO sender@mail.ru", where sender@mail.ru - Sender's mail-address.
+10. When Receiver gets "MRA_FT_HELLO sender@mail.ru", it sends "MRA_FT_GET_FILE file[i]", where file[i] - each of files, which sends Sender.
+*/
+
 #define MRIM_CS_FILE_TRANSFER			0x1026  // C->S 
 // LPS TO/FROM e-mail ANSI
-// DWORD id_request - uniq per connect 
+// DWORD id_request - uniq per connect (sessionID)
 // DWORD FILESIZE 
 // LPS:	// LPS Files (FileName;FileSize;FileName;FileSize;) ANSI
 		// LPS DESCRIPTION:

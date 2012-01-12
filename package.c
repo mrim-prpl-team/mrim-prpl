@@ -29,9 +29,13 @@ MrimPackage *mrim_package_new(guint32 seq, guint32 type) {
 }
 
 void mrim_package_free(MrimPackage *pack) {
-	g_free(pack->header);
-	g_free(pack->data);
-	g_free(pack);
+	if (pack){
+		g_free(pack->header);
+		g_free(pack->data);
+		g_free(pack);
+	}
+	else
+		purple_debug_error("mrim-prpl", "[%s] pack == NULL\n", __func__);
 }
 
 gboolean mrim_package_send(MrimPackage *pack, MrimData *mrim) {
@@ -99,22 +103,29 @@ MrimPackage *mrim_package_read(MrimData *mrim) {
 		pack->data_size = pack->header->dlen;
 		pack->data = g_new0(char, pack->data_size);
 		pack->cur = 0;
-		ret = recv(mrim->fd, pack->data, pack->data_size, 0);
-		if ((ret < (pack->data_size)) && (ret > 0)) {
-			pack->cur += ret;
-			mrim->inp_package = pack;
-			return NULL;
+		if (pack->data_size)
+		{
+			ret = recv(mrim->fd, pack->data, pack->data_size, 0);
+			if ((ret < (pack->data_size)) && (ret > 0)) {
+				pack->cur += ret;
+				mrim->inp_package = pack;
+				return NULL;
+			}
+			if (ret == pack->data_size) {
+				return pack;
+			}
 		}
-		if (ret == pack->data_size) {
+		else
 			return pack;
-		}
 	}
 	if (ret < 0) {
-		purple_connection_error(mrim->gc, _("Read Error!") );
+		if (mrim->gc)
+			purple_connection_error(mrim->gc, _("Read Error!") );
 		return NULL;
 	}
 	if (ret == 0) {
-		purple_connection_error(mrim->gc, _("Peer closed connection"));
+		if (mrim->gc)
+			purple_connection_error(mrim->gc, _("Peer closed connection"));
 		return NULL;
 	}
 	return NULL;
@@ -129,7 +140,7 @@ gboolean mrim_package_read_raw(MrimPackage *pack, gpointer buffer, gsize size) {
 			pack->cur += size;
 			return TRUE;
 		} else {
-			purple_debug_info("mrim-prpl", "[%s] Insufficient data in the buffer\n", __func__);
+			purple_debug_error("mrim-prpl", "[%s] Insufficient data in the buffer\n", __func__);
 			return FALSE;
 		}
 	} else {

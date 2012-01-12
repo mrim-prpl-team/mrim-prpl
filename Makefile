@@ -23,7 +23,7 @@ ifndef CC
 endif
 
 ifndef CFLAGS
-	CFLAGS=-Os 
+	CFLAGS=-O0  -ggdb -g
 endif
 
 CFLAGS+=`pkg-config purple gtk+-2.0 --cflags` -fPIC -DPIC -std=c99
