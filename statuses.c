@@ -110,7 +110,7 @@ MrimStatus *make_mrim_status(guint32 id, gchar *uri, gchar *title, gchar *desc) 
 		guint i;
 		if (id != STATUS_USER_DEFINED) {
 			for (i = 0; i < MRIM_STATUS_COUNT; i++) {
-				if ((mrim_statuses[i].code == id) || (mrim_statuses[i].code & id)) {
+				if (mrim_statuses[i].code == id) {
 					status->purple_id = g_strdup(mrim_statuses[i].id);
 					status->purple_title = g_strdup(_(mrim_statuses[i].title));
 					break;

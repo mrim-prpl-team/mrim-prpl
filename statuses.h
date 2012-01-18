@@ -28,7 +28,8 @@ static struct {
 	{ PURPLE_STATUS_AVAILABLE, STATUS_ONLINE, "status_1", "status_online", N_("Available"), TRUE },
 	{ PURPLE_STATUS_AWAY, STATUS_AWAY, "status_2", "status_away", N_("Away"), TRUE },
 	{ PURPLE_STATUS_UNAVAILABLE, STATUS_USER_DEFINED, "status_dnd", "status_unavailable", N_("Unavailable"), TRUE },
-	{ PURPLE_STATUS_INVISIBLE, STATUS_FLAG_INVISIBLE, "status_3", "invisible", N_("Invisible"), TRUE },
+	{ PURPLE_STATUS_INVISIBLE, STATUS_FLAG_INVISIBLE | STATUS_ONLINE, "status_3", "invisible", N_("Invisible"), TRUE },
+	{ PURPLE_STATUS_INVISIBLE, STATUS_FLAG_INVISIBLE, "status_3", "invisible", N_("Invisible"), FALSE },
 	{ PURPLE_STATUS_OFFLINE, STATUS_OFFLINE, NULL, "offline", N_("Offline"), TRUE }
 };
 
