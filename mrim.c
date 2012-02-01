@@ -343,14 +343,18 @@ void mrim_ft_send_input_cb(gpointer data, gint source, PurpleInputCondition cond
 		case WAITING_FOR_FT_HELLO:
 		{
 			// we should read 'MRA_FT_HELLO user\0'
-			gchar *buffer = NULL;
+			gchar *buffer		= NULL;
+			gchar buf_prev	= NULL;
 			guint i = 0;
 			do {
 				buffer = realloc(buffer, i + 1);
+				if (i) {
+					buf_prev = buffer[i-1];
+				}
 				recv(ft->conn, &buffer[i], sizeof(gchar), 0);
-				purple_debug_info("mrim-prpl", "[%s] Received string: %s\n", __func__, buffer);
+				//purple_debug_info("mrim-prpl", "[%s] Received string: %s\n", __func__, buffer);
 				i++;
-			} while (buffer[i]);
+			} while (buffer[i] || buf_prev);
 			purple_debug_info("mrim-prpl", "[%s] Received string: %s\n", __func__, buffer);
 			
 			// wait for 'WAITING_FOR_FT_GET file_name'
@@ -360,6 +364,21 @@ void mrim_ft_send_input_cb(gpointer data, gint source, PurpleInputCondition cond
 		case WAITING_FOR_FT_GET:
 		{
 			purple_debug_info("mrim-prpl", "[%s] FT: WAITING_FOR_FT_GET\n", __func__);
+			// we should read 'WAITING_FOR_FT_GET file_name\0'
+			gchar *buffer = NULL;
+			gchar buf_prev	= NULL;
+			guint i = 0;
+			do {
+				buffer = realloc(buffer, i + 1);
+				if (i) {
+					buf_prev = buffer[i-1];
+				}
+				recv(ft->conn, &buffer[i], sizeof(gchar), 0);
+				//purple_debug_info("mrim-prpl", "[%s] Received string: %s\n", __func__, buffer);
+				i++;
+			} while (buffer[i] || buf_prev);
+			purple_debug_info("mrim-prpl", "[%s] Received string: %s\n", __func__, buffer);
+			ft->state = STREAMING_FT_FILE;
 			// TODO
 			break;
 		}
@@ -1068,7 +1087,7 @@ void mrim_open_myworld_url(MrimData *mrim, gchar *user_name, gchar *fmt) {
 
 void mrim_xfer_init(PurpleXfer *xfer) {
 	gchar *file_name = purple_xfer_get_local_filename(xfer);
-	purple_debug_info("mim-prpl", "[%s] Sending file '%s'\n", __func__, file_name);
+	purple_debug_info("mrim-prpl", "[%s] Sending file '%s'\n", __func__, file_name);
 	MrimFT *mrim_ft = xfer->data;
 	mrim_ft->xfer = xfer;
 	mrim_ft->count = 1;
@@ -1102,7 +1121,7 @@ void mrim_xfer_init(PurpleXfer *xfer) {
 
 
 void mrim_xfer_cancel(PurpleXfer *xfer) {
-	purple_debug_info("mim-prpl", "[%s]\n", __func__);
+	purple_debug_info("mrim-prpl", "[%s]\n", __func__);
 	MrimFT *ft = xfer->data;
 	if (ft) {
 		g_hash_table_remove(ft->mrim->transfers, GUINT_TO_POINTER(ft->id));
@@ -1122,7 +1141,7 @@ gboolean mrim_can_send_file(PurpleConnection *gc, const char *who) {
 }
 
 PurpleXfer *mrim_new_xfer(PurpleConnection *gc, const char *who) {
-	purple_debug_info("mim-prpl", "[%s]\n", __func__);
+	purple_debug_info("mrim-prpl", "[%s]\n", __func__);
 	PurpleXfer *xfer;
 	xfer = purple_xfer_new(gc->account, PURPLE_XFER_SEND, who);
 	g_return_val_if_fail(xfer != NULL, NULL);

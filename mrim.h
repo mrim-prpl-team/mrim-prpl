@@ -85,7 +85,8 @@ enum MrimFTState
 	WAITING_FOR_HELLO_ACK,
 	// plaintext
 	WAITING_FOR_FT_HELLO,
-	WAITING_FOR_FT_GET
+	WAITING_FOR_FT_GET,
+	STREAMING_FT_FILE
 };
 
 typedef struct _MrimFT MrimFT;
