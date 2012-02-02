@@ -288,13 +288,27 @@ MrimGroup *get_mrim_group(MrimData *mrim, guint32 id) {
 }
 
 MrimGroup *get_mrim_group_by_name(MrimData *mrim, gchar *name) {
+	if (!name) {
+		purple_debug_info("mrim-prpl", "[%s] name = NULL!\n", __func__);
+		return NULL;
+	} else {
+		purple_debug_info("mrim-prpl", "[%s] name = '%s'\n", __func__, name);
+	};
 	GList *g = g_list_first(g_hash_table_get_values(mrim->groups));
 	MrimGroup *group;
 	while (g) {
 		group = g->data;
-		if (g_strcmp0(group->name, name) == 0) {
-			g_list_free(g);
-			return group;
+		if (!group) {
+			purple_debug_info("mrim-prpl", "[%s] g->data FAIL!\n", __func__);
+		} else if (!group->name) {
+			purple_debug_info("mrim-prpl", "[%s] NONAME group (id, flags) = (%u,%u)\n", __func__, group->id, group->flags);
+		} else {
+			purple_debug_info("mrim-prpl", "[%s] group info: (id, flags) = (%u,%u)\n", __func__, group->id, group->flags);
+			purple_debug_info("mrim-prpl", "[%s] group->name = '%s'\n", __func__, group->name);
+			if (g_strcmp0(group->name, name) == 0) {
+				g_list_free(g);
+				return group;
+			};
 		};
 		g = g_list_next(g);
 	};
@@ -496,7 +510,7 @@ void mrim_alias_buddy(PurpleConnection *gc, const char *who, const char *alias) 
 }
 
 void mrim_move_buddy(PurpleConnection *gc, const char *who, const char *old_group, const char *new_group) {
-	purple_debug_info("mrim-prpl", "Moving '%s' to group '%s'\n", __func__, who, new_group);
+	purple_debug_info("mrim-prpl", "[%s] Moving '%s' to group '%s'\n", __func__, who, new_group);
 	PurpleBuddy *buddy = purple_find_buddy(gc->account, (gchar*)who);
 	g_return_if_fail(buddy != NULL);
 	MrimData *mrim = gc->proto_data;
