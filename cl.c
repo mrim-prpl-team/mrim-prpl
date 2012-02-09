@@ -115,6 +115,9 @@ void mrim_fetch_avatar(PurpleBuddy *buddy) {
 		if (split_1[1]) {
 			split_2 = g_strsplit(split_1[1],".ru\0",2);
 			domain = split_2[0];
+			if (g_strcmp0(domain, "corp.mail") == 0) {
+				domain = g_strdup("corp");
+			}
 		} else {
 			g_strfreev(split_1);
 			return;
