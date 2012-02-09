@@ -104,8 +104,9 @@ void mrim_avatar_cb(PurpleUtilFetchUrlData *url_data, gpointer user_data, const 
 void mrim_fetch_avatar(PurpleBuddy *buddy) {
 	g_return_if_fail(buddy != NULL);
 	g_return_if_fail(buddy->name != NULL);
+	g_return_if_fail(is_myworld_able(buddy->name) == TRUE);
 	purple_debug_info("mrim-prpl", "[%s] Fetch avatar for buddy '%s'\n", __func__, buddy->name);
-	if (!is_valid_email(buddy->name)) return;
+	//if (!is_valid_email(buddy->name)) return;
 	if ((!buddy->icon) && buddy->name) {
 		gchar** split_1 = g_strsplit(buddy->name,"@",2);
 		gchar* email_name=split_1[0];
