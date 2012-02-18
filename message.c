@@ -75,10 +75,10 @@ gboolean mrim_send_attention(PurpleConnection  *gc, const char *username, guint 
 	purple_debug_info("mrim-prpl", "[%s] Send attention to '%s'\n", __func__, username);
 	MrimData *mrim = gc->proto_data;
 	MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_MESSAGE);
-	mrim_package_add_UL(pack, MESSAGE_FLAG_ALARM /* | MESSAGE_FLAG_RTF */);
+	mrim_package_add_UL(pack, MESSAGE_FLAG_ALARM | MESSAGE_FLAG_RTF);
 	mrim_package_add_LPSA(pack, (gchar*)username);
-	mrim_package_add_LPSW(pack, "*WAKEUP*");
-	mrim_package_add_LPSA(pack, " ");
+	mrim_package_add_LPSW(pack, _("User try to wake up you, but you have too old installed version of the Mail.ru Agent."));
+	mrim_package_add_LPSA(pack, "eNqNVEtu2zAQFYp2EyB3ELIO7KFEmmS88Am6KbLkRpYpW4giGTKVLAyfqgd0+E3JWv1sNOLwzZs3H+lLlmU/v2XZWYyqQaLqT6191Mc9KggSO9k0YJ5d1e8RYH4WzdArte30C4imbzvR1IdqPElVAM6fq8PwWq0vl/u7s6iHbhg1dC1GuQOxH6XsQWy7SYJ1FYQ4p3kxbm3TixgNKRZuWUO41m29iJRz2YJbW3thzslF4Flh59fWuFf4NiUqmOMoA3np5Gnr0B5OPR7DWvdGvLXy/aXtd1hMNRLHatzZdp4QE/W2FLWexRbEcRyUrJXGTwgI3RjDVtbQ0hnv5PGJOggjzoAzxSa3NqHxJ+7iuYPSwt2VETeC0sVTnGC4Z2Wxl/JYI0eJKohSIYDNYx6XlUgPSYogOfd8f1His7HZikjSQhyXGTr5mfnfbCxpumPjqwhy0zQaB3pSBp/Q71XbLX5MNgT7XGRG3S8d+e0uUD43aJqaRAhlSZvBl17E0wut806crJaOeLCa0Z8H7tpsBj67mw8LVzVN9ojEMgMtn9+jPP4QfCk4CkQQvoC5LfgN8z8DS6E8tB0n7MmOhLlRH8nnZsJDQU/5Qanj03JZ7WWvFq9mOcZpaf4W+f3d5av+dV+v1+wD342mxg==");
 	mrim_package_send(pack, mrim);
 	return TRUE;
 }
@@ -159,14 +159,14 @@ void mrim_receive_im(MrimData *mrim, MrimPackage *pack) {
 	} else {
 		text = mrim_package_read_LPSW(pack);
 	}
-	//gchar *formated_text = mrim_package_read_LPSA(pack); /* TODO: RTF message */
+	gchar *formated_text = mrim_package_read_LPSA(pack); /* TODO: RTF message */
 	if (!(flags & MESSAGE_FLAG_NORECV)) {
 		MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_MESSAGE_RECV);
 		mrim_package_add_LPSA(pack, from);
 		mrim_package_add_UL(pack, msg_id);
 		mrim_package_send(pack, mrim);
 	}
-	purple_debug_info("mrim-prpl", "[%s] Received from '%s', flags '%x' message '%s'\n", __func__, from, flags, text);
+	purple_debug_info("mrim-prpl", "[%s] Received from '%s', flags 0x%x, message '%s', rtf '%s'\n", __func__, from, flags, text, formated_text);
 	gchar *message = purple_markup_escape_text (text, -1);
 	if (flags & MESSAGE_FLAG_AUTHORIZE) { /* TODO: Auth message and alias show */
 		MrimAuthData *data = g_new0(MrimAuthData, 1);
