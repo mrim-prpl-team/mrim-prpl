@@ -70,43 +70,6 @@ struct _MrimData {
 	guint mail_count;
 };
 
-typedef struct _MrimFile MrimFile;
-
-struct _MrimFile {
-	// gchar *full_name;
-	gchar *name;
-	guint32 size;
-};
-
-
-enum MrimFTState
-{	
-	//mrim packages
-	WAITING_FOR_HELLO_ACK,
-	// plaintext
-	WAITING_FOR_FT_HELLO,
-	WAITING_FOR_FT_GET
-};
-
-typedef struct _MrimFT MrimFT;
-
-struct _MrimFT {
-	MrimData *mrim;
-	gchar *user_name; // please, document this field.
-	guint32 id;
-	guint32 proxy_id[4];
-	gchar *remote_ip;
-	MrimFile *files;
-	guint count;
-	guint current;
-	PurpleProxyConnectData *proxy_conn;
-	gint conn;
-	void *inpa;
-	PurpleXfer *xfer;
-	int state;
-	MrimData *fake_mrim;
-};
-
 #include "util.h"
 
 #define MRIM_MAIL_RU "mrim.mail.ru"
@@ -117,6 +80,7 @@ struct _MrimFT {
 #define MRIM_PRPL_ID "prpl-ostin-mrim-experimental"
 
 #ifdef ENABLE_FILES
+	#include "ft.h"
 	#define COM_SUPPORT (FEATURE_FLAG_BASE_SMILES | FEATURE_FLAG_WAKEUP | FEATURE_FLAG_FILE_TRANSFER)
 #else
 	#define COM_SUPPORT (FEATURE_FLAG_BASE_SMILES | FEATURE_FLAG_WAKEUP)
