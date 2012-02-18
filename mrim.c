@@ -410,6 +410,10 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 	
 	MrimData *mrim = gc->proto_data;
 	
+	guint delta = 0;
+	if (mrim->inp_package) {
+		delta = ((MrimPackage*)mrim->inp_package)->cur;
+	}
 	MrimPackage *pack = mrim_package_read(mrim);
 	if (pack) {
 		mrim->error_count = 0;
@@ -786,10 +790,15 @@ static void mrim_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 			purple_debug_info("mrim-prpl", "[%s] Input error", __func__);
 			purple_connection_error_reason (gc, PURPLE_CONNECTION_ERROR_NETWORK_ERROR, _("Input Error"));
 		}
-		mrim->error_count++;
-		if (mrim->error_count > MRIM_MAX_ERROR_COUNT) {
-			purple_debug_info("mrim-prpl", "[%s] Bad package\n", __func__);
-			purple_connection_error_reason (gc, PURPLE_CONNECTION_ERROR_NETWORK_ERROR, _("Bad Package"));
+		delta = ((MrimPackage*)mrim->inp_package)->cur - delta;
+		if (delta <= 0) {
+			mrim->error_count++;
+			if (mrim->error_count > MRIM_MAX_ERROR_COUNT) {
+				purple_debug_info("mrim-prpl", "[%s] Bad package\n", __func__);
+				purple_connection_error_reason (gc, PURPLE_CONNECTION_ERROR_NETWORK_ERROR, _("Bad Package"));
+			}
+		} else {
+			//На самом деле мы получаем пакет. Просто очень медленно.
 		}
 	}
 }
