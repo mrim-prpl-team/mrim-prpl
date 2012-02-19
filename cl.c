@@ -218,6 +218,7 @@ void mrim_cl_load(MrimPackage *pack, MrimData *mrim) {
 		}
 		g_slist_free(first);
 	}
+	/* TODO: Purge all obsolete chats. */
 	purple_blist_show();
 }
 
@@ -1253,6 +1254,7 @@ void mrim_chat_join(PurpleConnection *gc, GHashTable *components)
 		purple_notify_error(gc, _("Invalid Room Name"), _("Invalid Room Name"), buf);
 		purple_serv_got_join_chat_failed(gc, components);
 		g_free(buf);
+		return;
 	}
 
 	const char *username = gc->account->username;
