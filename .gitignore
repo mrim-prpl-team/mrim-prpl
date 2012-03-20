@@ -5,6 +5,7 @@
 *.a
 *.mo
 *.bak
+*?~
 help.h
 config.h
 .project
