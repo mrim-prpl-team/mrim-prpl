@@ -1,0 +1,13 @@
+*.la
+*.so
+*.lo
+*.o
+*.a
+*.mo
+*.bak
+*?~
+help.h
+config.h
+.project
+.cproject
+.settings/*

@@ -1,0 +1,691 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-02-19 00:10+0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: cl.c:447
+#, c-format
+msgid ""
+"Unable to add the buddy \"%s\" because the username is invalid.  Usernames "
+"must be a valid email address(in mail.ru bk.ru list.ru corp.mail.ru inbox.ru "
+"domains), valid ICQ UIN in NNNN@uin.icq format or valid phone number (start "
+"with + and contain only numbers, spaces and '-'."
+msgstr ""
+
+#: cl.c:448
+msgid "Unable to Add"
+msgstr ""
+
+#: cl.c:577
+#, c-format
+msgid "Symbols: %d"
+msgstr ""
+
+#: cl.c:631 cl.c:733
+msgid "Send SMS"
+msgstr ""
+
+#: cl.c:650
+msgid "Phone:"
+msgstr ""
+
+#: cl.c:665
+msgid "Translit"
+msgstr ""
+
+#: cl.c:693 mrim-util.c:209
+msgid "translit-table"
+msgstr ""
+
+#: cl.c:726
+msgid "Choose phone number"
+msgstr ""
+
+#: cl.c:731
+msgid "SMS message text"
+msgstr ""
+
+#: cl.c:733
+msgid ""
+"SMS message should contain not\n"
+"more than 135 symbols in latin\n"
+"or 35 in cyrillic."
+msgstr ""
+
+#: cl.c:734
+msgid "_Send"
+msgstr ""
+
+#: cl.c:734 cl.c:784 mrim.c:679 mrim.c:722
+msgid "_Cancel"
+msgstr ""
+
+#: cl.c:776
+msgid "_Main number"
+msgstr ""
+
+#: cl.c:778
+msgid "S_econd number"
+msgstr ""
+
+#: cl.c:780
+msgid "_Third number"
+msgstr ""
+
+#: cl.c:782
+msgid "Phone numbers"
+msgstr ""
+
+#: cl.c:782
+msgid "Specify numbers as shown: +71234567890"
+msgstr ""
+
+#: cl.c:783
+msgid "_OK"
+msgstr ""
+
+#: cl.c:828
+msgid "Request authorization"
+msgstr ""
+
+#: cl.c:834 cl.c:837
+msgid "Send an SMS..."
+msgstr ""
+
+#: cl.c:843
+msgid "Edit phone numbers..."
+msgstr ""
+
+#: cl.c:847 mrim.c:735
+msgid "MyWorld@Mail.ru"
+msgstr ""
+
+#: cl.c:850 mrim.c:738
+msgid "Photo@Mail.ru"
+msgstr ""
+
+#: cl.c:853 mrim.c:741
+msgid "Video@Mail.ru"
+msgstr ""
+
+#: cl.c:856 mrim.c:744
+msgid "Blogs@Mail.ru"
+msgstr ""
+
+#: cl.c:863
+msgid "Remove from 'Visible to' list"
+msgstr ""
+
+#: cl.c:864
+msgid "Add to 'Visible to' list"
+msgstr ""
+
+#: cl.c:866
+msgid "Remove from 'Invisible to' list"
+msgstr ""
+
+#: cl.c:867
+msgid "Add to 'Invisible to' list"
+msgstr ""
+
+#: cl.c:869
+msgid "Visibility settings"
+msgstr ""
+
+#: cl.c:886 cl.c:887 cl.c:890 cl.c:891 cl.c:894 cl.c:895 cl.c:898 cl.c:899
+msgid "Encountered an error while working on user details!"
+msgstr ""
+
+#: cl.c:887
+msgid "User not found."
+msgstr ""
+
+#: cl.c:891
+msgid "DBERR error. Please try later."
+msgstr ""
+
+#: cl.c:895
+msgid "MRIM_ANKETA_INFO_STATUS_RATELIMERR"
+msgstr ""
+
+#: cl.c:899
+msgid "unknown error"
+msgstr ""
+
+#: cl.c:950 mrim.c:661
+msgid "Male"
+msgstr ""
+
+#: cl.c:950 mrim.c:662
+msgid "Female"
+msgstr ""
+
+#: cl.c:992
+msgid "Not specified"
+msgstr ""
+
+#: cl.c:1027
+#, c-format
+msgid "%i full years"
+msgstr ""
+
+#: cl.c:1029
+#, c-format
+msgid "%i years, %i months"
+msgstr ""
+
+#: cl.c:1047 cl.c:1110
+msgid "E-mail"
+msgstr ""
+
+#: cl.c:1059 cl.c:1172
+msgid "User agent"
+msgstr ""
+
+#: cl.c:1063 cl.c:1176 mrim.c:720
+msgid "Microblog"
+msgstr ""
+
+#: cl.c:1080
+msgid "UserInfo is not available for conferences and phones"
+msgstr ""
+
+#: cl.c:1137
+msgid "Search results"
+msgstr ""
+
+#: cl.c:1147
+msgid "Name"
+msgstr ""
+
+#: cl.c:1153
+msgid "Account"
+msgstr ""
+
+#: cl.c:1154
+msgid "Room"
+msgstr ""
+
+#: cl.c:1155
+msgid "Alias"
+msgstr ""
+
+#: cl.c:1160
+msgid "Status"
+msgstr ""
+
+#: cl.c:1166
+msgid "Listening"
+msgstr ""
+
+#: cl.c:1168
+msgid "Comment"
+msgstr ""
+
+#: cl.c:1252
+#, c-format
+msgid "%s is not a valid room name"
+msgstr ""
+
+#: cl.c:1253
+msgid "Invalid Room Name"
+msgstr ""
+
+#: message.c:80
+msgid ""
+"User try to wake up you, but you have too old installed version of the Mail."
+"ru Agent."
+msgstr ""
+
+#: message.c:335 message.c:338 message.c:341 message.c:344
+msgid "SMS"
+msgstr ""
+
+#: message.c:335
+msgid "SMS message sent."
+msgstr ""
+
+#: message.c:338
+msgid "SMS service is not available"
+msgstr ""
+
+#: message.c:341
+msgid "Wrong SMS settings."
+msgstr ""
+
+#: message.c:344
+msgid "Achtung!"
+msgstr ""
+
+#: message.c:344
+msgid "Anyone here?? !"
+msgstr ""
+
+#: mrim.c:86
+msgid ""
+"Invalid login: username should have been specified as "
+"your_email_login@your_mail_ru_domain. I.e.: foobar@mail.ru"
+msgstr ""
+
+#: mrim.c:105 mrim.c:176 mrim.c:203 mrim.c:294
+msgid "Connecting"
+msgstr ""
+
+#: mrim.c:179
+msgid "Unable to create TCP-connection"
+msgstr ""
+
+#: mrim.c:206
+msgid "Unable to write to socket."
+msgstr ""
+
+#: mrim.c:210
+#, c-format
+msgid "Unable to connect: %s"
+msgstr ""
+
+#: mrim.c:325
+msgid "Invalid login or password"
+msgstr ""
+
+#: mrim.c:328
+msgid "Access denied"
+msgstr ""
+
+#: mrim.c:331
+msgid "Service unavailable"
+msgstr ""
+
+#: mrim.c:342
+msgid "Logged in from another location."
+msgstr ""
+
+#: mrim.c:344
+msgid "Server broke connection."
+msgstr ""
+
+#: mrim.c:548
+msgid "Input Error"
+msgstr ""
+
+#: mrim.c:555
+msgid "Bad Package"
+msgstr ""
+
+#: mrim.c:653 cl.h:96
+msgid "Nickname"
+msgstr ""
+
+#: mrim.c:655 cl.h:97
+msgid "FirstName"
+msgstr ""
+
+#: mrim.c:657 cl.h:98
+msgid "LastName"
+msgstr ""
+
+#: mrim.c:659 cl.h:99
+msgid "Sex"
+msgstr ""
+
+#: mrim.c:660
+msgid "No matter"
+msgstr ""
+
+#: mrim.c:669
+msgid "Age from"
+msgstr ""
+
+#: mrim.c:671
+msgid "Age up to"
+msgstr ""
+
+#: mrim.c:675
+msgid "Online"
+msgstr ""
+
+#: mrim.c:677
+msgid "Buddies search"
+msgstr ""
+
+#: mrim.c:678
+msgid "_Search"
+msgstr ""
+
+#: mrim.c:718
+msgid "Micropost"
+msgstr ""
+
+#: mrim.c:721
+msgid "_Post"
+msgstr ""
+
+#: mrim.c:730
+msgid "Post microblog record..."
+msgstr ""
+
+#: mrim.c:732
+msgid "Search for buddies..."
+msgstr ""
+
+#: mrim.c:758
+msgid "_Room:"
+msgstr ""
+
+#: mrim.c:960
+msgid "Server"
+msgstr ""
+
+#: mrim.c:962
+msgid "Port"
+msgstr ""
+
+#: mrim.c:964
+msgid "Load userpics"
+msgstr ""
+
+#: mrim.c:966
+msgid "Micropost notify"
+msgstr ""
+
+#: mrim.c:968
+msgid "Use custom user agent string"
+msgstr ""
+
+#: mrim.c:970
+msgid "Custom user agent"
+msgstr ""
+
+#: mrim.c:972
+msgid "Enable debug mode"
+msgstr ""
+
+#: mrim-util.c:147
+#, c-format
+msgid "version %s"
+msgstr ""
+
+#: mrim-util.c:151
+#, c-format
+msgid "build %s"
+msgstr ""
+
+#: mrim-util.c:155
+#, c-format
+msgid "protocol version %s"
+msgstr ""
+
+#: mrim-util.c:163
+#, c-format
+msgid "%s with %s"
+msgstr ""
+
+#: package.c:123
+msgid "Read Error!"
+msgstr ""
+
+#: package.c:128
+msgid "Peer closed connection"
+msgstr ""
+
+#: statuses.c:27
+msgid "Message"
+msgstr ""
+
+#: statuses.c:30
+msgid "Mood Name"
+msgstr ""
+
+#: statuses.c:32
+msgid "Tune artist"
+msgstr ""
+
+#: statuses.c:32
+msgid "Tune title"
+msgstr ""
+
+#: statuses.c:32
+msgid "Tune album"
+msgstr ""
+
+#: statuses.c:231
+msgid "Mobile phone"
+msgstr ""
+
+#: cl.h:81
+msgid "Aries"
+msgstr ""
+
+#: cl.h:82
+msgid "Taurus"
+msgstr ""
+
+#: cl.h:83
+msgid "Gemini"
+msgstr ""
+
+#: cl.h:84
+msgid "Cancer"
+msgstr ""
+
+#: cl.h:85
+msgid "Leo"
+msgstr ""
+
+#: cl.h:86
+msgid "Virgo"
+msgstr ""
+
+#: cl.h:87
+msgid "Libra"
+msgstr ""
+
+#: cl.h:88
+msgid "Scorpius"
+msgstr ""
+
+#: cl.h:89
+msgid "Sagittarius"
+msgstr ""
+
+#: cl.h:90
+msgid "Capricornus"
+msgstr ""
+
+#: cl.h:91
+msgid "Aquarius"
+msgstr ""
+
+#: cl.h:92
+msgid "Pisces"
+msgstr ""
+
+#: cl.h:100
+msgid "Birthday"
+msgstr ""
+
+#: cl.h:101
+msgid "Location"
+msgstr ""
+
+#: cl.h:102
+msgid "Zodiac"
+msgstr ""
+
+#: cl.h:103 statuses.h:54
+msgid "Phone"
+msgstr ""
+
+#: cl.h:104
+msgid "status_uri"
+msgstr ""
+
+#: cl.h:105
+msgid "status_title"
+msgstr ""
+
+#: cl.h:106
+msgid "status_desc"
+msgstr ""
+
+#: cl.h:107
+msgid "ua_features"
+msgstr ""
+
+#: cl.h:108
+msgid "Age"
+msgstr ""
+
+#: mrim.h:111
+msgid "Mail.ru Agent for Windows"
+msgstr ""
+
+#: mrim.h:112
+msgid "Mail.ru Agent for Java"
+msgstr ""
+
+#: mrim.h:113
+msgid "Mail.ru Agent for Android"
+msgstr ""
+
+#: mrim.h:114 mrim.h:115
+msgid "Web-Agent@Mail.ru"
+msgstr ""
+
+#: mrim.h:116
+msgid "Mail.ru Agent for Symbian"
+msgstr ""
+
+#: mrim.h:117
+msgid "Mail.ru Agent for iPhone"
+msgstr ""
+
+#: mrim.h:118
+msgid "QIP 2010"
+msgstr ""
+
+#: mrim.h:119
+msgid "QIP Infium"
+msgstr ""
+
+#: mrim.h:120
+msgid "mrim-prpl"
+msgstr ""
+
+#: mrim.h:121
+msgid "libpurple plugin by lemax1@mail.ru"
+msgstr ""
+
+#: mrim.h:122
+msgid "QIP Mobile for Android"
+msgstr ""
+
+#: statuses.h:28
+msgid "Available"
+msgstr ""
+
+#: statuses.h:29
+msgid "Away"
+msgstr ""
+
+#: statuses.h:30
+msgid "Unavailable"
+msgstr ""
+
+#: statuses.h:31 statuses.h:32
+msgid "Invisible"
+msgstr ""
+
+#: statuses.h:33
+msgid "Offline"
+msgstr ""
+
+#: statuses.h:43
+msgid "Ready to chat"
+msgstr ""
+
+#: statuses.h:44
+msgid "Sick"
+msgstr ""
+
+#: statuses.h:45
+msgid "Plate"
+msgstr ""
+
+#: statuses.h:46
+msgid "Restroom"
+msgstr ""
+
+#: statuses.h:47
+msgid "Alien"
+msgstr ""
+
+#: statuses.h:48
+msgid "Tongue"
+msgstr ""
+
+#: statuses.h:49
+msgid "Bathing"
+msgstr ""
+
+#: statuses.h:50
+msgid "Playing"
+msgstr ""
+
+#: statuses.h:51
+msgid "Smoking"
+msgstr ""
+
+#: statuses.h:52
+msgid "Working"
+msgstr ""
+
+#: statuses.h:53
+msgid "Sleeping"
+msgstr ""
+
+#: statuses.h:55
+msgid "Happy"
+msgstr ""
+
+#: statuses.h:56
+msgid "Wink"
+msgstr ""
+
+#: statuses.h:57
+msgid "Sad"
+msgstr ""
+
+#: statuses.h:58
+msgid "Crying"
+msgstr ""
+
+#: statuses.h:59
+msgid "Angry"
+msgstr ""
+
+#: statuses.h:60
+msgid "In love"
+msgstr ""
+
+#: statuses.h:61
+msgid "Good"
+msgstr ""
+
+#: statuses.h:62
+msgid "Music"
+msgstr ""

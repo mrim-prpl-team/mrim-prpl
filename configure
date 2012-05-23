@@ -1,0 +1,32 @@
+#!/bin/sh
+
+CONFIG="config.h"
+
+env echo -e -n "#ifndef MRIM_CONFIG_H\n#define MRIM_CONFIG_H\n\n" > $CONFIG
+
+env echo -e -n "#define BUILD_NUMBER \"" >> $CONFIG
+
+env echo -e -n `date +git%Y%m%d` >> $CONFIG
+env echo -e -n "\"\n\n" >> $CONFIG
+
+for option in $@; do
+	case $option in
+		--gtk)
+			env echo -e -n "#define ENABLE_GTK\n" >> $CONFIG
+			;;
+		--files)
+			env echo -e -n "#define ENABLE_FILES\n" >> $CONFIG
+			;;
+		--help)
+			echo "mrim-prpl configure script"
+			echo "Usage: ./configure [options]"
+			echo "Options:"
+			echo "    --help - display this text"
+			echo "    --gtk - enable GTK+ interface in plugin"
+			echo "    --files - enable file transfer support"
+			;;
+	esac
+done
+
+env echo -e "\n#endif" >> $CONFIG
+
