@@ -26,11 +26,13 @@ ifndef CFLAGS
 	CFLAGS=-O0  -ggdb -g
 endif
 
-CFLAGS+=`pkg-config purple gtk+-2.0 --cflags` -fPIC -DPIC -std=c99
+DEPENDENCIES=purple gtk+-2.0 zlib
+
+CFLAGS+=`pkg-config ${DEPENDENCIES} --cflags` -fPIC -DPIC -std=c99
 #CFLAGS+=-Wall -Wextra -Wconversion -Wsign-conversion -Winit-self -Wunreachable-code --pedantic  -Wstrict-aliasing
 #CFLAGS+= -g -ggdb
 
-LDFLAGS+=`pkg-config purple gtk+-2.0 --libs` -shared -ggdb -fPIC -DPIC
+LDFLAGS+=`pkg-config ${DEPENDENCIES} --libs` -shared -ggdb -fPIC -DPIC
 
 all: compile i18n
 clean:
