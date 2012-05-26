@@ -87,7 +87,8 @@ void mrim_receive_im_chat(MrimData *mrim, MrimPackage *pack, guint32 msg_id, gui
 {
 	PurpleConnection *gc = mrim->gc;
 	gchar *rtf  = mrim_package_read_LPSA(pack); // rtf
-
+	purple_debug_info("mrim-prpl", "[%s] RTF result = (%s).\n", __func__, mrim_message_from_rtf(rtf));
+	
 	// handle chat-specific functions
 	MrimAck *ack = g_hash_table_lookup(mrim->acks, GUINT_TO_POINTER(msg_id));
 	if (ack) {
@@ -159,14 +160,29 @@ void mrim_receive_im(MrimData *mrim, MrimPackage *pack) {
 	} else {
 		text = mrim_package_read_LPSW(pack);
 	}
-	gchar *formated_text = mrim_package_read_LPSA(pack); /* TODO: RTF message */
+	purple_debug_info("mrim-prpl", "[%s] RTF read.\n", __func__);
+	//gchar *formatted_text = mrim_package_read_LPSA(pack); /* TODO: RTF message */
+	gchar *formatted_text = NULL;
+	if (flags & MESSAGE_FLAG_RTF) {
+		gchar *formatted_text = mrim_package_read_LPSA(pack);
+		//formatted_text = g_new0(gchar, 1024);
+		//if ( mrim_package_read_raw(pack, formatted_text, 0) ) {
+		if ( (formatted_text) && (g_strcmp0(formatted_text, "") != 0) ) {
+			purple_debug_info("mrim-prpl", "[%s] RTF read = (%s).\n", __func__, formatted_text);
+			purple_debug_info("mrim-prpl", "[%s] RTF result = (%s).\n", __func__, mrim_message_from_rtf(formatted_text));
+		} else {
+			purple_debug_info("mrim-prpl", "[%s] RTF read failed.\n", __func__);
+		}
+	} else {
+		purple_debug_info("mrim-prpl", "[%s] no RTF.\n", __func__);
+	}
 	if (!(flags & MESSAGE_FLAG_NORECV)) {
 		MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_MESSAGE_RECV);
 		mrim_package_add_LPSA(pack, from);
 		mrim_package_add_UL(pack, msg_id);
 		mrim_package_send(pack, mrim);
 	}
-	purple_debug_info("mrim-prpl", "[%s] Received from '%s', flags 0x%x, message '%s', rtf '%s'\n", __func__, from, flags, text, formated_text);
+	purple_debug_info("mrim-prpl", "[%s] Received from '%s', flags 0x%x, message '%s', rtf '%s'\n", __func__, from, flags, text, formatted_text);
 	gchar *message = purple_markup_escape_text (text, -1);
 	if (flags & MESSAGE_FLAG_AUTHORIZE) { /* TODO: Auth message and alias show */
 		MrimAuthData *data = g_new0(MrimAuthData, 1);
@@ -186,6 +202,8 @@ void mrim_receive_im(MrimData *mrim, MrimPackage *pack) {
 	} else {
 		serv_got_im(mrim->gc, from, message, PURPLE_MESSAGE_RECV, time(NULL));
 	}
+	
+	g_free(formatted_text);
 	g_free(from);
 	g_free(text);
 	g_free(message);

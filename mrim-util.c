@@ -15,7 +15,8 @@
  *  along with mrim-prpl.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "mrim.h"
-#include "util.h"
+#include "mrim-util.h"
+#include <gio/gio.h>
 
 time_t mrim_str_to_time(const gchar* str) {
 	int year=0, month=0, day=0, hour=0, min=0, sec=0;
@@ -184,6 +185,52 @@ gchar *mrim_get_ua_alias(MrimData *mrim, gchar *ua) {
 	g_free(client_ui);
 	g_free(ua_received);
 	return alias;
+}
+
+gchar *mrim_message_from_rtf(const gchar *message) {
+    if (!message) {
+        return NULL;
+    }
+    gchar *rtf_message = mrim_message_unpack_rtf_part(message);
+    
+	return rtf_message;
+}
+
+gchar *mrim_message_unpack_rtf_part(const gchar *rtf_message) {
+    gsize size_decoded = 0;
+    guchar *str_decoded = g_base64_decode(rtf_message, &size_decoded);
+    // Converted from base64-encoded string to binary ZLib-zipped data.
+    char *inbuf = g_malloc(size_decoded + 1);
+    g_memmove(inbuf, str_decoded, size_decoded + 1);
+    guint out_size = MAX( (1024 * 16), (size_decoded + 1) ); // 16K if anything. Shoot me, yeah.
+    char *outbuf = g_malloc(out_size + 1);
+    gsize in_read = g_new0(gsize, 1);
+    gsize out_put = g_new0(gsize, 1);
+    GConverterFlags flags = G_CONVERTER_NO_FLAGS;
+    GError **error = NULL;
+    GConverterResult result = 0;
+    gboolean finished = FALSE;
+    GZlibDecompressor *gunzip = g_zlib_decompressor_new(G_ZLIB_COMPRESSOR_FORMAT_ZLIB);
+    GConverter *decompressor = (GConverter*)(gunzip);
+    if (decompressor) {
+        //g_printf("Ready? Go!\n");
+        while (! finished) {
+           result = g_converter_convert(decompressor, inbuf, size_decoded, outbuf, out_size, flags, &in_read, &out_put, error);
+           finished = ( (result == G_CONVERTER_FINISHED) || (result == G_CONVERTER_ERROR) );
+        };
+        guint64 quant = g_malloc(8);
+        g_memmove(&quant, outbuf, sizeof(quant));
+        gchar *rtf_unpacked = g_malloc(out_put - sizeof(quant) * quant + 1);
+        g_memmove(rtf_unpacked, outbuf + sizeof(quant), out_put - sizeof(quant) * quant);
+        g_free(str_decoded);
+        g_free(error);
+        g_free(inbuf);
+        g_free(outbuf);
+        return rtf_unpacked;
+    } else {
+        //g_printf("Failed.\n");
+        return NULL;
+    }
 }
 
 int get_chat_id(const char *chatname) {
