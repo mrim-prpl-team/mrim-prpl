@@ -77,7 +77,7 @@ gboolean mrim_send_attention(PurpleConnection  *gc, const char *username, guint 
 	MrimPackage *pack = mrim_package_new(mrim->seq++, MRIM_CS_MESSAGE);
 	mrim_package_add_UL(pack, MESSAGE_FLAG_ALARM | MESSAGE_FLAG_RTF);
 	mrim_package_add_LPSA(pack, (gchar*)username);
-	mrim_package_add_LPSW(pack, _("User try to wake up you, but you have too old installed version of the Mail.ru Agent."));
+	mrim_package_add_LPSW(pack, _("Your buddy tried to wake you up although the version of the application you are using does not support such a feature."));
 	mrim_package_add_LPSA(pack, "eNqNVEtu2zAQFYp2EyB3ELIO7KFEmmS88Am6KbLkRpYpW4giGTKVLAyfqgd0+E3JWv1sNOLwzZs3H+lLlmU/v2XZWYyqQaLqT6191Mc9KggSO9k0YJ5d1e8RYH4WzdArte30C4imbzvR1IdqPElVAM6fq8PwWq0vl/u7s6iHbhg1dC1GuQOxH6XsQWy7SYJ1FYQ4p3kxbm3TixgNKRZuWUO41m29iJRz2YJbW3thzslF4Flh59fWuFf4NiUqmOMoA3np5Gnr0B5OPR7DWvdGvLXy/aXtd1hMNRLHatzZdp4QE/W2FLWexRbEcRyUrJXGTwgI3RjDVtbQ0hnv5PGJOggjzoAzxSa3NqHxJ+7iuYPSwt2VETeC0sVTnGC4Z2Wxl/JYI0eJKohSIYDNYx6XlUgPSYogOfd8f1His7HZikjSQhyXGTr5mfnfbCxpumPjqwhy0zQaB3pSBp/Q71XbLX5MNgT7XGRG3S8d+e0uUD43aJqaRAhlSZvBl17E0wut806crJaOeLCa0Z8H7tpsBj67mw8LVzVN9ojEMgMtn9+jPP4QfCk4CkQQvoC5LfgN8z8DS6E8tB0n7MmOhLlRH8nnZsJDQU/5Qanj03JZ7WWvFq9mOcZpaf4W+f3d5av+dV+v1+wD342mxg==");
 	mrim_package_send(pack, mrim);
 	return TRUE;
@@ -197,10 +197,16 @@ void mrim_receive_im(MrimData *mrim, MrimPackage *pack) {
 		serv_got_typing(mrim->gc, from, 10, PURPLE_TYPING);
 	} else if (flags & MESSAGE_FLAG_ALARM) {
 		serv_got_attention(gc, from, 0);
+        if (purple_account_get_bool(mrim->gc->account, "debug_mode", FALSE)) {
+            serv_got_im(mrim->gc, from, formatted_text, PURPLE_MESSAGE_RECV, time(NULL));
+        }
 	} else if (flags & MESSAGE_FLAG_MULTICHAT) {
 		mrim_receive_im_chat(mrim, pack, msg_id, flags, from, message);
 	} else {
 		serv_got_im(mrim->gc, from, message, PURPLE_MESSAGE_RECV, time(NULL));
+        if (purple_account_get_bool(mrim->gc->account, "debug_mode", FALSE)) {
+            serv_got_im(mrim->gc, from, formatted_text, PURPLE_MESSAGE_RECV, time(NULL));
+        }
 	}
 	
 	g_free(formatted_text);
