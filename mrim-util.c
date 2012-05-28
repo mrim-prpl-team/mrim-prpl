@@ -220,8 +220,11 @@ gchar *mrim_message_unpack_rtf_part(const gchar *rtf_message) {
         };
         guint64 quant = g_malloc(8);
         g_memmove(&quant, outbuf, sizeof(quant));
-        gchar *rtf_unpacked = g_malloc(out_put - sizeof(quant) * quant + 1);
-        g_memmove(rtf_unpacked, outbuf + sizeof(quant), out_put - sizeof(quant) * quant);
+        guint rtf_length = out_put - sizeof(quant) * quant;
+        gchar *rtf_unpacked = g_malloc(rtf_length + 1);
+        purple_debug_info("mrim-prpl", "[%s] RTF length %u, quant %hu.\n", __func__, rtf_length, quant);
+        g_memmove(rtf_unpacked, outbuf + sizeof(quant), rtf_length);
+        rtf_unpacked[rtf_length] = "\0";
         g_free(str_decoded);
         g_free(error);
         g_free(inbuf);
