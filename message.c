@@ -164,7 +164,7 @@ void mrim_receive_im(MrimData *mrim, MrimPackage *pack) {
 	//gchar *formatted_text = mrim_package_read_LPSA(pack); /* TODO: RTF message */
 	gchar *formatted_text = NULL;
 	if (flags & MESSAGE_FLAG_RTF) {
-		gchar *formatted_text = mrim_package_read_LPSA(pack);
+		formatted_text = mrim_package_read_LPSA(pack);
 		//formatted_text = g_new0(gchar, 1024);
 		//if ( mrim_package_read_raw(pack, formatted_text, 0) ) {
 		if ( (formatted_text) && (g_strcmp0(formatted_text, "") != 0) ) {

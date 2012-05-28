@@ -221,10 +221,13 @@ gchar *mrim_message_unpack_rtf_part(const gchar *rtf_message) {
         guint64 quant = g_malloc(8);
         g_memmove(&quant, outbuf, sizeof(quant));
         guint rtf_length = out_put - sizeof(quant) * quant;
-        gchar *rtf_unpacked = g_malloc(rtf_length + 1);
-        purple_debug_info("mrim-prpl", "[%s] RTF length %u, quant %hu.\n", __func__, rtf_length, quant);
-        g_memmove(rtf_unpacked, outbuf + sizeof(quant), rtf_length);
-        rtf_unpacked[rtf_length] = "\0";
+        purple_debug_info("mrim-prpl", "[%s] Outbuf written: %hu, RTF length: %u, quant: %hu.\n", __func__, out_put, rtf_length, quant);
+        //gchar *rtf_unpacked = g_malloc(rtf_length + 1);
+        GString *tmp = g_string_new_len(outbuf + sizeof(quant), rtf_length);
+        //g_memmove(rtf_unpacked, outbuf + sizeof(quant), rtf_length);
+        gchar *rtf_unpacked = tmp->str;
+        purple_debug_info("mrim-prpl", "[%s] RTF unpacked length: %u, copied length: %u.\n", __func__, strlen(rtf_unpacked), tmp->len);
+        g_string_free(tmp, FALSE);
         g_free(str_decoded);
         g_free(error);
         g_free(inbuf);
