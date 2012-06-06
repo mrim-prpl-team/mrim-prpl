@@ -87,7 +87,7 @@ void mrim_receive_im_chat(MrimData *mrim, MrimPackage *pack, guint32 msg_id, gui
 {
 	PurpleConnection *gc = mrim->gc;
 	gchar *rtf  = mrim_package_read_LPSA(pack); // rtf
-	purple_debug_info("mrim-prpl", "[%s] RTF result = (%s).\n", __func__, mrim_message_from_rtf(rtf));
+	//purple_debug_info("mrim-prpl", "[%s] RTF result = (%s).\n", __func__, mrim_message_from_rtf(rtf));
 	
 	// handle chat-specific functions
 	MrimAck *ack = g_hash_table_lookup(mrim->acks, GUINT_TO_POINTER(msg_id));
