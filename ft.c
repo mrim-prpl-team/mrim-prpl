@@ -74,13 +74,15 @@ void mrim_xfer_got_rq(MrimPackage *pack, MrimData *mrim) {
 	{
 		gchar **parts = g_strsplit(file_list, ";", 0);
 		guint i = 0;
-		while (parts[i * 2] && parts[i * 2 + 1]) {
-			gchar *file_name = g_strdup(parts[i * 2]);
-			guint32 f_size = atoi(parts[i * 2 + 1]);
+        guint file_pair = 0;
+		while (parts[file_pair] && parts[file_pair + 1]) {
+			gchar *file_name = g_strdup(parts[file_pair]);
+			guint32 f_size = atoi(parts[file_pair + 1]);
 			files = realloc(files, (i + 1) * sizeof(MrimFile));
 			files[i].name = file_name;
 			files[i].size = f_size;
 			i++;
+            file_pair = i * 2;
 		}
 		file_count = i;
 		g_strfreev(parts);
@@ -121,7 +123,7 @@ void mrim_xfer_ack(MrimPackage *pack, MrimData *mrim) {
 			mrim_package_add_UL(ack, 0); // не
 			mrim_package_add_UL(ack, 0); // нужных
 			mrim_package_add_UL(ack, 0); // полей
-			mrim_package_add_UL(ack, 4 + 4 + strlen(file_list) * 2); //Длина последующиъ данных
+			mrim_package_add_UL(ack, 4 + 4 + strlen(file_list) * 2); //Длина последующихъ данных
 		// Судя по всему далее идёт повтор пакета, но в UTF16
 			mrim_package_add_UL(ack, MRIM_PROXY_TYPE_FILES);
 			mrim_package_add_LPSW(ack, file_list);
@@ -160,7 +162,7 @@ void mrim_xfer_proxy_ack(MrimPackage *pack, MrimData *mrim) {
 				ip = g_strdup(parts[0]);
 				port = atoi(parts[1]);
 				g_strfreev(parts);
-				if (port != 443) { // Мы не умеем SSL
+				if (port != 443) { // Мы не умеем SSL ;D
 					break;
 				} else {
 					g_free(ip);
